@@ -1,0 +1,60 @@
+# Macro file for example B1
+# 
+# To be run preferably in batch, without graphics:
+# % exampleB1 run2.mac
+#
+/run/numberOfThreads 4
+/run/initialize
+#
+/control/verbose 2
+/run/verbose 2
+
+#
+# proton 210 MeV to the direction (0.,0.,1.)
+# 1000 events
+#
+#/gun/particle proton
+#/gun/energy 210 MeV
+
+/gps/particle proton     #particle
+/gps/direction 0 0 1     #oriented along the Z axis
+/gps/ene/type Mono       #monoenergetic:   I=E
+/gps/ene/mono 210. MeV   #sets energy for monoenergetic sources
+/gps/pos/type Point 
+#
+/run/printProgress 100
+/run/beamOn 10000
+
+
+
+
+
+# STUFF FOR THE GENERAL PARTICLE SOURCE
+#
+#/gps/particle proton     #particle
+#/gps/direction 0 0 1     #oriented along the Z axis
+
+#/gps/ene/type Mono       #monoenergetic:   I=E
+#/gps/ene/type Lin        #linear:          I=m*E+I0
+#/gps/ene/type Pow        #power-law:       I=E**alpha
+#/gps/ene/type Exp        #exponential:     I=exp(-E/E0)
+#/gps/ene/type Gauss      #gaussian:        I= gauss...
+#/gps/ene/type Brem       #bremsstrahlung:  I=...
+
+#/gps/ene/mono 14. MeV    #sets energy for monoenergetic sources
+#/gps/ene/min  0. MeV     #sets minimum energy for distributions
+#/gps/ene/max 14. MeV     #sets maximum energy for distributions
+#/gps/ene/sigma 0. MeV    #sets standard deviation on energy for gaussian and mono energy distributions
+#/gps/ene/alpha 0         #sets exponent for power-law distribution
+#/gps/ene/ezero 0         #sets scale E0 for exponential distribution
+#/gps/ene/gradient 0      #sets slope for linear distribution
+#/gps/ene/intercept 0     #sets Y-intercept for linear distribution
+
+#/gps/pos/type Point 
+#/gps/pos/type Plane
+#/gps/pos/type Beam
+#/gps/pos/type Surface
+#/gps/pos/type Volume
+
+#/gps/pos/shape Circle    #the beam geometry is a circle
+#/gps/pos/radius 3. mm    #of diameter of 3 mm
