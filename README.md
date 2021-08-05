@@ -1,10 +1,9 @@
 # How-To-Geant4
-Example Code Snippets around Geant4
 
-V0.2:
--Started changing the name(s) from 'B1' to 'How-To-Geant4'
--GeneralParticleSource (GPS) integrated as a way to produce primary particles
--Some code cleanup
+V0.2:\
+-Started changing the name(s) from 'B1' to 'How-To-Geant4'\
+-GeneralParticleSource (GPS) integrated as a way to produce primary particles\
+-Some code cleanup\
 
 V0.1 (Initial commit):
 -The Geant4 'B1-example' was taken and all kinds of geometries and materials were added to 'B1DetectorConstruction.cc'
