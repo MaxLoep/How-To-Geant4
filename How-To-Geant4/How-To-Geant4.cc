@@ -1,11 +1,12 @@
-#include "B1DetectorConstruction.hh"
-#include "B1ActionInitialization.hh"
-#include "G4RunManagerFactory.hh"
-#include "G4UImanager.hh"
-#include "G4VisExecutive.hh"
-#include "G4UIExecutive.hh"
+#include "B1DetectorConstruction.hh"      //This is where you define your Geometry
+#include "PhysicsList.hh"                 //This is where you define waht physics processes should be used
+#include "B1ActionInitialization.hh"      //
+#include "G4RunManagerFactory.hh"         //Nessesary. You need this.
+#include "G4UImanager.hh"                 //Nessesary. You need this.
+#include "G4VisExecutive.hh"              //Nessesary. You need this.
+#include "G4UIExecutive.hh"               //Nessesary. You need this.
 #include "Randomize.hh"
-#include "PhysicsList.hh"
+
 #include "G4ParticleHPManager.hh"
 
 
@@ -17,6 +18,7 @@
 // physicsList->SetVerboseLevel(1);
 // runManager->SetUserInitialization(physicsList);
 
+// The main function
 int main(int argc,char** argv)
 {
   // Detect interactive mode (if no arguments) and define UI session
@@ -30,7 +32,7 @@ int main(int argc,char** argv)
   // G4Random::setTheEngine(new CLHEP::MTwistEngine);
   
   // Construct the default run manager
-  //
+  // Auto detect if singlethreaded mode or multithreaded mode is used
   auto* runManager =
     G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
@@ -41,12 +43,13 @@ int main(int argc,char** argv)
 
   // Physics list
   PhysicsList* phys = new PhysicsList;
+  phys->SetVerboseLevel(0);                 //<- This does nothing. Why?
   runManager->SetUserInitialization(phys);
     
   // User action initialization
   runManager->SetUserInitialization(new B1ActionInitialization());
   
-  // Replaced HP environmental variables with C++ calls
+  // Replaced HP (high-precision) environmental variables with C++ calls
  G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( false );
  G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( false );
  G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
@@ -74,7 +77,7 @@ int main(int argc,char** argv)
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
   // Process macro or start UI session
-  //A UI session is started if the program is execute without a macro file.
+  // A UI session is started if the program is execute without a macro file.
   if ( ! ui ) { 
     // batch mode
     G4String command = "/control/execute ";
@@ -83,7 +86,6 @@ int main(int argc,char** argv)
   }
   else { 
     // interactive mode
-    //UImanager->ApplyCommand("/control/execute init_vis.mac");
     UImanager->ApplyCommand("/control/execute vis.mac");
     ui->SessionStart();
     delete ui;

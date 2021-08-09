@@ -129,15 +129,15 @@ PhysicsList::PhysicsList()
 
   // EM physics
   //fElectromagnetic = new ElectromagneticPhysics();
-  fElectromagnetic = new G4EmStandardPhysics();
+  fElectromagnetic = new G4EmStandardPhysics(verb);
   RegisterPhysics(fElectromagnetic);
 
   // Decay
-  fDecay = new G4DecayPhysics();
+  fDecay = new G4DecayPhysics(verb);
   RegisterPhysics(fDecay);
 
   // Radioactive decay
-  fRadioactiveDecay = new G4RadioactiveDecayPhysics();
+  fRadioactiveDecay = new G4RadioactiveDecayPhysics(verb);
   RegisterPhysics(fRadioactiveDecay);
 }
 

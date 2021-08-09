@@ -1,14 +1,16 @@
-#include "B1PrimaryGeneratorAction.hh"
+#include "B1PrimaryGeneratorAction.hh"    //Header file where functions classes and variables may be defined (...)
+     
+#include "G4RunManager.hh"                //Nessesary. You need this.
+#include "G4ParticleTable.hh"             //Nessesary. You need this.
+#include "G4ParticleDefinition.hh"        //Nessesary. You need this.
+#include "G4SystemOfUnits.hh"             //Nessesary. You need this.
+#include "G4Event.hh"                     //Nessesary. You need this.
+#include "G4ParticleGun.hh"               //Nessesary if you want to use the ParticleGun
+#include "G4GeneralParticleSource.hh"     //Nessesary if you want to use the GeneralParticleSource
 
-#include "G4LogicalVolumeStore.hh"
-#include "G4RunManager.hh"
-#include "G4ParticleGun.hh"
-#include "G4GeneralParticleSource.hh"
-#include "G4ParticleTable.hh"
-#include "G4ParticleDefinition.hh"
-#include "G4SystemOfUnits.hh"
-#include "Randomize.hh"
-#include "G4Event.hh"
+//old stuff from the original B1 example
+//#include "Randomize.hh"
+//#include "G4LogicalVolumeStore.hh" 
 
 
 

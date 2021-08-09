@@ -33,7 +33,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
     = step->GetPreStepPoint()->GetTouchableHandle()
       ->GetVolume()->GetLogicalVolume();
       
-  // check if we are in scoring volume
+  // check if we are in scoring volume defined in 'DetectorConstruction.cc'
   if (volume != fScoringVolume) return;
 
   // collect energy deposited in this step

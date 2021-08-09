@@ -114,7 +114,16 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                       false,                 //no boolean operation
                       0,                     //copy number
                       true);                 //overlaps checking
-                     
+
+
+  /*
+  How to create solids
+  It's basically a process with 3 steps:
+  1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
+  2.: Make it a Logical Volume by assigning a material to it
+  3.: Place it in our simulation
+  */ 
+
   //     
   // Box
   //  
@@ -442,7 +451,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                     true);                   //overlaps checking
 
                 
-  // Set Box as scoring volume
+  // Set logical Box volume as scoring volume
   //This is a public variable defined in the header file to make it accessible from other files
   fScoringVolume = logicBox;
 
