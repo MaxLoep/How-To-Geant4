@@ -123,11 +123,11 @@
 #
 # To get nice view
 # Make the "World" box invisible
-/vis/geometry/set/visibility World 0 false
+#/vis/geometry/set/visibility World 0 false
+/vis/geometry/set/colour World 0 0 0 1 0.8
 #/vis/geometry/set/visibility Mother 0 false
 #/vis/geometry/set/visibility Shape1 0 false
 #/vis/geometry/set/visibility Shape2 0 false
-#/vis/geometry/set/colour World 0 255 255 255 0.1
 # "Mother" is transparent blue to represent water
 /vis/geometry/set/colour Mother 0 0 0 1 .3
 
