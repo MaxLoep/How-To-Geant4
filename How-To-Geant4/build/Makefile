@@ -57,10 +57,10 @@ RM = /opt/cmake-3.20.3-linux-aarch64/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/maximilian/Geant4/Simulations/How-To-Geant4
+CMAKE_SOURCE_DIR = /home/maximilian/Git/How-To-Geant4
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/maximilian/Geant4/Simulations/How-To-Geant4/build
+CMAKE_BINARY_DIR = /home/maximilian/Git/How-To-Geant4/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -132,9 +132,9 @@ list_install_components/fast: list_install_components
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/maximilian/Geant4/Simulations/How-To-Geant4/build/CMakeFiles /home/maximilian/Geant4/Simulations/How-To-Geant4/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/maximilian/Git/How-To-Geant4/build/CMakeFiles /home/maximilian/Git/How-To-Geant4/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/maximilian/Geant4/Simulations/How-To-Geant4/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/maximilian/Git/How-To-Geant4/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

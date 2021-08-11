@@ -1,7 +1,7 @@
 CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/src/B1EventAction.cc \
+ /home/maximilian/Git/How-To-Geant4/src/B1EventAction.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1EventAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1EventAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserEventAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ios.hh \
@@ -213,7 +213,7 @@ CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: \
  /usr/include/c++/10/bits/parse_numbers.h \
  /usr/include/c++/10/bits/std_mutex.h \
  /usr/include/c++/10/bits/unique_lock.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1RunAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1RunAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserRunAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.hh \

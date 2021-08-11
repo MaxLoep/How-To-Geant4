@@ -53,10 +53,10 @@ RM = /opt/cmake-3.20.3-linux-aarch64/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/maximilian/Geant4/Simulations/How-To-Geant4
+CMAKE_SOURCE_DIR = /home/maximilian/Git/How-To-Geant4
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/maximilian/Geant4/Simulations/How-To-Geant4/build
+CMAKE_BINARY_DIR = /home/maximilian/Git/How-To-Geant4/build
 
 # Utility rule file for B1.
 
@@ -81,6 +81,6 @@ CMakeFiles/B1.dir/clean:
 .PHONY : CMakeFiles/B1.dir/clean
 
 CMakeFiles/B1.dir/depend:
-	cd /home/maximilian/Geant4/Simulations/How-To-Geant4/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/maximilian/Geant4/Simulations/How-To-Geant4 /home/maximilian/Geant4/Simulations/How-To-Geant4 /home/maximilian/Geant4/Simulations/How-To-Geant4/build /home/maximilian/Geant4/Simulations/How-To-Geant4/build /home/maximilian/Geant4/Simulations/How-To-Geant4/build/CMakeFiles/B1.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/maximilian/Git/How-To-Geant4/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/maximilian/Git/How-To-Geant4 /home/maximilian/Git/How-To-Geant4 /home/maximilian/Git/How-To-Geant4/build /home/maximilian/Git/How-To-Geant4/build /home/maximilian/Git/How-To-Geant4/build/CMakeFiles/B1.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/B1.dir/depend
 

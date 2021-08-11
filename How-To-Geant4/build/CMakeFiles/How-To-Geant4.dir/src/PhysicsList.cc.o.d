@@ -1,7 +1,7 @@
 CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o: \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/src/PhysicsList.cc \
+ /home/maximilian/Git/How-To-Geant4/src/PhysicsList.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/PhysicsList.hh \
+ /home/maximilian/Git/How-To-Geant4/include/PhysicsList.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VModularPhysicsList.hh \
  /usr/include/c++/10/vector /usr/include/c++/10/bits/stl_algobase.h \
  /usr/include/aarch64-linux-gnu/c++/10/bits/c++config.h \
@@ -641,7 +641,7 @@ CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DecayPhysics.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RadioactiveDecayPhysics.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Neutron.hh \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/ElectromagneticPhysics.hh \
+ /home/maximilian/Git/How-To-Geant4/include/ElectromagneticPhysics.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPhysicsConstructor.hh \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/HadronElasticPhysicsHP.hh \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/GammaNuclearPhysics.hh
+ /home/maximilian/Git/How-To-Geant4/include/HadronElasticPhysicsHP.hh \
+ /home/maximilian/Git/How-To-Geant4/include/GammaNuclearPhysics.hh

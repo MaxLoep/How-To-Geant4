@@ -1,9 +1,9 @@
 CMakeFiles/How-To-Geant4.dir/src/B1ActionInitialization.cc.o: \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/src/B1ActionInitialization.cc \
+ /home/maximilian/Git/How-To-Geant4/src/B1ActionInitialization.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1ActionInitialization.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1ActionInitialization.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserActionInitialization.hh \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1PrimaryGeneratorAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1PrimaryGeneratorAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleGun.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
@@ -378,14 +378,14 @@ CMakeFiles/How-To-Geant4.dir/src/B1ActionInitialization.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ApplicationState.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeneralParticleSourceData.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1RunAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1RunAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserRunAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MergeMode.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.icc \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1EventAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1EventAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserEventAction.hh \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1SteppingAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1SteppingAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserSteppingAction.hh

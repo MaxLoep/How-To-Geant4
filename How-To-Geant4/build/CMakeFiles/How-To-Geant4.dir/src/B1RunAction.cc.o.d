@@ -1,7 +1,7 @@
 CMakeFiles/How-To-Geant4.dir/src/B1RunAction.cc.o: \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/src/B1RunAction.cc \
+ /home/maximilian/Git/How-To-Geant4/src/B1RunAction.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1RunAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1RunAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserRunAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Types.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GlobalConfig.hh \
@@ -221,7 +221,7 @@ CMakeFiles/How-To-Geant4.dir/src/B1RunAction.cc.o: \
  /usr/include/c++/10/bits/std_function.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1PrimaryGeneratorAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1PrimaryGeneratorAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleGun.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPrimaryGenerator.hh \
@@ -382,7 +382,7 @@ CMakeFiles/How-To-Geant4.dir/src/B1RunAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UItokenNum.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ApplicationState.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeneralParticleSourceData.hh \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1DetectorConstruction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1DetectorConstruction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserDetectorConstruction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RunManager.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/rundefs.hh \

@@ -1,7 +1,7 @@
 CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o: \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/src/NeutronHPMessenger.cc \
+ /home/maximilian/Git/How-To-Geant4/src/NeutronHPMessenger.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/NeutronHPMessenger.hh \
+ /home/maximilian/Git/How-To-Geant4/include/NeutronHPMessenger.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ios.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Types.hh \
@@ -227,7 +227,7 @@ CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/ThreeVector.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Utility/defs.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/ThreeVector.icc \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/HadronElasticPhysicsHP.hh \
+ /home/maximilian/Git/How-To-Geant4/include/HadronElasticPhysicsHP.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysics.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPhysicsConstructor.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleTable.hh \

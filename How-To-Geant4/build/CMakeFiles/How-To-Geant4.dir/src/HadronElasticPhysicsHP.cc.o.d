@@ -1,7 +1,7 @@
 CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o: \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/src/HadronElasticPhysicsHP.cc \
+ /home/maximilian/Git/How-To-Geant4/src/HadronElasticPhysicsHP.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/HadronElasticPhysicsHP.hh \
+ /home/maximilian/Git/How-To-Geant4/include/HadronElasticPhysicsHP.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ios.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Types.hh \
@@ -534,7 +534,7 @@ CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o: \
  /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
  /usr/include/c++/10/bits/hashtable_policy.h \
  /usr/include/c++/10/bits/unordered_map.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/NeutronHPMessenger.hh \
+ /home/maximilian/Git/How-To-Geant4/include/NeutronHPMessenger.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UImessenger.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIdirectory.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcommand.hh \

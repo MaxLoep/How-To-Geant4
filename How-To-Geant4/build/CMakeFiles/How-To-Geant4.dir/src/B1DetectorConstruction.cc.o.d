@@ -1,7 +1,7 @@
 CMakeFiles/How-To-Geant4.dir/src/B1DetectorConstruction.cc.o: \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/src/B1DetectorConstruction.cc \
+ /home/maximilian/Git/How-To-Geant4/src/B1DetectorConstruction.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Geant4/Simulations/How-To-Geant4/include/B1DetectorConstruction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/B1DetectorConstruction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserDetectorConstruction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ios.hh \
