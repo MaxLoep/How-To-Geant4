@@ -1,4 +1,4 @@
-#include "B1PrimaryGeneratorAction.hh"    //Header file where functions classes and variables may be defined (...)
+#include "PrimaryGeneratorAction.hh"    //Header file where functions classes and variables may be defined (...)
      
 #include "G4RunManager.hh"                //Nessesary. You need this.
 #include "G4ParticleTable.hh"             //Nessesary. You need this.
@@ -17,7 +17,7 @@
 // //
 // //PARTICLE GUN
 // //
-// B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
+// PrimaryGeneratorAction::PrimaryGeneratorAction()
 // : G4VUserPrimaryGeneratorAction(),
 //   fParticleGun(0)
 // {
@@ -38,14 +38,14 @@
 // }
 
 
-// B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
+// PrimaryGeneratorAction::~PrimaryGeneratorAction()
 // {
 //   delete fParticleGun;
 
 // }
 
 
-// void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+// void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 // {
 //   fParticleGun->GeneratePrimaryVertex(anEvent);
 // }
@@ -57,7 +57,7 @@
 //In existing applications one can simply change your PrimaryGeneratorAction by globally replacing
 //G4ParticleGun with G4GeneralParticleSource --  Geant4 - Book for Application Developers V10.7 
 //
-B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
+PrimaryGeneratorAction::PrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
   fParticleBeam(0)
 {
@@ -79,13 +79,13 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
 }
 
 
-B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
+PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
   delete fParticleBeam;
 }
 
 
-void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   fParticleBeam->GeneratePrimaryVertex(anEvent);
 }

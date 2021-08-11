@@ -1,5 +1,5 @@
 #include "B1ActionInitialization.hh"
-#include "B1PrimaryGeneratorAction.hh"
+#include "PrimaryGeneratorAction.hh"
 #include "B1RunAction.hh"
 #include "B1EventAction.hh"
 #include "B1SteppingAction.hh"
@@ -23,7 +23,7 @@ void B1ActionInitialization::BuildForMaster() const
 
 void B1ActionInitialization::Build() const
 {
-  SetUserAction(new B1PrimaryGeneratorAction);
+  SetUserAction(new PrimaryGeneratorAction);
 
   B1RunAction* runAction = new B1RunAction;
   SetUserAction(runAction);

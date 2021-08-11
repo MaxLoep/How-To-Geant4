@@ -534,8 +534,69 @@ CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadProjectile.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronicException.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ReactionProductVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsFTF_BIC.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTF_BIC.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VModularPhysicsList.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTFP_INCLXX.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/INCLXXPhysicsListHelper.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CompileTimeConstraints.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/INCLXXPhysicsListHelper.icc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ProcessManager.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DecayPhysics.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Decay.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VRestDiscreteProcess.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChangeForDecay.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DecayProcessType.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RadioactiveDecayPhysics.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmStandardPhysics.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmExtraPhysics.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmMessenger.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UImessenger.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIdirectory.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcommand.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIparameter.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UItokenNum.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ApplicationState.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithABool.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithADouble.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithAString.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithADoubleAndUnit.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonINCLXXPhysics.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StoppingPhysics.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysics.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElastic.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronicInteraction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NucleiProperties.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronicProcess.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VDiscreteProcess.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EnergyRangeManager.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronicProcessType.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CrossSectionDataStore.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VCrossSectionDataSet.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4FastPathHadronicCrossSection.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsFreeVector.hh \
+ /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
+ /usr/include/c++/10/bits/hashtable_policy.h \
+ /usr/include/c++/10/bits/unordered_map.h \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysicsHP.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NeutronTrackingCut.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsINCLXX.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsFTFP_BERT.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4WarnPLStatus.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTFP_INCLXX_HP.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTFP_BERT.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTFP_BERT_HP.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTFP_BERT_ATL.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTFP_BERT_TRV.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTFQGSP_BERT.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_BIC.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_BIC_HP.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_BIC_AllHP.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_INCLXX.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_INCLXX_HP.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_BERT.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_BERT_HP.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_FTFP_BERT.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsFTF_BIC.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsQGS_BIC.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsQGSP_BERT.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsShielding.hh \
@@ -557,22 +618,7 @@ CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsINCLXX.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsNuBeam.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysics.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElastic.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronicInteraction.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NucleiProperties.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronicProcess.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VDiscreteProcess.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EnergyRangeManager.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronicProcessType.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CrossSectionDataStore.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VCrossSectionDataSet.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4FastPathHadronicCrossSection.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsFreeVector.hh \
- /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
- /usr/include/c++/10/bits/hashtable_policy.h \
- /usr/include/c++/10/bits/unordered_map.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysicsHP.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysics.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysicsXS.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysicsPHP.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronElasticPhysicsLEND.hh \
@@ -601,24 +647,8 @@ CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserChemistryList.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmDNAChemistry_option1.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmExtraPhysics.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmMessenger.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UImessenger.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIdirectory.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcommand.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIparameter.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UItokenNum.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ApplicationState.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithABool.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithADouble.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithAString.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithADoubleAndUnit.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmLEPTSPhysics.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleWithCuts.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ProcessManager.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Decay.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VRestDiscreteProcess.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChangeForDecay.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DecayProcessType.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserSpecialCuts.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StepLimiter.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmLowEPPhysics.hh \

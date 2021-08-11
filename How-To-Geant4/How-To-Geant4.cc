@@ -1,4 +1,4 @@
-#include "B1DetectorConstruction.hh"      //This is where you define your Geometry
+#include "DetectorConstruction.hh"      //This is where you define your Geometry
 #include "PhysicsList.hh"                 //This is where you define waht physics processes should be used
 #include "B1ActionInitialization.hh"      //
 #include "G4RunManagerFactory.hh"         //Nessesary. You need this.
@@ -39,7 +39,7 @@ int main(int argc,char** argv)
   // Set mandatory initialization classes
   //
   // Detector construction
-  runManager->SetUserInitialization(new B1DetectorConstruction());
+  runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list
   PhysicsList* phys = new PhysicsList;

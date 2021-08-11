@@ -3,7 +3,7 @@ This file contains examples on how to define materials and how to create geometr
 There are no external dependencies, you find everything in this file. -> You can copy code snippets and paste them in your simulation.
 Remember to include the header-files in your simulation, e.g. if you want to place a Box, you have to put ' #include "G4Box.hh" ' in your file as well.
 */
-#include "B1DetectorConstruction.hh"    //Header file where functions classes and variables may be defined (...)
+#include "DetectorConstruction.hh"    //Header file where functions classes and variables may be defined (...)
 #include "G4RunManager.hh"              //Nessesary. You need this.
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
@@ -25,16 +25,16 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4PhysicalConstants.hh"       //for physial constants like pi
 
 
-B1DetectorConstruction::B1DetectorConstruction()
+DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
   fScoringVolume(0)
 { }
 
-B1DetectorConstruction::~B1DetectorConstruction()
+DetectorConstruction::~DetectorConstruction()
 { }
 
 
-G4VPhysicalVolume* B1DetectorConstruction::Construct()
+G4VPhysicalVolume* DetectorConstruction::Construct()
 { 
   //BASICS:
   //

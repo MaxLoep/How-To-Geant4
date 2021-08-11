@@ -4,6 +4,24 @@
 #include "G4ProcessManager.hh"
 #include "G4HadronicInteraction.hh"
 
+#include "FTF_BIC.hh"
+#include "FTFP_INCLXX.hh"
+#include "FTFP_INCLXX_HP.hh"
+#include "FTFP_BERT.hh"
+#include "FTFP_BERT_HP.hh"
+#include "FTFP_BERT_ATL.hh"
+#include "FTFP_BERT_TRV.hh"
+#include "FTFQGSP_BERT.hh"
+
+#include "QGSP_BIC.hh"
+#include "QGSP_BIC_HP.hh"
+#include "QGSP_BIC_AllHP.hh"
+#include "QGSP_INCLXX.hh"
+#include "QGSP_INCLXX_HP.hh"
+#include "QGSP_BERT.hh"
+#include "QGSP_BERT_HP.hh"
+#include "QGSP_FTFP_BERT.hh"
+
 #include "G4HadronPhysicsFTF_BIC.hh"
 #include "G4HadronPhysicsQGS_BIC.hh"
 
