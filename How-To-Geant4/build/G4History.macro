@@ -1,6 +1,6 @@
 /run/verbose 2
-/run/initialize /vis/open OGL 600x600-0+0
-/vis/sceneHandler/create OGL
+/run/initialize /vis/open OGL 600x600-0/tracking/storeTrajectory 2
+OGL
 /vis/viewer/create ! ! 600x600-0+0
 /vis/viewer/refresh
 /vis/viewer/set/autoRefresh false
@@ -66,3 +66,9 @@
 /gps/ene/type Mono
 /gps/ene/mono 210. MeV
 /gps/pos/type Point
+/run/beamOn 1
+/run/beamOn 1
+/run/beamOn 1
+/run/beamOn 1
+/run/beamOn 1
+/run/beamOn 1

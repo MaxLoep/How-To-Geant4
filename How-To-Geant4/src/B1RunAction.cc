@@ -1,7 +1,11 @@
+/*
+Understand what this does and comment it
+*/
+
 #include "B1RunAction.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "DetectorConstruction.hh"
-// #include "B1Run.hh"
+// #include "B1Run.hh"                //Relict form old version of example B1?
 
 #include "G4RunManager.hh"
 #include "G4Run.hh"
@@ -23,7 +27,12 @@ B1RunAction::B1RunAction()
   const G4double microgray = 1.e-6*gray;
   const G4double nanogray  = 1.e-9*gray;  
   const G4double picogray  = 1.e-12*gray;
-   
+
+  //Introducing new Units:
+  //new G4UnitDefinition("name", "symbol" , "category", value);
+  // Already available catogiers are: Length, Surface, Volume, Angle, Time, Frequency, Electric Charge, Energy,
+  // Mass, Volumic Mass, Power, Force, Pressure, Electric Current, Electric Potential, Magnetic Flux, Magnetic Flux Density,
+  // Temperature, Amount of Substance, Activity, Dose
   new G4UnitDefinition("milligray", "milliGy" , "Dose", milligray);
   new G4UnitDefinition("microgray", "microGy" , "Dose", microgray);
   new G4UnitDefinition("nanogray" , "nanoGy"  , "Dose", nanogray);
@@ -62,7 +71,6 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   accumulableManager->Merge();
 
   // Compute dose = total energy deposit in a run and its variance
-  //
   G4double edep  = fEdep.GetValue();
   G4double edep2 = fEdep2.GetValue();
   
@@ -83,7 +91,9 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
    = static_cast<const PrimaryGeneratorAction*>
      (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
   G4String runCondition;
-  if (generatorAction)
+
+  //PARTICLE GUN
+  // if (generatorAction)
   // {
   //   const G4ParticleGun* particleGun = generatorAction->GetParticleGun();
   //   runCondition += particleGun->GetParticleDefinition()->GetParticleName();
@@ -92,6 +102,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   //   runCondition += G4BestUnit(particleEnergy,"Energy");
   // }
 
+
+  //GPS
     if (generatorAction)
   {
     const G4GeneralParticleSource* fParticleBeam = generatorAction->GetParticleGun();
@@ -99,9 +111,11 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
     runCondition += " of ";
     G4double particleEnergy = fParticleBeam->GetParticleEnergy();
     runCondition += G4BestUnit(particleEnergy,"Energy");
+    //run condition is a strin and at this point it contains something like
+    // "proton of 100 MeV"
   }
         
-  // Print
+  // Print End of Run messages
   //  
   if (IsMaster()) {
     G4cout
@@ -120,6 +134,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      << " Cumulated dose per run, in scoring volume : " 
      << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
+     << G4endl
+     << G4BestUnit(edep,"Energy") << " rms = " << G4BestUnit(rms,"Energy")
      << G4endl
      << "------------------------------------------------------------"
      << G4endl

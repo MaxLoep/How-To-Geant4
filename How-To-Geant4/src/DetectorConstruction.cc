@@ -3,6 +3,13 @@ This file contains examples on how to define materials and how to create geometr
 There are no external dependencies, you find everything in this file. -> You can copy code snippets and paste them in your simulation.
 Remember to include the header-files in your simulation, e.g. if you want to place a Box, you have to put ' #include "G4Box.hh" ' in your file as well.
 */
+
+/*
+E- and B-Fields (see B5 maybe?)
+Scoring
+New ways to create materials , see Book for Application Developer
+*/
+
 #include "DetectorConstruction.hh"    //Header file where functions classes and variables may be defined (...)
 #include "G4RunManager.hh"              //Nessesary. You need this.
 

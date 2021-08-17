@@ -1,3 +1,7 @@
+/*
+Understand what this does and comment it
+*/
+
 #include "B1SteppingAction.hh"
 #include "B1EventAction.hh"
 #include "DetectorConstruction.hh"

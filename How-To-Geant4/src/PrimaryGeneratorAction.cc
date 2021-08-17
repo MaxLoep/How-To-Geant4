@@ -1,3 +1,7 @@
+/*
+Comment it more
+*/
+
 #include "PrimaryGeneratorAction.hh"    //Header file where functions classes and variables may be defined (...)
      
 #include "G4RunManager.hh"                //Nessesary. You need this.

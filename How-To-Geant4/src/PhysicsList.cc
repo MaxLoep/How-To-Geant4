@@ -1,3 +1,6 @@
+/*
+Test physics Lists. Do they work?
+*/
 #include "PhysicsList.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"

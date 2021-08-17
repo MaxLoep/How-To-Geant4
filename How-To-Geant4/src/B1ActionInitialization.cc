@@ -1,3 +1,7 @@
+/*
+Understand what this does and comment it
+*/
+
 #include "B1ActionInitialization.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "B1RunAction.hh"
