@@ -1,5 +1,8 @@
 # How-To-Geant4
 
+V0.3:\
+-Started adding Analysis from Example B4d
+
 V0.2:\
 -Started changing the name(s) from 'B1' to 'How-To-Geant4'\
 -GeneralParticleSource (GPS) integrated as a way to produce primary particles\
