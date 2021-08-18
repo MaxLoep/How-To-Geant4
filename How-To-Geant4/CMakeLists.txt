@@ -47,6 +47,7 @@ set(EXAMPLEHow-To-Geant4_SCRIPTS
   run1.mac
   run2.mac
   vis.mac
+  plotHisto.C
   )
 
 foreach(_script ${EXAMPLEHow-To-Geant4_SCRIPTS})
