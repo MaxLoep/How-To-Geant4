@@ -4,6 +4,8 @@
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 
+#include "G4THitsMap.hh"
+
 //Empty class for some reason...
 class B1RunAction;
 
@@ -27,6 +29,20 @@ class B1EventAction : public G4UserEventAction
     G4double  fEnergyGap;
     G4double  fTrackLAbs; 
     G4double  fTrackLGap;
+
+  //from example B4d
+  // methods
+  G4THitsMap<G4double>* GetHitsCollection(G4int hcID,
+                                          const G4Event* event) const;
+  G4double GetSum(G4THitsMap<G4double>* hitsMap) const;
+  void PrintEventStatistics(G4double absoEdep, G4double absoTrackLength,
+                            G4double gapEdep, G4double gapTrackLength) const;
+  
+  // data members                   
+  G4int  fAbsoEdepHCID;
+  G4int  fGapEdepHCID;
+  G4int  fAbsoTrackLengthHCID;
+  G4int  fGapTrackLengthHCID;
 };
 
 #endif

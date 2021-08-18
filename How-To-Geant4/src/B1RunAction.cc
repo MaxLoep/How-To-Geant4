@@ -60,23 +60,23 @@ B1RunAction::B1RunAction()
   analysisManager->SetNtupleMerging(true);
     // Note: merging ntuples is available only with Root output
 
-  // // Book histograms, ntuple
-  // //
+  // Book histograms, ntuple
+  //
   
-  // // Creating histograms
-  // analysisManager->CreateH1("Eabs","Edep in absorber", 100, 0., 800*MeV);
-  // analysisManager->CreateH1("Egap","Edep in gap", 100, 0., 100*MeV);
-  // analysisManager->CreateH1("Labs","trackL in absorber", 100, 0., 1*m);
-  // analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., 50*cm);
+  // Creating histograms
+  analysisManager->CreateH1("Eabs","Edep in absorber", 100, 0., 800*MeV);
+  analysisManager->CreateH1("Egap","Edep in gap", 100, 0., 100*MeV);
+  analysisManager->CreateH1("Labs","trackL in absorber", 100, 0., 1*m);
+  analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., 50*cm);
 
-  // // Creating ntuple
-  // //
-  // analysisManager->CreateNtuple("B4", "Edep and TrackL");
-  // analysisManager->CreateNtupleDColumn("Eabs");
-  // analysisManager->CreateNtupleDColumn("Egap");
-  // analysisManager->CreateNtupleDColumn("Labs");
-  // analysisManager->CreateNtupleDColumn("Lgap");
-  // analysisManager->FinishNtuple();
+  // Creating ntuple
+  //
+  analysisManager->CreateNtuple("B4", "Edep and TrackL");
+  analysisManager->CreateNtupleDColumn("Eabs");
+  analysisManager->CreateNtupleDColumn("Egap");
+  analysisManager->CreateNtupleDColumn("Labs");
+  analysisManager->CreateNtupleDColumn("Lgap");
+  analysisManager->FinishNtuple();
 
 }
 
@@ -189,44 +189,44 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      << G4endl;
 
-  // //from example B4d
-  // // print histogram statistics
-  // //
-  // auto analysisManager = G4AnalysisManager::Instance();
-  // if ( analysisManager->GetH1(1) ) {
-  //   G4cout << G4endl << " ----> print histograms statistic ";
-  //   if(isMaster) {
-  //     G4cout << "for the entire run " << G4endl << G4endl; 
-  //   }
-  //   else {
-  //     G4cout << "for the local thread " << G4endl << G4endl; 
-  //   }
+  //from example B4d
+  // print histogram statistics
+  //
+  auto analysisManager = G4AnalysisManager::Instance();
+  if ( analysisManager->GetH1(1) ) {
+    G4cout << G4endl << " ----> print histograms statistic ";
+    if(isMaster) {
+      G4cout << "for the entire run " << G4endl << G4endl; 
+    }
+    else {
+      G4cout << "for the local thread " << G4endl << G4endl; 
+    }
     
-  //   G4cout << " EAbs : mean = " 
-  //      << G4BestUnit(analysisManager->GetH1(0)->mean(), "Energy") 
-  //      << " rms = " 
-  //      << G4BestUnit(analysisManager->GetH1(0)->rms(),  "Energy") << G4endl;
+    G4cout << " EAbs : mean = " 
+       << G4BestUnit(analysisManager->GetH1(0)->mean(), "Energy") 
+       << " rms = " 
+       << G4BestUnit(analysisManager->GetH1(0)->rms(),  "Energy") << G4endl;
     
-  //   G4cout << " EGap : mean = " 
-  //      << G4BestUnit(analysisManager->GetH1(1)->mean(), "Energy") 
-  //      << " rms = " 
-  //      << G4BestUnit(analysisManager->GetH1(1)->rms(),  "Energy") << G4endl;
+    G4cout << " EGap : mean = " 
+       << G4BestUnit(analysisManager->GetH1(1)->mean(), "Energy") 
+       << " rms = " 
+       << G4BestUnit(analysisManager->GetH1(1)->rms(),  "Energy") << G4endl;
     
-  //   G4cout << " LAbs : mean = " 
-  //     << G4BestUnit(analysisManager->GetH1(2)->mean(), "Length") 
-  //     << " rms = " 
-  //     << G4BestUnit(analysisManager->GetH1(2)->rms(),  "Length") << G4endl;
+    G4cout << " LAbs : mean = " 
+      << G4BestUnit(analysisManager->GetH1(2)->mean(), "Length") 
+      << " rms = " 
+      << G4BestUnit(analysisManager->GetH1(2)->rms(),  "Length") << G4endl;
 
-  //   G4cout << " LGap : mean = " 
-  //     << G4BestUnit(analysisManager->GetH1(3)->mean(), "Length") 
-  //     << " rms = " 
-  //     << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
-  // }
+    G4cout << " LGap : mean = " 
+      << G4BestUnit(analysisManager->GetH1(3)->mean(), "Length") 
+      << " rms = " 
+      << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
+  }
 
-  // // save histograms & ntuple
-  // //
-  // analysisManager->Write();
-  // analysisManager->CloseFile();
+  // save histograms & ntuple
+  //
+  analysisManager->Write();
+  analysisManager->CloseFile();
 }
 
 //define function AddEdep(G4double) to sum up the total energy

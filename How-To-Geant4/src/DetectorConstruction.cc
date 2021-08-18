@@ -525,18 +525,18 @@ void DetectorConstruction::ConstructSDandField()
 
   SetSensitiveDetector("Box",absDetector);
 
-  //  // declare Gap as a MultiFunctionalDetector scorer
-  // //  
-  // auto gapDetector = new G4MultiFunctionalDetector("Gap");
-  // G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
+   // declare Gap as a MultiFunctionalDetector scorer
+  //  
+  auto gapDetector = new G4MultiFunctionalDetector("Gap");
+  G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
 
-  // primitive = new G4PSEnergyDeposit("Edep");
-  // gapDetector->RegisterPrimitive(primitive);
+  primitive = new G4PSEnergyDeposit("Edep");
+  gapDetector->RegisterPrimitive(primitive);
   
-  // primitive = new G4PSTrackLength("TrackLength");
-  // primitive ->SetFilter(charged);
-  // gapDetector->RegisterPrimitive(primitive);  
+  primitive = new G4PSTrackLength("TrackLength");
+  primitive ->SetFilter(charged);
+  gapDetector->RegisterPrimitive(primitive);  
   
-  // SetSensitiveDetector("GapLV",gapDetector); 
+  SetSensitiveDetector("Box",gapDetector); 
 
 }

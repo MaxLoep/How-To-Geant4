@@ -387,5 +387,10 @@ CMakeFiles/How-To-Geant4.dir/src/B1ActionInitialization.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.icc \
  /home/maximilian/Git/How-To-Geant4/include/B1EventAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserEventAction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4THitsMap.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4THitsCollection.hh \
+ /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
+ /usr/include/c++/10/bits/hashtable_policy.h \
+ /usr/include/c++/10/bits/unordered_map.h \
  /home/maximilian/Git/How-To-Geant4/include/B1SteppingAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserSteppingAction.hh
