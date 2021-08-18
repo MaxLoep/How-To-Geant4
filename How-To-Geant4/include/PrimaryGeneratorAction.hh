@@ -6,10 +6,11 @@
 #include "G4GeneralParticleSource.hh"
 #include "globals.hh"
 
-class G4ParticleGun;
-class G4GeneralParticleSource;
-class G4Event;
-class G4Box;
+// Empty classes for some reason...
+// class G4ParticleGun;
+// class G4GeneralParticleSource;
+// class G4Event;
+// class G4Box;
 
 // //
 // //PARTICLE GUN

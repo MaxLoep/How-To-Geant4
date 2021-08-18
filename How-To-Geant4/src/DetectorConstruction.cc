@@ -31,6 +31,14 @@ New ways to create materials , see Book for Application Developer
 #include "G4UnitsTable.hh"              //for units
 #include "G4PhysicalConstants.hh"       //for physial constants like pi
 
+//Primitive Scorer from example B4d
+#include "G4SDManager.hh"
+#include "G4SDChargedFilter.hh"
+#include "G4MultiFunctionalDetector.hh"
+#include "G4VPrimitiveScorer.hh"
+#include "G4PSEnergyDeposit.hh"
+#include "G4PSTrackLength.hh"
+
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
@@ -81,19 +89,44 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // G4Material* Graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
   // G4Material* Steel    = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   // G4Material* Galactic = nist->FindOrBuildMaterial("G4_GALACTIC");
+ 
+  //How to define Isotopes by hand
+  //G4Isotope* name = new G4Isotope("name", #protons, #nucleons);
+  G4Isotope* U235 = new G4Isotope("U235", 92, 235);
+  G4Isotope* U238 = new G4Isotope("U238", 92, 238);
 
   //How to define Elements by hand
+  //G4Element* name = new G4Element("name", "symbol", atomic number, molar mass);
   G4Element* Hydrogen = new G4Element("Hydrogen", "H", 1., 1.0079*g/mole);
   G4Element* Carbon   = new G4Element("Carbon", "C", 6., 12.011*g/mole);
+  G4Element* Oxygen   = new G4Element("Oxygen", "o", 8., 16.*g/mole);
+
+  //How to define an Element by using isotopes with their abundance
+  //G4Element* name= new G4Element("name", "symbol", #isotopes);
+  G4Element* enrichedUranium= new G4Element("enriched uranium", "U", 2);
+
+  //Add Isotopes to Element
+  enrichedUranium->AddIsotope(U235, 90.*perCent);
+  enrichedUranium->AddIsotope(U238, 10.*perCent);
 
   //How to define a Material by hand
+  //G4Material* name = new G4Material("name", atomic number, molar mass, density)
+  //G4Material* U = new G4Material("Uranium", 92., 238.03*g/mole, 18.950*g/cm3);
+
+  //How to define an Material by using elements with their abundance
   G4Material* BC400 = new G4Material("BC400",      //name
                                       1.032*g/cm3, //density
                                       2);          //number of elements
 
-  //Add elements to material
+  //Add Elements to Material
   BC400->AddElement(Hydrogen, 8.5*perCent);
   BC400->AddElement(Carbon, 91.5*perCent);
+
+  //How to define an Material by using elements with their composition number
+  G4Material* H20 = new G4Material("Water", 1.0*g/mole, 2);
+  H20->AddElement(Hydrogen, 2);
+  H20->AddElement(Oxygen, 1);
+
 
 
   //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
@@ -142,8 +175,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     new G4LogicalVolume(solidBox,            //its solid
                         material1,           //its material
                         "Box");              //its name
-               
-  new G4PVPlacement(0,                       //no rotation
+  
+  //G4VPhysicalVolume* physBox=              //you can eclare a varibale for placement but it will create a warning if unused   
+    new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,50.*cm),     //position
               logicBox,                      //its logical volume
               "Box",                         //its name
@@ -168,7 +202,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     new G4LogicalVolume(solidBoxRotated,     //its solid
                         material1,           //its material
                         "BoxRotated");       //its name
-               
+           
   new G4PVPlacement(BoxRotation,             //no rotation
               G4ThreeVector(0,0,80.*cm),     //position
               logicBoxRotated,               //its logical volume
@@ -458,7 +492,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     true);                   //overlaps checking
 
                 
-  // Set logical Box volume as scoring volume
+  // Set logical Box volume as scoring volume (must be a logical volume)
   //This is a public variable defined in the header file to make it accessible from other files
   fScoringVolume = logicBox;
 
@@ -468,4 +502,41 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   return physWorld;
 }
 
+void DetectorConstruction::ConstructSDandField()
+{
+  G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
+  // 
+  // Scorers
+  //
 
+  // declare Absorber as a MultiFunctionalDetector scorer
+  //  
+  auto absDetector = new G4MultiFunctionalDetector("Absorber");
+  G4SDManager::GetSDMpointer()->AddNewDetector(absDetector);
+
+  G4VPrimitiveScorer* primitive;
+  primitive = new G4PSEnergyDeposit("Edep");
+  absDetector->RegisterPrimitive(primitive);
+
+  primitive = new G4PSTrackLength("TrackLength");
+  auto charged = new G4SDChargedFilter("chargedFilter");
+  primitive ->SetFilter(charged);
+  absDetector->RegisterPrimitive(primitive);  
+
+  SetSensitiveDetector("Box",absDetector);
+
+  //  // declare Gap as a MultiFunctionalDetector scorer
+  // //  
+  // auto gapDetector = new G4MultiFunctionalDetector("Gap");
+  // G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
+
+  // primitive = new G4PSEnergyDeposit("Edep");
+  // gapDetector->RegisterPrimitive(primitive);
+  
+  // primitive = new G4PSTrackLength("TrackLength");
+  // primitive ->SetFilter(charged);
+  // gapDetector->RegisterPrimitive(primitive);  
+  
+  // SetSensitiveDetector("GapLV",gapDetector); 
+
+}

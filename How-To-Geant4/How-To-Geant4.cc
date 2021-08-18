@@ -1,4 +1,4 @@
-#include "DetectorConstruction.hh"      //This is where you define your Geometry
+#include "DetectorConstruction.hh"        //This is where you define your Geometry
 #include "PhysicsList.hh"                 //This is where you define waht physics processes should be used
 #include "B1ActionInitialization.hh"      //
 #include "G4RunManagerFactory.hh"         //Nessesary. You need this.
@@ -12,7 +12,7 @@
 
 //Old code Snippet from the original B1 example. Can be removed i guess...
 //#include "QBBC.hh"
-// Physics list
+//// Physics list
 // G4VModularPhysicsList* physicsList = new QBBC;
 // G4VModularPhysicsList* physicsList = new PhysicsList;
 // physicsList->SetVerboseLevel(1);
@@ -42,9 +42,10 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list
-  PhysicsList* phys = new PhysicsList;
-  phys->SetVerboseLevel(0);                 //<- This does nothing. Why?
-  runManager->SetUserInitialization(phys);
+  runManager->SetUserInitialization(new PhysicsList);
+  //PhysicsList* phys = new PhysicsList;
+  //phys->SetVerboseLevel(0);                 //<- This does nothing. Why?
+  //runManager->SetUserInitialization(phys);
     
   // User action initialization
   runManager->SetUserInitialization(new B1ActionInitialization());

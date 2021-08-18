@@ -4,8 +4,9 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
-class G4VPhysicalVolume;
-class G4LogicalVolume;
+//Empty class for some reason...
+//class G4VPhysicalVolume;
+//class G4LogicalVolume;
 
 /// Detector construction class to define materials and geometry.
 class DetectorConstruction : public G4VUserDetectorConstruction
@@ -15,6 +16,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual ~DetectorConstruction();
 
     virtual G4VPhysicalVolume* Construct();
+    virtual void ConstructSDandField();
     
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 

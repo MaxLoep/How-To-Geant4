@@ -4,8 +4,8 @@
 #include "G4UserSteppingAction.hh"
 #include "globals.hh"
 
+//Empty class for some reason...
 class B1EventAction;
-
 class G4LogicalVolume;
 
 /// Stepping action class

@@ -5,7 +5,7 @@
 #include "G4Accumulable.hh"
 #include "globals.hh"
 
-class G4Run;
+//class G4Run; //Relict form old version of example B1?
 
 /// Run action class
 ///
