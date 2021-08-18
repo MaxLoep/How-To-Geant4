@@ -558,10 +558,12 @@ void DetectorConstruction::ConstructSDandField()
 
   G4VPrimitiveScorer* primitive;
   primitive = new G4PSEnergyDeposit("Edep");
+  primitive ->SetFilter(protonFilter);
   absDetector->RegisterPrimitive(primitive);
 
   primitive = new G4PSTrackLength("TrackLength");
-  primitive ->SetFilter(charged);
+  primitive ->SetFilter(protonFilter);
+  //primitive ->SetFilter(charged);
   absDetector->RegisterPrimitive(primitive);  
 
   SetSensitiveDetector("Box",absDetector);
@@ -573,11 +575,13 @@ void DetectorConstruction::ConstructSDandField()
 
   primitive = new G4PSEnergyDeposit("Edep");
   //primitive ->SetFilter(protonEnergy);
+  primitive ->SetFilter(neutronFilter);
   gapDetector->RegisterPrimitive(primitive);
   
   primitive = new G4PSTrackLength("TrackLength");
-  primitive ->SetFilter(chargedFilter);
+  //primitive ->SetFilter(chargedFilter);
   //primitive ->SetFilter(protonEnergy);
+  primitive ->SetFilter(neutronFilter);
   gapDetector->RegisterPrimitive(primitive);  
   
   SetSensitiveDetector("Box",gapDetector); 

@@ -47,6 +47,7 @@ B1EventAction::GetHitsCollection(G4int hcID,
   auto hitsCollection 
     = static_cast<G4THitsMap<G4double>*>(
         event->GetHCofThisEvent()->GetHC(hcID));
+
   
   if ( ! hitsCollection ) {
     G4ExceptionDescription msg;
@@ -117,17 +118,17 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
   // fill histograms
   //  
-  analysisManager->FillH1(0, absoEdep);
-  analysisManager->FillH1(1, gapEdep);
-  analysisManager->FillH1(2, absoTrackLength);
-  analysisManager->FillH1(3, gapTrackLength);
+  if(absoEdep != 0)       analysisManager->FillH1(0, absoEdep);
+  if(gapEdep != 0)        analysisManager->FillH1(1, gapEdep);
+  if(absoTrackLength !=0) analysisManager->FillH1(2, absoTrackLength);
+  if(gapTrackLength != 0) analysisManager->FillH1(3, gapTrackLength);
   
   // fill ntuple
   //
-  analysisManager->FillNtupleDColumn(0, absoEdep);
-  analysisManager->FillNtupleDColumn(1, gapEdep);
-  analysisManager->FillNtupleDColumn(2, absoTrackLength);
-  analysisManager->FillNtupleDColumn(3, gapTrackLength);
+  if(absoEdep != 0)       analysisManager->FillNtupleDColumn(0, absoEdep);
+  if(gapEdep != 0)        analysisManager->FillNtupleDColumn(1, gapEdep);
+  if(absoTrackLength !=0) analysisManager->FillNtupleDColumn(2, absoTrackLength);
+  if(gapTrackLength != 0) analysisManager->FillNtupleDColumn(3, gapTrackLength);
   analysisManager->AddNtupleRow();  
 }
 
