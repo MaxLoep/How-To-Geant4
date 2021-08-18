@@ -38,6 +38,11 @@ New ways to create materials , see Book for Application Developer
 #include "G4VPrimitiveScorer.hh"
 #include "G4PSEnergyDeposit.hh"
 #include "G4PSTrackLength.hh"
+#include "G4PSFlatSurfaceCurrent.hh"
+
+#include "G4SDParticleWithEnergyFilter.hh"
+#include "G4SDParticleFilter.hh"
+#include "G4SDChargedFilter.hh"
 
 
 DetectorConstruction::DetectorConstruction()
@@ -508,6 +513,43 @@ void DetectorConstruction::ConstructSDandField()
   // 
   // Scorers
   //
+  //Filters
+  G4String fltName,particleName;
+  //charged particle filter
+  auto charged = new G4SDChargedFilter("chargedFilter");
+  G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
+  //
+  //-- proton filter
+  G4SDParticleFilter* protonFilter =
+  new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+  //
+  //-- electron filter
+  G4SDParticleFilter* electronFilter =
+  new G4SDParticleFilter(fltName="electronFilter");
+  electronFilter->add(particleName="e+");   // accept electrons.
+  electronFilter->add(particleName="e-");   // accept positrons.
+  //
+  //-- neutron filter
+  G4SDParticleFilter* neutronFilter =
+  new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
+  //
+  //-- gamma filter
+  G4SDParticleFilter* gammaFilter =
+  new G4SDParticleFilter("gammaFilter", "gamma");
+
+ //-- proton energy filter
+  G4SDParticleWithEnergyFilter* protonEnergy=
+  new G4SDParticleWithEnergyFilter(fltName="protonEnergy");
+  protonEnergy->add("proton");
+  protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
+
+ //-- neutron energy filter
+  G4SDParticleWithEnergyFilter* neutronEnergy=
+  new G4SDParticleWithEnergyFilter(fltName="neutronEnergy");
+  neutronEnergy->add("neutron");
+  neutronEnergy->SetKineticEnergy(100*keV, 300*MeV);
+
+
 
   // declare Absorber as a MultiFunctionalDetector scorer
   //  
@@ -519,24 +561,39 @@ void DetectorConstruction::ConstructSDandField()
   absDetector->RegisterPrimitive(primitive);
 
   primitive = new G4PSTrackLength("TrackLength");
-  auto charged = new G4SDChargedFilter("chargedFilter");
   primitive ->SetFilter(charged);
   absDetector->RegisterPrimitive(primitive);  
 
   SetSensitiveDetector("Box",absDetector);
-
-   // declare Gap as a MultiFunctionalDetector scorer
+  
+  // declare Gap as a MultiFunctionalDetector scorer
   //  
   auto gapDetector = new G4MultiFunctionalDetector("Gap");
   G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
 
   primitive = new G4PSEnergyDeposit("Edep");
+  //primitive ->SetFilter(protonEnergy);
   gapDetector->RegisterPrimitive(primitive);
   
   primitive = new G4PSTrackLength("TrackLength");
-  primitive ->SetFilter(charged);
+  primitive ->SetFilter(chargedFilter);
+  //primitive ->SetFilter(protonEnergy);
   gapDetector->RegisterPrimitive(primitive);  
   
   SetSensitiveDetector("Box",gapDetector); 
+
+  // // declare Surface as a MultiFunctionalDetector scorer
+  // //  
+  // auto absDetectorSurface = new G4MultiFunctionalDetector("AbsorberSurface");
+  // G4SDManager::GetSDMpointer()->AddNewDetector(absDetectorSurface);
+
+  
+  // primitive = new G4PSEnergyDeposit("Edep");
+  // absDetectorSurface->RegisterPrimitive(primitive);
+
+  // primitive = new G4PSFlatSurfaceCurrent("Surface");
+  // absDetectorSurface->RegisterPrimitive(primitive);  
+
+  // SetSensitiveDetector("Box",absDetectorSurface);
 
 }

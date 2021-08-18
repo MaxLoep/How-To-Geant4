@@ -13,6 +13,10 @@ Understand what this does and comment it
 #include "G4HCofThisEvent.hh"
 #include <iomanip>
 
+#include "G4Track.hh"
+#include "G4StepStatus.hh"
+#include "G4ParticleTypes.hh"
+
 
 
 B1EventAction::B1EventAction(B1RunAction* runAction)
@@ -84,7 +88,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 {   
   // accumulate statistics in run action
   fRunAction->AddEdep(fEdep);
-  
+
   // //from example B4d
   // Get hist collections IDs
   if ( fAbsoEdepHCID == -1 ) {

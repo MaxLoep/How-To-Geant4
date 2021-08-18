@@ -542,4 +542,11 @@ CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o: \
  /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
  /usr/include/c++/10/bits/hashtable_policy.h \
  /usr/include/c++/10/bits/unordered_map.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSTrackLength.hh
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSTrackLength.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSFlatSurfaceCurrent.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Box.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSDirectionFlag.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleWithEnergyFilter.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleFilter.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDKineticEnergyFilter.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleFilter.hh

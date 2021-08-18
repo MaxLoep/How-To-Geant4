@@ -1946,7 +1946,109 @@ CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: ../src/B1EventAction.cc \
   /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CollectionNameVector.hh \
   /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VSDFilter.hh \
   /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HCtable.hh \
-  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HCofThisEvent.hh
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HCofThisEvent.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Track.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StepStatus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleTypes.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ChargedGeantino.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Geantino.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Gamma.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4OpticalPhoton.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UnknownParticle.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MuonPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MuonMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TauMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TauPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Electron.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Positron.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NeutrinoTau.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiNeutrinoTau.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NeutrinoMu.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiNeutrinoMu.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NeutrinoE.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiNeutrinoE.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PionPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PionMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PionZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Eta.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EtaPrime.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4KaonPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4KaonMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4KaonZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiKaonZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4KaonZeroLong.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4KaonZeroShort.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DMesonPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DMesonMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DMesonZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiDMesonZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DsMesonPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DsMesonMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4JPsi.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Etac.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4BMesonPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4BMesonMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4BMesonZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiBMesonZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4BsMesonZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiBsMesonZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Upsilon.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Proton.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Ions.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiProton.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Neutron.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiNeutron.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Lambda.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmaPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmaZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmaMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4XiMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4XiZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4OmegaMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiLambda.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmaPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmaZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmaMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiXiMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiXiZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiOmegaMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LambdacPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmacPlusPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmacPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmacZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4XicPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4XicZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4OmegacZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiLambdacPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmacPlusPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmacPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmacZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiXicPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiXicZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiOmegacZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Lambdab.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmabPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmabZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmabMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4XibZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4XibMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4OmegabMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiLambdab.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmabPlus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmabZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmabMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiXibZero.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiXibMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiOmegabMinus.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Alpha.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Deuteron.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4He3.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Triton.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiAlpha.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiDeuteron.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiHe3.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiTriton.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GenericIon.hh
 
 CMakeFiles/How-To-Geant4.dir/src/B1RunAction.cc.o: ../src/B1RunAction.cc \
   /usr/include/stdc-predef.h \
@@ -3923,7 +4025,14 @@ CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o: ../src/DetectorConst
   /usr/include/c++/10/bits/hashtable.h \
   /usr/include/c++/10/bits/hashtable_policy.h \
   /usr/include/c++/10/bits/unordered_map.h \
-  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSTrackLength.hh
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSTrackLength.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSFlatSurfaceCurrent.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Box.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSDirectionFlag.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleWithEnergyFilter.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleFilter.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDKineticEnergyFilter.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleFilter.hh
 
 CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o: ../src/ElectromagneticPhysics.cc \
   /usr/include/stdc-predef.h \
@@ -7815,6 +7924,164 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadProjectile.hh:
 
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Nucleus.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/Boost.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/BoostY.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/BoostX.h:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/Boost.h:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/LorentzRotation.h:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LorentzRotation.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhotoNuclearProcess.hh:
+
+../include/GammaNuclearPhysics.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonParametrisedLossModel.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonDEDXHandler.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ionIonisation.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MuPairProduction.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MuBremsstrahlung.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChangeForLoss.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VEnergyLossProcess.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SafetyHelper.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChangeForMSC.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChangeForMSC.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VContinuousDiscreteProcess.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CascadeInterface.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GammaConversion.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DNAModelSubType.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NuclearFormfactorType.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmParameters.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ExitonConfiguration.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsLogVector.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VEmFluctuationModel.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmProcessSubType.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmTableType.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VEmProcess.hh:
+
+../include/ElectromagneticPhysics.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleFilter.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleWithEnergyFilter.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSDirectionFlag.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSFlatSurfaceCurrent.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSTrackLength.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4FPYNubarValues.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPrimitivePlotter.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSEnergyDeposit.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonElasticPhysics.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/INCLXXPhysicsListHelper.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPrimitiveScorer.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DisplacedSolid.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4BooleanSolid.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PVPlacement.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ShiftedGaussian.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Trd.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Cons.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmSaturation.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Cons.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmLivermorePolarizedPhysics.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Sphere.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Tubs.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Tubs.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithAString.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ENDFYieldDataContainer.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/HepPolyhedron.h:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CSGSolid.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeomTypes.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonPhysicsPHP.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Box.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4hMultipleScattering.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Pow.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LPhysicsFreeVector.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_FTFP_BERT.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ICRU90StoppingData.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NistMaterialBuilder.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NistElementBuilder.hh:
+
+../src/DetectorConstruction.cc:
+
+../src/B1SteppingAction.cc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SystemOfUnits.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Decay.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UnitsTable.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VNotifier.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AccumulableManager.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Run.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsINCLXX.hh:
+
+../src/B1RunAction.cc:
+
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/FTFP_INCLXX.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GenericIon.hh:
@@ -7877,6 +8144,10 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4XiMinus.hh:
 
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UnitsTable.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmaMinus.hh:
+
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmaZero.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmaPlus.hh:
@@ -7902,6 +8173,10 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Nucleon.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4BMesonPlus.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Sphere.icc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Etac.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4JPsi.hh:
 
@@ -7941,6 +8216,8 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NeutrinoMu.hh:
 
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Electron.hh:
+
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TauPlus.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MuonMinus.hh:
@@ -7949,169 +8226,9 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4OpticalPhoton.hh:
 
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleTypes.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Nucleus.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/Boost.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/BoostY.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/BoostX.h:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/Boost.h:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/LorentzRotation.h:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LorentzRotation.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhotoNuclearProcess.hh:
-
-../include/GammaNuclearPhysics.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonParametrisedLossModel.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonDEDXHandler.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ionIonisation.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MuPairProduction.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MuBremsstrahlung.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Electron.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChangeForLoss.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VEnergyLossProcess.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SafetyHelper.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChangeForMSC.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChangeForMSC.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VContinuousDiscreteProcess.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CascadeInterface.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GammaConversion.hh:
-
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Gamma.hh:
 
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DNAModelSubType.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NuclearFormfactorType.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmParameters.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ExitonConfiguration.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsLogVector.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VEmFluctuationModel.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmProcessSubType.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmTableType.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VEmProcess.hh:
-
-../include/ElectromagneticPhysics.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSTrackLength.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4FPYNubarValues.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPrimitivePlotter.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PSEnergyDeposit.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonElasticPhysics.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/INCLXXPhysicsListHelper.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPrimitiveScorer.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DisplacedSolid.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4BooleanSolid.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PVPlacement.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ShiftedGaussian.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Trd.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Cons.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmSaturation.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Cons.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Etac.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Sphere.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EmLivermorePolarizedPhysics.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Sphere.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Tubs.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Tubs.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithAString.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ENDFYieldDataContainer.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/HepPolyhedron.h:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CSGSolid.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeomTypes.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonPhysicsPHP.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Box.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4hMultipleScattering.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Pow.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LPhysicsFreeVector.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/QGSP_FTFP_BERT.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ICRU90StoppingData.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NistMaterialBuilder.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NistElementBuilder.hh:
-
-../src/DetectorConstruction.cc:
-
-../src/B1SteppingAction.cc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SystemOfUnits.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SigmaMinus.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UnitsTable.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Decay.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UnitsTable.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VNotifier.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AccumulableManager.icc:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Run.hh:
-
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HadronPhysicsINCLXX.hh:
-
-../src/B1RunAction.cc:
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleTypes.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SensitiveVolumeList.hh:
 
@@ -9107,9 +9224,9 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 
 /usr/include/c++/10/bits/regex.tcc:
 
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4KaonMinus.hh:
-
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeomConfig.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4KaonMinus.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/tools/wroot/infos:
 
@@ -9121,9 +9238,9 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryParticle.hh:
 
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmacPlusPlus.hh:
-
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4eplusAnnihilation.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AntiSigmacPlusPlus.hh:
 
 /usr/include/c++/10/bits/range_cmp.h:
 
@@ -9608,6 +9725,8 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/Rotation.h:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGaussQ.h:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDKineticEnergyFilter.hh:
 
 /usr/include/c++/10/bits/stl_relops.h:
 
@@ -10125,9 +10244,9 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGene
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcommandStatus.hh:
 
-/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PionMinus.hh:
-
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VEmModel.hh:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PionMinus.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VisExecutive.hh:
 

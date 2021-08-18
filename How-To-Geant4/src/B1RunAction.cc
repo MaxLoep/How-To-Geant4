@@ -66,8 +66,10 @@ B1RunAction::B1RunAction()
   // Creating histograms
   analysisManager->CreateH1("Eabs","Edep in absorber", 100, 0., 800*MeV);
   analysisManager->CreateH1("Egap","Edep in gap", 100, 0., 800*MeV);
+  //analysisManager->CreateH1("Egap","Edep in Surface", 100, 0., 800*MeV);
   analysisManager->CreateH1("Labs","trackL in absorber", 100, 0., 1*m);
   analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., 1*m);
+  //analysisManager->CreateH1("Surface","trackL in Surface", 100, 0., 100000);
 
   // Creating ntuple
   //
@@ -76,6 +78,8 @@ B1RunAction::B1RunAction()
   analysisManager->CreateNtupleDColumn("Egap");
   analysisManager->CreateNtupleDColumn("Labs");
   analysisManager->CreateNtupleDColumn("Lgap");
+  //analysisManager->CreateNtupleDColumn("Surface1");
+  //analysisManager->CreateNtupleDColumn("Surface2");
   analysisManager->FinishNtuple();
 
 }
