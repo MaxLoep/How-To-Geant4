@@ -96,7 +96,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // G4Material* Stilbene = nist->FindOrBuildMaterial("G4_STILBENE");
   // G4Material* Graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
   // G4Material* Steel    = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-  // G4Material* Galactic = nist->FindOrBuildMaterial("G4_GALACTIC");
+  // G4Material* Galactic = nist->FindOrBuildMaterial("G4_Galactic");
  
   //How to define Isotopes by hand
   //G4Isotope* name = new G4Isotope("name", #protons, #nucleons);

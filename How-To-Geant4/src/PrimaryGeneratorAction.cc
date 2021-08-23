@@ -65,7 +65,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
   fParticleBeam(0)
 {
-  fParticleBeam  = new G4GeneralParticleSource();//n_particle);
+  fParticleBeam  = new G4GeneralParticleSource();
 
   // default particle kinematic
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
@@ -77,8 +77,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   //GPS doesn't have these two commands; you need to set them in the macro file
   //fParticleBeam->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   //fParticleBeam->SetParticleEnergy(6.*MeV);
-    
-  fParticleBeam->SetParticlePosition(G4ThreeVector(0,0,0));
+  //fParticleBeam->SetParticlePosition(G4ThreeVector(0,0,0)); //doesn't work; set GPS position in marco
 
 }
 
