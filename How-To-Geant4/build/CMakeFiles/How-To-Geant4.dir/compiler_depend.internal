@@ -4009,6 +4009,12 @@ CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UnitsTable.hh
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UnitsTable.icc
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicalConstants.hh
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VisAttributes.hh
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/graphics_reps_defs.hh
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Colour.hh
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Color.hh
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VisAttributes.icc
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Color.hh
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDManager.hh
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDStructure.hh
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VSensitiveDetector.hh

@@ -127,7 +127,7 @@
 
 #Give shapes a colour and set transparency
 #/vis/geometry/set/colour Shapename 0 r g b tranparency
-/vis/geometry/set/colour Box          0 1 0 0 .8
+#/vis/geometry/set/colour Box          0 1 0 0 .8
 /vis/geometry/set/colour BoxRotated   0 0 1 0 .8
 /vis/geometry/set/colour Cylinder     0 1 0 0 .8
 /vis/geometry/set/colour Cylinder2    0 0 1 0 .8

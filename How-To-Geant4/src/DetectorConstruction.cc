@@ -31,6 +31,9 @@ New ways to create materials , see Book for Application Developer
 #include "G4UnitsTable.hh"              //for units
 #include "G4PhysicalConstants.hh"       //for physial constants like pi
 
+#include "G4VisAttributes.hh"           //for Visualization
+#include "G4Color.hh"                   //for Visualization
+
 //Primitive Scorer from example B4d
 #include "G4SDManager.hh"
 #include "G4SDChargedFilter.hh"
@@ -190,6 +193,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
               false,                         //no boolean operation
               0,                             //copy number
               true);                         //overlaps checking
+
+  //Make (in-)visible and give it a color
+  //logicBox->SetVisAttributes (G4VisAttributes::GetInvisible());
+  auto logicBoxVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+  logicBoxVisAtt->SetVisibility(true);
+  logicBox->SetVisAttributes(logicBoxVisAtt);
 
   //
   // How to rotate an object
@@ -516,8 +525,8 @@ void DetectorConstruction::ConstructSDandField()
   //Filters
   G4String fltName,particleName;
   //charged particle filter
-  auto charged = new G4SDChargedFilter("chargedFilter");
-  G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
+  // auto charged = new G4SDChargedFilter("chargedFilter");
+  // G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
   //
   //-- proton filter
   G4SDParticleFilter* protonFilter =
@@ -534,8 +543,8 @@ void DetectorConstruction::ConstructSDandField()
   new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
   //
   //-- gamma filter
-  G4SDParticleFilter* gammaFilter =
-  new G4SDParticleFilter("gammaFilter", "gamma");
+  // G4SDParticleFilter* gammaFilter =
+  // new G4SDParticleFilter("gammaFilter", "gamma");
 
  //-- proton energy filter
   G4SDParticleWithEnergyFilter* protonEnergy=
