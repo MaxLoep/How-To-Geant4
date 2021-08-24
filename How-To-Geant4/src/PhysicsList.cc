@@ -7,29 +7,11 @@ Test physics Lists. Do they work?
 #include "G4ProcessManager.hh"                //Nessesary. You need this.
 #include "G4HadronicInteraction.hh"
 
-#include "FTF_BIC.hh"
-#include "FTFP_INCLXX.hh"
-#include "FTFP_INCLXX_HP.hh"
-#include "FTFP_BERT.hh"
-#include "FTFP_BERT_HP.hh"
-#include "FTFP_BERT_ATL.hh"
-#include "FTFP_BERT_TRV.hh"
-#include "FTFQGSP_BERT.hh"
+#include "G4HadronPhysicsFTF_BIC.hh"            //works!
+#include "G4HadronPhysicsQGS_BIC.hh"            //works!
 
-#include "QGSP_BIC.hh"
-#include "QGSP_BIC_HP.hh"
-#include "QGSP_BIC_AllHP.hh"
-#include "QGSP_INCLXX.hh"
-#include "QGSP_INCLXX_HP.hh"
-#include "QGSP_BERT.hh"
-#include "QGSP_BERT_HP.hh"
-#include "QGSP_FTFP_BERT.hh"
-
-#include "G4HadronPhysicsFTF_BIC.hh"
-#include "G4HadronPhysicsQGS_BIC.hh"
-
-#include "G4HadronPhysicsShielding.hh"
-#include "G4HadronPhysicsShieldingLEND.hh"
+#include "G4HadronPhysicsShielding.hh"          //works!
+#include "G4HadronPhysicsShieldingLEND.hh"      //works!
 
 #include "G4HadronPhysicsFTFP_BERT.hh"          //works!
 #include "G4HadronPhysicsFTFP_BERT_HP.hh"       //works!
@@ -40,18 +22,18 @@ Test physics Lists. Do they work?
 #include "G4HadronPhysicsQGSP_BIC_HP.hh"        //works!
 #include "G4HadronPhysicsQGSP_BIC_AllHP.hh"     //works!
 #include "G4HadronPhysicsQGSP_BERT.hh"          //works!
-#include "G4HadronPhysicsQGSP_BERT_HP.hh"
-#include "G4HadronPhysicsQGSP_FTFP_BERT.hh"
-#include "G4HadronPhysicsFTFQGSP_BERT.hh"
+#include "G4HadronPhysicsQGSP_BERT_HP.hh"       //works!
+#include "G4HadronPhysicsQGSP_FTFP_BERT.hh"     //works!
+#include "G4HadronPhysicsFTFQGSP_BERT.hh"       //works!
 
 #include "G4HadronPhysicsINCLXX.hh"             //works!
 #include "G4HadronPhysicsNuBeam.hh"
 
-#include "G4HadronElasticPhysics.hh"
-#include "G4HadronElasticPhysicsHP.hh"
-#include "G4HadronElasticPhysicsXS.hh"
-#include "G4HadronElasticPhysicsPHP.hh"
-#include "G4HadronElasticPhysicsLEND.hh"
+#include "G4HadronElasticPhysics.hh"            //works!
+#include "G4HadronElasticPhysicsHP.hh"          //works!
+#include "G4HadronElasticPhysicsXS.hh"          //works!
+#include "G4HadronElasticPhysicsPHP.hh"         //works!
+#include "G4HadronElasticPhysicsLEND.hh"        //works!
 
 #include "G4HadronInelasticQBBC.hh"             //works!
 
@@ -114,13 +96,23 @@ PhysicsList::PhysicsList()
   new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);
   new G4UnitDefinition( "mm2/g",  "mm2/g", "Surface/Mass", mm2/g);
   new G4UnitDefinition( "um2/mg", "um2/mg","Surface/Mass", um*um/mg);
-    
+
   // Hadron Elastic scattering
-  fHadronElastic = new HadronElasticPhysicsHP(verb);
+  fHadronElastic = new G4HadronElasticPhysics(verb);
+  //fHadronElastic = new G4HadronElasticPhysicsHP(verb);
+  //fHadronElastic = new G4HadronElasticPhysicsXS(verb);
+  //fHadronElastic = new G4HadronElasticPhysicsPHP(verb);
+  //fHadronElastic = new G4HadronElasticPhysicsLEND(verb);
+
+  //fHadronElastic = new HadronElasticPhysicsHP(verb);
   RegisterPhysics(fHadronElastic);
   
   // Hadron Inelastic Physics
-  fHadronInelastic = new G4HadronPhysicsFTFP_BERT(verb);
+  //fHadronInelastic = new G4HadronPhysicsFTF_BIC(verb);
+  //fHadronInelastic = new G4HadronPhysicsQGS_BIC(verb);
+  //fHadronInelastic = new G4HadronPhysicsShielding(verb);
+  //fHadronInelastic = new G4HadronPhysicsShieldingLEND(verb);
+  //fHadronInelastic = new G4HadronPhysicsFTFP_BERT(verb);
   //fHadronInelastic = new G4HadronPhysicsFTFP_BERT_HP(verb);
   //fHadronInelastic = new G4HadronPhysicsFTFP_BERT_ATL(verb);
   //fHadronInelastic = new G4HadronPhysicsFTFP_BERT_TRV(verb);
@@ -128,13 +120,12 @@ PhysicsList::PhysicsList()
   //fHadronInelastic = new G4HadronPhysicsQGSP_BIC_HP(verb);
   //fHadronInelastic = new G4HadronPhysicsQGSP_BIC_AllHP(verb);
   //fHadronInelastic = new G4HadronPhysicsQGSP_BERT(verb);
+  //fHadronInelastic = new G4HadronPhysicsQGSP_BERT_HP(verb);
+  //fHadronInelastic = new G4HadronPhysicsQGSP_FTFP_BERT(verb);
+  fHadronInelastic = new G4HadronPhysicsFTFQGSP_BERT(verb);
 
   //fHadronInelastic = new G4HadronInelasticQBBC(verb);
   //fHadronInelastic = new G4HadronPhysicsINCLXX(verb);
-
-
-  //fHadronInelastic = new FTFP_INCLXX_HP(verb);
-  //fHadronInelastic = new QGSP_INCLXX_HP(verb);
   RegisterPhysics(fHadronInelastic);
 
   // Ion Elastic Physics

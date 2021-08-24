@@ -9,14 +9,25 @@
 
 #include "G4ParticleHPManager.hh"
 
+#include "QBBC.hh"                        //works!
 
-//Old code Snippet from the original B1 example. Can be removed i guess...
-//#include "QBBC.hh"
-//// Physics list
-// G4VModularPhysicsList* physicsList = new QBBC;
-// G4VModularPhysicsList* physicsList = new PhysicsList;
-// physicsList->SetVerboseLevel(1);
-// runManager->SetUserInitialization(physicsList);
+#include "FTF_BIC.hh"                     //works!
+#include "FTFP_INCLXX.hh"                 //works!
+#include "FTFP_INCLXX_HP.hh"              //works!
+#include "FTFP_BERT.hh"
+#include "FTFP_BERT_HP.hh"
+#include "FTFP_BERT_ATL.hh"
+#include "FTFP_BERT_TRV.hh"
+#include "FTFQGSP_BERT.hh"
+
+#include "QGSP_BIC.hh"
+#include "QGSP_BIC_HP.hh"
+#include "QGSP_BIC_AllHP.hh"
+#include "QGSP_INCLXX.hh"
+#include "QGSP_INCLXX_HP.hh"
+#include "QGSP_BERT.hh"
+#include "QGSP_BERT_HP.hh"
+#include "QGSP_FTFP_BERT.hh"
 
 // The main function
 int main(int argc,char** argv)
@@ -41,8 +52,16 @@ int main(int argc,char** argv)
   // Detector construction
   runManager->SetUserInitialization(new DetectorConstruction());
 
-  // Physics list
+  // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 Physics Lists 
   runManager->SetUserInitialization(new PhysicsList);
+  
+  //G4VModularPhysicsList* physicsList = new QBBC;
+  //G4VModularPhysicsList* physicsList = new FTF_BIC;
+  //G4VModularPhysicsList* physicsList = new FTFP_INCLXX;
+  //G4VModularPhysicsList* physicsList = new FTFP_INCLXX_HP;
+  //runManager->SetUserInitialization(physicsList);
+
+  //old snippets
   //PhysicsList* phys = new PhysicsList;
   //phys->SetVerboseLevel(0);                 //<- This does nothing. Why?
   //runManager->SetUserInitialization(phys);
@@ -51,21 +70,27 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new B1ActionInitialization());
   
   // Replaced HP (high-precision) environmental variables with C++ calls
- G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( false );
- G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( false );
- G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
- G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
- G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
- G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );
- G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
+  //
+  //SkipMissingIsotopes: It sets to zero the cross section of the isotopes which are not present in the neutron library. If GEANT4 doesn’t find an isotope, 
+  //then it looks for the natural composition data of that element. Only if the element is not found then the cross section is set to zero. 
+  //On the contrary, if this variable is not defined, G EANT 4 looks then for the neutron data of another isotope close in Z and A, which will
+  //have completely different nuclear properties and lead to incorrect results (highly recommended).
+  G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( false );
 
-//  G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( true );
-//  G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( true );
-//  G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( true );
-//  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( true );
-//  G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( true );
-//  G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( true );
-//  G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( true );
+  //DoNotAdjustFinalState: If this variable is not defined, a G EANT 4 model that attempts to satisfy the energy and momentum conservation in some nuclear 
+  //reactions, by generating artificial gamma rays. By setting such a variable one avoids the correction and leads to the result obtained with the
+  //ENDF-6 libraries. Even though energy and momentum conservation are desirable, the ENDF-6 libraries do not provide the necessary correlations 
+  //between secondary particles for satisfying them in all cases. On the contrary, ENDF-6 libraries intrinsically violate energy and momentum 
+  //conservation for several processes and have been built for preserving the overall average quantities such as average energy releases, average number of
+  //secondaries. . . (highly recommended).
+  G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( false );
+
+  G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
+  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
+  G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
+  G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );
+  G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
+
 
   // Initialize visualization
   //
