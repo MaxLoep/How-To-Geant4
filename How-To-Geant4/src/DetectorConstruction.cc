@@ -47,6 +47,8 @@ New ways to create materials , see Book for Application Developer
 #include "G4SDParticleFilter.hh"
 #include "G4SDChargedFilter.hh"
 
+#include "BoxSD.hh"
+
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
@@ -519,6 +521,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 void DetectorConstruction::ConstructSDandField()
 {
   G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
+
+  //
+  // Sensitive detectors
+  //
+  auto boxSD = new BoxSD("BoxSD");
+  G4SDManager::GetSDMpointer()->AddNewDetector(boxSD);
+  SetSensitiveDetector("Box", boxSD);
+
+
   // 
   // Scorers
   //

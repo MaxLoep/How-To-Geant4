@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/How-To-Geant4.dir/src/B1RunAction.cc.o.d"
   "CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.o"
   "CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.o.d"
+  "CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.o"
+  "CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.o.d"
   "CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o"
   "CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o.d"
   "CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o"

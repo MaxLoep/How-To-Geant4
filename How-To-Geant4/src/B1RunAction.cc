@@ -45,20 +45,39 @@ B1RunAction::B1RunAction()
   accumulableManager->RegisterAccumulable(fEdep);
   accumulableManager->RegisterAccumulable(fEdep2); 
 
+  // From example B4d and extended/physicslist/genericPL
 
-  //From example B4d
   // Create analysis manager
   // The choice of analysis technology is done via selectin of a namespace
-  // in B4Analysis.hh
+  // in Analysis.hh
   auto analysisManager = G4AnalysisManager::Instance();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
+  analysisManager->SetVerboseLevel(1);
+  analysisManager->SetNtupleMerging(true);
+     // Note: merging ntuples is available only with Root output
+
+
+  // // From example extended/physicslist/genericPL
+  // // Set default fileName
+  // analysisManager->SetFileName(fFileName);
+
+  // // Create ntuple
+  // //
+  // analysisManager->CreateNtuple("Screen", "Screen hits");
+  // analysisManager->CreateNtupleIColumn("ID");      // column id = 0
+  // analysisManager->CreateNtupleIColumn("PDG");     // column id = 1
+  // analysisManager->CreateNtupleDColumn("Ekin");    // column id = 2
+  // analysisManager->CreateNtupleDColumn("Xpos");    // column id = 3
+  // analysisManager->CreateNtupleDColumn("Ypos");    // column id = 4
+  // analysisManager->CreateNtupleDColumn("time");    // column id = 5
+  analysisManager->FinishNtuple();
+
+  //From example B4d
+
 
   // Create directories 
   //analysisManager->SetHistoDirectoryName("histograms");
   //analysisManager->SetNtupleDirectoryName("ntuple");
-  analysisManager->SetVerboseLevel(1);
-  analysisManager->SetNtupleMerging(true);
-    // Note: merging ntuples is available only with Root output
 
   // Book histograms, ntuple
   //

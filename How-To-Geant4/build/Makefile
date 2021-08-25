@@ -307,6 +307,30 @@ src/B1SteppingAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.s
 .PHONY : src/B1SteppingAction.cc.s
 
+src/BoxSD.o: src/BoxSD.cc.o
+.PHONY : src/BoxSD.o
+
+# target to build an object file
+src/BoxSD.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.o
+.PHONY : src/BoxSD.cc.o
+
+src/BoxSD.i: src/BoxSD.cc.i
+.PHONY : src/BoxSD.i
+
+# target to preprocess a source file
+src/BoxSD.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.i
+.PHONY : src/BoxSD.cc.i
+
+src/BoxSD.s: src/BoxSD.cc.s
+.PHONY : src/BoxSD.s
+
+# target to generate assembly for a file
+src/BoxSD.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.s
+.PHONY : src/BoxSD.cc.s
+
 src/DetectorConstruction.o: src/DetectorConstruction.cc.o
 .PHONY : src/DetectorConstruction.o
 
@@ -504,6 +528,9 @@ help:
 	@echo "... src/B1SteppingAction.o"
 	@echo "... src/B1SteppingAction.i"
 	@echo "... src/B1SteppingAction.s"
+	@echo "... src/BoxSD.o"
+	@echo "... src/BoxSD.i"
+	@echo "... src/BoxSD.s"
 	@echo "... src/DetectorConstruction.o"
 	@echo "... src/DetectorConstruction.i"
 	@echo "... src/DetectorConstruction.s"

@@ -555,4 +555,6 @@ CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleWithEnergyFilter.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleFilter.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDKineticEnergyFilter.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleFilter.hh
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SDParticleFilter.hh \
+ /home/maximilian/Git/How-To-Geant4/include/BoxSD.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VSensitiveDetector.hh

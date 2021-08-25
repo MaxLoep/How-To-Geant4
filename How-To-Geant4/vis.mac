@@ -152,9 +152,9 @@
 #/vis/viewer/flush
 
 
-/gps/particle proton     #particle
-/gps/position 0 0 -10. cm#GPS position
-/gps/direction 0 0 1     #oriented along the Z axis
-/gps/ene/type Mono       #monoenergetic:   I=E
-/gps/ene/mono 210. MeV   #sets energy for monoenergetic sources
+/gps/particle proton      #particle
+/gps/position 0 0 -10. cm #GPS position
+/gps/direction 0 0 1      #oriented along the Z axis
+/gps/ene/type Mono        #monoenergetic:   I=E
+/gps/ene/mono 210. MeV    #sets energy for monoenergetic sources
 /gps/pos/type Point 

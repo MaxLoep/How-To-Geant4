@@ -60,6 +60,7 @@ OGL
 /vis/viewer/refresh
 /vis/verbose warnings
 /gps/particle proton
+/gps/position 0 0 -10. cm
 /gps/direction 0 0 1
 /gps/ene/type Mono
 /gps/ene/mono 210. MeV
