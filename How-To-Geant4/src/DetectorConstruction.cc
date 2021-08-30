@@ -83,8 +83,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
 
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
-  G4Material* material1 = nist->FindOrBuildMaterial("G4_Pb");
+  G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  G4Material* material1 = nist->FindOrBuildMaterial("G4_Galactic");
 
   // //How to define Elements with NIST in their natural abundance
   // G4Material* H  = nist->FindOrBuildMaterial("G4_H");
@@ -186,7 +186,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                         material1,           //its material
                         "Box");              //its name
   
-  //G4VPhysicalVolume* physBox=              //you can eclare a varibale for placement but it will create a warning if unused   
+  //G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,50.*cm),     //position
               logicBox,                      //its logical volume
@@ -578,11 +578,11 @@ void DetectorConstruction::ConstructSDandField()
 
   G4VPrimitiveScorer* primitive;
   primitive = new G4PSEnergyDeposit("Edep");
-  primitive ->SetFilter(protonFilter);
+  //primitive ->SetFilter(protonFilter);
   absDetector->RegisterPrimitive(primitive);
 
   primitive = new G4PSTrackLength("TrackLength");
-  primitive ->SetFilter(protonFilter);
+  //primitive ->SetFilter(protonFilter);
   //primitive ->SetFilter(charged);
   absDetector->RegisterPrimitive(primitive);  
 
@@ -595,13 +595,13 @@ void DetectorConstruction::ConstructSDandField()
 
   primitive = new G4PSEnergyDeposit("Edep");
   //primitive ->SetFilter(protonEnergy);
-  primitive ->SetFilter(neutronFilter);
+  //primitive ->SetFilter(neutronFilter);
   gapDetector->RegisterPrimitive(primitive);
   
   primitive = new G4PSTrackLength("TrackLength");
   //primitive ->SetFilter(chargedFilter);
   //primitive ->SetFilter(protonEnergy);
-  primitive ->SetFilter(neutronFilter);
+  //primitive ->SetFilter(neutronFilter);
   gapDetector->RegisterPrimitive(primitive);  
   
   SetSensitiveDetector("Box",gapDetector); 

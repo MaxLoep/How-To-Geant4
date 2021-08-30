@@ -113,22 +113,22 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
   auto gapTrackLength 
     = GetSum(GetHitsCollection(fGapTrackLengthHCID, event));
 
-  // get analysis manager
-  auto analysisManager = G4AnalysisManager::Instance();
+  // // get analysis manager
+  // auto analysisManager = G4AnalysisManager::Instance();
 
-  // fill histograms
-  //  
-  if(absoEdep != 0)       analysisManager->FillH1(0, absoEdep);
-  if(gapEdep != 0)        analysisManager->FillH1(1, gapEdep);
-  if(absoTrackLength !=0) analysisManager->FillH1(2, absoTrackLength);
-  if(gapTrackLength != 0) analysisManager->FillH1(3, gapTrackLength);
+  // // fill histograms
+  // //  
+  // if(absoEdep != 0)       analysisManager->FillH1(0, absoEdep);
+  // if(gapEdep != 0)        analysisManager->FillH1(1, gapEdep);
+  // if(absoTrackLength !=0) analysisManager->FillH1(2, absoTrackLength);
+  // if(gapTrackLength != 0) analysisManager->FillH1(3, gapTrackLength);
   
-  // fill ntuple
-  //
-  if(absoEdep != 0)       analysisManager->FillNtupleDColumn(0, absoEdep);
-  if(gapEdep != 0)        analysisManager->FillNtupleDColumn(1, gapEdep);
-  if(absoTrackLength !=0) analysisManager->FillNtupleDColumn(2, absoTrackLength);
-  if(gapTrackLength != 0) analysisManager->FillNtupleDColumn(3, gapTrackLength);
-  analysisManager->AddNtupleRow();  
+  // // fill ntuple
+  // //
+  // if(absoEdep != 0)       analysisManager->FillNtupleDColumn(0, absoEdep);
+  // if(gapEdep != 0)        analysisManager->FillNtupleDColumn(1, gapEdep);
+  // if(absoTrackLength !=0) analysisManager->FillNtupleDColumn(2, absoTrackLength);
+  // if(gapTrackLength != 0) analysisManager->FillNtupleDColumn(3, gapTrackLength);
+  // analysisManager->AddNtupleRow();  
 }
 

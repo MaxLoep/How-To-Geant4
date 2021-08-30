@@ -38,6 +38,8 @@
 
 #include "G4VProcess.hh"
 
+#include "G4ParticleTypes.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 BoxSD::BoxSD(const G4String& name)
@@ -61,41 +63,62 @@ G4bool BoxSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
   // Current track:
   const G4Track* track = step->GetTrack();
 
-  // Track ID:
-  G4int ID = track->GetTrackID();
+ // keep only outgoing particle
+ const G4ParticleDefinition* particle = track->GetParticleDefinition();
+ 
+ G4StepStatus status1 = track->GetStep()->GetPreStepPoint()->GetStepStatus();
+ G4StepStatus status2 = track->GetStep()->GetPostStepPoint()->GetStepStatus();
 
-  // code PDG:
-  G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
+ auto status3 = track->GetStep()->GetPreStepPoint()->GetPhysicalVolume()->GetName();
+ auto status4 = track->GetStep()->GetPostStepPoint()->GetPhysicalVolume()->GetName();
 
-  // Remember preStepPoint:
-  G4StepPoint* preStepPoint = step->GetPreStepPoint();
+ G4int status5 = track->GetStep()->IsFirstStepInVolume();
+ G4int status6 = track->GetStep()->IsLastStepInVolume();
 
-  // Ekin:
-  G4double Ekin =  preStepPoint->GetKineticEnergy();
 
-  // Obtain local coordinates:
-  const G4VTouchable* touchable = preStepPoint->GetTouchable();
-  G4ThreeVector globalPosition = preStepPoint->GetPosition();
-  G4ThreeVector localPosition
-    = touchable->GetHistory()->GetTopTransform().TransformPoint(globalPosition);
-  // // Example for obtaining the local direction:
-  // G4ThreeVector globalDirection = preStepPoint->GetMomentumDirection();
-  // G4ThreeVector localDirection
-  //   = touchable->GetHistory()->GetTopTransform().TransformAxis(localDirection);
+ //if (status3 != "Box" && status4 == "Box")
+ //if (status5 == true) 
+ //if(status2 != fGeomBoundary && particle == G4Proton::Proton()){
+ //if(particle == G4Neutron::Neutron()){
 
-  // Time
-  G4double time = preStepPoint->GetGlobalTime();
+    // Track ID:
+    G4int ID = track->GetTrackID();
 
-  // Store hit in the ntuple
-  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-  analysisManager->FillNtupleIColumn(0, ID);
-  analysisManager->FillNtupleIColumn(1, pdgCode);
-  analysisManager->FillNtupleDColumn(2, Ekin/MeV);
-  analysisManager->FillNtupleDColumn(3, localPosition.x()/cm);
-  analysisManager->FillNtupleDColumn(4, localPosition.y()/cm);
-  analysisManager->FillNtupleDColumn(5, time/ns);
-  analysisManager->AddNtupleRow();
+    // code PDG:
+    G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
+    //G4String name   = track->GetDefinition()->GetParticleName();
+    
+  //G4String name   = particle->GetParticleName();
 
+    // Remember preStepPoint:
+    G4StepPoint* preStepPoint = step->GetPreStepPoint();
+
+    // Ekin:
+    G4double Ekin =  preStepPoint->GetKineticEnergy();
+
+    // Obtain local coordinates:
+    const G4VTouchable* touchable = preStepPoint->GetTouchable();
+    G4ThreeVector globalPosition = preStepPoint->GetPosition();
+    G4ThreeVector localPosition
+      = touchable->GetHistory()->GetTopTransform().TransformPoint(globalPosition);
+    // // Example for obtaining the local direction:
+    // G4ThreeVector globalDirection = preStepPoint->GetMomentumDirection();
+    // G4ThreeVector localDirection
+    //   = touchable->GetHistory()->GetTopTransform().TransformAxis(localDirection);
+
+    // Time
+    G4double time = preStepPoint->GetGlobalTime();
+
+    // Store hit in the ntuple
+      G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+      analysisManager->FillNtupleIColumn(0, ID);
+      analysisManager->FillNtupleIColumn(1, pdgCode);
+      analysisManager->FillNtupleDColumn(2, Ekin/MeV);
+      analysisManager->FillNtupleDColumn(3, localPosition.x()/cm);
+      analysisManager->FillNtupleDColumn(4, localPosition.y()/cm);
+      analysisManager->FillNtupleDColumn(5, time/ns);
+      analysisManager->AddNtupleRow();
+  //}
   return true;
 }
 
