@@ -40,16 +40,19 @@ B1RunAction::B1RunAction()
   new G4UnitDefinition("nanogray" , "nanoGy"  , "Dose", nanogray);
   new G4UnitDefinition("picogray" , "picoGy"  , "Dose", picogray); 
 
+
+  //B1 SCORING METHOD
   // Register accumulable to the accumulable manager
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->RegisterAccumulable(fEdep);
   accumulableManager->RegisterAccumulable(fEdep2); 
 
+
+  //SENSITIVE DETECTOR
   // From example B4d and extended/physicslist/genericPL
 
   // Create analysis manager
-  // The choice of analysis technology is done via selectin of a namespace
-  // in Analysis.hh
+  // The choice of analysis technology is done via selectin of a namespace in Analysis.hh
   auto analysisManager = G4AnalysisManager::Instance();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
   //analysisManager->SetVerboseLevel(1);
@@ -72,7 +75,15 @@ B1RunAction::B1RunAction()
   analysisManager->CreateNtupleDColumn("time");    // column id = 5
   analysisManager->FinishNtuple();
 
+  //PRIMITIVE SCORERS
   //From example B4d
+  // Create analysis manager
+  // The choice of analysis technology is done via selectin of a namespace in Analysis.hh
+  //auto analysisManager = G4AnalysisManager::Instance();
+  //G4cout << "Using " << analysisManager->GetType() << G4endl;
+  //analysisManager->SetVerboseLevel(1);
+  //analysisManager->SetNtupleMerging(true);
+  // Note: merging ntuples is available only with Root output
 
 
   // Create directories in the root file - commented out in the original B4d example!
@@ -137,6 +148,7 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   G4int nofEvents = run->GetNumberOfEvent();
   if (nofEvents == 0) return;
 
+  //B1 SCORING METHOD
   // Merge accumulables 
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Merge();
@@ -187,7 +199,7 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   }
         
   // Print End of Run messages
-  //  
+  //  from example B1
   if (IsMaster()) {
     G4cout
      << G4endl
@@ -203,14 +215,15 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      << " The run consists of " << nofEvents << " "<< runCondition
      << G4endl
-     << " Cumulated dose per run, in scoring volume : " 
-     << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
-     << G4endl
-     << G4BestUnit(edep,"Energy") << " rms = " << G4BestUnit(rms,"Energy")
-     << G4endl
-     << "------------------------------------------------------------"
-     << G4endl
-     << G4endl;
+    //  << " Cumulated dose per run, in scoring volume : " 
+    //  << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
+    //  << G4endl
+    //  << G4BestUnit(edep,"Energy") << " rms = " << G4BestUnit(rms,"Energy")
+    //  << G4endl
+    //  << "------------------------------------------------------------"
+    //  << G4endl
+    //  << G4endl
+    ;
 
   //from example B4d
   // print histogram statistics
@@ -246,12 +259,12 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   //     << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
   // }
 
-  // save histograms & ntuple
-  //
+  // Save histograms & ntuple
   analysisManager->Write();
   analysisManager->CloseFile();
 }
 
+//B1 SCORING METHOD
 //define function AddEdep(G4double) to sum up the total energy
 void B1RunAction::AddEdep(G4double edep)
 {

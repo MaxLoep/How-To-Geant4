@@ -59,6 +59,22 @@ int main(int argc,char** argv)
   //G4VModularPhysicsList* physicsList = new FTF_BIC;
   //G4VModularPhysicsList* physicsList = new FTFP_INCLXX;
   //G4VModularPhysicsList* physicsList = new FTFP_INCLXX_HP;
+
+  //G4VModularPhysicsList* physicsList = new FTFP_BERT;
+  //G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
+  //G4VModularPhysicsList* physicsList = new FTFP_BERT_ATL;
+  //G4VModularPhysicsList* physicsList = new FTFP_BERT_TRV;
+  //G4VModularPhysicsList* physicsList = new FTFQGSP_BERT;
+
+  //G4VModularPhysicsList* physicsList = new QGSP_BIC;
+  //G4VModularPhysicsList* physicsList = new QGSP_BIC_HP;
+  //G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;
+  //G4VModularPhysicsList* physicsList = new QGSP_INCLXX;
+  //G4VModularPhysicsList* physicsList = new QGSP_INCLXX_HP;
+  //G4VModularPhysicsList* physicsList = new QGSP_BERT;
+  //G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
+  //G4VModularPhysicsList* physicsList = new QGSP_FTFP_BERT;
+
   //runManager->SetUserInitialization(physicsList);
 
   //old snippets
@@ -73,11 +89,11 @@ int main(int argc,char** argv)
   //
   //SkipMissingIsotopes: It sets to zero the cross section of the isotopes which are not present in the neutron library. If GEANT4 doesn’t find an isotope, 
   //then it looks for the natural composition data of that element. Only if the element is not found then the cross section is set to zero. 
-  //On the contrary, if this variable is not defined, G EANT 4 looks then for the neutron data of another isotope close in Z and A, which will
+  //On the contrary, if this variable is not defined, GEANT4 looks then for the neutron data of another isotope close in Z and A, which will
   //have completely different nuclear properties and lead to incorrect results (highly recommended).
   G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( false );
 
-  //DoNotAdjustFinalState: If this variable is not defined, a G EANT 4 model that attempts to satisfy the energy and momentum conservation in some nuclear 
+  //DoNotAdjustFinalState: If this variable is not defined, a GEANT4 model that attempts to satisfy the energy and momentum conservation in some nuclear 
   //reactions, by generating artificial gamma rays. By setting such a variable one avoids the correction and leads to the result obtained with the
   //ENDF-6 libraries. Even though energy and momentum conservation are desirable, the ENDF-6 libraries do not provide the necessary correlations 
   //between secondary particles for satisfying them in all cases. On the contrary, ENDF-6 libraries intrinsically violate energy and momentum 

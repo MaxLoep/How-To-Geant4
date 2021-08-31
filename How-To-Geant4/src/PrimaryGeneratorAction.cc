@@ -54,6 +54,7 @@ Comment it more
 //   fParticleGun->GeneratePrimaryVertex(anEvent);
 // }
 
+//--------------------------------------------------------------------------------------------------------
 
 //
 //GENERAL PARTICLE SOURCE
@@ -74,11 +75,11 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 
   fParticleBeam->SetParticleDefinition(particle);
 
-  //GPS doesn't have these two commands; you need to set them in the macro file
+  //GPS doesn't have these three commands; you need to set them in the macro file
+  //fParticleBeam->SetParticlePosition(G4ThreeVector(0,0,0));
   //fParticleBeam->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   //fParticleBeam->SetParticleEnergy(6.*MeV);
-  //fParticleBeam->SetParticlePosition(G4ThreeVector(0,0,0)); //doesn't work; set GPS position in marco
-
+  
 }
 
 

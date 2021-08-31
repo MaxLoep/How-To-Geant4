@@ -507,7 +507,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     0,                       //copy number
                     true);                   //overlaps checking
 
-                
+
+  //B1 SCORING METHOD
+  //You need also Code for this one to work in:
+  //SteppingAction.cc,  RunAction.cc, EventAction.cc          
   // Set logical Box volume as scoring volume (must be a logical volume)
   //This is a public variable defined in the header file to make it accessible from other files
   fScoringVolume = logicBox;
@@ -523,101 +526,116 @@ void DetectorConstruction::ConstructSDandField()
   G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
 
   //
-  // Sensitive detectors
-  //
+  //SENSITIVE DETECTORS
+  //You need also Code for this one to work in:
+  //BoxSD.cc, RunAction.cc
+  //Make a Volume a Sensitive Detector (SD); SD are able to access Track/Step information of Particles going through e.g. :
+  //Kinetic energy, Momentum
+
+  //Declare a Sensitive Detector
   auto boxSD = new BoxSD("BoxSD");
   G4SDManager::GetSDMpointer()->AddNewDetector(boxSD);
+  //Apply Sensitive Detector to Volume
   SetSensitiveDetector("Box", boxSD);
 
 
-  // 
-  // Scorers
-  //
-  //Filters
-  G4String fltName,particleName;
-  //charged particle filter
+  // // 
+  // //PRIMITIVE SCORERS
+  // //You need also Code for this one to work in:
+  // //RunAction.cc, EventAction.cc
+  // //Make a Volume a Primitive Scorer (PS); PS are able to save information on events related to inside the volume e.g. :
+  // //energy deposit, track length, current, flux
+
+
+  // //Filters
+  // //Declare filters on Particles, Charge, Energy
+  // G4String fltName,particleName;
+
+  // //charged particle filter
   // auto charged = new G4SDChargedFilter("chargedFilter");
   // G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
-  //
-  //-- proton filter
-  G4SDParticleFilter* protonFilter =
-  new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
-  //
-  //-- electron filter
-  G4SDParticleFilter* electronFilter =
-  new G4SDParticleFilter(fltName="electronFilter");
-  electronFilter->add(particleName="e+");   // accept electrons.
-  electronFilter->add(particleName="e-");   // accept positrons.
-  //
-  //-- neutron filter
-  G4SDParticleFilter* neutronFilter =
-  new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
-  //
-  //-- gamma filter
+
+  // //Proton filter
+  // G4SDParticleFilter* protonFilter =
+  // new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+  
+  // //Electron filter
+  // G4SDParticleFilter* electronFilter =
+  // new G4SDParticleFilter(fltName="electronFilter");
+  // electronFilter->add(particleName="e+");   // accept electrons.
+  // electronFilter->add(particleName="e-");   // accept positrons.
+  
+  // //Neutron filter
+  // G4SDParticleFilter* neutronFilter =
+  // new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
+  
+  // //Gamma filter
   // G4SDParticleFilter* gammaFilter =
   // new G4SDParticleFilter("gammaFilter", "gamma");
 
- //-- proton energy filter
-  G4SDParticleWithEnergyFilter* protonEnergy=
-  new G4SDParticleWithEnergyFilter(fltName="protonEnergy");
-  protonEnergy->add("proton");
-  protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
+  // //Proton energy filter (Protons in energy range)
+  // G4SDParticleWithEnergyFilter* protonEnergy=
+  // new G4SDParticleWithEnergyFilter(fltName="protonEnergy");
+  // protonEnergy->add("proton");
+  // protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
 
- //-- neutron energy filter
-  G4SDParticleWithEnergyFilter* neutronEnergy=
-  new G4SDParticleWithEnergyFilter(fltName="neutronEnergy");
-  neutronEnergy->add("neutron");
-  neutronEnergy->SetKineticEnergy(100*keV, 300*MeV);
+  // //Neutron energy filter (Neutrons in energy range)
+  // G4SDParticleWithEnergyFilter* neutronEnergy=
+  // new G4SDParticleWithEnergyFilter(fltName="neutronEnergy");
+  // neutronEnergy->add("neutron");
+  // neutronEnergy->SetKineticEnergy(100*keV, 300*MeV);
 
+  // //Declare a volume as a MultiFunctionalDetector scorer 
+  // auto absDetector = new G4MultiFunctionalDetector("Absorber");
+  // G4SDManager::GetSDMpointer()->AddNewDetector(absDetector);
 
-
-  // declare Absorber as a MultiFunctionalDetector scorer
-  //  
-  auto absDetector = new G4MultiFunctionalDetector("Absorber");
-  G4SDManager::GetSDMpointer()->AddNewDetector(absDetector);
-
-  G4VPrimitiveScorer* primitive;
-  primitive = new G4PSEnergyDeposit("Edep");
-  //primitive ->SetFilter(protonFilter);
-  absDetector->RegisterPrimitive(primitive);
-
-  primitive = new G4PSTrackLength("TrackLength");
-  //primitive ->SetFilter(protonFilter);
-  //primitive ->SetFilter(charged);
-  absDetector->RegisterPrimitive(primitive);  
-
-  SetSensitiveDetector("Box",absDetector);
-  
-  // declare Gap as a MultiFunctionalDetector scorer
-  //  
-  auto gapDetector = new G4MultiFunctionalDetector("Gap");
-  G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
-
-  primitive = new G4PSEnergyDeposit("Edep");
-  //primitive ->SetFilter(protonEnergy);
-  //primitive ->SetFilter(neutronFilter);
-  gapDetector->RegisterPrimitive(primitive);
-  
-  primitive = new G4PSTrackLength("TrackLength");
-  //primitive ->SetFilter(chargedFilter);
-  //primitive ->SetFilter(protonEnergy);
-  //primitive ->SetFilter(neutronFilter);
-  gapDetector->RegisterPrimitive(primitive);  
-  
-  SetSensitiveDetector("Box",gapDetector); 
-
-  // // declare Surface as a MultiFunctionalDetector scorer
-  // //  
-  // auto absDetectorSurface = new G4MultiFunctionalDetector("AbsorberSurface");
-  // G4SDManager::GetSDMpointer()->AddNewDetector(absDetectorSurface);
-
-  
+  // //Declare what quantity should be scored and apply filters
+  // //
+  // //Score Deposited Energy (of protons)
+  // G4VPrimitiveScorer* primitive;
   // primitive = new G4PSEnergyDeposit("Edep");
-  // absDetectorSurface->RegisterPrimitive(primitive);
+  // //primitive ->SetFilter(protonFilter);
 
-  // primitive = new G4PSFlatSurfaceCurrent("Surface");
-  // absDetectorSurface->RegisterPrimitive(primitive);  
+  // //Register Filters to Scorer
+  // absDetector->RegisterPrimitive(primitive);
 
-  // SetSensitiveDetector("Box",absDetectorSurface);
+  // //Score TrackLength (of protons/charged particle)
+  // primitive = new G4PSTrackLength("TrackLength");
+  // //primitive ->SetFilter(protonFilter);
+  // //primitive ->SetFilter(charged);
+
+  // //Register Filters to Scorer
+  // absDetector->RegisterPrimitive(primitive);  
+
+  // //Apply Scorer to Volume
+  // SetSensitiveDetector("Box",absDetector);
+  
+
+  // //Declare a volume as a MultiFunctionalDetector scorer 
+  // //(Same as above. Copied from Example B4d. It has 2 Primitive Scorers)
+  // auto gapDetector = new G4MultiFunctionalDetector("Gap");
+  // G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
+
+  // //Declare what quantity should be scored and apply filters
+  // //
+  // //Score Deposited Energy
+  // primitive = new G4PSEnergyDeposit("Edep");
+  // //primitive ->SetFilter(protonEnergy);
+  // //primitive ->SetFilter(neutronFilter);
+
+  // //Register Filters to Scorer
+  // gapDetector->RegisterPrimitive(primitive);
+  
+  // //Score TrackLength (of protons/charged particle/neutrons)
+  // primitive = new G4PSTrackLength("TrackLength");
+  // //primitive ->SetFilter(chargedFilter);
+  // //primitive ->SetFilter(protonEnergy);
+  // //primitive ->SetFilter(neutronFilter);
+
+  // //Register Filters to Scorer
+  // gapDetector->RegisterPrimitive(primitive);  
+  
+  // //Apply Scorer to Volume
+  // SetSensitiveDetector("Box",gapDetector); 
 
 }
