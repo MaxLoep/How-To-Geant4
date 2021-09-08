@@ -1,7 +1,15 @@
 # How-To-Geant4
+V0.4:\
+-Changed file names to more neutral ones\
+-Added code to either choose a predefined physics list or use a selfmade physics list (found in 'PhysicsList.cc') in 'How-To-Geant4.cc'\
+-Tested (the most) physic lists in 'How-To-Geant4.cc' and 'PhysicsList.cc'\ 
+-Added 2 ways of analysis: 'SensitiveDetector' (SD) and 'PrimitiveScorer' (PS)\
+SD: Make a volume in 'DetectorConstruction.cc' a SD to read information about the particles passing through (this is done in 'BoxSD.cc')\
+PS: Make a volume in 'DetectorConstruction.cc' a PS to read information about things related to this volume (e.g. energy deposition)\
+-Analysis output possible in root-histograms and root-Ntuples
 
 V0.3:\
--Started adding Analysis manager from Example B4d
+-Started adding Analysis Manager from Example B4d
 
 V0.2:\
 -Started changing the name(s) from 'B1' to 'How-To-Geant4'\
