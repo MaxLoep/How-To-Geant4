@@ -2,8 +2,8 @@
 Understand what this does and comment it
 */
 
-#include "B1SteppingAction.hh"
-#include "B1EventAction.hh"
+#include "SteppingAction.hh"
+#include "EventAction.hh"
 #include "DetectorConstruction.hh"
 
 #include "G4Step.hh"
@@ -12,18 +12,18 @@ Understand what this does and comment it
 #include "G4LogicalVolume.hh"
 
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction)
+SteppingAction::SteppingAction(EventAction* eventAction)
 : G4UserSteppingAction(),
   fEventAction(eventAction),
   fScoringVolume(0)
 {}
 
 
-B1SteppingAction::~B1SteppingAction()
+SteppingAction::~SteppingAction()
 {}
 
 
-void B1SteppingAction::UserSteppingAction(const G4Step* step)
+void SteppingAction::UserSteppingAction(const G4Step* step)
 {
 
   //B1 SCORING METHOD

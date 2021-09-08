@@ -1,5 +1,5 @@
 #include "BoxSD.hh"
-#include "B4Analysis.hh"
+#include "Analysis.hh"
 
 #include "G4VTouchable.hh"
 #include "G4Step.hh"
@@ -32,14 +32,14 @@ G4bool BoxSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
  // keep only outgoing particle
  const G4ParticleDefinition* particle = track->GetParticleDefinition();
  
- G4StepStatus status1 = track->GetStep()->GetPreStepPoint()->GetStepStatus();
- G4StepStatus status2 = track->GetStep()->GetPostStepPoint()->GetStepStatus();
+//  G4StepStatus status1 = track->GetStep()->GetPreStepPoint()->GetStepStatus();
+//  G4StepStatus status2 = track->GetStep()->GetPostStepPoint()->GetStepStatus();
 
- auto status3 = track->GetStep()->GetPreStepPoint()->GetPhysicalVolume()->GetName();
- auto status4 = track->GetStep()->GetPostStepPoint()->GetPhysicalVolume()->GetName();
+//  auto status3 = track->GetStep()->GetPreStepPoint()->GetPhysicalVolume()->GetName();
+//  auto status4 = track->GetStep()->GetPostStepPoint()->GetPhysicalVolume()->GetName();
 
- G4int status5 = track->GetStep()->IsFirstStepInVolume();
- G4int status6 = track->GetStep()->IsLastStepInVolume();
+//  G4int status5 = track->GetStep()->IsFirstStepInVolume();
+//  G4int status6 = track->GetStep()->IsLastStepInVolume();
 
 
  //if (status3 != "Box" && status4 == "Box")
@@ -76,15 +76,25 @@ if(particle == G4Proton::Proton()){
     // Time
     G4double time = preStepPoint->GetGlobalTime();
 
+    // Get Analysis Manager
+    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
     // Store hit in the ntuple
-      G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-      analysisManager->FillNtupleIColumn(0, ID);
-      analysisManager->FillNtupleIColumn(1, pdgCode);
-      analysisManager->FillNtupleDColumn(2, Ekin/MeV);
-      analysisManager->FillNtupleDColumn(3, localPosition.x()/cm);
-      analysisManager->FillNtupleDColumn(4, localPosition.y()/cm);
-      analysisManager->FillNtupleDColumn(5, time/ns);
-      analysisManager->AddNtupleRow();
+    // analysisManager->FillNtupleIColumn(0, ID);
+    // analysisManager->FillNtupleIColumn(1, pdgCode);
+    // analysisManager->FillNtupleDColumn(2, Ekin/MeV);
+    // analysisManager->FillNtupleDColumn(3, localPosition.x()/cm);
+    // analysisManager->FillNtupleDColumn(4, localPosition.y()/cm);
+    // analysisManager->FillNtupleDColumn(5, time/ns);
+    // analysisManager->AddNtupleRow();
+
+    // // Store hit in histogram 
+    analysisManager->FillH1(0, ID);
+    analysisManager->FillH1(1, pdgCode);
+    analysisManager->FillH1(2, Ekin/MeV);
+    analysisManager->FillH1(3, localPosition.x()/cm);
+    analysisManager->FillH1(4, localPosition.y()/cm);
+    analysisManager->FillH1(5, time/ns);
   }
   return true;
 }

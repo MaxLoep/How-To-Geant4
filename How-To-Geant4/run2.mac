@@ -17,6 +17,7 @@
 #/gun/energy 210 MeV
 
 /gps/particle proton     #particle
+/gps/position 0 0 0      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
 /gps/ene/mono 315. MeV   #sets energy for monoenergetic sources

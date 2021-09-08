@@ -355,7 +355,7 @@ CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TouchableHistory.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CollectionNameVector.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VSDFilter.hh \
- /home/maximilian/Git/How-To-Geant4/include/B4Analysis.hh \
+ /home/maximilian/Git/How-To-Geant4/include/Analysis.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/g4root.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/g4root_defs.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/tools/wroot/ntuple \

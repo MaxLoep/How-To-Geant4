@@ -1,6 +1,6 @@
 #include "DetectorConstruction.hh"        //This is where you define your Geometry and Scorers
 #include "PhysicsList.hh"                 //This is where you define what physics processes should be used
-#include "B1ActionInitialization.hh"      //
+#include "ActionInitialization.hh"      //
 #include "G4RunManagerFactory.hh"         //Nessesary. You need this.
 #include "G4UImanager.hh"                 //Nessesary. You need this.
 #include "G4VisExecutive.hh"              //Nessesary. You need this.
@@ -83,7 +83,7 @@ int main(int argc,char** argv)
   //runManager->SetUserInitialization(phys);
     
   // User action initialization
-  runManager->SetUserInitialization(new B1ActionInitialization());
+  runManager->SetUserInitialization(new ActionInitialization());
   
   // Replaced HP (high-precision) environmental variables with C++ calls
   //

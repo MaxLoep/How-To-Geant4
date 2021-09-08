@@ -2,7 +2,7 @@
 Understand what this does and comment it
 */
 
-#include "B1RunAction.hh"
+#include "RunAction.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "DetectorConstruction.hh"
 // #include "B1Run.hh"                //Relict form old version of example B1?
@@ -15,10 +15,10 @@ Understand what this does and comment it
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 
-#include "B4Analysis.hh"              //For Output file format
+#include "Analysis.hh"              //For Output file format
 
 
-B1RunAction::B1RunAction()
+RunAction::RunAction()
 : G4UserRunAction(),
   fEdep(0.),
   fEdep2(0.)
@@ -60,20 +60,30 @@ B1RunAction::B1RunAction()
      // Note: merging ntuples is available only with Root output
 
 
-  // // From example extended/physicslist/genericPL
-  // // Set default fileName
+  // From example extended/physicslist/genericPL
+  // Set default fileName
   // analysisManager->SetFileName(fFileName);
 
-  // // Create ntuple
-  // //
-  analysisManager->CreateNtuple("Screen", "Screen hits");
-  analysisManager->CreateNtupleIColumn("ID");      // column id = 0
-  analysisManager->CreateNtupleIColumn("PDG");     // column id = 1
-  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 2
-  analysisManager->CreateNtupleDColumn("Xpos");    // column id = 3
-  analysisManager->CreateNtupleDColumn("Ypos");    // column id = 4
-  analysisManager->CreateNtupleDColumn("time");    // column id = 5
-  analysisManager->FinishNtuple();
+  // Use Ntuples or Histograms
+  //
+  // Create ntuple
+  // analysisManager->CreateNtuple("Screen", "Screen hits");
+  // analysisManager->CreateNtupleIColumn("ID");      // column id = 0
+  // analysisManager->CreateNtupleIColumn("PDG");     // column id = 1
+  // analysisManager->CreateNtupleDColumn("Ekin");    // column id = 2
+  // analysisManager->CreateNtupleDColumn("Xpos");    // column id = 3
+  // analysisManager->CreateNtupleDColumn("Ypos");    // column id = 4
+  // analysisManager->CreateNtupleDColumn("time");    // column id = 5
+  // analysisManager->FinishNtuple();
+
+
+  // Creating histograms
+  analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
+  analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
+  analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
+  analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3
+  analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
+  analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
 
   //PRIMITIVE SCORERS
   //From example B4d
@@ -115,11 +125,11 @@ B1RunAction::B1RunAction()
 }
 
 
-B1RunAction::~B1RunAction()
+RunAction::~RunAction()
 {}
 
 
-void B1RunAction::BeginOfRunAction(const G4Run*)
+void RunAction::BeginOfRunAction(const G4Run*)
 { 
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
@@ -137,13 +147,13 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
 
   // Open an output file
   //
-  G4String fileName = "B4";
+  G4String fileName = "RunData";
   analysisManager->OpenFile(fileName);
 
 }
 
 
-void B1RunAction::EndOfRunAction(const G4Run* run)
+void RunAction::EndOfRunAction(const G4Run* run)
 {
   G4int nofEvents = run->GetNumberOfEvent();
   if (nofEvents == 0) return;
@@ -163,9 +173,9 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   const DetectorConstruction* detectorConstruction
    = static_cast<const DetectorConstruction*>
      (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-  G4double mass = detectorConstruction->GetScoringVolume()->GetMass();
-  G4double dose = edep/mass;
-  G4double rmsDose = rms/mass;
+  //G4double mass = detectorConstruction->GetScoringVolume()->GetMass();
+  //G4double dose = edep/mass;
+  //G4double rmsDose = rms/mass;
 
   // Run conditions
   //  note: There is no primary generator action object for "master"
@@ -266,7 +276,7 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
 
 //B1 SCORING METHOD
 //define function AddEdep(G4double) to sum up the total energy
-void B1RunAction::AddEdep(G4double edep)
+void RunAction::AddEdep(G4double edep)
 {
   fEdep  += edep;
   fEdep2 += edep*edep;

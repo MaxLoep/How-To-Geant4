@@ -1,7 +1,7 @@
-CMakeFiles/How-To-Geant4.dir/src/B1ActionInitialization.cc.o: \
- /home/maximilian/Git/How-To-Geant4/src/B1ActionInitialization.cc \
+CMakeFiles/How-To-Geant4.dir/src/ActionInitialization.cc.o: \
+ /home/maximilian/Git/How-To-Geant4/src/ActionInitialization.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Git/How-To-Geant4/include/B1ActionInitialization.hh \
+ /home/maximilian/Git/How-To-Geant4/include/ActionInitialization.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserActionInitialization.hh \
  /home/maximilian/Git/How-To-Geant4/include/PrimaryGeneratorAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
@@ -378,19 +378,19 @@ CMakeFiles/How-To-Geant4.dir/src/B1ActionInitialization.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ApplicationState.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeneralParticleSourceData.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
- /home/maximilian/Git/How-To-Geant4/include/B1RunAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/RunAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserRunAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MergeMode.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.icc \
- /home/maximilian/Git/How-To-Geant4/include/B1EventAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/EventAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserEventAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4THitsMap.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4THitsCollection.hh \
  /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
  /usr/include/c++/10/bits/hashtable_policy.h \
  /usr/include/c++/10/bits/unordered_map.h \
- /home/maximilian/Git/How-To-Geant4/include/B1SteppingAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/SteppingAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserSteppingAction.hh

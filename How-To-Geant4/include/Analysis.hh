@@ -1,5 +1,5 @@
-#ifndef B4Analysis_h
-#define B4Analysis_h 1
+#ifndef Analysis_h
+#define Analysis_h 1
 
 //Define which format the output file shall have
 #include "g4root.hh"

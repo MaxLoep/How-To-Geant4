@@ -2,13 +2,13 @@
 Understand what this does and comment it
 */
 
-#include "B1EventAction.hh"
-#include "B1RunAction.hh"
+#include "EventAction.hh"
+#include "RunAction.hh"
 
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 
-#include "B4Analysis.hh"
+#include "Analysis.hh"
 #include "G4SDManager.hh"
 #include "G4HCofThisEvent.hh"
 #include <iomanip>
@@ -19,7 +19,7 @@ Understand what this does and comment it
 
 
 
-B1EventAction::B1EventAction(B1RunAction* runAction)
+EventAction::EventAction(RunAction* runAction)
 : G4UserEventAction(),
   fRunAction(runAction),
   fEdep(0.),
@@ -34,14 +34,14 @@ B1EventAction::B1EventAction(B1RunAction* runAction)
 {} 
 
 
-B1EventAction::~B1EventAction()
+EventAction::~EventAction()
 {}
 
 // //PRIMITIVE SCORERS
 // //From example B4d
 
 // G4THitsMap<G4double>* 
-// B1EventAction::GetHitsCollection(G4int hcID,
+// EventAction::GetHitsCollection(G4int hcID,
 //                                   const G4Event* event) const
 // {
 //   auto hitsCollection 
@@ -60,7 +60,7 @@ B1EventAction::~B1EventAction()
 // }    
 
 
-// G4double B1EventAction::GetSum(G4THitsMap<G4double>* hitsMap) const
+// G4double EventAction::GetSum(G4THitsMap<G4double>* hitsMap) const
 // {
 //   G4double sumValue = 0.;
 //   for ( auto it : *hitsMap->GetMap() ) {
@@ -70,7 +70,7 @@ B1EventAction::~B1EventAction()
 //   return sumValue;  
 // }  
 
-void B1EventAction::BeginOfEventAction(const G4Event*)
+void EventAction::BeginOfEventAction(const G4Event*)
 {   
   //variable initialisation per event 
   //from B1
@@ -84,7 +84,7 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 }
 
 
-void B1EventAction::EndOfEventAction(const G4Event* event)
+void EventAction::EndOfEventAction(const G4Event* event)
 {   
   //B1 SCORING METHOD
   // accumulate statistics in run action

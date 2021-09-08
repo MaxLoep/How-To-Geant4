@@ -266,7 +266,7 @@ CMakeFiles/How-To-Geant4.dir/How-To-Geant4.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeomSplitter.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/geomwdefs.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Region.icc \
- /home/maximilian/Git/How-To-Geant4/include/B1ActionInitialization.hh \
+ /home/maximilian/Git/How-To-Geant4/include/ActionInitialization.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserActionInitialization.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RunManagerFactory.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RunManager.hh \
