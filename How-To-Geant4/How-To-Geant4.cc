@@ -1,7 +1,15 @@
 #include "DetectorConstruction.hh"        //This is where you define your Geometry and Scorers
-#include "PhysicsList.hh"                 //This is where you define what physics processes should be used
-#include "ActionInitialization.hh"      //
+#include "PhysicsList.hh"                 //This is where you define what physics processes should be used, alternatively you can choose a complete physics list in this file
+#include "ActionInitialization.hh"        //This is where you define what the simulation does (...)
+
+#include "G4Version.hh"                   //for checking which Geant4 version is installed
+#if G4VERSION_NUMBER>=1070
 #include "G4RunManagerFactory.hh"         //Nessesary. You need this.
+#else
+#include "G4RunManager.hh"                //for Geant4 Version < 10.7.0 single threaded
+#include "G4MTRunManager.hh"              //for Geant4 Version < 10.7.0 multi threaded
+#endif
+
 #include "G4UImanager.hh"                 //Nessesary. You need this.
 #include "G4VisExecutive.hh"              //Nessesary. You need this.
 #include "G4UIExecutive.hh"               //Nessesary. You need this.
@@ -23,8 +31,8 @@
 #include "QGSP_BIC.hh"
 #include "QGSP_BIC_HP.hh"
 #include "QGSP_BIC_AllHP.hh"
-#include "QGSP_INCLXX.hh"
-#include "QGSP_INCLXX_HP.hh"
+#include "QGSP_INCLXX.hh"                 //works!
+#include "QGSP_INCLXX_HP.hh"              //works!
 #include "QGSP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
 #include "QGSP_FTFP_BERT.hh"
@@ -39,13 +47,24 @@ int main(int argc,char** argv)
     ui = new G4UIExecutive(argc, argv);
   }
 
+
   // Optionally: choose a different Random engine...
   // G4Random::setTheEngine(new CLHEP::MTwistEngine);
   
-  // Construct the default run manager
-  // Auto detect if singlethreaded mode or multithreaded mode is used
-  auto* runManager =
-    G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+  #if G4VERSION_NUMBER>=1070
+    // Construct the default run manager in Geant4 Version > 10.7.0
+    // Auto detect if singlethreaded mode or multithreaded mode is used
+    auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+
+  #else
+    //for Geant4 Versions < 10.7 use this!
+    //check if Geant4 is built with multithread option
+    #ifdef G4MULTITHREADED
+      G4MTRunManager* runManager = new G4MTRunManager;
+    #else
+      G4RunManager* runManager = new G4RunManager;
+    #endif
+  #endif
 
   // Set mandatory initialization classes
   //
@@ -53,14 +72,14 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 Physics Lists 
-  runManager->SetUserInitialization(new PhysicsList);
+  //runManager->SetUserInitialization(new PhysicsList);
   
   //G4VModularPhysicsList* physicsList = new QBBC;
   //G4VModularPhysicsList* physicsList = new FTF_BIC;
   //G4VModularPhysicsList* physicsList = new FTFP_INCLXX;
   //G4VModularPhysicsList* physicsList = new FTFP_INCLXX_HP;
 
-  //G4VModularPhysicsList* physicsList = new FTFP_BERT;
+  G4VModularPhysicsList* physicsList = new FTFP_BERT;
   //G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
   //G4VModularPhysicsList* physicsList = new FTFP_BERT_ATL;
   //G4VModularPhysicsList* physicsList = new FTFP_BERT_TRV;
@@ -75,7 +94,7 @@ int main(int argc,char** argv)
   //G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
   //G4VModularPhysicsList* physicsList = new QGSP_FTFP_BERT;
 
-  //runManager->SetUserInitialization(physicsList);
+  runManager->SetUserInitialization(physicsList);
 
   //old snippets
   //PhysicsList* phys = new PhysicsList;
@@ -104,7 +123,7 @@ int main(int argc,char** argv)
   G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
   G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
   G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
-  G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );
+  G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7
   G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
 
 
