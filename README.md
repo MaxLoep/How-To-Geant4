@@ -1,6 +1,6 @@
 # How-To-Geant4
 V0.4.1:\
--The installed Geant4 version will be detected in the main file "How-to-Geant4.cc". "G4RunManagerFactory" will be used in version >=10.7.0 otherwise the old RunManager is used.\
+-The installed Geant4 version will be detected in the main file "How-to-Geant4.cc". "G4RunManagerFactory" will be used in version >=10.7.0 otherwise the old RunManager is used.
 
 V0.4:\
 -Changed file names to more neutral ones\
