@@ -14,6 +14,7 @@ Understand what this does and comment it
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include <filesystem>
 
 #include "Analysis.hh"              //For Output file format
 
@@ -23,6 +24,36 @@ RunAction::RunAction()
   fEdep(0.),
   fEdep2(0.)
 { 
+  // Get analysis manager
+  auto analysisManager = G4AnalysisManager::Instance();
+
+  // Create an output file which increases in number if the simulation is run again
+  //
+  // File number count starts with 0
+  G4int filenumber = 0;
+  // File name variable
+  std::string fileName = "RunData";
+
+  // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
+  while(std::ifstream(fileName + "_" + std::to_string(filenumber) + ".root"))
+  {
+    filenumber++;
+  }
+
+  // Set final file name 
+  fileName = "RunData_" + std::to_string(filenumber);
+
+  // Create the file
+  analysisManager->OpenFile(fileName);
+
+  // Creating histograms
+  analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
+  analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
+  analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
+  analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3
+  analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
+  analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
+
   // add new units for dose
   // 
   const G4double milligray = 1.e-3*gray;
@@ -53,7 +84,7 @@ RunAction::RunAction()
 
   // Create analysis manager
   // The choice of analysis technology is done via selectin of a namespace in Analysis.hh
-  auto analysisManager = G4AnalysisManager::Instance();
+  //auto analysisManager = G4AnalysisManager::Instance();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
   //analysisManager->SetVerboseLevel(1);
   analysisManager->SetNtupleMerging(true);
@@ -77,13 +108,13 @@ RunAction::RunAction()
   // analysisManager->FinishNtuple();
 
 
-  // Creating histograms
-  analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
-  analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
-  analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
-  analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3
-  analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
-  analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
+  // // Creating histograms
+  // analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
+  // analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
+  // analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
+  // analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3
+  // analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
+  // analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
 
   //PRIMITIVE SCORERS
   //From example B4d
@@ -126,7 +157,11 @@ RunAction::RunAction()
 
 
 RunAction::~RunAction()
-{}
+{
+  auto analysisManager = G4AnalysisManager::Instance();
+  analysisManager->Write();
+  analysisManager->CloseFile();
+}
 
 
 void RunAction::BeginOfRunAction(const G4Run*)
@@ -142,13 +177,13 @@ void RunAction::BeginOfRunAction(const G4Run*)
   //inform the runManager to save random number seed
   //G4RunManager::GetRunManager()->SetRandomNumberStore(true);
   
-  // Get analysis manager
-  auto analysisManager = G4AnalysisManager::Instance();
+  // // Get analysis manager
+  // auto analysisManager = G4AnalysisManager::Instance();
 
-  // Open an output file
-  //
-  G4String fileName = "RunData";
-  analysisManager->OpenFile(fileName);
+  // // Open an output file
+  // //
+  // G4String fileName = "RunData";
+  // analysisManager->OpenFile(fileName);
 
 }
 
@@ -238,7 +273,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
   //from example B4d
   // print histogram statistics
   //
-   auto analysisManager = G4AnalysisManager::Instance();
+  //auto analysisManager = G4AnalysisManager::Instance();
   // if ( analysisManager->GetH1(1) ) {
   //   G4cout << G4endl << " ----> print histograms statistic ";
   //   if(isMaster) {
@@ -269,9 +304,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
   //     << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
   // }
 
-  // Save histograms & ntuple
-  analysisManager->Write();
-  analysisManager->CloseFile();
 }
 
 //B1 SCORING METHOD

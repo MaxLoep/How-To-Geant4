@@ -84,7 +84,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4NistManager* nist = G4NistManager::Instance();
 
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  G4Material* material1 = nist->FindOrBuildMaterial("G4_Galactic");
+  G4Material* material1 = nist->FindOrBuildMaterial("G4_Fe");
 
   // //How to define Elements with NIST in their natural abundance
   // G4Material* H  = nist->FindOrBuildMaterial("G4_H");
