@@ -123,7 +123,7 @@ int main(int argc,char** argv)
   G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
   G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
   G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
-  G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7
+  //G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7
   G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
 
 

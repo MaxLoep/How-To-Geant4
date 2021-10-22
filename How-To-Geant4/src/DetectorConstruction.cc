@@ -137,6 +137,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   H20->AddElement(Hydrogen, 2);
   H20->AddElement(Oxygen, 1);
 
+  //NE213
+  G4Element* H  = new G4Element("Hydrogen" ,"H" , 1.,  1.01*g/mole);
+  G4Element* C  = new G4Element("Carbon"   ,"C" , 6., 12.00*g/mole);
+  G4Material* ne213 = 
+  new G4Material("NE213", 0.874*g/cm3, 2);
+  ne213->AddElement(H,    9.2*perCent);
+  ne213->AddElement(C,   90.8*perCent);
+
 
 
   //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
