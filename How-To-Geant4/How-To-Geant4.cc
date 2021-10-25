@@ -47,8 +47,8 @@ int main(int argc,char** argv)
     ui = new G4UIExecutive(argc, argv);
   }
 
-
-  // Optionally: choose a different Random engine...
+  // choose the Random engine
+  // G4Random::setTheEngine(new CLHEP::RanecuEngine);
   // G4Random::setTheEngine(new CLHEP::MTwistEngine);
   
   #if G4VERSION_NUMBER>=1070

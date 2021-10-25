@@ -50,7 +50,7 @@ RunAction::RunAction()
   analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
   analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
   analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
-  analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3
+  analysisManager->CreateH1("Xpos","Hit Position X", 100, -1.*cm, 1.*cm);   // column id = 3
   analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
   analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
 
