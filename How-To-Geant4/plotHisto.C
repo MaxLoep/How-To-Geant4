@@ -41,34 +41,62 @@
 
 
   //Iterate over other files and add to existing histograms
-  for (Int_t i=1; i<=3; i++)
+  for (Int_t i=1; i<=99; i++)
   {
-    // Open file filled by Geant4 simulation 
+    //Reset filepath in each iteration
     TString filepath;
     filepath = "RunData_";
     filepath += i;
     filepath += ".root";
-    TFile f_i(filepath);
 
-    //cout << filepath << endl;
 
-    //Grab data and add to existing
-    c1->cd(1);
-    TH1D* hist1_i = (TH1D*)f_i.Get("Ekin");
-    hist1->Add(hist1_i);
+    //Check if file exists otherwise plot
+    if (FILE *file = fopen(filepath, "r"))
+    {
+      cout << filepath << " is found" << endl;
+      //Open file filled by Geant4 simulation 
+      TFile f_i(filepath);
 
-    c1->cd(2);
-    TH1D* hist2_i = (TH1D*)f_i.Get("Xpos");
-    hist2->Add(hist2_i);
+      //Grab data and add to existing
+      c1->cd(1);
+      TH1D* hist1_i = (TH1D*)f_i.Get("Ekin");
+      hist1->Add(hist1_i);
 
-    c1->cd(3);
-    TH1D* hist3_i = (TH1D*)f_i.Get("Ypos");
-    hist3->Add(hist3_i);
+      c1->cd(2);
+      TH1D* hist2_i = (TH1D*)f_i.Get("Xpos");
+      hist2->Add(hist2_i);
 
-    c1->cd(4);
-    TH1D* hist4_i = (TH1D*)f_i.Get("time");
-    hist4->Add(hist4_i);
+      c1->cd(3);
+      TH1D* hist3_i = (TH1D*)f_i.Get("Ypos");
+      hist3->Add(hist3_i);
 
+      c1->cd(4);
+      TH1D* hist4_i = (TH1D*)f_i.Get("time");
+      hist4->Add(hist4_i);
+    }
+    else
+    { 
+      cout << filepath << " is not found" << endl;
+      
+      //Draw all in canvas
+      c1->cd(1);
+      hist1->Draw("H");
+      hist1->Draw("HIST");
+
+      c1->cd(2); 
+      hist2->Draw("HIST");
+
+      c1->cd(3);
+      hist3->Draw("HIST");
+      
+      c1->cd(4);
+      hist4->Draw("HIST");
+
+      //Save as pdf file
+      c1->Print("./results/Output.pdf");
+
+      return 0;
+    }
   }
 
   //Draw all in canvas
