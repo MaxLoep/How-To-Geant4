@@ -50,13 +50,13 @@
     filepath += ".root";
 
 
-    //Check if file exists otherwise stop loop
+    //Check if file exists otherwise plot
     if (FILE *file = fopen(filepath, "r"))
     {
-
       cout << filepath << " is found" << endl;
       //Open file filled by Geant4 simulation 
       TFile f_i(filepath);
+
       //Grab data and add to existing
       c1->cd(1);
       TH1D* hist1_i = (TH1D*)f_i.Get("Ekin");
@@ -77,6 +77,7 @@
     else
     { 
       cout << filepath << " is not found" << endl;
+      
       //Draw all in canvas
       c1->cd(1);
       hist1->Draw("H");
@@ -96,7 +97,6 @@
 
       return 0;
     }
-
   }
 
   //Draw all in canvas
