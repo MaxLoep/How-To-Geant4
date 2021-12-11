@@ -31,6 +31,7 @@ RunAction::RunAction()
   //
   // File number count starts with 0
   G4int filenumber = 0;
+
   // File name variable
   std::string fileName = "RunData";
 
@@ -87,7 +88,7 @@ RunAction::RunAction()
   //auto analysisManager = G4AnalysisManager::Instance();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
   //analysisManager->SetVerboseLevel(1);
-  analysisManager->SetNtupleMerging(true);
+  //analysisManager->SetNtupleMerging(true);
      // Note: merging ntuples is available only with Root output
 
 
@@ -168,6 +169,30 @@ void RunAction::BeginOfRunAction(const G4Run*)
 { 
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
+
+  // File number count starts with 0
+  G4int filenumber = 0;
+
+  // File name variable
+  std::string fileName = "RunData";
+
+  // File number count starts with 0
+  G4int seednumber = 0;
+
+  long seed[2];
+  seed[0] = (long) seednumber;
+  seed[1] = (long) seednumber;
+
+    // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
+  while(std::ifstream(fileName + "_" + std::to_string(filenumber) + ".root"))
+  {
+    filenumber++;
+    seednumber++;
+    seed[0] = (long) seednumber;
+    seed[1] = (long) seednumber;
+  }
+
+  G4Random::setTheSeeds(seed);
 
   // reset accumulables to their initial values
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();

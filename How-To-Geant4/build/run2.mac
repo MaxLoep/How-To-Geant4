@@ -3,14 +3,18 @@
 # To be run preferably in batch, without graphics:
 # % exampleB1 run2.mac
 #
+/control/verbose 0
+/run/verbose 0
+/process/had/verbose 0
+/process/verbose 0
+/process/em/verbose 0
+
+#Set number o worker threads and initialize run
 /run/numberOfThreads 4
 /run/initialize
-#
-/control/verbose 2
-/run/verbose 2
 
 #Set two integers as random seed
-/random/setSeeds 1 1
+#/random/setSeeds 1 1
 
 #
 # proton 210 MeV to the direction (0.,0.,1.)
@@ -33,8 +37,8 @@
 /gps/pos/sigma_r 1.79 mm
 /gps/pos/type Beam
 #
-/run/printProgress 100
-/run/beamOn 10
+/run/printProgress 10
+/run/beamOn 100
 
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

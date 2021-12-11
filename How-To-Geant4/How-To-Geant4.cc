@@ -16,6 +16,7 @@
 #include "Randomize.hh"
 
 #include "G4ParticleHPManager.hh"
+#include "G4HadronicProcessStore.hh"
 
 #include "QBBC.hh"                        //works!
 
@@ -36,6 +37,7 @@
 #include "QGSP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
 #include "QGSP_FTFP_BERT.hh"
+#include "Shielding.hh"
 
 // The main function
 int main(int argc,char** argv)
@@ -95,6 +97,9 @@ int main(int argc,char** argv)
   //G4VModularPhysicsList* physicsList = new QGSP_FTFP_BERT;
 
   runManager->SetUserInitialization(physicsList);
+  
+  //Silence hadronic process summary - this doesn't work here, it works in the macro file!
+  //G4HadronicProcessStore::Instance()->SetVerbose(0);
 
   //old snippets
   //PhysicsList* phys = new PhysicsList;
