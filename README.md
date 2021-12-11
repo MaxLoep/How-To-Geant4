@@ -3,6 +3,7 @@ V0.4.1:\
 -The installed Geant4 version will be detected in the main file "How-to-Geant4.cc". "G4RunManagerFactory" will be used in version >=10.7.0 otherwise the old RunManager is used for backward compatibility.\
 -Running the simulation will create a new output file (RunData_X.root) with increased numbering X instead of deleting the existing one.\
 -Multiple runs can be chained together via the macro file (see 'run2.mac').\
+-Macro file contains command to silence process verbosity at the start of a run (see 'run2.mac').\
 -Random seed for a run can be set in the macro file (see 'run2.mac').\
 -Root macro 'plotHisto.C' merges all output files together and plots them.
 
