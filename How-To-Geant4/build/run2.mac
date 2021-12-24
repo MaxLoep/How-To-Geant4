@@ -3,6 +3,8 @@
 # To be run preferably in batch, without graphics:
 # % exampleB1 run2.mac
 #
+
+#Silence hadronic process summary
 /control/verbose 0
 /run/verbose 0
 /process/had/verbose 0
