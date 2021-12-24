@@ -3,7 +3,14 @@ This file contains examples on how to define materials and how to create geometr
 There are no external dependencies, you find everything in this file. -> You can copy code snippets and paste them in your simulation.
 Remember to include the header-files in your simulation, e.g. if you want to place a Box, you have to put ' #include "G4Box.hh" ' in your file as well.
 */
-#include "B1DetectorConstruction.hh"    //Header file where functions classes and variables may be defined (...)
+
+/*
+E- and B-Fields (see B5 maybe?)
+Scoring
+New ways to create materials , see Book for Application Developer
+*/
+
+#include "DetectorConstruction.hh"    //Header file where functions classes and variables may be defined (...)
 #include "G4RunManager.hh"              //Nessesary. You need this.
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
@@ -24,17 +31,35 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4UnitsTable.hh"              //for units
 #include "G4PhysicalConstants.hh"       //for physial constants like pi
 
+#include "G4VisAttributes.hh"           //for Visualization
+#include "G4Color.hh"                   //for Visualization
 
-B1DetectorConstruction::B1DetectorConstruction()
+//Primitive Scorer from example B4d
+#include "G4SDManager.hh"
+#include "G4SDChargedFilter.hh"
+#include "G4MultiFunctionalDetector.hh"
+#include "G4VPrimitiveScorer.hh"
+#include "G4PSEnergyDeposit.hh"
+#include "G4PSTrackLength.hh"
+#include "G4PSFlatSurfaceCurrent.hh"
+
+#include "G4SDParticleWithEnergyFilter.hh"
+#include "G4SDParticleFilter.hh"
+#include "G4SDChargedFilter.hh"
+
+#include "BoxSD.hh"
+
+
+DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
   fScoringVolume(0)
 { }
 
-B1DetectorConstruction::~B1DetectorConstruction()
+DetectorConstruction::~DetectorConstruction()
 { }
 
 
-G4VPhysicalVolume* B1DetectorConstruction::Construct()
+G4VPhysicalVolume* DetectorConstruction::Construct()
 { 
   //BASICS:
   //
@@ -58,8 +83,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
 
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
-  G4Material* material1 = nist->FindOrBuildMaterial("G4_Pb");
+  G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  G4Material* material1 = nist->FindOrBuildMaterial("G4_Galactic");
 
   // //How to define Elements with NIST in their natural abundance
   // G4Material* H  = nist->FindOrBuildMaterial("G4_H");
@@ -73,20 +98,53 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   // G4Material* Stilbene = nist->FindOrBuildMaterial("G4_STILBENE");
   // G4Material* Graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
   // G4Material* Steel    = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-  // G4Material* Galactic = nist->FindOrBuildMaterial("G4_GALACTIC");
+  // G4Material* Galactic = nist->FindOrBuildMaterial("G4_Galactic");
+ 
+  //How to define Isotopes by hand
+  //G4Isotope* name = new G4Isotope("name", #protons, #nucleons);
+  G4Isotope* U235 = new G4Isotope("U235", 92, 235);
+  G4Isotope* U238 = new G4Isotope("U238", 92, 238);
 
   //How to define Elements by hand
+  //G4Element* name = new G4Element("name", "symbol", atomic number, molar mass);
   G4Element* Hydrogen = new G4Element("Hydrogen", "H", 1., 1.0079*g/mole);
   G4Element* Carbon   = new G4Element("Carbon", "C", 6., 12.011*g/mole);
+  G4Element* Oxygen   = new G4Element("Oxygen", "o", 8., 16.*g/mole);
+
+  //How to define an Element by using isotopes with their abundance
+  //G4Element* name= new G4Element("name", "symbol", #isotopes);
+  G4Element* enrichedUranium= new G4Element("enriched uranium", "U", 2);
+
+  //Add Isotopes to Element
+  enrichedUranium->AddIsotope(U235, 90.*perCent);
+  enrichedUranium->AddIsotope(U238, 10.*perCent);
 
   //How to define a Material by hand
+  //G4Material* name = new G4Material("name", atomic number, molar mass, density)
+  //G4Material* U = new G4Material("Uranium", 92., 238.03*g/mole, 18.950*g/cm3);
+
+  //How to define an Material by using elements with their abundance
   G4Material* BC400 = new G4Material("BC400",      //name
                                       1.032*g/cm3, //density
                                       2);          //number of elements
 
-  //Add elements to material
+  //Add Elements to Material
   BC400->AddElement(Hydrogen, 8.5*perCent);
   BC400->AddElement(Carbon, 91.5*perCent);
+
+  //How to define an Material by using elements with their composition number
+  G4Material* H20 = new G4Material("Water", 1.0*g/mole, 2);
+  H20->AddElement(Hydrogen, 2);
+  H20->AddElement(Oxygen, 1);
+
+  //NE213
+  G4Element* H  = new G4Element("Hydrogen" ,"H" , 1.,  1.01*g/mole);
+  G4Element* C  = new G4Element("Carbon"   ,"C" , 6., 12.00*g/mole);
+  G4Material* ne213 = 
+  new G4Material("NE213", 0.874*g/cm3, 2);
+  ne213->AddElement(H,    9.2*perCent);
+  ne213->AddElement(C,   90.8*perCent);
+
 
 
   //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
@@ -135,8 +193,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
     new G4LogicalVolume(solidBox,            //its solid
                         material1,           //its material
                         "Box");              //its name
-               
-  new G4PVPlacement(0,                       //no rotation
+  
+  //G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
+    new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,50.*cm),     //position
               logicBox,                      //its logical volume
               "Box",                         //its name
@@ -144,6 +203,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
               false,                         //no boolean operation
               0,                             //copy number
               true);                         //overlaps checking
+
+  //Make (in-)visible and give it a color
+  //logicBox->SetVisAttributes (G4VisAttributes::GetInvisible());
+  auto logicBoxVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+  logicBoxVisAtt->SetVisibility(true);
+  logicBox->SetVisAttributes(logicBoxVisAtt);
 
   //
   // How to rotate an object
@@ -161,7 +226,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
     new G4LogicalVolume(solidBoxRotated,     //its solid
                         material1,           //its material
                         "BoxRotated");       //its name
-               
+           
   new G4PVPlacement(BoxRotation,             //no rotation
               G4ThreeVector(0,0,80.*cm),     //position
               logicBoxRotated,               //its logical volume
@@ -450,8 +515,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                     0,                       //copy number
                     true);                   //overlaps checking
 
-                
-  // Set logical Box volume as scoring volume
+
+  //B1 SCORING METHOD
+  //You need also Code for this one to work in:
+  //SteppingAction.cc,  RunAction.cc, EventAction.cc          
+  // Set logical Box volume as scoring volume (must be a logical volume)
   //This is a public variable defined in the header file to make it accessible from other files
   fScoringVolume = logicBox;
 
@@ -461,4 +529,121 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   return physWorld;
 }
 
+void DetectorConstruction::ConstructSDandField()
+{
+  G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
 
+  //
+  //SENSITIVE DETECTORS
+  //You need also Code for this one to work in:
+  //BoxSD.cc, RunAction.cc
+  //Make a Volume a Sensitive Detector (SD); SD are able to access Track/Step information of Particles going through e.g. :
+  //Kinetic energy, Momentum
+
+  //Declare a Sensitive Detector
+  auto boxSD = new BoxSD("BoxSD");
+  G4SDManager::GetSDMpointer()->AddNewDetector(boxSD);
+  //Apply Sensitive Detector to Volume
+  SetSensitiveDetector("Box", boxSD);
+
+
+  // // 
+  // //PRIMITIVE SCORERS
+  // //You need also Code for this one to work in:
+  // //RunAction.cc, EventAction.cc
+  // //Make a Volume a Primitive Scorer (PS); PS are able to save information on events related to inside the volume e.g. :
+  // //energy deposit, track length, current, flux
+
+
+  // //Filters
+  // //Declare filters on Particles, Charge, Energy
+  // G4String fltName,particleName;
+
+  // //charged particle filter
+  // auto charged = new G4SDChargedFilter("chargedFilter");
+  // G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
+
+  // //Proton filter
+  // G4SDParticleFilter* protonFilter =
+  // new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+  
+  // //Electron filter
+  // G4SDParticleFilter* electronFilter =
+  // new G4SDParticleFilter(fltName="electronFilter");
+  // electronFilter->add(particleName="e+");   // accept electrons.
+  // electronFilter->add(particleName="e-");   // accept positrons.
+  
+  // //Neutron filter
+  // G4SDParticleFilter* neutronFilter =
+  // new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
+  
+  // //Gamma filter
+  // G4SDParticleFilter* gammaFilter =
+  // new G4SDParticleFilter("gammaFilter", "gamma");
+
+  // //Proton energy filter (Protons in energy range)
+  // G4SDParticleWithEnergyFilter* protonEnergy=
+  // new G4SDParticleWithEnergyFilter(fltName="protonEnergy");
+  // protonEnergy->add("proton");
+  // protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
+
+  // //Neutron energy filter (Neutrons in energy range)
+  // G4SDParticleWithEnergyFilter* neutronEnergy=
+  // new G4SDParticleWithEnergyFilter(fltName="neutronEnergy");
+  // neutronEnergy->add("neutron");
+  // neutronEnergy->SetKineticEnergy(100*keV, 300*MeV);
+
+  // //Declare a volume as a MultiFunctionalDetector scorer 
+  // auto absDetector = new G4MultiFunctionalDetector("Absorber");
+  // G4SDManager::GetSDMpointer()->AddNewDetector(absDetector);
+
+  // //Declare what quantity should be scored and apply filters
+  // //
+  // //Score Deposited Energy (of protons)
+  // G4VPrimitiveScorer* primitive;
+  // primitive = new G4PSEnergyDeposit("Edep");
+  // //primitive ->SetFilter(protonFilter);
+
+  // //Register Filters to Scorer
+  // absDetector->RegisterPrimitive(primitive);
+
+  // //Score TrackLength (of protons/charged particle)
+  // primitive = new G4PSTrackLength("TrackLength");
+  // //primitive ->SetFilter(protonFilter);
+  // //primitive ->SetFilter(charged);
+
+  // //Register Filters to Scorer
+  // absDetector->RegisterPrimitive(primitive);  
+
+  // //Apply Scorer to Volume
+  // SetSensitiveDetector("Box",absDetector);
+  
+
+  // //Declare a volume as a MultiFunctionalDetector scorer 
+  // //(Same as above. Copied from Example B4d. It has 2 Primitive Scorers)
+  // auto gapDetector = new G4MultiFunctionalDetector("Gap");
+  // G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
+
+  // //Declare what quantity should be scored and apply filters
+  // //
+  // //Score Deposited Energy
+  // primitive = new G4PSEnergyDeposit("Edep");
+  // //primitive ->SetFilter(protonEnergy);
+  // //primitive ->SetFilter(neutronFilter);
+
+  // //Register Filters to Scorer
+  // gapDetector->RegisterPrimitive(primitive);
+  
+  // //Score TrackLength (of protons/charged particle/neutrons)
+  // primitive = new G4PSTrackLength("TrackLength");
+  // //primitive ->SetFilter(chargedFilter);
+  // //primitive ->SetFilter(protonEnergy);
+  // //primitive ->SetFilter(neutronFilter);
+
+  // //Register Filters to Scorer
+  // gapDetector->RegisterPrimitive(primitive);  
+  
+  // //Apply Scorer to Volume
+  // SetSensitiveDetector("Box",gapDetector); 
+
+}

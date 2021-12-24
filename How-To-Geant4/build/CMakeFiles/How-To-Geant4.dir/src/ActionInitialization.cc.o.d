@@ -1,8 +1,11 @@
-CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: \
- /home/maximilian/Git/How-To-Geant4/src/B1EventAction.cc \
+CMakeFiles/How-To-Geant4.dir/src/ActionInitialization.cc.o: \
+ /home/maximilian/Git/How-To-Geant4/src/ActionInitialization.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Git/How-To-Geant4/include/B1EventAction.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserEventAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/ActionInitialization.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserActionInitialization.hh \
+ /home/maximilian/Git/How-To-Geant4/include/PrimaryGeneratorAction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleGun.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ios.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Types.hh \
@@ -213,34 +216,50 @@ CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: \
  /usr/include/c++/10/bits/parse_numbers.h \
  /usr/include/c++/10/bits/std_mutex.h \
  /usr/include/c++/10/bits/unique_lock.h \
- /home/maximilian/Git/How-To-Geant4/include/B1RunAction.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserRunAction.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MergeMode.hh \
- /usr/include/c++/10/functional /usr/include/c++/10/bits/refwrap.h \
- /usr/include/c++/10/bits/std_function.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Event.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/evtdefs.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Allocator.hh \
- /usr/include/c++/10/cstddef \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AllocatorPool.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryVertex.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/pwdefs.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPrimaryGenerator.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ThreeVector.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/ThreeVector.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Utility/defs.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/ThreeVector.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryParticle.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HCofThisEvent.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VHitsCollection.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleDefinition.hh \
  /usr/include/c++/10/vector /usr/include/c++/10/bits/stl_uninitialized.h \
  /usr/include/c++/10/bits/stl_vector.h \
  /usr/include/c++/10/bits/stl_bvector.h \
  /usr/include/c++/10/bits/vector.tcc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Units/PhysicalConstants.h \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Units/SystemOfUnits.h \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PDefManager.hh \
+ /usr/include/c++/10/stdlib.h \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/pwdefs.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AutoLock.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Threading.hh \
+ /usr/include/c++/10/condition_variable \
+ /usr/include/c++/10/ext/concurrence.h \
+ /usr/include/c++/10/bits/shared_ptr.h \
+ /usr/include/c++/10/bits/shared_ptr_base.h \
+ /usr/include/c++/10/bits/allocated_ptr.h \
+ /usr/include/c++/10/bits/refwrap.h /usr/include/c++/10/future \
+ /usr/include/c++/10/thread /usr/include/c++/10/memory \
+ /usr/include/c++/10/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/10/bits/ranges_uninitialized.h \
+ /usr/include/c++/10/bits/shared_ptr_atomic.h \
+ /usr/include/c++/10/bits/atomic_base.h \
+ /usr/include/c++/10/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/10/backward/auto_ptr.h /usr/include/c++/10/atomic \
+ /usr/include/c++/10/bits/atomic_futex.h \
+ /usr/include/c++/10/bits/std_function.h \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleDefinition.icc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryVertex.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Allocator.hh \
+ /usr/include/c++/10/cstddef \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AllocatorPool.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryParticle.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleMomentum.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeneralParticleSource.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Event.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/evtdefs.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HCofThisEvent.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VHitsCollection.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DCofThisEvent.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VDigiCollection.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TrajectoryContainer.hh \
@@ -248,47 +267,17 @@ CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserEventInformation.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Profiler.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Profiler.icc \
+ /usr/include/c++/10/functional \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/PTL/Globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/PTL/Types.hh \
- /usr/include/c++/10/atomic /usr/include/c++/10/bits/atomic_base.h \
- /usr/include/c++/10/bits/atomic_lockfree_defines.h \
- /usr/include/c++/10/memory \
- /usr/include/c++/10/bits/stl_raw_storage_iter.h \
- /usr/include/c++/10/bits/ranges_uninitialized.h \
- /usr/include/c++/10/ext/concurrence.h \
- /usr/include/c++/10/bits/shared_ptr.h \
- /usr/include/c++/10/bits/shared_ptr_base.h \
- /usr/include/c++/10/bits/allocated_ptr.h \
- /usr/include/c++/10/bits/shared_ptr_atomic.h \
- /usr/include/c++/10/backward/auto_ptr.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/PTL/Utility.hh \
  /usr/include/c++/10/set /usr/include/c++/10/bits/stl_set.h \
  /usr/include/c++/10/bits/stl_multiset.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RunManager.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/rundefs.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Event.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EventManager.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StackManager.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserStackingAction.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ClassificationOfNewTrack.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StackedTrack.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TrackStack.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SmartTrackStack.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Track.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Units/PhysicalConstants.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Units/SystemOfUnits.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/trkdefs.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LogicalVolume.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Region.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeomSplitter.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/geomwdefs.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AutoLock.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Threading.hh \
- /usr/include/c++/10/condition_variable /usr/include/c++/10/future \
- /usr/include/c++/10/thread /usr/include/c++/10/bits/atomic_futex.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Region.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPhysicalVolume.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SingleParticleSource.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SPSPosDistribution.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Navigator.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/geomdefs.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AffineTransform.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RotationMatrix.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/Rotation.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/RotationInterfaces.h \
@@ -304,114 +293,6 @@ CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/RotationZ.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/RotationZ.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Vector/Rotation.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPhysicalVolume.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LogicalVolume.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DynamicParticle.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleDefinition.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PDefManager.hh \
- /usr/include/c++/10/stdlib.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleDefinition.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LorentzVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Log.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleMomentum.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ElectronOccupancy.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DynamicParticle.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TrackStatus.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TouchableHandle.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VTouchable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VTouchable.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ReferenceCountedHandle.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserTrackInformation.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsModelCatalog.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Material.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Element.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Isotope.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonisParamElm.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IsotopeVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ElementTable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MaterialPropertiesTable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MaterialPropertiesIndex.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MaterialPropertyVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsOrderedFreeVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsVector.hh \
- /usr/include/c++/10/fstream \
- /usr/include/aarch64-linux-gnu/c++/10/bits/basic_file.h \
- /usr/include/aarch64-linux-gnu/c++/10/bits/c++io.h \
- /usr/include/c++/10/bits/fstream.tcc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsVectorType.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsVector.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MaterialPropertiesTable.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4IonisParamMat.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Exp.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SandiaTable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4OrderedTable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DataVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DataVector.icc \
- /usr/include/assert.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ElementVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MaterialTable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Track.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Step.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StepPoint.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SteppingControl.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StepStatus.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StepPoint.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TrackVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Step.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryTransformer.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleTable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleTableIterator.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleTable.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TrackingManager.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SteppingManager.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/Randomize.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/Randomize.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/DualRand.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandomEngine.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandomEngine.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/JamesRandom.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/MixMaxRng.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/MTwistEngine.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RanecuEngine.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RanluxEngine.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/Ranlux64Engine.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RanshiEngine.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandBinomial.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/Random.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/Random.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Utility/memory.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandBinomial.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandBreitWigner.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandFlat.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Utility/thread_local.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandFlat.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandBreitWigner.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandChiSquare.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandChiSquare.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandExponential.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandExponential.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandExpZiggurat.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandBit.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandBit.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGamma.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGamma.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGauss.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGauss.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGaussQ.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGaussQ.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGaussZiggurat.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGeneral.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandGeneral.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandLandau.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandLandau.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandPoissonQ.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandPoisson.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandPoisson.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandPoissonQ.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandStudentT.h \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Random/RandStudentT.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Navigator.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AffineTransform.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Transform3D.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Geometry/Transform3D.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Geometry/Transform3D.icc \
@@ -420,13 +301,26 @@ CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Geometry/Vector3D.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/CLHEP/Geometry/Normal3D.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AffineTransform.icc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LogicalVolume.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Region.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeomSplitter.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/geomwdefs.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Region.icc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPhysicalVolume.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPhysicalVolume.icc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4LogicalVolume.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GRSVolume.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VTouchable.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VTouchable.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GRSVolume.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GRSSolid.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GRSSolid.icc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TouchableHandle.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ReferenceCountedHandle.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TouchableHistoryHandle.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TouchableHistory.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NavigationHistory.hh \
+ /usr/include/assert.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NavigationLevel.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NavigationLevelRep.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4NavigationLevelRep.icc \
@@ -460,32 +354,43 @@ CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RegularNavigation.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VExternalNavigation.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Navigator.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ProcessManager.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VProcess.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsTable.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsTable.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VParticleChange.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TrackFastVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4FastVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VParticleChange.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ForceCondition.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GPILSelection.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChange.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleChange.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ProcessType.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ProcessVector.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ProcessVector.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ProcessManager.icc \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserSteppingAction.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VSteppingVerbose.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TrackingMessenger.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SPSRandomGenerator.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsOrderedFreeVector.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsVector.hh \
+ /usr/include/c++/10/fstream \
+ /usr/include/aarch64-linux-gnu/c++/10/bits/basic_file.h \
+ /usr/include/aarch64-linux-gnu/c++/10/bits/c++io.h \
+ /usr/include/c++/10/bits/fstream.tcc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Log.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsVectorType.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PhysicsVector.icc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DataInterpolation.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Cache.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4CacheDetails.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SPSAngDistribution.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SPSEneDistribution.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeneralParticleSourceMessenger.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UImessenger.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIdirectory.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcommand.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIparameter.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UItokenNum.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ApplicationState.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserTrackingAction.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RunManagerKernel.hh \
- /usr/include/c++/10/list /usr/include/c++/10/bits/stl_list.h \
- /usr/include/c++/10/bits/list.tcc
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeneralParticleSourceData.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
+ /home/maximilian/Git/How-To-Geant4/include/RunAction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserRunAction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VAccumulable.icc \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4MergeMode.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Accumulable.icc \
+ /home/maximilian/Git/How-To-Geant4/include/EventAction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserEventAction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4THitsMap.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4THitsCollection.hh \
+ /usr/include/c++/10/unordered_map /usr/include/c++/10/bits/hashtable.h \
+ /usr/include/c++/10/bits/hashtable_policy.h \
+ /usr/include/c++/10/bits/unordered_map.h \
+ /home/maximilian/Git/How-To-Geant4/include/SteppingAction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserSteppingAction.hh

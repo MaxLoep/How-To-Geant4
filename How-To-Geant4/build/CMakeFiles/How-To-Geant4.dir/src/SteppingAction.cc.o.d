@@ -1,7 +1,7 @@
-CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.o: \
- /home/maximilian/Git/How-To-Geant4/src/B1SteppingAction.cc \
+CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o: \
+ /home/maximilian/Git/How-To-Geant4/src/SteppingAction.cc \
  /usr/include/stdc-predef.h \
- /home/maximilian/Git/How-To-Geant4/include/B1SteppingAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/SteppingAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserSteppingAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ios.hh \
@@ -213,15 +213,24 @@ CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.o: \
  /usr/include/c++/10/bits/parse_numbers.h \
  /usr/include/c++/10/bits/std_mutex.h \
  /usr/include/c++/10/bits/unique_lock.h \
- /home/maximilian/Git/How-To-Geant4/include/B1EventAction.hh \
+ /home/maximilian/Git/How-To-Geant4/include/EventAction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UserEventAction.hh \
- /home/maximilian/Git/How-To-Geant4/include/B1DetectorConstruction.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserDetectorConstruction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4THitsMap.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4THitsCollection.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VHitsCollection.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Allocator.hh \
+ /usr/include/c++/10/cstddef \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AllocatorPool.hh \
  /usr/include/c++/10/vector /usr/include/c++/10/bits/stl_uninitialized.h \
  /usr/include/c++/10/bits/stl_vector.h \
  /usr/include/c++/10/bits/stl_bvector.h \
- /usr/include/c++/10/bits/vector.tcc \
+ /usr/include/c++/10/bits/vector.tcc /usr/include/c++/10/unordered_map \
+ /usr/include/c++/10/bits/hashtable.h \
+ /usr/include/c++/10/bits/hashtable_policy.h \
+ /usr/include/c++/10/bits/unordered_map.h \
+ /home/maximilian/Git/How-To-Geant4/include/DetectorConstruction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserDetectorConstruction.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Step.hh \
  /usr/include/c++/10/stdlib.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ThreeVector.hh \
@@ -268,9 +277,6 @@ CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.o: \
  /usr/include/c++/10/bits/std_function.h \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VPhysicalVolume.icc \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StepPoint.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Allocator.hh \
- /usr/include/c++/10/cstddef \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AllocatorPool.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SteppingControl.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4StepStatus.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TouchableHandle.hh \
@@ -341,7 +347,6 @@ CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryVertex.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryParticle.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4HCofThisEvent.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VHitsCollection.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4DCofThisEvent.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VDigiCollection.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4TrajectoryContainer.hh \

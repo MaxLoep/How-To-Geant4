@@ -1,22 +1,22 @@
-#ifndef B1RunAction_h
-#define B1RunAction_h 1
+#ifndef RunAction_h
+#define RunAction_h 1
 
 #include "G4UserRunAction.hh"
 #include "G4Accumulable.hh"
 #include "globals.hh"
 
-class G4Run;
+//class G4Run; //Relict form old version of example B1?
 
 /// Run action class
 ///
 /// In EndOfRunAction(), it calculates the dose in the selected volume 
 /// from the energy deposit accumulated via stepping and event actions.
 /// The computed dose is then printed on the screen.
-class B1RunAction : public G4UserRunAction
+class RunAction : public G4UserRunAction
 {
   public:
-    B1RunAction();
-    virtual ~B1RunAction();
+    RunAction();
+    virtual ~RunAction();
 
     // virtual G4Run* GenerateRun();
     virtual void BeginOfRunAction(const G4Run*);

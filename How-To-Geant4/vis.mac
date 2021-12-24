@@ -2,13 +2,9 @@
 # in interactive session
 #
 # Set some default verbose
-#/control/verbose 2
-#/control/saveHistory
-#/run/verbose 2
-
-/run/verbose 0
-/control/verbose 0
-
+/control/verbose 2
+/control/saveHistory
+/run/verbose 2
 
 #
 # Change the default number of threads (in multi-threaded mode)
@@ -16,8 +12,6 @@
 #
 # Initialize kernel
 /run/initialize
-/process/verbose 0
-/process/had/verbose 0
 #
 
 # Macro file for the visualization setting in the initialization phase 
@@ -123,8 +117,8 @@
 #
 # To get nice view
 # Make the "World" box invisible
-#/vis/geometry/set/visibility World 0 false
-/vis/geometry/set/colour World 0 0 0 1 0.8
+/vis/geometry/set/visibility World 0 false
+#/vis/geometry/set/colour World 0 0 0 1 0.8
 #/vis/geometry/set/visibility Mother 0 false
 #/vis/geometry/set/visibility Shape1 0 false
 #/vis/geometry/set/visibility Shape2 0 false
@@ -133,7 +127,7 @@
 
 #Give shapes a colour and set transparency
 #/vis/geometry/set/colour Shapename 0 r g b tranparency
-/vis/geometry/set/colour Box          0 1 0 0 .8
+#/vis/geometry/set/colour Box          0 1 0 0 .8
 /vis/geometry/set/colour BoxRotated   0 0 1 0 .8
 /vis/geometry/set/colour Cylinder     0 1 0 0 .8
 /vis/geometry/set/colour Cylinder2    0 0 1 0 .8
@@ -158,8 +152,9 @@
 #/vis/viewer/flush
 
 
-/gps/particle proton     #particle
-/gps/direction 0 0 1     #oriented along the Z axis
-/gps/ene/type Mono       #monoenergetic:   I=E
-/gps/ene/mono 210. MeV   #sets energy for monoenergetic sources
+/gps/particle proton      #particle
+/gps/position 0 0 -10. cm #GPS position
+/gps/direction 0 0 1      #oriented along the Z axis
+/gps/ene/type Mono        #monoenergetic:   I=E
+/gps/ene/mono 210. MeV    #sets energy for monoenergetic sources
 /gps/pos/type Point 

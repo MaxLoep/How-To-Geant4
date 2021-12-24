@@ -1,4 +1,8 @@
-#include "B1PrimaryGeneratorAction.hh"    //Header file where functions classes and variables may be defined (...)
+/*
+Comment it more
+*/
+
+#include "PrimaryGeneratorAction.hh"    //Header file where functions classes and variables may be defined (...)
      
 #include "G4RunManager.hh"                //Nessesary. You need this.
 #include "G4ParticleTable.hh"             //Nessesary. You need this.
@@ -17,7 +21,7 @@
 // //
 // //PARTICLE GUN
 // //
-// B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
+// PrimaryGeneratorAction::PrimaryGeneratorAction()
 // : G4VUserPrimaryGeneratorAction(),
 //   fParticleGun(0)
 // {
@@ -38,18 +42,19 @@
 // }
 
 
-// B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
+// PrimaryGeneratorAction::~PrimaryGeneratorAction()
 // {
 //   delete fParticleGun;
 
 // }
 
 
-// void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+// void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 // {
 //   fParticleGun->GeneratePrimaryVertex(anEvent);
 // }
 
+//--------------------------------------------------------------------------------------------------------
 
 //
 //GENERAL PARTICLE SOURCE
@@ -57,11 +62,11 @@
 //In existing applications one can simply change your PrimaryGeneratorAction by globally replacing
 //G4ParticleGun with G4GeneralParticleSource --  Geant4 - Book for Application Developers V10.7 
 //
-B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
+PrimaryGeneratorAction::PrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
   fParticleBeam(0)
 {
-  fParticleBeam  = new G4GeneralParticleSource();//n_particle);
+  fParticleBeam  = new G4GeneralParticleSource();
 
   // default particle kinematic
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
@@ -70,22 +75,21 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
 
   fParticleBeam->SetParticleDefinition(particle);
 
-  //GPS doesn't have these two commands; you need to set them in the macro file
+  //GPS doesn't have these three commands; you need to set them in the macro file
+  //fParticleBeam->SetParticlePosition(G4ThreeVector(0,0,0));
   //fParticleBeam->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   //fParticleBeam->SetParticleEnergy(6.*MeV);
-    
-  fParticleBeam->SetParticlePosition(G4ThreeVector(0,0,0));
-
+  
 }
 
 
-B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
+PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
   delete fParticleBeam;
 }
 
 
-void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   fParticleBeam->GeneratePrimaryVertex(anEvent);
 }

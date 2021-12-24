@@ -1,24 +1,25 @@
-#ifndef B1PrimaryGeneratorAction_h
-#define B1PrimaryGeneratorAction_h 1
+#ifndef PrimaryGeneratorAction_h
+#define PrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4ParticleGun.hh"
 #include "G4GeneralParticleSource.hh"
 #include "globals.hh"
 
-class G4ParticleGun;
-class G4GeneralParticleSource;
-class G4Event;
-class G4Box;
+// Empty classes for some reason...
+// class G4ParticleGun;
+// class G4GeneralParticleSource;
+// class G4Event;
+// class G4Box;
 
 // //
 // //PARTICLE GUN
 // //
-// class B1PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+// class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 // {
 //   public:
-//     B1PrimaryGeneratorAction();    
-//     virtual ~B1PrimaryGeneratorAction();
+//     PrimaryGeneratorAction();    
+//     virtual ~PrimaryGeneratorAction();
 
 //     // method from the base class
 //     virtual void GeneratePrimaries(G4Event*);         
@@ -35,11 +36,11 @@ class G4Box;
 //
 // GENERAL PARTICLE SOURCE
 //
-class B1PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    B1PrimaryGeneratorAction();    
-    virtual ~B1PrimaryGeneratorAction();
+    PrimaryGeneratorAction();    
+    virtual ~PrimaryGeneratorAction();
 
     // method from the base class
     virtual void GeneratePrimaries(G4Event*);         

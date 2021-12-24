@@ -211,149 +211,77 @@ How-To-Geant4.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/How-To-Geant4.cc.s
 .PHONY : How-To-Geant4.cc.s
 
-src/B1ActionInitialization.o: src/B1ActionInitialization.cc.o
-.PHONY : src/B1ActionInitialization.o
+src/ActionInitialization.o: src/ActionInitialization.cc.o
+.PHONY : src/ActionInitialization.o
 
 # target to build an object file
-src/B1ActionInitialization.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1ActionInitialization.cc.o
-.PHONY : src/B1ActionInitialization.cc.o
+src/ActionInitialization.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/ActionInitialization.cc.o
+.PHONY : src/ActionInitialization.cc.o
 
-src/B1ActionInitialization.i: src/B1ActionInitialization.cc.i
-.PHONY : src/B1ActionInitialization.i
+src/ActionInitialization.i: src/ActionInitialization.cc.i
+.PHONY : src/ActionInitialization.i
 
 # target to preprocess a source file
-src/B1ActionInitialization.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1ActionInitialization.cc.i
-.PHONY : src/B1ActionInitialization.cc.i
+src/ActionInitialization.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/ActionInitialization.cc.i
+.PHONY : src/ActionInitialization.cc.i
 
-src/B1ActionInitialization.s: src/B1ActionInitialization.cc.s
-.PHONY : src/B1ActionInitialization.s
+src/ActionInitialization.s: src/ActionInitialization.cc.s
+.PHONY : src/ActionInitialization.s
 
 # target to generate assembly for a file
-src/B1ActionInitialization.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1ActionInitialization.cc.s
-.PHONY : src/B1ActionInitialization.cc.s
+src/ActionInitialization.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/ActionInitialization.cc.s
+.PHONY : src/ActionInitialization.cc.s
 
-src/B1DetectorConstruction.o: src/B1DetectorConstruction.cc.o
-.PHONY : src/B1DetectorConstruction.o
+src/BoxSD.o: src/BoxSD.cc.o
+.PHONY : src/BoxSD.o
 
 # target to build an object file
-src/B1DetectorConstruction.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1DetectorConstruction.cc.o
-.PHONY : src/B1DetectorConstruction.cc.o
+src/BoxSD.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.o
+.PHONY : src/BoxSD.cc.o
 
-src/B1DetectorConstruction.i: src/B1DetectorConstruction.cc.i
-.PHONY : src/B1DetectorConstruction.i
+src/BoxSD.i: src/BoxSD.cc.i
+.PHONY : src/BoxSD.i
 
 # target to preprocess a source file
-src/B1DetectorConstruction.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1DetectorConstruction.cc.i
-.PHONY : src/B1DetectorConstruction.cc.i
+src/BoxSD.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.i
+.PHONY : src/BoxSD.cc.i
 
-src/B1DetectorConstruction.s: src/B1DetectorConstruction.cc.s
-.PHONY : src/B1DetectorConstruction.s
+src/BoxSD.s: src/BoxSD.cc.s
+.PHONY : src/BoxSD.s
 
 # target to generate assembly for a file
-src/B1DetectorConstruction.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1DetectorConstruction.cc.s
-.PHONY : src/B1DetectorConstruction.cc.s
+src/BoxSD.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.s
+.PHONY : src/BoxSD.cc.s
 
-src/B1EventAction.o: src/B1EventAction.cc.o
-.PHONY : src/B1EventAction.o
+src/DetectorConstruction.o: src/DetectorConstruction.cc.o
+.PHONY : src/DetectorConstruction.o
 
 # target to build an object file
-src/B1EventAction.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.o
-.PHONY : src/B1EventAction.cc.o
+src/DetectorConstruction.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o
+.PHONY : src/DetectorConstruction.cc.o
 
-src/B1EventAction.i: src/B1EventAction.cc.i
-.PHONY : src/B1EventAction.i
-
-# target to preprocess a source file
-src/B1EventAction.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.i
-.PHONY : src/B1EventAction.cc.i
-
-src/B1EventAction.s: src/B1EventAction.cc.s
-.PHONY : src/B1EventAction.s
-
-# target to generate assembly for a file
-src/B1EventAction.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1EventAction.cc.s
-.PHONY : src/B1EventAction.cc.s
-
-src/B1PrimaryGeneratorAction.o: src/B1PrimaryGeneratorAction.cc.o
-.PHONY : src/B1PrimaryGeneratorAction.o
-
-# target to build an object file
-src/B1PrimaryGeneratorAction.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1PrimaryGeneratorAction.cc.o
-.PHONY : src/B1PrimaryGeneratorAction.cc.o
-
-src/B1PrimaryGeneratorAction.i: src/B1PrimaryGeneratorAction.cc.i
-.PHONY : src/B1PrimaryGeneratorAction.i
+src/DetectorConstruction.i: src/DetectorConstruction.cc.i
+.PHONY : src/DetectorConstruction.i
 
 # target to preprocess a source file
-src/B1PrimaryGeneratorAction.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1PrimaryGeneratorAction.cc.i
-.PHONY : src/B1PrimaryGeneratorAction.cc.i
+src/DetectorConstruction.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.i
+.PHONY : src/DetectorConstruction.cc.i
 
-src/B1PrimaryGeneratorAction.s: src/B1PrimaryGeneratorAction.cc.s
-.PHONY : src/B1PrimaryGeneratorAction.s
-
-# target to generate assembly for a file
-src/B1PrimaryGeneratorAction.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1PrimaryGeneratorAction.cc.s
-.PHONY : src/B1PrimaryGeneratorAction.cc.s
-
-src/B1RunAction.o: src/B1RunAction.cc.o
-.PHONY : src/B1RunAction.o
-
-# target to build an object file
-src/B1RunAction.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1RunAction.cc.o
-.PHONY : src/B1RunAction.cc.o
-
-src/B1RunAction.i: src/B1RunAction.cc.i
-.PHONY : src/B1RunAction.i
-
-# target to preprocess a source file
-src/B1RunAction.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1RunAction.cc.i
-.PHONY : src/B1RunAction.cc.i
-
-src/B1RunAction.s: src/B1RunAction.cc.s
-.PHONY : src/B1RunAction.s
+src/DetectorConstruction.s: src/DetectorConstruction.cc.s
+.PHONY : src/DetectorConstruction.s
 
 # target to generate assembly for a file
-src/B1RunAction.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1RunAction.cc.s
-.PHONY : src/B1RunAction.cc.s
-
-src/B1SteppingAction.o: src/B1SteppingAction.cc.o
-.PHONY : src/B1SteppingAction.o
-
-# target to build an object file
-src/B1SteppingAction.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.o
-.PHONY : src/B1SteppingAction.cc.o
-
-src/B1SteppingAction.i: src/B1SteppingAction.cc.i
-.PHONY : src/B1SteppingAction.i
-
-# target to preprocess a source file
-src/B1SteppingAction.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.i
-.PHONY : src/B1SteppingAction.cc.i
-
-src/B1SteppingAction.s: src/B1SteppingAction.cc.s
-.PHONY : src/B1SteppingAction.s
-
-# target to generate assembly for a file
-src/B1SteppingAction.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/B1SteppingAction.cc.s
-.PHONY : src/B1SteppingAction.cc.s
+src/DetectorConstruction.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.s
+.PHONY : src/DetectorConstruction.cc.s
 
 src/ElectromagneticPhysics.o: src/ElectromagneticPhysics.cc.o
 .PHONY : src/ElectromagneticPhysics.o
@@ -378,6 +306,30 @@ src/ElectromagneticPhysics.s: src/ElectromagneticPhysics.cc.s
 src/ElectromagneticPhysics.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.s
 .PHONY : src/ElectromagneticPhysics.cc.s
+
+src/EventAction.o: src/EventAction.cc.o
+.PHONY : src/EventAction.o
+
+# target to build an object file
+src/EventAction.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o
+.PHONY : src/EventAction.cc.o
+
+src/EventAction.i: src/EventAction.cc.i
+.PHONY : src/EventAction.i
+
+# target to preprocess a source file
+src/EventAction.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.i
+.PHONY : src/EventAction.cc.i
+
+src/EventAction.s: src/EventAction.cc.s
+.PHONY : src/EventAction.s
+
+# target to generate assembly for a file
+src/EventAction.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.s
+.PHONY : src/EventAction.cc.s
 
 src/GammaNuclearPhysics.o: src/GammaNuclearPhysics.cc.o
 .PHONY : src/GammaNuclearPhysics.o
@@ -475,6 +427,78 @@ src/PhysicsList.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.s
 .PHONY : src/PhysicsList.cc.s
 
+src/PrimaryGeneratorAction.o: src/PrimaryGeneratorAction.cc.o
+.PHONY : src/PrimaryGeneratorAction.o
+
+# target to build an object file
+src/PrimaryGeneratorAction.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o
+.PHONY : src/PrimaryGeneratorAction.cc.o
+
+src/PrimaryGeneratorAction.i: src/PrimaryGeneratorAction.cc.i
+.PHONY : src/PrimaryGeneratorAction.i
+
+# target to preprocess a source file
+src/PrimaryGeneratorAction.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.i
+.PHONY : src/PrimaryGeneratorAction.cc.i
+
+src/PrimaryGeneratorAction.s: src/PrimaryGeneratorAction.cc.s
+.PHONY : src/PrimaryGeneratorAction.s
+
+# target to generate assembly for a file
+src/PrimaryGeneratorAction.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.s
+.PHONY : src/PrimaryGeneratorAction.cc.s
+
+src/RunAction.o: src/RunAction.cc.o
+.PHONY : src/RunAction.o
+
+# target to build an object file
+src/RunAction.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o
+.PHONY : src/RunAction.cc.o
+
+src/RunAction.i: src/RunAction.cc.i
+.PHONY : src/RunAction.i
+
+# target to preprocess a source file
+src/RunAction.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.i
+.PHONY : src/RunAction.cc.i
+
+src/RunAction.s: src/RunAction.cc.s
+.PHONY : src/RunAction.s
+
+# target to generate assembly for a file
+src/RunAction.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.s
+.PHONY : src/RunAction.cc.s
+
+src/SteppingAction.o: src/SteppingAction.cc.o
+.PHONY : src/SteppingAction.o
+
+# target to build an object file
+src/SteppingAction.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o
+.PHONY : src/SteppingAction.cc.o
+
+src/SteppingAction.i: src/SteppingAction.cc.i
+.PHONY : src/SteppingAction.i
+
+# target to preprocess a source file
+src/SteppingAction.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.i
+.PHONY : src/SteppingAction.cc.i
+
+src/SteppingAction.s: src/SteppingAction.cc.s
+.PHONY : src/SteppingAction.s
+
+# target to generate assembly for a file
+src/SteppingAction.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.s
+.PHONY : src/SteppingAction.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -492,27 +516,21 @@ help:
 	@echo "... How-To-Geant4.o"
 	@echo "... How-To-Geant4.i"
 	@echo "... How-To-Geant4.s"
-	@echo "... src/B1ActionInitialization.o"
-	@echo "... src/B1ActionInitialization.i"
-	@echo "... src/B1ActionInitialization.s"
-	@echo "... src/B1DetectorConstruction.o"
-	@echo "... src/B1DetectorConstruction.i"
-	@echo "... src/B1DetectorConstruction.s"
-	@echo "... src/B1EventAction.o"
-	@echo "... src/B1EventAction.i"
-	@echo "... src/B1EventAction.s"
-	@echo "... src/B1PrimaryGeneratorAction.o"
-	@echo "... src/B1PrimaryGeneratorAction.i"
-	@echo "... src/B1PrimaryGeneratorAction.s"
-	@echo "... src/B1RunAction.o"
-	@echo "... src/B1RunAction.i"
-	@echo "... src/B1RunAction.s"
-	@echo "... src/B1SteppingAction.o"
-	@echo "... src/B1SteppingAction.i"
-	@echo "... src/B1SteppingAction.s"
+	@echo "... src/ActionInitialization.o"
+	@echo "... src/ActionInitialization.i"
+	@echo "... src/ActionInitialization.s"
+	@echo "... src/BoxSD.o"
+	@echo "... src/BoxSD.i"
+	@echo "... src/BoxSD.s"
+	@echo "... src/DetectorConstruction.o"
+	@echo "... src/DetectorConstruction.i"
+	@echo "... src/DetectorConstruction.s"
 	@echo "... src/ElectromagneticPhysics.o"
 	@echo "... src/ElectromagneticPhysics.i"
 	@echo "... src/ElectromagneticPhysics.s"
+	@echo "... src/EventAction.o"
+	@echo "... src/EventAction.i"
+	@echo "... src/EventAction.s"
 	@echo "... src/GammaNuclearPhysics.o"
 	@echo "... src/GammaNuclearPhysics.i"
 	@echo "... src/GammaNuclearPhysics.s"
@@ -525,6 +543,15 @@ help:
 	@echo "... src/PhysicsList.o"
 	@echo "... src/PhysicsList.i"
 	@echo "... src/PhysicsList.s"
+	@echo "... src/PrimaryGeneratorAction.o"
+	@echo "... src/PrimaryGeneratorAction.i"
+	@echo "... src/PrimaryGeneratorAction.s"
+	@echo "... src/RunAction.o"
+	@echo "... src/RunAction.i"
+	@echo "... src/RunAction.s"
+	@echo "... src/SteppingAction.o"
+	@echo "... src/SteppingAction.i"
+	@echo "... src/SteppingAction.s"
 .PHONY : help
 
 

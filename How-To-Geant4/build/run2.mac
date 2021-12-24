@@ -3,11 +3,18 @@
 # To be run preferably in batch, without graphics:
 # % exampleB1 run2.mac
 #
+/control/verbose 0
+/run/verbose 0
+/process/had/verbose 0
+/process/verbose 0
+/process/em/verbose 0
+
+#Set number o worker threads and initialize run
 /run/numberOfThreads 4
 /run/initialize
-#
-/control/verbose 2
-/run/verbose 2
+
+#Set two integers as random seed
+#/random/setSeeds 1 1
 
 #
 # proton 210 MeV to the direction (0.,0.,1.)
@@ -17,15 +24,30 @@
 #/gun/energy 210 MeV
 
 /gps/particle proton     #particle
+/gps/position 0 0 0      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
-/gps/ene/mono 210. MeV   #sets energy for monoenergetic sources
-/gps/pos/type Point 
+/gps/ene/mono 315. MeV   #sets energy for monoenergetic sources
+#/gps/pos/type Point 
+
+/gps/pos/shape Circle    #the beam geometry is a circle
+/gps/pos/radius 0. mm
+
+#HISKP Cyclotron FWHM is approx 4mm. FWHM = 2.3548*sigma -> sigma = 1.79mm
+/gps/pos/sigma_r 1.79 mm
+/gps/pos/type Beam
 #
-/run/printProgress 100
-/run/beamOn 10000
+/run/printProgress 10
+/run/beamOn 100
 
 
+#max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
+
+#it is possible to simulate more events by repeating the beamOn command several times
+#the events are accumulated, the random seed ~should~ be different/continued from its previous state
+#/run/beamOn 10
+#/run/beamOn 10
+#/run/beamOn 10
 
 
 

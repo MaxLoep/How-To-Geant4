@@ -1,48 +1,51 @@
-#include "PhysicsList.hh"
+/*
+Test physics Lists. Do they work?
+*/
+#include "PhysicsList.hh"                     //Nessesary. You need this.
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
-#include "G4ProcessManager.hh"
+#include "G4ProcessManager.hh"                //Nessesary. You need this.
 #include "G4HadronicInteraction.hh"
 
-#include "G4HadronPhysicsFTF_BIC.hh"
-#include "G4HadronPhysicsQGS_BIC.hh"
+#include "G4HadronPhysicsFTF_BIC.hh"            //works!
+#include "G4HadronPhysicsQGS_BIC.hh"            //works!
 
-#include "G4HadronPhysicsShielding.hh"
-#include "G4HadronPhysicsShieldingLEND.hh"
+#include "G4HadronPhysicsShielding.hh"          //works!
+#include "G4HadronPhysicsShieldingLEND.hh"      //works!
 
-#include "G4HadronPhysicsFTFP_BERT.hh"
-#include "G4HadronPhysicsFTFP_BERT_HP.hh"
-#include "G4HadronPhysicsFTFP_BERT_ATL.hh"
-#include "G4HadronPhysicsFTFP_BERT_TRV.hh"
+#include "G4HadronPhysicsFTFP_BERT.hh"          //works!
+#include "G4HadronPhysicsFTFP_BERT_HP.hh"       //works!
+#include "G4HadronPhysicsFTFP_BERT_ATL.hh"      //works!
+#include "G4HadronPhysicsFTFP_BERT_TRV.hh"      //works!
 
-#include "G4HadronPhysicsQGSP_BIC.hh"
-#include "G4HadronPhysicsQGSP_BIC_HP.hh"
-#include "G4HadronPhysicsQGSP_BIC_AllHP.hh"
-#include "G4HadronPhysicsQGSP_BERT.hh"
-#include "G4HadronPhysicsQGSP_BERT_HP.hh"
-#include "G4HadronPhysicsQGSP_FTFP_BERT.hh"
-#include "G4HadronPhysicsFTFQGSP_BERT.hh"
+#include "G4HadronPhysicsQGSP_BIC.hh"           //works!
+#include "G4HadronPhysicsQGSP_BIC_HP.hh"        //works!
+#include "G4HadronPhysicsQGSP_BIC_AllHP.hh"     //works!
+#include "G4HadronPhysicsQGSP_BERT.hh"          //works!
+#include "G4HadronPhysicsQGSP_BERT_HP.hh"       //works!
+#include "G4HadronPhysicsQGSP_FTFP_BERT.hh"     //works!
+#include "G4HadronPhysicsFTFQGSP_BERT.hh"       //works!
 
-#include "G4HadronPhysicsINCLXX.hh"
+#include "G4HadronPhysicsINCLXX.hh"             //works!
 #include "G4HadronPhysicsNuBeam.hh"
 
-#include "G4HadronElasticPhysics.hh"
-#include "G4HadronElasticPhysicsHP.hh"
-#include "G4HadronElasticPhysicsXS.hh"
-#include "G4HadronElasticPhysicsPHP.hh"
-#include "G4HadronElasticPhysicsLEND.hh"
+#include "G4HadronElasticPhysics.hh"            //works!
+#include "G4HadronElasticPhysicsHP.hh"          //works!
+#include "G4HadronElasticPhysicsXS.hh"          //works!
+#include "G4HadronElasticPhysicsPHP.hh"         //works!
+#include "G4HadronElasticPhysicsLEND.hh"        //works!
 
-#include "G4HadronInelasticQBBC.hh"
+#include "G4HadronInelasticQBBC.hh"             //works!
 
-#include "G4IonPhysics.hh"
-#include "G4IonPhysicsXS.hh"
-#include "G4IonPhysicsPHP.hh"
-#include "G4IonQMDPhysics.hh"
-#include "G4IonINCLXXPhysics.hh"
-#include "G4IonElasticPhysics.hh"
-#include "G4IonBinaryCascadePhysics.hh"
+#include "G4IonPhysics.hh"                      //works!
+#include "G4IonPhysicsXS.hh"                    //works!
+#include "G4IonPhysicsPHP.hh"                   //works!
+#include "G4IonQMDPhysics.hh"                   //works!
+#include "G4IonINCLXXPhysics.hh"                //works!
+#include "G4IonElasticPhysics.hh"               //works!
+#include "G4IonBinaryCascadePhysics.hh"         //works!
 
-#include "G4EmStandardPhysics.hh"
+#include "G4EmStandardPhysics.hh"               //works!
 #include "G4EmStandardPhysics_option1.hh"       //_option1 to _option4 available
 #include "G4EmStandardPhysicsGS.hh"
 #include "G4EmStandardPhysicsSS.hh"
@@ -60,7 +63,7 @@
 #include "G4EmLivermorePhysics.hh"
 #include "G4EmLivermorePolarizedPhysics.hh"
 
-#include "G4StoppingPhysics.hh"
+#include "G4StoppingPhysics.hh"                 //works!
 #include "G4VHadronPhysics.hh"
 #include "G4OpticalPhysics.hh"
 #include "G4SpinDecayPhysics.hh"
@@ -69,8 +72,8 @@
 #include "G4FastSimulationPhysics.hh"
 #include "G4HadronDElasticPhysics.hh"
 #include "G4HadronHElasticPhysics.hh"
-#include "G4DecayPhysics.hh"
-#include "G4RadioactiveDecayPhysics.hh"
+#include "G4DecayPhysics.hh"                     //works!
+#include "G4RadioactiveDecayPhysics.hh"          //works!
 
 #include "G4Neutron.hh"
 
@@ -93,20 +96,36 @@ PhysicsList::PhysicsList()
   new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);
   new G4UnitDefinition( "mm2/g",  "mm2/g", "Surface/Mass", mm2/g);
   new G4UnitDefinition( "um2/mg", "um2/mg","Surface/Mass", um*um/mg);
-    
+
   // Hadron Elastic scattering
-  fHadronElastic = new HadronElasticPhysicsHP(verb);
+  fHadronElastic = new G4HadronElasticPhysics(verb);
+  //fHadronElastic = new G4HadronElasticPhysicsHP(verb);
+  //fHadronElastic = new G4HadronElasticPhysicsXS(verb);
+  //fHadronElastic = new G4HadronElasticPhysicsPHP(verb);
+  //fHadronElastic = new G4HadronElasticPhysicsLEND(verb);
+
+  //fHadronElastic = new HadronElasticPhysicsHP(verb);
   RegisterPhysics(fHadronElastic);
   
   // Hadron Inelastic Physics
+  //fHadronInelastic = new G4HadronPhysicsFTF_BIC(verb);
+  //fHadronInelastic = new G4HadronPhysicsQGS_BIC(verb);
+  //fHadronInelastic = new G4HadronPhysicsShielding(verb);
+  //fHadronInelastic = new G4HadronPhysicsShieldingLEND(verb);
+  //fHadronInelastic = new G4HadronPhysicsFTFP_BERT(verb);
   //fHadronInelastic = new G4HadronPhysicsFTFP_BERT_HP(verb);
+  //fHadronInelastic = new G4HadronPhysicsFTFP_BERT_ATL(verb);
+  //fHadronInelastic = new G4HadronPhysicsFTFP_BERT_TRV(verb);
   //fHadronInelastic = new G4HadronPhysicsQGSP_BIC(verb);
   //fHadronInelastic = new G4HadronPhysicsQGSP_BIC_HP(verb);
   //fHadronInelastic = new G4HadronPhysicsQGSP_BIC_AllHP(verb);
-  fHadronInelastic = new G4HadronInelasticQBBC(verb);
+  //fHadronInelastic = new G4HadronPhysicsQGSP_BERT(verb);
+  //fHadronInelastic = new G4HadronPhysicsQGSP_BERT_HP(verb);
+  //fHadronInelastic = new G4HadronPhysicsQGSP_FTFP_BERT(verb);
+  fHadronInelastic = new G4HadronPhysicsFTFQGSP_BERT(verb);
+
+  //fHadronInelastic = new G4HadronInelasticQBBC(verb);
   //fHadronInelastic = new G4HadronPhysicsINCLXX(verb);
-  //fHadronInelastic = new FTFP_INCLXX_HP(verb);
-  //fHadronInelastic = new QGSP_INCLXX_HP(verb);
   RegisterPhysics(fHadronInelastic);
 
   // Ion Elastic Physics
@@ -114,9 +133,13 @@ PhysicsList::PhysicsList()
   RegisterPhysics(fIonElastic);
 
   // Ion Inelastic Physics
-  fIonInelastic = new G4IonPhysicsXS(verb);
+  fIonInelastic = new G4IonPhysics(verb);
+  //fIonInelastic = new G4IonPhysicsXS(verb);
   //fIonInelastic = new G4IonPhysicsPHP(verb);
   //fIonInelastic = new G4IonINCLXXPhysics(verb);
+  //fIonInelastic = new G4IonQMDPhysics(verb);
+  //fIonInelastic = new G4IonBinaryCascadePhysics(verb);
+  
   RegisterPhysics(fIonInelastic);
 
   // stopping Particles
