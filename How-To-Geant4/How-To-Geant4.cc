@@ -13,7 +13,7 @@
 #include "G4UImanager.hh"                 //Nessesary. You need this.
 #include "G4VisExecutive.hh"              //Nessesary. You need this.
 #include "G4UIExecutive.hh"               //Nessesary. You need this.
-#include "Randomize.hh"
+#include "Randomize.hh"                   //To use the randomize-function
 
 #include "G4ParticleHPManager.hh"
 #include "G4HadronicProcessStore.hh"
