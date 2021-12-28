@@ -125,10 +125,24 @@ CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/maximilian/Git/How-To-Geant4/src/DetectorConstruction.cc -o CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.s
 
+CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
+CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o: ../src/DetectorMessenger.cc
+CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o -c /home/maximilian/Git/How-To-Geant4/src/DetectorMessenger.cc
+
+CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/maximilian/Git/How-To-Geant4/src/DetectorMessenger.cc > CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.i
+
+CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/maximilian/Git/How-To-Geant4/src/DetectorMessenger.cc -o CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.s
+
 CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o: ../src/ElectromagneticPhysics.cc
 CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o -c /home/maximilian/Git/How-To-Geant4/src/ElectromagneticPhysics.cc
 
 CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.s: cmake_force
 CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o: ../src/EventAction.cc
 CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o -c /home/maximilian/Git/How-To-Geant4/src/EventAction.cc
 
 CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.s: cmake_force
 CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o: ../src/GammaNuclearPhysics.cc
 CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o -c /home/maximilian/Git/How-To-Geant4/src/GammaNuclearPhysics.cc
 
 CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.i: cmake_force
@@ -170,7 +184,7 @@ CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.s: cmake_force
 CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o: ../src/HadronElasticPhysicsHP.cc
 CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.o -c /home/maximilian/Git/How-To-Geant4/src/HadronElasticPhysicsHP.cc
 
 CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.i: cmake_force
@@ -184,7 +198,7 @@ CMakeFiles/How-To-Geant4.dir/src/HadronElasticPhysicsHP.cc.s: cmake_force
 CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o: ../src/NeutronHPMessenger.cc
 CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.o -c /home/maximilian/Git/How-To-Geant4/src/NeutronHPMessenger.cc
 
 CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.i: cmake_force
@@ -198,7 +212,7 @@ CMakeFiles/How-To-Geant4.dir/src/NeutronHPMessenger.cc.s: cmake_force
 CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o: ../src/PhysicsList.cc
 CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.o -c /home/maximilian/Git/How-To-Geant4/src/PhysicsList.cc
 
 CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.i: cmake_force
@@ -212,7 +226,7 @@ CMakeFiles/How-To-Geant4.dir/src/PhysicsList.cc.s: cmake_force
 CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGeneratorAction.cc
 CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o -c /home/maximilian/Git/How-To-Geant4/src/PrimaryGeneratorAction.cc
 
 CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.i: cmake_force
@@ -226,7 +240,7 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.s: cmake_force
 CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o: ../src/RunAction.cc
 CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.o -c /home/maximilian/Git/How-To-Geant4/src/RunAction.cc
 
 CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.i: cmake_force
@@ -240,7 +254,7 @@ CMakeFiles/How-To-Geant4.dir/src/RunAction.cc.s: cmake_force
 CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o: CMakeFiles/How-To-Geant4.dir/flags.make
 CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o: ../src/SteppingAction.cc
 CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o: CMakeFiles/How-To-Geant4.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o -MF CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o.d -o CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o -c /home/maximilian/Git/How-To-Geant4/src/SteppingAction.cc
 
 CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.i: cmake_force
@@ -257,6 +271,7 @@ How__To__Geant4_OBJECTS = \
 "CMakeFiles/How-To-Geant4.dir/src/ActionInitialization.cc.o" \
 "CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.o" \
 "CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o" \
+"CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o" \
 "CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o" \
 "CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o" \
 "CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o" \
@@ -274,6 +289,7 @@ How-To-Geant4: CMakeFiles/How-To-Geant4.dir/How-To-Geant4.cc.o
 How-To-Geant4: CMakeFiles/How-To-Geant4.dir/src/ActionInitialization.cc.o
 How-To-Geant4: CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.o
 How-To-Geant4: CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o
+How-To-Geant4: CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o
 How-To-Geant4: CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o
 How-To-Geant4: CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o
 How-To-Geant4: CMakeFiles/How-To-Geant4.dir/src/GammaNuclearPhysics.cc.o
@@ -325,7 +341,7 @@ How-To-Geant4: /home/maximilian/Geant4/geant4.10.7.1/lib/libG4global.so
 How-To-Geant4: /home/maximilian/Geant4/geant4.10.7.1/lib/libG4clhep.so
 How-To-Geant4: /home/maximilian/Geant4/geant4.10.7.1/lib/libG4ptl.so.0.0.2
 How-To-Geant4: CMakeFiles/How-To-Geant4.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable How-To-Geant4"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/maximilian/Git/How-To-Geant4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable How-To-Geant4"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/How-To-Geant4.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

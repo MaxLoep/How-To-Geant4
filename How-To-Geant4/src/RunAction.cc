@@ -19,6 +19,9 @@ Understand what this does and comment it
 #include "Analysis.hh"              //For Output file format
 
 
+//Set a 0 to accumulate runs into one output file or to 1 to create one output file per run
+G4int SaveEachRun = 1;
+
 RunAction::RunAction()
 : G4UserRunAction(),
   fEdep(0.),
@@ -27,25 +30,33 @@ RunAction::RunAction()
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
 
-  // Create an output file which increases in number if the simulation is run again
-  //
-  // File number count starts with 0
-  G4int filenumber = 0;
-
-  // File name variable
-  std::string fileName = "RunData";
-
-  // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-  while(std::ifstream(fileName + "_" + std::to_string(filenumber) + ".root"))
+  //use this code to accumulate runs into one output file
+  if(SaveEachRun == 0)
   {
-    filenumber++;
+    //
+    //Open output file at the start of the simulation
+    //
+
+    // Create an output file which increases in number if the simulation is run again
+    //
+    // File number count starts with 0
+    G4int filenumber = 0;
+
+    // File name variable
+    std::string fileName = "RunData";
+
+    // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
+    while(std::ifstream(fileName + "_" + std::to_string(filenumber) + ".root"))
+    {
+      filenumber++;
+    }
+
+    // Set final file name 
+    fileName = "RunData_" + std::to_string(filenumber);
+
+    // Create the file
+    analysisManager->OpenFile(fileName);
   }
-
-  // Set final file name 
-  fileName = "RunData_" + std::to_string(filenumber);
-
-  // Create the file
-  analysisManager->OpenFile(fileName);
 
   // Creating histograms
   analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
@@ -159,22 +170,60 @@ RunAction::RunAction()
 
 RunAction::~RunAction()
 {
-  auto analysisManager = G4AnalysisManager::Instance();
-  analysisManager->Write();
-  analysisManager->CloseFile();
+  //use this code to accumulate runs into one output file
+  if(SaveEachRun == 0)
+  {
+    //close file at end of simulation
+    auto analysisManager = G4AnalysisManager::Instance();
+    analysisManager->Write();
+    analysisManager->CloseFile();
+  }
 }
 
 
 void RunAction::BeginOfRunAction(const G4Run*)
 { 
+  //use this code to create one file per run
+  if(SaveEachRun == 1)
+  {
+    //
+    //Create a new File with each Run
+    //
+    // Get analysis manager
+    auto analysisManager = G4AnalysisManager::Instance();
+
+    // Create an output file which increases in number if the simulation is run again
+    //
+    // File number count starts with 0
+    G4int filenumber = 0;
+
+    // File name variable
+    std::string fileName = "RunData";
+
+    // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
+    while(std::ifstream(fileName + "_" + std::to_string(filenumber) + ".root"))
+    {
+      filenumber++;
+    }
+
+    // Set final file name 
+    fileName = "RunData_" + std::to_string(filenumber);
+
+    // Create the file
+    analysisManager->OpenFile(fileName);
+  }
+
+  //
+  //Check number of files an change Random Seed
+  //
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
 
-  // File number count starts with 0
-  G4int filenumber = 0;
+  // File number count for seed starts with 0
+  G4int filenumber_seed = 0;
 
   // File name variable
-  std::string fileName = "RunData";
+  std::string fileName_seed = "RunData";
 
   // File number count starts with 0
   G4int seednumber = 0;
@@ -184,9 +233,9 @@ void RunAction::BeginOfRunAction(const G4Run*)
   seed[1] = (long) seednumber;
 
     // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-  while(std::ifstream(fileName + "_" + std::to_string(filenumber) + ".root"))
+  while(std::ifstream(fileName_seed+ "_" + std::to_string(filenumber_seed) + ".root"))
   {
-    filenumber++;
+    filenumber_seed++;
     seednumber++;
     seed[0] = (long) seednumber;
     seed[1] = (long) seednumber;
@@ -215,6 +264,18 @@ void RunAction::BeginOfRunAction(const G4Run*)
 
 void RunAction::EndOfRunAction(const G4Run* run)
 {
+  //use this code to create one file per run
+  if(SaveEachRun == 1)
+  {
+    //
+    //Close the file at the end of a run
+    //
+    auto analysisManager = G4AnalysisManager::Instance();
+    analysisManager->Write();
+    analysisManager->CloseFile();
+  }
+
+
   G4int nofEvents = run->GetNumberOfEvent();
   if (nofEvents == 0) return;
 

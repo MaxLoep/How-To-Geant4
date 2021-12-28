@@ -4,6 +4,10 @@
 # % exampleB1 run2.mac
 #
 
+#/testhadr/det/setMat G4_Co
+#/testhadr/det/setThickness 10 cm
+#/testhadr/det/setSizeYZ 10 cm
+
 #Silence hadronic process summary
 /control/verbose 0
 /run/verbose 0
@@ -82,3 +86,19 @@
 
 #/gps/pos/shape Circle    #the beam geometry is a circle
 #/gps/pos/radius 3. mm    #of diameter of 3 mm
+
+
+
+/testhadr/det/setThickness 15 cm
+/testhadr/det/setSizeYZ 15 cm
+
+/run/initialize
+/run/printProgress 20
+/run/beamOn 200
+
+/testhadr/det/setThickness 20 cm
+/testhadr/det/setSizeYZ 20 cm
+
+/run/initialize
+/run/printProgress 30
+/run/beamOn 300

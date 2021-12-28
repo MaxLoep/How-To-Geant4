@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/How-To-Geant4.dir/src/BoxSD.cc.o.d"
   "CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o"
   "CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.o.d"
+  "CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o"
+  "CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o.d"
   "CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o"
   "CMakeFiles/How-To-Geant4.dir/src/ElectromagneticPhysics.cc.o.d"
   "CMakeFiles/How-To-Geant4.dir/src/EventAction.cc.o"

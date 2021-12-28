@@ -283,6 +283,30 @@ src/DetectorConstruction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/DetectorConstruction.cc.s
 .PHONY : src/DetectorConstruction.cc.s
 
+src/DetectorMessenger.o: src/DetectorMessenger.cc.o
+.PHONY : src/DetectorMessenger.o
+
+# target to build an object file
+src/DetectorMessenger.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o
+.PHONY : src/DetectorMessenger.cc.o
+
+src/DetectorMessenger.i: src/DetectorMessenger.cc.i
+.PHONY : src/DetectorMessenger.i
+
+# target to preprocess a source file
+src/DetectorMessenger.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.i
+.PHONY : src/DetectorMessenger.cc.i
+
+src/DetectorMessenger.s: src/DetectorMessenger.cc.s
+.PHONY : src/DetectorMessenger.s
+
+# target to generate assembly for a file
+src/DetectorMessenger.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/How-To-Geant4.dir/build.make CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.s
+.PHONY : src/DetectorMessenger.cc.s
+
 src/ElectromagneticPhysics.o: src/ElectromagneticPhysics.cc.o
 .PHONY : src/ElectromagneticPhysics.o
 
@@ -525,6 +549,9 @@ help:
 	@echo "... src/DetectorConstruction.o"
 	@echo "... src/DetectorConstruction.i"
 	@echo "... src/DetectorConstruction.s"
+	@echo "... src/DetectorMessenger.o"
+	@echo "... src/DetectorMessenger.i"
+	@echo "... src/DetectorMessenger.s"
 	@echo "... src/ElectromagneticPhysics.o"
 	@echo "... src/ElectromagneticPhysics.i"
 	@echo "... src/ElectromagneticPhysics.s"

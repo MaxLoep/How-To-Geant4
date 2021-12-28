@@ -26,8 +26,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.20.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.20.3/CMakeSystem.cmake"
   "../plotHisto.C"
-  "../run1.mac"
-  "../run2.mac"
+  "../run.mac"
   "../vis.mac"
   "/opt/cmake-3.20.3-linux-aarch64/share/cmake-3.20/Modules/CMakeCInformation.cmake"
   "/opt/cmake-3.20.3-linux-aarch64/share/cmake-3.20/Modules/CMakeCXXInformation.cmake"
@@ -109,8 +108,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "run1.mac"
-  "run2.mac"
+  "run.mac"
   "vis.mac"
   "plotHisto.C"
   "Plot.C"

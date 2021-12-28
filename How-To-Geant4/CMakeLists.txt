@@ -44,8 +44,7 @@ target_link_libraries(How-To-Geant4 ${Geant4_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(EXAMPLEHow-To-Geant4_SCRIPTS
-  run1.mac
-  run2.mac
+  run.mac
   vis.mac
   plotHisto.C
   Plot.C

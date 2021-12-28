@@ -11,6 +11,7 @@ New ways to create materials , see Book for Application Developer
 */
 
 #include "DetectorConstruction.hh"    //Header file where functions classes and variables may be defined (...)
+#include "DetectorMessenger.hh"
 #include "G4RunManager.hh"              //Nessesary. You need this.
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
@@ -47,16 +48,24 @@ New ways to create materials , see Book for Application Developer
 #include "G4SDParticleFilter.hh"
 #include "G4SDChargedFilter.hh"
 
-#include "BoxSD.hh"
+#include "G4GeometryManager.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SolidStore.hh"
+
+#include "BoxSD.hh"                     //the SensitiveDetector
 
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
-  fScoringVolume(0)
-{ }
+  fScoringVolume(0), fDetectorMessenger(nullptr)
+{ 
+  // create commands for interactive definition of the geometry
+  fDetectorMessenger = new DetectorMessenger(this);
+}
 
 DetectorConstruction::~DetectorConstruction()
-{ }
+{ delete fDetectorMessenger; }
 
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
@@ -145,7 +154,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   ne213->AddElement(H,    9.2*perCent);
   ne213->AddElement(C,   90.8*perCent);
 
-
+  // // Cleanup old geometry
+  G4GeometryManager::GetInstance()->OpenGeometry();
+  G4PhysicalVolumeStore::GetInstance()->Clean();
+  //G4LogicalVolumeStore::GetInstance()->Clean();
+  G4SolidStore::GetInstance()->Clean();
 
   //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
   //Start with creating a World-Volume to place things in
@@ -153,6 +166,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // World
   // 
   G4double world_sizeXYZ = 2.*m;
+  boxsizeX      = 10. *cm;
+  boxsizeYZ     = 10. *cm;
   
   G4Box* solidWorld =    
     new G4Box("World",                       //its name
@@ -186,8 +201,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Box
   //  
   G4Box* solidBox =    
-    new G4Box("Box",                         //its name
-        10*cm, 10*cm, 10*cm);                //its size: half x, half y, half z
+    new G4Box("sBox",                         //its name
+        boxsizeX, boxsizeYZ, boxsizeYZ);                //its size: half x, half y, half z
       
   G4LogicalVolume* logicBox =                         
     new G4LogicalVolume(solidBox,            //its solid
@@ -529,6 +544,29 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   return physWorld;
 }
 
+//
+//Functions for own commands
+//
+void DetectorConstruction::SetAbsorThickness(G4double value)
+{
+  boxsizeX = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry(true);
+
+  G4cout  << "\n boxsizeX is now " << boxsizeX / cm << " cm" << G4endl;
+}
+
+
+void DetectorConstruction::SetAbsorSizeYZ(G4double value)
+{
+  boxsizeYZ = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry(true);
+
+  G4cout  << "\n boxsizeYZ is now " << boxsizeYZ / cm << " cm" << G4endl;
+}
+
+//
+//Assign Detectors and Scorers to Volume
+//
 void DetectorConstruction::ConstructSDandField()
 {
   G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
