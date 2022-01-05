@@ -1,8 +1,8 @@
 /run/verbose 2
 /run/initialize /vis/open OGL 600x600-0/tracking/storeTrajectory 2
 /run/reinitializeGeometry 
-600x600-0+0
-/vis/viewer/refresh
+/run/reinitializeGeometry 
+resh
 /vis/viewer/set/autoRefresh false
 /vis/verbose errors
 /vis/drawVolume
@@ -66,12 +66,18 @@
 /gps/ene/mono 210. MeV
 /gps/pos/type Point
 /run/beamOn 1
-/testhadr/det/setThickness <Thickness> <Unit>
-/testhadr/det/setThickness 15 cm
+/custom/det/setThickness 5 cm
 /run/reinitializeGeometry
 /vis/scene/notifyHandlers scene-0
 /run/beamOn 1
 /vis/scene/notifyHandlers scene-0
 /vis/scene/notifyHandlers scene-0
 /vis/scene/notifyHandlers scene-0
-/vis/set/touchable World 0 Box 0
+/run/beamOn 1
+/custom/det/setThickness 15 cm
+/run/reinitializeGeometry
+/vis/scene/notifyHandlers scene-0
+/run/beamOn 1
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-0

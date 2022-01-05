@@ -11,7 +11,7 @@ New ways to create materials , see Book for Application Developer
 */
 
 #include "DetectorConstruction.hh"    //Header file where functions classes and variables may be defined (...)
-#include "DetectorMessenger.hh"
+#include "DetectorMessenger.hh"       //Header file for own macro commands
 #include "G4RunManager.hh"              //Nessesary. You need this.
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
@@ -58,10 +58,14 @@ New ways to create materials , see Book for Application Developer
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
-  fScoringVolume(0), fDetectorMessenger(nullptr)
+  fDetectorMessenger(nullptr), fScoringVolume(0) 
 { 
   // create commands for interactive definition of the geometry
   fDetectorMessenger = new DetectorMessenger(this);
+
+  //Variables which can be changed by macro commands should be set here
+  boxsizeX      = 10. *cm;
+  boxsizeYZ     = 10. *cm;
 }
 
 DetectorConstruction::~DetectorConstruction()
@@ -154,10 +158,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   ne213->AddElement(H,    9.2*perCent);
   ne213->AddElement(C,   90.8*perCent);
 
-  // // Cleanup old geometry
+  //Cleanup old geometry
   G4GeometryManager::GetInstance()->OpenGeometry();
   G4PhysicalVolumeStore::GetInstance()->Clean();
-  //G4LogicalVolumeStore::GetInstance()->Clean();
+  G4LogicalVolumeStore::GetInstance()->Clean();
   G4SolidStore::GetInstance()->Clean();
 
   //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
@@ -166,8 +170,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // World
   // 
   G4double world_sizeXYZ = 2.*m;
-  boxsizeX      = 10. *cm;
-  boxsizeYZ     = 10. *cm;
   
   G4Box* solidWorld =    
     new G4Box("World",                       //its name
@@ -188,21 +190,25 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                       0,                     //copy number
                       true);                 //overlaps checking
 
+  //Make world-volume invisible
+  auto logicWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 1)); //(r, g, b , transparency)
+  logicWorldVisAtt->SetVisibility(false);
+  logicWorld->SetVisAttributes(logicWorldVisAtt);
 
   /*
   How to create solids
   It's basically a process with 3 steps:
   1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
   2.: Make it a Logical Volume by assigning a material to it
-  3.: Place it in our simulation
+  3.: Place it in your simulation
   */ 
 
   //     
   // Box
   //  
   G4Box* solidBox =    
-    new G4Box("sBox",                         //its name
-        boxsizeX, boxsizeYZ, boxsizeYZ);                //its size: half x, half y, half z
+    new G4Box("sBox",                        //its name
+        boxsizeX, boxsizeYZ, boxsizeYZ);     //its size: half x, half y, half z
       
   G4LogicalVolume* logicBox =                         
     new G4LogicalVolume(solidBox,            //its solid
@@ -228,6 +234,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // How to rotate an object
   //
+  //Create a Rotation Matrix
   G4RotationMatrix* BoxRotation = new G4RotationMatrix();
   BoxRotation->rotateX(45*deg);
   BoxRotation->rotateY(45*deg);
@@ -242,7 +249,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                         material1,           //its material
                         "BoxRotated");       //its name
            
-  new G4PVPlacement(BoxRotation,             //no rotation
+  new G4PVPlacement(BoxRotation,             // <----------- ROTATION HAPPENS HERE!
               G4ThreeVector(0,0,80.*cm),     //position
               logicBoxRotated,               //its logical volume
               "Box",                         //its name
@@ -545,22 +552,25 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 }
 
 //
-//Functions for own commands
+//Functions for custom GUI and macro commands - see DetectorMessenger.cc
 //
+
+//Function to change the variable 'boxsizeX' 
 void DetectorConstruction::SetAbsorThickness(G4double value)
 {
+  //assign a new 'value' to the variable 'boxsizeX' 
   boxsizeX = value;
-  G4RunManager::GetRunManager()->ReinitializeGeometry(true);
-
+  //Resetting a variable dies not change your geometry; you need to reinitialize the whole geometry
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+  //Output message to console for confirmaton that something happened
   G4cout  << "\n boxsizeX is now " << boxsizeX / cm << " cm" << G4endl;
 }
 
-
+//Same as above
 void DetectorConstruction::SetAbsorSizeYZ(G4double value)
 {
   boxsizeYZ = value;
-  G4RunManager::GetRunManager()->ReinitializeGeometry(true);
-
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
   G4cout  << "\n boxsizeYZ is now " << boxsizeYZ / cm << " cm" << G4endl;
 }
 

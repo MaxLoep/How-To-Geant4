@@ -3054,6 +3054,9 @@ CMakeFiles/How-To-Geant4.dir/src/DetectorMessenger.cc.o: ../src/DetectorMessenge
   /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcommand.hh \
   /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIparameter.hh \
   /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithAString.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithABool.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithAnInteger.hh \
+  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithADouble.hh \
   /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithADoubleAndUnit.hh \
   /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithoutParameter.hh
 
@@ -9243,6 +9246,8 @@ CMakeFiles/How-To-Geant4.dir/src/SteppingAction.cc.o: ../src/SteppingAction.cc \
 ../include/ElectromagneticPhysics.hh:
 
 ../src/ElectromagneticPhysics.cc:
+
+/home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UIcmdWithAnInteger.hh:
 
 /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SolidStore.hh:
 

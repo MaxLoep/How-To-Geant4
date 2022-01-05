@@ -19,8 +19,8 @@ Understand what this does and comment it
 #include "Analysis.hh"              //For Output file format
 
 
-//Set a 0 to accumulate runs into one output file or to 1 to create one output file per run
-G4int SaveEachRun = 1;
+//Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
+G4bool SaveEachRun = true;
 
 RunAction::RunAction()
 : G4UserRunAction(),
@@ -31,7 +31,7 @@ RunAction::RunAction()
   auto analysisManager = G4AnalysisManager::Instance();
 
   //use this code to accumulate runs into one output file
-  if(SaveEachRun == 0)
+  if(SaveEachRun == false)
   {
     //
     //Open output file at the start of the simulation
@@ -171,7 +171,7 @@ RunAction::RunAction()
 RunAction::~RunAction()
 {
   //use this code to accumulate runs into one output file
-  if(SaveEachRun == 0)
+  if(SaveEachRun == false)
   {
     //close file at end of simulation
     auto analysisManager = G4AnalysisManager::Instance();
@@ -183,8 +183,11 @@ RunAction::~RunAction()
 
 void RunAction::BeginOfRunAction(const G4Run*)
 { 
+  //G4RunManager::GetRunManager()->GeometryHasBeenModified();
+  //G4RunManager::GetRunManager()->ReinitializeGeometry();
+
   //use this code to create one file per run
-  if(SaveEachRun == 1)
+  if(SaveEachRun == true)
   {
     //
     //Create a new File with each Run
@@ -265,7 +268,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
 void RunAction::EndOfRunAction(const G4Run* run)
 {
   //use this code to create one file per run
-  if(SaveEachRun == 1)
+  if(SaveEachRun == true)
   {
     //
     //Close the file at the end of a run

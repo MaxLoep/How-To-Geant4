@@ -1,12 +1,21 @@
+/*
+This file contains examples on how to create custom GUI-commands and macro-file-commands.
+The actual functions can be found in files where they change variables, e.g. DetectorConstruction.cc
+*/
+
 #include "DetectorMessenger.hh"
 
 #include "DetectorConstruction.hh"
-#include "G4UIdirectory.hh"
+#include "G4UIdirectory.hh"               //to create directories to sort your custom commands
 #include "G4UIcommand.hh"
 #include "G4UIparameter.hh"
-#include "G4UIcmdWithAString.hh"
-#include "G4UIcmdWithADoubleAndUnit.hh"
-#include "G4UIcmdWithoutParameter.hh"
+
+#include "G4UIcmdWithAString.hh"          //for commands with a string
+#include "G4UIcmdWithABool.hh"            //for commands with a bool
+#include "G4UIcmdWithAnInteger.hh"        //for commands with an integer
+#include "G4UIcmdWithADouble.hh"          //for commands with a double
+#include "G4UIcmdWithADoubleAndUnit.hh"   //for commands with a double and a unit
+#include "G4UIcmdWithoutParameter.hh"     //for commands without a parameter
 
 
 DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
@@ -14,33 +23,36 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
  fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), fMaterCmd(nullptr),
  fThickCmd(nullptr), fSizeYZCmd(nullptr), fIsotopeCmd(nullptr)
 {
-  fTestemDir = new G4UIdirectory("/testhadr/");
-  fTestemDir->SetGuidance("commands specific to this example");
+  //Create a directory for your custom commands
+  fTestemDir = new G4UIdirectory("/custom/");
+  fTestemDir->SetGuidance("custom commands defined in DetectorMessenger.cc");
 
+  //Create a sub-directory for better sorting
   G4bool broadcast = false;
-  fDetDir = new G4UIdirectory("/testhadr/det/",broadcast);
-  fDetDir->SetGuidance("detector construction commands");
+  fDetDir = new G4UIdirectory("/custom/directory/",broadcast);
+  fDetDir->SetGuidance("a directory for custom commands");
 
-  fMaterCmd = new G4UIcmdWithAString("/testhadr/det/setMat",this);
+  //
+  fMaterCmd = new G4UIcmdWithAString("/custom/directory/setMat",this);
   fMaterCmd->SetGuidance("Select material of the box.");
   fMaterCmd->SetParameterName("choice",false);
   fMaterCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  fThickCmd = new G4UIcmdWithADoubleAndUnit("/testhadr/det/setThickness",this);
+  fThickCmd = new G4UIcmdWithADoubleAndUnit("/custom/directory/setThickness",this);
   fThickCmd->SetGuidance("Set thickness of the absor");
   fThickCmd->SetParameterName("Thickness",false);
   fThickCmd->SetRange("Thickness>0.");
   fThickCmd->SetUnitCategory("Length");
   fThickCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
  
-  fSizeYZCmd = new G4UIcmdWithADoubleAndUnit("/testhadr/det/setSizeYZ",this);
+  fSizeYZCmd = new G4UIcmdWithADoubleAndUnit("/custom/directory/setSizeYZ",this);
   fSizeYZCmd->SetGuidance("Set transverse size of the absor");
   fSizeYZCmd->SetParameterName("Size",false);
   fSizeYZCmd->SetRange("Size>0.");
   fSizeYZCmd->SetUnitCategory("Length");
   fSizeYZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  fIsotopeCmd = new G4UIcommand("/testhadr/det/setIsotopeMat",this);
+  fIsotopeCmd = new G4UIcommand("/custom/directory/setIsotopeMat",this);
   fIsotopeCmd->SetGuidance("Build and select a material with single isotope");
   fIsotopeCmd->SetGuidance("  symbol of isotope, Z, A, density of material");
   //
