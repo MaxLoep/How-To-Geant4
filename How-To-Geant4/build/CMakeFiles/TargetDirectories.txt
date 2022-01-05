@@ -1,8 +1,0 @@
-/home/maximilian/Git/How-To-Geant4/build/CMakeFiles/install/local.dir
-/home/maximilian/Git/How-To-Geant4/build/CMakeFiles/install/strip.dir
-/home/maximilian/Git/How-To-Geant4/build/CMakeFiles/B1.dir
-/home/maximilian/Git/How-To-Geant4/build/CMakeFiles/install.dir
-/home/maximilian/Git/How-To-Geant4/build/CMakeFiles/How-To-Geant4.dir
-/home/maximilian/Git/How-To-Geant4/build/CMakeFiles/edit_cache.dir
-/home/maximilian/Git/How-To-Geant4/build/CMakeFiles/rebuild_cache.dir
-/home/maximilian/Git/How-To-Geant4/build/CMakeFiles/list_install_components.dir
