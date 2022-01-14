@@ -8,6 +8,7 @@ class HadronElasticPhysicsHP;
 class G4UIdirectory;
 class G4UIcmdWithABool;
 
+
 class NeutronHPMessenger: public G4UImessenger
 {
   public:
@@ -22,5 +23,6 @@ class NeutronHPMessenger: public G4UImessenger
     G4UIdirectory*     fPhysDir;      
     G4UIcmdWithABool*  fThermalCmd;
 };
+
 
 #endif

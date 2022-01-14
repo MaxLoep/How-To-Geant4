@@ -40,8 +40,8 @@
 /gps/pos/sigma_r 1.79 mm
 /gps/pos/type Beam
 #
-/run/printProgress 10
-/run/beamOn 100
+/run/printProgress 10000
+/run/beamOn 100000
 
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
@@ -86,16 +86,16 @@
 
 
 
-/custom/directory/setThickness 15 cm
-/custom/directory/setSizeYZ 15 cm
+#/custom/directory/setThickness 15 cm
+#/custom/directory/setSizeYZ 15 cm
 
-/run/reinitializeGeometry
-/run/printProgress 20
-/run/beamOn 200
+#/run/reinitializeGeometry
+#/run/printProgress 20
+#/run/beamOn 200
 
-/custom/directory/setThickness 20 cm
-/custom/directory/setSizeYZ 20 cm
+#/custom/directory/setThickness 20 cm
+#/custom/directory/setSizeYZ 20 cm
 
-/run/reinitializeGeometry
-/run/printProgress 30
-/run/beamOn 300
+#/run/reinitializeGeometry
+#/run/printProgress 30
+#/run/beamOn 300

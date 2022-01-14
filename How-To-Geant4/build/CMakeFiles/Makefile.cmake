@@ -21,7 +21,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/maximilian/Geant4/geant4.10.7.1/lib/Geant4-10.7.1/PTL/PTLTargets.cmake"
   "/home/maximilian/Geant4/geant4.10.7.1/lib/Geant4-10.7.1/UseGeant4.cmake"
   "../CMakeLists.txt"
-  "../Plot.C"
+  "../Co60.mac"
   "CMakeFiles/3.20.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.20.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.20.3/CMakeSystem.cmake"
@@ -108,15 +108,14 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "run.mac"
-  "vis.mac"
+  "Co60.mac"
   "plotHisto.C"
-  "Plot.C"
+  "vis.mac"
+  "run.mac"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/B1.dir/DependInfo.cmake"
   "CMakeFiles/How-To-Geant4.dir/DependInfo.cmake"
   )

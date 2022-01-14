@@ -1,0 +1,6 @@
+           Co59:      19  Emean = 26.0453 keV	( 3.73356 keV --> 105.465 keV)	stable
+           Mn54:       1  Emean = 475.376 keV	( 475.376 keV --> 475.376 keV)	half life = 312.134 d  
+             e-:      31  Emean = 251.193 keV	( 305.599 eV  --> 1.28539 MeV)	stable
+          gamma:      13  Emean = 1.25811 MeV	( 1.2366 keV --> 5.66339 MeV)	stable
+        neutron:       7  Emean = 2.40825 MeV	( 482.914 keV --> 8.09143 MeV)	half life = 10.1663 min
+         proton:       3  Emean = 47.4374 MeV	( 9.8254 MeV --> 91.6911 MeV)	stable

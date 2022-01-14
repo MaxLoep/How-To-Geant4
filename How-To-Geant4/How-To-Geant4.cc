@@ -1,3 +1,6 @@
+#include "G4Types.hh"
+#include "SteppingVerbose.hh"
+
 #include "DetectorConstruction.hh"        //This is where you define your Geometry and Scorers
 #include "PhysicsList.hh"                 //This is where you define what physics processes should be used, alternatively you can choose a complete physics list in this file
 #include "ActionInitialization.hh"        //This is where you define what the simulation does (...)
@@ -39,9 +42,9 @@
 #include "QGSP_FTFP_BERT.hh"
 #include "Shielding.hh"
 
-// The main function
-int main(int argc,char** argv)
-{
+
+int main(int argc,char** argv) {
+
   // Detect interactive mode (if no arguments) and define UI session
   //
   G4UIExecutive* ui = 0;
@@ -50,7 +53,7 @@ int main(int argc,char** argv)
   }
 
   // choose the Random engine
-  // G4Random::setTheEngine(new CLHEP::RanecuEngine);
+  G4Random::setTheEngine(new CLHEP::RanecuEngine);
   // G4Random::setTheEngine(new CLHEP::MTwistEngine);
   
   #if G4VERSION_NUMBER>=1070
@@ -64,24 +67,25 @@ int main(int argc,char** argv)
     #ifdef G4MULTITHREADED
       G4MTRunManager* runManager = new G4MTRunManager;
     #else
+      //my Verbose output class
+      G4VSteppingVerbose::SetInstance(new SteppingVerbose);
       G4RunManager* runManager = new G4RunManager;
     #endif
   #endif
 
-  // Set mandatory initialization classes
-  //
-  // Detector construction
-  runManager->SetUserInitialization(new DetectorConstruction());
+  //set mandatory initialization classes
+  DetectorConstruction* det= new DetectorConstruction;
+  runManager->SetUserInitialization(det);
 
   // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 Physics Lists 
-  //runManager->SetUserInitialization(new PhysicsList);
-  
+  runManager->SetUserInitialization(new PhysicsList);
+
   //G4VModularPhysicsList* physicsList = new QBBC;
   //G4VModularPhysicsList* physicsList = new FTF_BIC;
   //G4VModularPhysicsList* physicsList = new FTFP_INCLXX;
   //G4VModularPhysicsList* physicsList = new FTFP_INCLXX_HP;
 
-  G4VModularPhysicsList* physicsList = new FTFP_BERT;
+  //G4VModularPhysicsList* physicsList = new FTFP_BERT;
   //G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
   //G4VModularPhysicsList* physicsList = new FTFP_BERT_ATL;
   //G4VModularPhysicsList* physicsList = new FTFP_BERT_TRV;
@@ -96,19 +100,10 @@ int main(int argc,char** argv)
   //G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
   //G4VModularPhysicsList* physicsList = new QGSP_FTFP_BERT;
 
-  runManager->SetUserInitialization(physicsList);
-  
-  //Silence hadronic process summary - this doesn't work here, it works in the macro file!
-  //G4HadronicProcessStore::Instance()->SetVerbose(0);
+  //runManager->SetUserInitialization(physicsList);
 
-  //old snippets
-  //PhysicsList* phys = new PhysicsList;
-  //phys->SetVerboseLevel(0);                 //<- This does nothing. Why?
-  //runManager->SetUserInitialization(phys);
-    
-  // User action initialization
-  runManager->SetUserInitialization(new ActionInitialization());
-  
+  runManager->SetUserInitialization(new ActionInitialization(det));
+
   // Replaced HP (high-precision) environmental variables with C++ calls
   //
   //SkipMissingIsotopes: It sets to zero the cross section of the isotopes which are not present in the neutron library. If GEANT4 doesn’t find an isotope, 
@@ -130,7 +125,6 @@ int main(int argc,char** argv)
   G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
   //G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7
   G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
-
 
   // Initialize visualization
   //
@@ -165,3 +159,4 @@ int main(int argc,char** argv)
   delete visManager;
   delete runManager;
 }
+

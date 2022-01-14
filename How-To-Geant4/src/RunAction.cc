@@ -3,30 +3,34 @@ Understand what this does and comment it
 */
 
 #include "RunAction.hh"
-#include "PrimaryGeneratorAction.hh"
+#include "Run.hh"
 #include "DetectorConstruction.hh"
-// #include "B1Run.hh"                //Relict form old version of example B1?
+#include "PrimaryGeneratorAction.hh"
+#include "Analysis.hh"
+
+#include "G4Run.hh"
+#include "G4UnitsTable.hh"
+#include "G4SystemOfUnits.hh"
+
+#include "Randomize.hh"
+#include <iomanip>
+
 
 #include "G4RunManager.hh"
-#include "G4Run.hh"
 #include "G4AccumulableManager.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
-#include "G4UnitsTable.hh"
-#include "G4SystemOfUnits.hh"
 #include <filesystem>
-
-#include "Analysis.hh"              //For Output file format
-
 
 //Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
 G4bool SaveEachRun = true;
 
-RunAction::RunAction()
-: G4UserRunAction(),
+RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
+  : G4UserRunAction(),
+    fDetector(det), fPrimary(prim), fRun(0), //fHistoManager(0),
   fEdep(0.),
   fEdep2(0.)
-{ 
+{
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
 
@@ -164,12 +168,14 @@ RunAction::RunAction()
   // //analysisManager->CreateNtupleDColumn("Surface1");
   // //analysisManager->CreateNtupleDColumn("Surface2");
   // analysisManager->FinishNtuple();
-
+ 
 }
 
 
 RunAction::~RunAction()
 {
+ //delete fHistoManager;
+
   //use this code to accumulate runs into one output file
   if(SaveEachRun == false)
   {
@@ -181,8 +187,16 @@ RunAction::~RunAction()
 }
 
 
-void RunAction::BeginOfRunAction(const G4Run*)
+G4Run* RunAction::GenerateRun()
 { 
+  fRun = new Run(fDetector); 
+  return fRun;
+}
+
+
+void RunAction::BeginOfRunAction(const G4Run*)
+{   
+
   //G4RunManager::GetRunManager()->GeometryHasBeenModified();
   //G4RunManager::GetRunManager()->ReinitializeGeometry();
 
@@ -262,6 +276,25 @@ void RunAction::BeginOfRunAction(const G4Run*)
   // G4String fileName = "RunData";
   // analysisManager->OpenFile(fileName);
 
+  // show Rndm status
+  if (isMaster) G4Random::showEngineStatus();
+  
+  // keep run condition
+  if (fPrimary) { 
+    G4ParticleDefinition* particle 
+      = fPrimary->GetParticleGun()->GetParticleDefinition();
+    G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
+    fRun->SetPrimary(particle, energy);
+  }
+
+  /*        
+  //histograms
+  //
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  if ( analysisManager->IsActive() ) {
+    analysisManager->OpenFile();
+  }
+  */
 }
 
 
@@ -277,7 +310,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
     analysisManager->Write();
     analysisManager->CloseFile();
   }
-
 
   G4int nofEvents = run->GetNumberOfEvent();
   if (nofEvents == 0) return;
@@ -331,6 +363,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
     //run condition is a string and at this point it contains something like
     // "proton of 100 MeV"
   }
+
         
   // Print End of Run messages
   //  from example B1
@@ -345,10 +378,11 @@ void RunAction::EndOfRunAction(const G4Run* run)
      << "--------------------End of Local Run------------------------";
   }
   
+  
   G4cout
-     << G4endl
-     << " The run consists of " << nofEvents << " "<< runCondition
-     << G4endl
+    << G4endl
+    << " The run has finished! " << runCondition
+    << G4endl
     //  << " Cumulated dose per run, in scoring volume : " 
     //  << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
     //  << G4endl
@@ -357,7 +391,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
     //  << "------------------------------------------------------------"
     //  << G4endl
     //  << G4endl
-    ;
+   ;
 
   //from example B4d
   // print histogram statistics
@@ -393,6 +427,20 @@ void RunAction::EndOfRunAction(const G4Run* run)
   //     << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
   // }
 
+
+  if (isMaster) fRun->EndOfRun();    
+  
+  /*
+  //save histograms      
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  if ( analysisManager->IsActive() ) {
+    analysisManager->Write();
+    analysisManager->CloseFile();
+  }
+  */
+
+  // show Rndm status
+  if (isMaster) G4Random::showEngineStatus();
 }
 
 //B1 SCORING METHOD

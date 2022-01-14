@@ -38,9 +38,10 @@ void HadronElasticPhysicsHP::ConstructProcess()
   process->AddDataSet(new G4ParticleHPElasticData());
 
   if (fThermal) {
-    model1->SetMinEnergy(4*eV);  
+    model1->SetMinEnergy(4*eV);
     G4ParticleHPThermalScattering* model2 = new G4ParticleHPThermalScattering();
     process->RegisterMe(model2);
     process->AddDataSet(new G4ParticleHPThermalScatteringData());  
   }
 }
+

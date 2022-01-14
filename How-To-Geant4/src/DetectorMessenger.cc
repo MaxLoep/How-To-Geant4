@@ -17,7 +17,6 @@ The actual functions can be found in files where they change variables, e.g. Det
 #include "G4UIcmdWithADoubleAndUnit.hh"   //for commands with a double and a unit
 #include "G4UIcmdWithoutParameter.hh"     //for commands without a parameter
 
-
 DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 :G4UImessenger(), 
  fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), fMaterCmd(nullptr),
@@ -33,26 +32,26 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
   fDetDir->SetGuidance("a directory for custom commands");
 
   //
-  fMaterCmd = new G4UIcmdWithAString("/custom/directory/setMat",this);
+  fMaterCmd = new G4UIcmdWithAString("/custom/det/setMat",this);
   fMaterCmd->SetGuidance("Select material of the box.");
   fMaterCmd->SetParameterName("choice",false);
   fMaterCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  fThickCmd = new G4UIcmdWithADoubleAndUnit("/custom/directory/setThickness",this);
+  fThickCmd = new G4UIcmdWithADoubleAndUnit("/custom/det/setThickness",this);
   fThickCmd->SetGuidance("Set thickness of the absor");
   fThickCmd->SetParameterName("Thickness",false);
   fThickCmd->SetRange("Thickness>0.");
   fThickCmd->SetUnitCategory("Length");
   fThickCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
  
-  fSizeYZCmd = new G4UIcmdWithADoubleAndUnit("/custom/directory/setSizeYZ",this);
+  fSizeYZCmd = new G4UIcmdWithADoubleAndUnit("/custom/det/setSizeYZ",this);
   fSizeYZCmd->SetGuidance("Set transverse size of the absor");
   fSizeYZCmd->SetParameterName("Size",false);
   fSizeYZCmd->SetRange("Size>0.");
   fSizeYZCmd->SetUnitCategory("Length");
   fSizeYZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  fIsotopeCmd = new G4UIcommand("/custom/directory/setIsotopeMat",this);
+  fIsotopeCmd = new G4UIcommand("/custom/det/setIsotopeMat",this);
   fIsotopeCmd->SetGuidance("Build and select a material with single isotope");
   fIsotopeCmd->SetGuidance("  symbol of isotope, Z, A, density of material");
   //
@@ -95,13 +94,10 @@ DetectorMessenger::~DetectorMessenger()
   delete fTestemDir;
 }
 
-
 void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 { 
   if( command == fMaterCmd )
-   { 
-     // fDetector->SetAbsorMaterial(newValue);
-   }
+   { fDetector->SetAbsorMaterial(newValue);}
 
   if( command == fThickCmd )
    { fDetector->SetAbsorThickness(fThickCmd->GetNewDoubleValue(newValue));}
@@ -116,8 +112,7 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
      std::istringstream is(newValue);
      is >> name >> Z >> A >> dens >> unt;
      dens *= G4UIcommand::ValueOf(unt);
-    //  fDetector->MaterialWithSingleIsotope (name,name,dens,Z,A);
-    //  fDetector->SetAbsorMaterial(name);    
+     fDetector->MaterialWithSingleIsotope (name,name,dens,Z,A);
+     fDetector->SetAbsorMaterial(name);    
    }   
 }
-

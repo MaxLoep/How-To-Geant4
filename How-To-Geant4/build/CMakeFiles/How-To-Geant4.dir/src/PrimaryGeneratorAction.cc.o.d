@@ -251,6 +251,7 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4AllocatorPool.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4PrimaryParticle.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleMomentum.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeneralParticleSource.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Event.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/evtdefs.hh \
@@ -378,7 +379,6 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4UItokenNum.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ApplicationState.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4GeneralParticleSourceData.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/globals.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4RunManager.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/rundefs.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4EventManager.hh \
@@ -501,4 +501,7 @@ CMakeFiles/How-To-Geant4.dir/src/PrimaryGeneratorAction.cc.o: \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleTable.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4ParticleDefinition.hh \
  /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4SystemOfUnits.hh \
- /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Event.hh
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4Event.hh \
+ /home/maximilian/Git/How-To-Geant4/include/DetectorConstruction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/G4VUserDetectorConstruction.hh \
+ /home/maximilian/Geant4/geant4.10.7.1/include/Geant4/Randomize.hh

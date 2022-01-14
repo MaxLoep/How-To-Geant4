@@ -3,10 +3,16 @@ Understand what this does and comment it
 */
 
 #include "EventAction.hh"
-#include "RunAction.hh"
+
+#include "Run.hh"
+#include "Analysis.hh"
 
 #include "G4Event.hh"
 #include "G4RunManager.hh"
+#include "G4UnitsTable.hh"
+
+/*
+#include "RunAction.hh"
 
 #include "Analysis.hh"
 #include "G4SDManager.hh"
@@ -16,12 +22,12 @@ Understand what this does and comment it
 #include "G4Track.hh"
 #include "G4StepStatus.hh"
 #include "G4ParticleTypes.hh"
+*/
 
-
-
-EventAction::EventAction(RunAction* runAction)
-: G4UserEventAction(),
-  fRunAction(runAction),
+EventAction::EventAction()
+:G4UserEventAction(),
+ fTotalEnergyDeposit(0.), fTotalEnergyFlow(0.)
+  /* ,fRunAction(runAction),
   fEdep(0.),
    fEnergyAbs(0.),
    fEnergyGap(0.),
@@ -31,11 +37,12 @@ EventAction::EventAction(RunAction* runAction)
    fGapEdepHCID(-1),
    fAbsoTrackLengthHCID(-1),
    fGapTrackLengthHCID(-1)
-{} 
+   */
+{ }
 
 
 EventAction::~EventAction()
-{}
+{ }
 
 // //PRIMITIVE SCORERS
 // //From example B4d
@@ -68,10 +75,14 @@ EventAction::~EventAction()
 //     sumValue += *(it.second);
 //   }
 //   return sumValue;  
-// }  
+// } 
 
 void EventAction::BeginOfEventAction(const G4Event*)
-{   
+{
+  fTotalEnergyDeposit = 0.;
+  fTotalEnergyFlow = 0.; 
+
+/*
   //variable initialisation per event 
   //from B1
   fEdep = 0.;
@@ -81,11 +92,34 @@ void EventAction::BeginOfEventAction(const G4Event*)
   fEnergyGap = 0.;
   fTrackLAbs = 0.;
   fTrackLGap = 0.;
+*/
 }
 
 
-void EventAction::EndOfEventAction(const G4Event* event)
-{   
+void EventAction::AddEdep(G4double Edep)
+{
+  fTotalEnergyDeposit += Edep;
+}
+
+
+void EventAction::AddEflow(G4double Eflow)
+{
+  fTotalEnergyFlow += Eflow;
+}
+
+
+void EventAction::EndOfEventAction(const G4Event*)
+{
+  Run* run = static_cast<Run*>(
+             G4RunManager::GetRunManager()->GetNonConstCurrentRun());
+             
+  run->AddEdep (fTotalEnergyDeposit);             
+  run->AddEflow(fTotalEnergyFlow);
+               
+  //G4AnalysisManager::Instance()->FillH1(1,fTotalEnergyDeposit);
+  //G4AnalysisManager::Instance()->FillH1(3,fTotalEnergyFlow);  
+
+/*
   //B1 SCORING METHOD
   // accumulate statistics in run action
   //fRunAction->AddEdep(fEdep);
@@ -130,6 +164,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   // if(gapEdep != 0)        analysisManager->FillNtupleDColumn(1, gapEdep);
   // if(absoTrackLength !=0) analysisManager->FillNtupleDColumn(2, absoTrackLength);
   // if(gapTrackLength != 0) analysisManager->FillNtupleDColumn(3, gapTrackLength);
-  // analysisManager->AddNtupleRow();  
+  // analysisManager->AddNtupleRow(); 
+*/
 }
 

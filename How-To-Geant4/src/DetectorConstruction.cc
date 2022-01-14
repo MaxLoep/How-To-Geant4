@@ -15,6 +15,7 @@ New ways to create materials , see Book for Application Developer
 #include "G4RunManager.hh"              //Nessesary. You need this.
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
+#include "G4Material.hh"
 
 #include "G4Box.hh"                     //for cuboid
 #include "G4Tubs.hh"                    //for cylinder
@@ -48,32 +49,87 @@ New ways to create materials , see Book for Application Developer
 #include "G4SDParticleFilter.hh"
 #include "G4SDChargedFilter.hh"
 
-#include "G4GeometryManager.hh"         //Needed to reinitialize the geometry of parameters are changed via GUI/Macro commands
-#include "G4PhysicalVolumeStore.hh"     //Needed to reinitialize the geometry of parameters are changed via GUI/Macro commands
-#include "G4LogicalVolumeStore.hh"      //Needed to reinitialize the geometry of parameters are changed via GUI/Macro commands
-#include "G4SolidStore.hh"              //Needed to reinitialize the geometry of parameters are changed via GUI/Macro commands
+#include "G4GeometryManager.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SolidStore.hh"
 
 #include "BoxSD.hh"                     //the SensitiveDetector
 
-
 DetectorConstruction::DetectorConstruction()
-: G4VUserDetectorConstruction(),
-  fDetectorMessenger(nullptr), fScoringVolume(0) 
-{ 
-  // create commands for interactive definition of the geometry
-  fDetectorMessenger = new DetectorMessenger(this);
+:G4VUserDetectorConstruction(),
+ fAbsorMaterial(nullptr), fLAbsor(nullptr), fWorldMaterial(nullptr), world_mat(nullptr),
+ fWorldVolume(nullptr), fDetectorMessenger(nullptr),
+ fScoringVolume(0)
+{
+  // default geometrical parameters
+  fAbsorThickness = 1*cm;
+  fAbsorSizeYZ    = 1*cm;
+  fWorldSizeX     = 1.2*fAbsorThickness;
+  fWorldSizeYZ    = 1.2*fAbsorSizeYZ;
 
   //Variables which can be changed by macro commands should be set here
   boxsizeX      = 10. *cm;
   boxsizeYZ     = 10. *cm;
+
+  // materials
+  DefineMaterials();
+  SetAbsorMaterial("G4_Co");
+
+  // create commands for interactive definition of the geometry
+  fDetectorMessenger = new DetectorMessenger(this);
 }
 
 DetectorConstruction::~DetectorConstruction()
-{ delete fDetectorMessenger; }
-
+{ delete fDetectorMessenger;}
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
-{ 
+{
+  return ConstructVolumes();
+}
+
+void DetectorConstruction::DefineMaterials()
+{
+  // specific element name for thermal neutronHP
+  // (see G4ParticleHPThermalScatteringNames.cc)
+
+  G4int ncomponents, natoms;
+
+  // pressurized water
+  G4Element* H  = new G4Element("TS_H_of_Water" ,"H" , 1., 1.0079*g/mole);
+  G4Element* O  = new G4Element("Oxygen"        ,"O" , 8., 16.00*g/mole);
+  G4Material* H2O = 
+  new G4Material("Water_ts", 1.000*g/cm3, ncomponents=2,
+                            kStateLiquid, 593*kelvin, 150*bar);
+  H2O->AddElement(H, natoms=2);
+  H2O->AddElement(O, natoms=1);
+  H2O->GetIonisation()->SetMeanExcitationEnergy(78.0*eV);
+
+  // heavy water
+  G4Isotope* H2 = new G4Isotope("H2",1,2);
+  G4Element* D  = new G4Element("TS_D_of_Heavy_Water", "D", 1);
+  D->AddIsotope(H2, 100*perCent);  
+  G4Material* D2O = new G4Material("HeavyWater", 1.11*g/cm3, ncomponents=2,
+                        kStateLiquid, 293.15*kelvin, 1*atmosphere);
+  D2O->AddElement(D, natoms=2);
+  D2O->AddElement(O, natoms=1);
+
+  // graphite
+  G4Isotope* C12 = new G4Isotope("C12", 6, 12);  
+  G4Element* C   = new G4Element("TS_C_of_Graphite","C", ncomponents=1);
+  C->AddIsotope(C12, 100.*perCent);
+  G4Material* graphite = 
+  new G4Material("graphite", 2.27*g/cm3, ncomponents=1,
+                         kStateSolid, 293*kelvin, 1*atmosphere);
+  graphite->AddElement(C, natoms=1);
+
+  // example of vacuum
+  fWorldMaterial = new G4Material("Galactic", 1, 1.01*g/mole,
+            universe_mean_density, kStateGas, 2.73*kelvin, 3.e-18*pascal);
+
+ ///G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+ //-----------------------------------------------------------------------------------------OLD UNTIL HERE
+
   //BASICS:
   //
   //How to declare variables
@@ -96,8 +152,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
 
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  G4Material* material1 = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  material1 = nist->FindOrBuildMaterial("G4_Co");
 
   // //How to define Elements with NIST in their natural abundance
   // G4Material* H  = nist->FindOrBuildMaterial("G4_H");
@@ -109,7 +166,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // G4Material* Water    = nist->FindOrBuildMaterial("G4_WATER");
   // G4Material* Concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
   // G4Material* Stilbene = nist->FindOrBuildMaterial("G4_STILBENE");
-  // G4Material* Graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
+  Graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
   // G4Material* Steel    = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   // G4Material* Galactic = nist->FindOrBuildMaterial("G4_Galactic");
  
@@ -150,6 +207,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   H20->AddElement(Hydrogen, 2);
   H20->AddElement(Oxygen, 1);
 
+/*
   //NE213
   G4Element* H  = new G4Element("Hydrogen" ,"H" , 1.,  1.01*g/mole);
   G4Element* C  = new G4Element("Carbon"   ,"C" , 6., 12.00*g/mole);
@@ -157,8 +215,37 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4Material("NE213", 0.874*g/cm3, 2);
   ne213->AddElement(H,    9.2*perCent);
   ne213->AddElement(C,   90.8*perCent);
+  */
+//-----------------------------------------------------------------------------------------NEW UNTIL HERE
+}
 
-  //Cleanup old geometry
+
+//
+//Functions for custom GUI and macro commands - see DetectorMessenger.cc
+//
+
+G4Material* DetectorConstruction::MaterialWithSingleIsotope( G4String name,
+                           G4String symbol, G4double density, G4int Z, G4int A)
+{
+ // define a material from an isotope
+ //
+ G4int ncomponents;
+ G4double abundance, massfraction;
+
+ G4Isotope* isotope = new G4Isotope(symbol, Z, A);
+ 
+ G4Element* element  = new G4Element(name, symbol, ncomponents=1);
+ element->AddIsotope(isotope, abundance= 100.*perCent);
+ 
+ G4Material* material = new G4Material(name, density, ncomponents=1);
+ material->AddElement(element, massfraction=100.*perCent);
+
+ return material;
+}
+
+G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
+{
+  // Cleanup old geometry
   G4GeometryManager::GetInstance()->OpenGeometry();
   G4PhysicalVolumeStore::GetInstance()->Clean();
   G4LogicalVolumeStore::GetInstance()->Clean();
@@ -545,34 +632,52 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //This is a public variable defined in the header file to make it accessible from other files
   fScoringVolume = logicBox;
 
-  //
-  //always return the physical World
+  PrintParameters();
+  
+  //always return the root volume
   //
   return physWorld;
 }
 
+void DetectorConstruction::PrintParameters()
+{
+  G4cout << "\n The Absorber is " << G4BestUnit(fAbsorThickness,"Length")
+         << " of " << material1->GetName() 
+         << "\n \n" << material1 << G4endl;
+}
+
+
 //
 //Functions for custom GUI and macro commands - see DetectorMessenger.cc
 //
+void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
+{
+  // search the material by its name
+  G4Material* pttoMaterial =
+     G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);   
+  
+  if (pttoMaterial) { 
+    fAbsorMaterial = pttoMaterial;
+    if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
+    G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+  } else {
+    G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+           << materialChoice << " not found" << G4endl;
+  }              
+}
 
-//Function to change the variable 'boxsizeX' 
 void DetectorConstruction::SetAbsorThickness(G4double value)
 {
-  //assign a new 'value' to the variable 'boxsizeX' 
-  boxsizeX = value;
-  //Resetting a variable dies not change your geometry; you need to reinitialize the whole geometry
+  fAbsorThickness = value;
   G4RunManager::GetRunManager()->ReinitializeGeometry();
-  //Output message to console for confirmaton that something happened
-  G4cout  << "\n boxsizeX is now " << boxsizeX / cm << " cm" << G4endl;
 }
 
-//Same as above
 void DetectorConstruction::SetAbsorSizeYZ(G4double value)
 {
-  boxsizeYZ = value;
+  fAbsorSizeYZ = value;
   G4RunManager::GetRunManager()->ReinitializeGeometry();
-  G4cout  << "\n boxsizeYZ is now " << boxsizeYZ / cm << " cm" << G4endl;
 }
+
 
 //
 //Assign Detectors and Scorers to Volume
@@ -587,6 +692,7 @@ void DetectorConstruction::ConstructSDandField()
   //BoxSD.cc, RunAction.cc
   //Make a Volume a Sensitive Detector (SD); SD are able to access Track/Step information of Particles going through e.g. :
   //Kinetic energy, Momentum
+
 
   //Declare a Sensitive Detector
   auto boxSD = new BoxSD("BoxSD");

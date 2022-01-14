@@ -10,10 +10,10 @@ NeutronHPMessenger::NeutronHPMessenger(HadronElasticPhysicsHP* phys)
 :G4UImessenger(),fNeutronPhysics(phys),
  fPhysDir(0), fThermalCmd(0)
 { 
-  fPhysDir = new G4UIdirectory("/testhadr/phys/");
+  fPhysDir = new G4UIdirectory("/custom/phys/");
   fPhysDir->SetGuidance("physics list commands");
    
-  fThermalCmd = new G4UIcmdWithABool("/testhadr/phys/thermalScattering",this);
+  fThermalCmd = new G4UIcmdWithABool("/custom/phys/thermalScattering",this);
   fThermalCmd->SetGuidance("set thermal scattering model");
   fThermalCmd->SetParameterName("thermal",false);
   fThermalCmd->AvailableForStates(G4State_PreInit);  
