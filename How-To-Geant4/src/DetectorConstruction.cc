@@ -48,10 +48,10 @@ New ways to create materials , see Book for Application Developer
 #include "G4SDParticleFilter.hh"
 #include "G4SDChargedFilter.hh"
 
-#include "G4GeometryManager.hh"
-#include "G4PhysicalVolumeStore.hh"
-#include "G4LogicalVolumeStore.hh"
-#include "G4SolidStore.hh"
+#include "G4GeometryManager.hh"         //Needed to reinitialize the geometry of parameters are changed via GUI/Macro commands
+#include "G4PhysicalVolumeStore.hh"     //Needed to reinitialize the geometry of parameters are changed via GUI/Macro commands
+#include "G4LogicalVolumeStore.hh"      //Needed to reinitialize the geometry of parameters are changed via GUI/Macro commands
+#include "G4SolidStore.hh"              //Needed to reinitialize the geometry of parameters are changed via GUI/Macro commands
 
 #include "BoxSD.hh"                     //the SensitiveDetector
 

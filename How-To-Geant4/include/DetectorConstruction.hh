@@ -4,10 +4,6 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
-//Empty class for some reason...
-//class G4VPhysicalVolume;
-//class G4LogicalVolume;
-
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 class G4Material;
