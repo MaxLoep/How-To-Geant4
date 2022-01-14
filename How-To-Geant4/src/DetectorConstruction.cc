@@ -135,7 +135,7 @@ void DetectorConstruction::DefineMaterials()
   //How to declare variables
   //It's basically C++, but everything starts with 'G4'
   G4int a    = 1;
-  G4double b = 2.5;
+  G4double b = 2.4;
 
   //
   //How to write stuff in output when executing
