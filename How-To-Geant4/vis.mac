@@ -1,5 +1,5 @@
-# Macro file for the initialization of example B1
-# in interactive session
+# Macro file for the initialization of an interactive session
+#This gets executed automatically if the main file is executed without an argument (= another macro file)
 #
 # Set some default verbose
 /control/verbose 2
@@ -42,6 +42,8 @@
 /vis/viewer/set/viewpointVector -1 0 0
 /vis/viewer/set/viewpointThetaPhi 120 150
 /vis/viewer/set/lightsVector -1 0 0
+/vis/viewer/set/background 1 1 1 1 #bakcground white
+/vis/viewer/set/background 0 0 0 1 #bakcground black
 
 # Specify style (surface, wireframe, auxiliary edges,...)
 #/vis/viewer/set/style wireframe
@@ -69,7 +71,7 @@
 #/vis/set/colour red
 #/vis/set/lineWidth 2
 #/vis/scene/add/frame   # Simple frame around the view
-#/vis/set/colour        # Revert to default colour (white)
+#/vis/set/colour       # Revert to default colour (white)
 #/vis/set/lineWidth     # Revert to default line width (1.)
 #
 # Attach text to one edge of Shape1, with a small, fixed offset
@@ -89,8 +91,9 @@
 #/vis/scene/add/hits
 #
 # To draw only gammas:
-#/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/create/particleFilter
 #/vis/filtering/trajectories/particleFilter-0/add gamma
+/vis/filtering/trajectories/particleFilter-0/add proton
 #
 # To invert the above, drawing all particles except gammas,
 # keep the above two lines but also add:
@@ -111,17 +114,17 @@
 #Give shapes a colour and set transparency - better to do this hardcoded in Detectorconstruction.cc because macro commands, which change geometry will reset this
 #/vis/geometry/set/colour Shapename 0 r g b tranparency
 #/vis/geometry/set/colour Box          0 1 0 0 .8
-/vis/geometry/set/colour BoxRotated   0 0 1 0 .8
-/vis/geometry/set/colour Cylinder     0 1 0 0 .8
-/vis/geometry/set/colour Cylinder2    0 0 1 0 .8
-/vis/geometry/set/colour Sphere       0 1 0 0 .8
-/vis/geometry/set/colour Sphere2      0 0 1 0 .8
-/vis/geometry/set/colour Cone         0 1 0 0 .8
-/vis/geometry/set/colour Cone2        0 0 1 0 .8
-/vis/geometry/set/colour Trapezoid    0 1 0 0 .8
-/vis/geometry/set/colour Trapezoid2   0 0 1 0 .8
-/vis/geometry/set/colour Torus        0 1 0 0 .8
-/vis/geometry/set/colour BoxCylinder  0 1 1 0 .8
+#/vis/geometry/set/colour BoxRotated   0 0 1 0 .8
+#/vis/geometry/set/colour Cylinder     0 1 0 0 .8
+#/vis/geometry/set/colour Cylinder2    0 0 1 0 .8
+#/vis/geometry/set/colour Sphere       0 1 0 0 .8
+#/vis/geometry/set/colour Sphere2      0 0 1 0 .8
+#/vis/geometry/set/colour Cone         0 1 0 0 .8
+#/vis/geometry/set/colour Cone2        0 0 1 0 .8
+#/vis/geometry/set/colour Trapezoid    0 1 0 0 .8
+#/vis/geometry/set/colour Trapezoid2   0 0 1 0 .8
+#/vis/geometry/set/colour Torus        0 1 0 0 .8
+#/vis/geometry/set/colour BoxCylinder  0 1 1 0 .8
 /vis/geometry/set/colour Mother       0 0 0 1 .3
 
 
@@ -138,5 +141,36 @@
 /gps/position 0. 0 0      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
-/gps/ene/mono 210 MeV   #sets energy for monoenergetic sources
+/gps/ene/mono 14 MeV   #sets energy for monoenergetic sources
 #/gps/pos/type Point
+
+#Define a scoring Mesh, assign a scorer+filter  and save the output in file
+#
+#define a boxMesh (cube) with name boxMesh_1
+/score/create/boxMesh boxMesh_1
+#define x,y,z-sizes
+/score/mesh/boxSize 10. 10. 10. cm 
+#define number of bins for each axes
+/score/mesh/nBin 10 10 10 
+#Place scoring mesh
+/score/mesh/translate/xyz 0. 0. 50. cm 
+
+#define a scorer via 
+#/score/quantity/xxxxx <scorer_name>
+# 'xxxxx' can be: energyDeposit, doseDeposit, trackLength, cellFlux, cellCharge, passageCellFlux, nOfStep, nOfSecondary, nOfCollision, nOfTrack, nOfTerminatedTrack, ...
+/score/quantity/energyDeposit eDep
+
+#apply a filter to the scorer we are currently creating scorer
+#/score/filter/kineticEnergy <filter_name> <eLow> <eHigh> <unit>
+#/score/filter/particle <filter_name> <p1> <p2> <pn> 
+
+#Close the mesh when defining scorers is done
+/score/close
+
+#Drawing a scorer via
+#/score/drawProjection <mesh_name> <scorer_name> <color_map> 
+/score/drawProjection boxMesh_1 eDep
+
+#Write scores to a file (existing ones get overwriten!) at the end via
+#/score/dumpAllQuantitiesToFile <mesh_name> <file_name>
+#/score/dumpAllQuantitiesToFile boxMesh_1 boxMesh1Scorer.csv

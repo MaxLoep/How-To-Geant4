@@ -239,11 +239,25 @@ void Run::EndOfRun()
     else G4cout << "\tstable" << G4endl;
  }
    
-  std::ofstream outFile("ListOfGeneratedParticles.txt");
-
   //List of generated particles to file
   //
-  G4cout << "\n List of generated particles:" << G4endl;
+  // Create an output file which increases in number if the simulation is run again
+
+  //Get process ID
+  G4long pid = getpid();
+
+  // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "ListOfGeneratedParticles_pid+1.txt" exists. 
+  while(std::ifstream(std::to_string(pid) + ".txt"))
+  {
+    pid++;
+  }
+  // Set final file name 
+  std::string fileName = "ListOfGeneratedParticles_" + std::to_string(pid) + ".txt";
+
+  // flush output to file
+  std::ofstream outFile(fileName);
+
+  outFile << "\n List of generated particles:" << G4endl;
      
  for ( const auto& particleData : fParticleDataMap1 ) {
     G4String name = particleData.first;

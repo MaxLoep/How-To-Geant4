@@ -1,10 +1,10 @@
 /*
 Test physics Lists. Do they work?
 */
-#include "PhysicsList.hh"                     //Nessesary. You need this.
+#include "PhysicsList.hh"                     //Necessary. You need this.
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
-#include "G4ProcessManager.hh"                //Nessesary. You need this.
+#include "G4ProcessManager.hh"                //Necessary. You need this.
 #include "G4HadronicInteraction.hh"
 
 #include "G4HadronPhysicsFTF_BIC.hh"            //works!

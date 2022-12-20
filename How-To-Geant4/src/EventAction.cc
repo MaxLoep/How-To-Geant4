@@ -11,7 +11,6 @@ Understand what this does and comment it
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
 
-/*
 #include "RunAction.hh"
 
 #include "Analysis.hh"
@@ -22,60 +21,61 @@ Understand what this does and comment it
 #include "G4Track.hh"
 #include "G4StepStatus.hh"
 #include "G4ParticleTypes.hh"
-*/
+
 
 EventAction::EventAction()
 :G4UserEventAction(),
- fTotalEnergyDeposit(0.), fTotalEnergyFlow(0.)
-  /* ,fRunAction(runAction),
-  fEdep(0.),
-   fEnergyAbs(0.),
-   fEnergyGap(0.),
-   fTrackLAbs(0.),
-   fTrackLGap(0.),
-   fAbsoEdepHCID(-1),
-   fGapEdepHCID(-1),
-   fAbsoTrackLengthHCID(-1),
-   fGapTrackLengthHCID(-1)
-   */
+ fTotalEnergyDeposit(0.), fTotalEnergyFlow(0.),
+ fAbsoEdepHCID(-1)
+//  ,fRunAction(runAction),
+//   fEdep(0.),
+//    fEnergyAbs(0.),
+//    fEnergyGap(0.),
+//    fTrackLAbs(0.),
+//    fTrackLGap(0.),
+//   //  fAbsoEdepHCID(-1),
+//    fGapEdepHCID(-1),
+//    fAbsoTrackLengthHCID(-1),
+//    fGapTrackLengthHCID(-1)
+  
 { }
 
 
 EventAction::~EventAction()
 { }
 
-// //PRIMITIVE SCORERS
-// //From example B4d
+//PRIMITIVE SCORERS
+//From example B4d
 
-// G4THitsMap<G4double>* 
-// EventAction::GetHitsCollection(G4int hcID,
-//                                   const G4Event* event) const
-// {
-//   auto hitsCollection 
-//     = static_cast<G4THitsMap<G4double>*>(
-//         event->GetHCofThisEvent()->GetHC(hcID));
+G4THitsMap<G4double>* 
+EventAction::GetHitsCollection(G4int hcID,
+                                  const G4Event* event) const
+{
+  auto hitsCollection 
+    = static_cast<G4THitsMap<G4double>*>(
+        event->GetHCofThisEvent()->GetHC(hcID));
 
   
-//   if ( ! hitsCollection ) {
-//     G4ExceptionDescription msg;
-//     msg << "Cannot access hitsCollection ID " << hcID; 
-//     G4Exception("B4dEventAction::GetHitsCollection()",
-//       "MyCode0003", FatalException, msg);
-//   }         
+  if ( ! hitsCollection ) {
+    G4ExceptionDescription msg;
+    msg << "Cannot access hitsCollection ID " << hcID; 
+    G4Exception("B4dEventAction::GetHitsCollection()",
+      "MyCode0003", FatalException, msg);
+  }         
 
-//   return hitsCollection;
-// }    
+  return hitsCollection;
+}    
 
 
-// G4double EventAction::GetSum(G4THitsMap<G4double>* hitsMap) const
-// {
-//   G4double sumValue = 0.;
-//   for ( auto it : *hitsMap->GetMap() ) {
-//     // hitsMap->GetMap() returns the map of std::map<G4int, G4double*>
-//     sumValue += *(it.second);
-//   }
-//   return sumValue;  
-// } 
+G4double EventAction::GetSum(G4THitsMap<G4double>* hitsMap) const
+{
+  G4double sumValue = 0.;
+  for ( auto it : *hitsMap->GetMap() ) {
+    // hitsMap->GetMap() returns the map of std::map<G4int, G4double*>
+    sumValue += *(it.second);
+  }
+  return sumValue;  
+} 
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
@@ -108,7 +108,7 @@ void EventAction::AddEflow(G4double Eflow)
 }
 
 
-void EventAction::EndOfEventAction(const G4Event*)
+void EventAction::EndOfEventAction(const G4Event* event)
 {
   Run* run = static_cast<Run*>(
              G4RunManager::GetRunManager()->GetNonConstCurrentRun());
@@ -119,7 +119,7 @@ void EventAction::EndOfEventAction(const G4Event*)
   //G4AnalysisManager::Instance()->FillH1(1,fTotalEnergyDeposit);
   //G4AnalysisManager::Instance()->FillH1(3,fTotalEnergyFlow);  
 
-/*
+
   //B1 SCORING METHOD
   // accumulate statistics in run action
   //fRunAction->AddEdep(fEdep);
@@ -127,20 +127,20 @@ void EventAction::EndOfEventAction(const G4Event*)
   // PRIMITVE SCORERS
   // from example B4d
   // Get hist collections IDs
-  // if ( fAbsoEdepHCID == -1 ) {
-  //   fAbsoEdepHCID 
-  //     = G4SDManager::GetSDMpointer()->GetCollectionID("Absorber/Edep");
-  //   fGapEdepHCID 
-  //     = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/Edep");
-  //   fAbsoTrackLengthHCID 
-  //     = G4SDManager::GetSDMpointer()->GetCollectionID("Absorber/TrackLength");
-  //   fGapTrackLengthHCID 
-  //     = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/TrackLength");
-  // }
+  if ( fAbsoEdepHCID == -1 ) {
+    fAbsoEdepHCID 
+      = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/Edep");
+    // fGapEdepHCID 
+    //   = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/Edep");
+    // fAbsoTrackLengthHCID 
+    //   = G4SDManager::GetSDMpointer()->GetCollectionID("Absorber/TrackLength");
+    // fGapTrackLengthHCID 
+    //   = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/TrackLength");
+  }
   
   // Get sum values from hits collections
   //
-  // auto absoEdep = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
+  auto absoEdep = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
   // auto gapEdep = GetSum(GetHitsCollection(fGapEdepHCID, event));
 
   // auto absoTrackLength 
@@ -148,8 +148,8 @@ void EventAction::EndOfEventAction(const G4Event*)
   // auto gapTrackLength 
   //   = GetSum(GetHitsCollection(fGapTrackLengthHCID, event));
 
-  // // get analysis manager
-  // auto analysisManager = G4AnalysisManager::Instance();
+  // get analysis manager
+  auto analysisManager = G4AnalysisManager::Instance();
 
   // // fill histograms
   // //  
@@ -158,13 +158,13 @@ void EventAction::EndOfEventAction(const G4Event*)
   // if(absoTrackLength !=0) analysisManager->FillH1(2, absoTrackLength);
   // if(gapTrackLength != 0) analysisManager->FillH1(3, gapTrackLength);
   
-  // // fill ntuple
-  // //
-  // if(absoEdep != 0)       analysisManager->FillNtupleDColumn(0, absoEdep);
+  // fill ntuple
+  //
+  if(absoEdep != 0)       analysisManager->FillNtupleDColumn(1, 0, absoEdep);
   // if(gapEdep != 0)        analysisManager->FillNtupleDColumn(1, gapEdep);
   // if(absoTrackLength !=0) analysisManager->FillNtupleDColumn(2, absoTrackLength);
   // if(gapTrackLength != 0) analysisManager->FillNtupleDColumn(3, gapTrackLength);
-  // analysisManager->AddNtupleRow(); 
-*/
+  analysisManager->AddNtupleRow(1); 
+
 }
 

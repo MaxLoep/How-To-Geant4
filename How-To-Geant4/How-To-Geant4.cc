@@ -1,3 +1,7 @@
+#if __unix__                              // for checking if the code shall be compiled on an UNIX system
+#include <unistd.h>                       //To use getpid() to get the process ID to use as random seed on UNIX systems
+#endif
+
 #include "G4Types.hh"
 #include "SteppingVerbose.hh"
 
@@ -7,40 +11,43 @@
 
 #include "G4Version.hh"                   //for checking which Geant4 version is installed
 #if G4VERSION_NUMBER>=1070
-#include "G4RunManagerFactory.hh"         //Nessesary. You need this.
+#include "G4RunManagerFactory.hh"         //Necessary. You need this.
 #else
 #include "G4RunManager.hh"                //for Geant4 Version < 10.7.0 single threaded
 #include "G4MTRunManager.hh"              //for Geant4 Version < 10.7.0 multi threaded
 #endif
 
-#include "G4UImanager.hh"                 //Nessesary. You need this.
-#include "G4VisExecutive.hh"              //Nessesary. You need this.
-#include "G4UIExecutive.hh"               //Nessesary. You need this.
+#include "G4UImanager.hh"                 //Necessary. You need this.
+#include "G4VisExecutive.hh"              //Necessary. You need this.
+#include "G4UIExecutive.hh"               //Necessary. You need this.
 #include "Randomize.hh"
+
+#include "G4ScoringManager.hh"            //Necessary to use the built-in scoring mesh funtionality in the macro file
 
 #include "G4ParticleHPManager.hh"
 #include "G4HadronicProcessStore.hh"
 
+//Physics Lists
 #include "QBBC.hh"                        //works!
 
 #include "FTF_BIC.hh"                     //works!
 #include "FTFP_INCLXX.hh"                 //works!
 #include "FTFP_INCLXX_HP.hh"              //works!
-#include "FTFP_BERT.hh"
-#include "FTFP_BERT_HP.hh"
-#include "FTFP_BERT_ATL.hh"
-#include "FTFP_BERT_TRV.hh"
-#include "FTFQGSP_BERT.hh"
+#include "FTFP_BERT.hh"                   //works!
+#include "FTFP_BERT_HP.hh"                //works!
+#include "FTFP_BERT_ATL.hh"               //works!
+#include "FTFP_BERT_TRV.hh"               //works!
+#include "FTFQGSP_BERT.hh"                //works!
 
-#include "QGSP_BIC.hh"
-#include "QGSP_BIC_HP.hh"
-#include "QGSP_BIC_AllHP.hh"
+#include "QGSP_BIC.hh"                    //works!
+#include "QGSP_BIC_HP.hh"                 //works!
+#include "QGSP_BIC_AllHP.hh"              //works! but system environmental variable 'G4PARTICLEHPDATA' needs to be set to path to data library e.g. TENDL
 #include "QGSP_INCLXX.hh"                 //works!
 #include "QGSP_INCLXX_HP.hh"              //works!
-#include "QGSP_BERT.hh"
-#include "QGSP_BERT_HP.hh"
-#include "QGSP_FTFP_BERT.hh"
-#include "Shielding.hh"
+#include "QGSP_BERT.hh"                   //works!
+#include "QGSP_BERT_HP.hh"                //works!
+#include "QGSP_FTFP_BERT.hh"              //works!
+#include "Shielding.hh"                   //works!
 
 
 int main(int argc,char** argv) {
@@ -53,8 +60,36 @@ int main(int argc,char** argv) {
   }
 
   // choose the Random engine
-  G4Random::setTheEngine(new CLHEP::RanecuEngine);
-  // G4Random::setTheEngine(new CLHEP::MTwistEngine);
+  // G4Random::setTheEngine(new CLHEP::DualRand);             //works!
+  // G4Random::setTheEngine(new CLHEP::HepJamesRandom);       //works!
+  G4Random::setTheEngine(new CLHEP::MixMaxRng);            //works! Default?
+  // G4Random::setTheEngine(new CLHEP::MTwistEngine);         //works! Default?
+  // G4Random::setTheEngine(new CLHEP::RanecuEngine);         //works! uses Tables. obsolete?
+  // G4Random::setTheEngine(new CLHEP::Ranlux64Engine);       //works!
+  // G4Random::setTheEngine(new CLHEP::RanluxEngine);         //works!
+  // G4Random::setTheEngine(new CLHEP::RanshiEngine);         //works!
+
+  // error C2039: 'the following': is not a member of 'CLHEP' -> can this be deleteted?
+  // G4Random::setTheEngine(new CLHEP::DRand48Engine);    -not working!
+  // G4Random::setTheEngine(new CLHEP::Hurd160Engine);    -not working!
+  // G4Random::setTheEngine(new CLHEP::Hurd288Engine);    -not working!
+  // G4Random::setTheEngine(new CLHEP::NonRandomEngine);  -not working!
+  // G4Random::setTheEngine(new CLHEP::RandEngine);       -not working!
+  // G4Random::setTheEngine(new CLHEP::TripleRand);       -not working!
+
+  // set a initial random seed based on system time and/or process id
+  G4long unix_time = time(NULL);
+  G4cout << "\n TIME is  " << unix_time << G4endl;
+
+  G4long pid = getpid();
+  G4cout << "\n PID is " << pid << G4endl;
+
+  // G4long seed = unix_time;
+  G4long seed = pid;
+  // G4long seed = unix_time*pid;
+
+  G4Random::setTheSeed(seed);
+  G4cout << "\n SEED is " << seed << G4endl;
   
   #if G4VERSION_NUMBER>=1070
     // Construct the default run manager in Geant4 Version > 10.7.0
@@ -73,34 +108,42 @@ int main(int argc,char** argv) {
     #endif
   #endif
 
+ // Activate UI-command base scorer
+ G4ScoringManager * scManager = G4ScoringManager::GetScoringManager();
+ scManager->SetVerboseLevel(1);
+
+
+
   //set mandatory initialization classes
   DetectorConstruction* det= new DetectorConstruction;
   runManager->SetUserInitialization(det);
 
-  // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 Physics Lists 
-  runManager->SetUserInitialization(new PhysicsList);
+  // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 default Physics Lists 
+  // runManager->SetUserInitialization(new PhysicsList);
 
-  //G4VModularPhysicsList* physicsList = new QBBC;
-  //G4VModularPhysicsList* physicsList = new FTF_BIC;
-  //G4VModularPhysicsList* physicsList = new FTFP_INCLXX;
-  //G4VModularPhysicsList* physicsList = new FTFP_INCLXX_HP;
+  // G4VModularPhysicsList* physicsList = new QBBC;
+  // G4VModularPhysicsList* physicsList = new FTF_BIC;
+  // G4VModularPhysicsList* physicsList = new FTFP_INCLXX;
+  // G4VModularPhysicsList* physicsList = new FTFP_INCLXX_HP;
 
-  //G4VModularPhysicsList* physicsList = new FTFP_BERT;
-  //G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
-  //G4VModularPhysicsList* physicsList = new FTFP_BERT_ATL;
-  //G4VModularPhysicsList* physicsList = new FTFP_BERT_TRV;
-  //G4VModularPhysicsList* physicsList = new FTFQGSP_BERT;
+  // G4VModularPhysicsList* physicsList = new FTFP_BERT;
+  // G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
+  // G4VModularPhysicsList* physicsList = new FTFP_BERT_ATL;
+  // G4VModularPhysicsList* physicsList = new FTFP_BERT_TRV;
+  // G4VModularPhysicsList* physicsList = new FTFQGSP_BERT;
 
-  //G4VModularPhysicsList* physicsList = new QGSP_BIC;
-  //G4VModularPhysicsList* physicsList = new QGSP_BIC_HP;
-  //G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;
+  // G4VModularPhysicsList* physicsList = new QGSP_BIC;
+  // G4VModularPhysicsList* physicsList = new QGSP_BIC_HP;
+  G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;
   //G4VModularPhysicsList* physicsList = new QGSP_INCLXX;
   //G4VModularPhysicsList* physicsList = new QGSP_INCLXX_HP;
-  //G4VModularPhysicsList* physicsList = new QGSP_BERT;
-  //G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
-  //G4VModularPhysicsList* physicsList = new QGSP_FTFP_BERT;
+  // G4VModularPhysicsList* physicsList = new QGSP_BERT;
+  // G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
+  // G4VModularPhysicsList* physicsList = new QGSP_FTFP_BERT;
 
-  //runManager->SetUserInitialization(physicsList);
+  // G4VModularPhysicsList* physicsList = new Shielding;
+
+  runManager->SetUserInitialization(physicsList);
 
   runManager->SetUserInitialization(new ActionInitialization(det));
 

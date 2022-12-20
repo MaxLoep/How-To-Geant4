@@ -7,11 +7,11 @@
 #/custom/directory/setSizeYZ 10 cm
 
 #Silence hadronic process summary (works in Geant4 v10.7.1)
-/control/verbose 0
-/run/verbose 0
-/process/had/verbose 0
-/process/verbose 0
-/process/em/verbose 0
+#/control/verbose 0
+#/run/verbose 0
+#/process/had/verbose 0
+#/process/verbose 0
+#/process/em/verbose 0
 
 #Set number o worker threads and initialize run
 /run/numberOfThreads 4
@@ -30,19 +30,61 @@
 /gps/position 0 0 0      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
-/gps/ene/mono 315. MeV   #sets energy for monoenergetic sources
+/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
 #/gps/pos/type Point 
 
 /gps/pos/shape Circle    #the beam geometry is a circle
 /gps/pos/radius 0. mm
 
 #HISKP Cyclotron FWHM is approx 4mm. FWHM = 2.3548*sigma -> sigma = 1.79mm
-/gps/pos/sigma_r 1.79 mm
+#/gps/pos/sigma_r 1.79 mm
+/gps/pos/sigma_r 4. mm
 /gps/pos/type Beam
-#
-/run/printProgress 10000
-/run/beamOn 100000
 
+#Commands to use with the General Particle Source (GPS) for radioactive ion source
+#/gps/particle ion
+#Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
+#/gps/ion 11 24 0 0
+#/gps/energy 0. eV
+
+#limit the decay chain to surpress following decays
+#/grdm/nucleusLimits 210 210 82 82
+
+#Define a scoring Mesh, assign a scorer+filter  and save the output in file
+#
+#define a boxMesh (cube) with name boxMesh_1
+#/score/create/boxMesh boxMesh_1
+#define x,y,z-sizes
+#/score/mesh/boxSize 10. 10. 10. cm 
+#define number of bins for each axes
+#/score/mesh/nBin 10 10 10 
+#Place scoring mesh
+#/score/mesh/translate/xyz 0. 0. 50. cm 
+
+#define a scorer via 
+#/score/quantity/xxxxx <scorer_name>
+# 'xxxxx' can be: energyDeposit, doseDeposit, trackLength, cellFlux, cellCharge, passageCellFlux, nOfStep, nOfSecondary, nOfCollision, nOfTrack, nOfTerminatedTrack, ...
+#/score/quantity/energyDeposit eDep
+
+#apply a filter to the scorer we are currently creating scorer
+#/score/filter/kineticEnergy <filter_name> <eLow> <eHigh> <unit>
+#/score/filter/particle <filter_name> <p1> … <pn> 
+
+#Close the mesh when defining scorers is done
+#/score/close
+
+#Drawing a scorer via
+#/score/drawProjection <mesh_name> <scorer_name> <color_map> 
+#/score/drawProjection boxMesh_1 eDep
+
+
+#Start a run and print progress in console
+/run/printProgress 1000
+/run/beamOn 1
+
+#Write scores to a file (existing ones get overwriten!) at the end via
+#/score/dumpAllQuantitiesToFile <mesh_name> <file_name>
+#/score/dumpAllQuantitiesToFile boxMesh_1 boxMesh1Scorer.csv
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
 
@@ -53,12 +95,12 @@
 #/run/beamOn 10
 
 
-
 #MORE STUFF FOR THE GENERAL PARTICLE SOURCE
-#
+#Set particle and direction
 #/gps/particle proton     #particle
 #/gps/direction 0 0 1     #oriented along the Z axis
 
+#Set shape of energy spectrum
 #/gps/ene/type Mono       #monoenergetic:   I=E
 #/gps/ene/type Lin        #linear:          I=m*E+I0
 #/gps/ene/type Pow        #power-law:       I=E**alpha
@@ -66,6 +108,7 @@
 #/gps/ene/type Gauss      #gaussian:        I= gauss...
 #/gps/ene/type Brem       #bremsstrahlung:  I=...
 
+#Set parameters for energy spectrum
 #/gps/ene/mono 14. MeV    #sets energy for monoenergetic sources
 #/gps/ene/min  0. MeV     #sets minimum energy for distributions
 #/gps/ene/max 14. MeV     #sets maximum energy for distributions
@@ -75,6 +118,7 @@
 #/gps/ene/gradient 0      #sets slope for linear distribution
 #/gps/ene/intercept 0     #sets Y-intercept for linear distribution
 
+#Set shape of source
 #/gps/pos/type Point 
 #/gps/pos/type Plane
 #/gps/pos/type Beam
@@ -85,7 +129,8 @@
 #/gps/pos/radius 3. mm    #of diameter of 3 mm
 
 
-
+# Execute custom commands (e.g. for changing geometry between runs)
+#
 #/custom/directory/setThickness 15 cm
 #/custom/directory/setSizeYZ 15 cm
 

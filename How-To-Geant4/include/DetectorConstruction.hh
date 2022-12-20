@@ -44,6 +44,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
   private:
 
+  // Define Variables for Materials and geometries you want to change per macro-file HERE:
    G4double           boxsizeX;
    G4double           boxsizeYZ;
 

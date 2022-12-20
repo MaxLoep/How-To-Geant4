@@ -43,10 +43,12 @@ target_link_libraries(How-To-Geant4 ${Geant4_LIBRARIES} )
 # relies on these scripts being in the current working directory.
 #
 set(How-To-Geant4_SCRIPTS
-    Co60.mac
-    plotHisto.C
+    PlotRootFile.py
     vis.mac
     run.mac
+    Lochflansch.stl
+    Lochflansch.obj
+    Austrittsfenster.obj
   )
 
 foreach(_script ${How-To-Geant4_SCRIPTS})

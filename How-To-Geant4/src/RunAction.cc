@@ -23,7 +23,7 @@ Understand what this does and comment it
 #include <filesystem>
 
 //Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
-G4bool SaveEachRun = true;
+G4bool SaveEachRunInSeparateFile = true;
 
 RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   : G4UserRunAction(),
@@ -31,44 +31,40 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   fEdep(0.),
   fEdep2(0.)
 {
+
+  //Get process ID
+  G4long pid = getpid();
+  // G4cout << "\n PID is " << pid << G4endl;
+
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
 
   //use this code to accumulate runs into one output file
-  if(SaveEachRun == false)
+  if(SaveEachRunInSeparateFile == false)
   {
     //
     //Open output file at the start of the simulation
     //
 
-    // Create an output file which increases in number if the simulation is run again
-    //
-    // File number count starts with 0
-    G4int filenumber = 0;
-
-    // File name variable
-    std::string fileName = "RunData";
-
-    // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-    while(std::ifstream(fileName + "_" + std::to_string(filenumber) + ".root"))
+    // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
+    while(std::ifstream(std::to_string(pid) + ".root"))
     {
-      filenumber++;
+      pid++;
     }
-
     // Set final file name 
-    fileName = "RunData_" + std::to_string(filenumber);
+    std::string fileName = "ID_" + std::to_string(pid);
 
     // Create the file
     analysisManager->OpenFile(fileName);
   }
 
   // Creating histograms
-  analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
-  analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
-  analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
-  analysisManager->CreateH1("Xpos","Hit Position X", 100, -1.*cm, 1.*cm);   // column id = 3
-  analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
-  analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
+  // analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
+  // analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
+  // analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
+  // analysisManager->CreateH1("Xpos","Hit Position X", 100, -1.*cm, 1.*cm);   // column id = 3
+  // analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
+  // analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
 
   // add new units for dose
   // 
@@ -103,7 +99,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   //auto analysisManager = G4AnalysisManager::Instance();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
   //analysisManager->SetVerboseLevel(1);
-  //analysisManager->SetNtupleMerging(true);
+  analysisManager->SetNtupleMerging(true);
      // Note: merging ntuples is available only with Root output
 
 
@@ -113,15 +109,21 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 
   // Use Ntuples or Histograms
   //
-  // Create ntuple
-  // analysisManager->CreateNtuple("Screen", "Screen hits");
-  // analysisManager->CreateNtupleIColumn("ID");      // column id = 0
-  // analysisManager->CreateNtupleIColumn("PDG");     // column id = 1
-  // analysisManager->CreateNtupleDColumn("Ekin");    // column id = 2
-  // analysisManager->CreateNtupleDColumn("Xpos");    // column id = 3
-  // analysisManager->CreateNtupleDColumn("Ypos");    // column id = 4
-  // analysisManager->CreateNtupleDColumn("time");    // column id = 5
-  // analysisManager->FinishNtuple();
+  // Create ntuple for Sensitive Detector - ID 0
+  analysisManager->CreateNtuple("SD", "Sensitive Detector");
+  analysisManager->CreateNtupleIColumn("ID");      // column id = 0
+  analysisManager->CreateNtupleIColumn("PDG");     // column id = 1
+  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 2
+  analysisManager->CreateNtupleDColumn("Xpos");    // column id = 3
+  analysisManager->CreateNtupleDColumn("Ypos");    // column id = 4
+  analysisManager->CreateNtupleDColumn("time");    // column id = 5
+  analysisManager->FinishNtuple();
+
+  // Creating ntuple for Primitive Scorer - ID 1
+  //
+  analysisManager->CreateNtuple("PS", "Primitive Scorer");
+  analysisManager->CreateNtupleDColumn("DepositedEnergy");    // column id = 0
+  analysisManager->FinishNtuple();
 
 
   // // Creating histograms
@@ -177,7 +179,7 @@ RunAction::~RunAction()
  //delete fHistoManager;
 
   //use this code to accumulate runs into one output file
-  if(SaveEachRun == false)
+  if(SaveEachRunInSeparateFile == false)
   {
     //close file at end of simulation
     auto analysisManager = G4AnalysisManager::Instance();
@@ -195,13 +197,15 @@ G4Run* RunAction::GenerateRun()
 
 
 void RunAction::BeginOfRunAction(const G4Run*)
-{   
+{  
+  //Get process ID
+  G4long pid = getpid(); 
 
   //G4RunManager::GetRunManager()->GeometryHasBeenModified();
   //G4RunManager::GetRunManager()->ReinitializeGeometry();
 
   //use this code to create one file per run
-  if(SaveEachRun == true)
+  if(SaveEachRunInSeparateFile == true)
   {
     //
     //Create a new File with each Run
@@ -211,52 +215,36 @@ void RunAction::BeginOfRunAction(const G4Run*)
 
     // Create an output file which increases in number if the simulation is run again
     //
-    // File number count starts with 0
-    G4int filenumber = 0;
 
-    // File name variable
-    std::string fileName = "RunData";
-
-    // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-    while(std::ifstream(fileName + "_" + std::to_string(filenumber) + ".root"))
+    // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
+    while(std::ifstream(std::to_string(pid) + ".root"))
     {
-      filenumber++;
+      pid++;
     }
-
     // Set final file name 
-    fileName = "RunData_" + std::to_string(filenumber);
+    std::string fileName = "ID_" + std::to_string(pid);
 
     // Create the file
     analysisManager->OpenFile(fileName);
   }
 
   //
-  //Check number of files an change Random Seed
+  //change Random Seed
   //
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
 
-  // File number count for seed starts with 0
-  G4int filenumber_seed = 0;
+  // Create seed array
+  G4long seed[2];
 
-  // File name variable
-  std::string fileName_seed = "RunData";
+  seed[0] = (G4long) pid;
+  seed[1] = (G4long) pid;
 
-  // File number count starts with 0
-  G4int seednumber = 0;
-
-  long seed[2];
-  seed[0] = (long) seednumber;
-  seed[1] = (long) seednumber;
-
-    // Check if "RunData_x.root" already existing; if yes, check if "RunData_x+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-  while(std::ifstream(fileName_seed+ "_" + std::to_string(filenumber_seed) + ".root"))
-  {
-    filenumber_seed++;
-    seednumber++;
-    seed[0] = (long) seednumber;
-    seed[1] = (long) seednumber;
-  }
+  // Random seed 
+  // G4int seednumber_1 = G4UniformRand() * 2147483646;
+  // G4int seednumber_2 = G4UniformRand() * 2147483646;
+  // seed[0] = (G4long) seednumber_1;
+  // seed[1] = (G4long) seednumber_2;
 
   G4Random::setTheSeeds(seed);
 
@@ -301,7 +289,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
 void RunAction::EndOfRunAction(const G4Run* run)
 {
   //use this code to create one file per run
-  if(SaveEachRun == true)
+  if(SaveEachRunInSeparateFile == true)
   {
     //
     //Close the file at the end of a run
@@ -381,7 +369,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
   
   G4cout
     << G4endl
-    << " The run has finished! " << runCondition
+    << " The run has finished! "
     << G4endl
     //  << " Cumulated dose per run, in scoring volume : " 
     //  << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
