@@ -1,0 +1,33 @@
+# To be run preferably in batch, without graphics:
+# ./How-To-Geant4 decay.mac
+#This macro generates an (unstable) ion to study secondaries (e.g. neutrons in an AmBe source)
+#or to study the amount of gammas being able to reach the outside of an object
+
+
+#Set number o worker threads and initialize run
+/run/numberOfThreads 4
+/run/initialize
+
+#Commands to use with the General Particle Source (GPS) for radioactive ion source
+/gps/particle ion
+
+#Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
+/gps/ion 11 24 0 0
+/gps/position 0 0 0      #GPS position
+/gps/energy 0. eV
+
+/gps/pos/type Volume
+/gps/pos/shape Sphere
+/gps/pos/shape Cylinder
+/gps/pos/centre 0. 0. 0. cm
+/gps/pos/radius 1 cm
+/gps/pos/halfz 1 cm
+
+#limit the decay chain to surpress following decays
+#/grdm/nucleusLimits 210 210 82 82
+
+#Start a run and print progress in console
+/run/printProgress 1000
+/run/beamOn 10000
+
+#max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

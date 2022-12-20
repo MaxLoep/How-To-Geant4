@@ -9,18 +9,23 @@
 //Empty class for some reason...
 class RunAction;
 
-/// Event action class
 class EventAction : public G4UserEventAction
 {
   public:
-    EventAction(RunAction* runAction);
-    virtual ~EventAction();
+    //EventAction(RunAction* runAction);
+    EventAction();
+   ~EventAction();
 
-    virtual void BeginOfEventAction(const G4Event* event);
-    virtual void EndOfEventAction(const G4Event* event);
-
-    // Define function AddEdep(G4double)
-    void AddEdep(G4double edep) { fEdep += edep; }
+  public:
+    virtual void BeginOfEventAction(const G4Event*);
+    virtual void   EndOfEventAction(const G4Event*);
+    
+    void AddEdep (G4double Edep);
+    void AddEflow(G4double Eflow);          
+                
+  private:
+    G4double fTotalEnergyDeposit;
+    G4double fTotalEnergyFlow; 
 
   private:
     RunAction* fRunAction;
@@ -43,8 +48,8 @@ class EventAction : public G4UserEventAction
   G4int  fGapEdepHCID;
   G4int  fAbsoTrackLengthHCID;
   G4int  fGapTrackLengthHCID;
+
 };
 
-#endif
 
-    
+#endif

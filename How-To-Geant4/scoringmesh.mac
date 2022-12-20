@@ -1,0 +1,63 @@
+# To be run preferably in batch, without graphics:
+# ./How-To-Geant4 scoringmesh.mac
+#This macro is how to use a scoring mesh and save scored quantites in a file
+
+
+#Set number o worker threads and initialize run
+/run/numberOfThreads 4
+/run/initialize
+
+
+#Commands to use with the General Particle Source (GPS)
+/gps/particle proton     #beam particle
+/gps/position 0 0 0      #GPS position
+/gps/direction 0 0 1     #oriented along the Z axis
+/gps/ene/type Mono       #monoenergetic:   I=E
+/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
+#/gps/pos/type Point 
+
+/gps/pos/shape Circle    #the beam geometry is a circle
+/gps/pos/radius 0. mm
+
+#HISKP Cyclotron FWHM is approx 4mm. FWHM = 2.3548*sigma -> sigma = 1.79mm
+#/gps/pos/sigma_r 1.79 mm
+/gps/pos/type Beam
+
+
+#Define a scoring Mesh, assign a scorer+filter  and save the output in file
+#
+#define a boxMesh (cube) with name boxMesh_1
+#/score/create/boxMesh boxMesh_1
+#define x,y,z-sizes
+#/score/mesh/boxSize 10. 10. 10. cm 
+#define number of bins for each axes
+#/score/mesh/nBin 10 10 10 
+#Place scoring mesh
+#/score/mesh/translate/xyz 0. 0. 50. cm 
+
+#define a scorer via 
+#/score/quantity/xxxxx <scorer_name>
+# 'xxxxx' can be: energyDeposit, doseDeposit, trackLength, cellFlux, cellCharge, passageCellFlux, nOfStep, nOfSecondary, nOfCollision, nOfTrack, nOfTerminatedTrack, ...
+#/score/quantity/energyDeposit eDep
+
+#apply a filter to the scorer we are currently creating scorer
+#/score/filter/kineticEnergy <filter_name> <eLow> <eHigh> <unit>
+#/score/filter/particle <filter_name> <p1> … <pn> 
+
+#Close the mesh when defining scorers is done
+#/score/close
+
+#Drawing a scorer via
+#/score/drawProjection <mesh_name> <scorer_name> <color_map> 
+#/score/drawProjection boxMesh_1 eDep
+
+
+#Start a run and print progress in console
+/run/printProgress 1000
+/run/beamOn 10000
+
+#Write scores to a file (existing ones get overwriten!) at the end via
+#/score/dumpAllQuantitiesToFile <mesh_name> <file_name>
+#/score/dumpAllQuantitiesToFile boxMesh_1 boxMesh1Scorer.csv
+
+#max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

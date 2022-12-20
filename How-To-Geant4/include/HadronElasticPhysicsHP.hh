@@ -6,6 +6,7 @@
 
 class NeutronHPMessenger;
 
+
 class HadronElasticPhysicsHP : public G4HadronElasticPhysics
 {
   public: 
@@ -22,6 +23,7 @@ class HadronElasticPhysicsHP : public G4HadronElasticPhysics
     G4bool                  fThermal;
     NeutronHPMessenger*     fNeutronMessenger;          
 };
+
 
 #endif
 

@@ -4,15 +4,16 @@
 #include "G4VModularPhysicsList.hh"
 #include "globals.hh"
 
+
 class PhysicsList: public G4VModularPhysicsList
 {
-  public:
-    PhysicsList();
-  ~PhysicsList();
+public:
+  PhysicsList();
+ ~PhysicsList();
 
-  public:
-    virtual void ConstructProcess();
-    virtual void SetCuts();
+public:
+  virtual void ConstructProcess();
+  virtual void SetCuts();
 
   private:
     G4VPhysicsConstructor* fHadronElastic;
@@ -25,5 +26,6 @@ class PhysicsList: public G4VModularPhysicsList
     G4VPhysicsConstructor* fRadioactiveDecay;
     G4VPhysicsConstructor* fStopping;
 };
+
 
 #endif

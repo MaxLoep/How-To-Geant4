@@ -46,7 +46,7 @@ G4bool BoxSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
  //if (status5 == true) 
  //if(status2 != fGeomBoundary && particle == G4Proton::Proton()){
  //if(particle == G4Neutron::Neutron()){
-if(particle == G4Proton::Proton()){
+// if(particle == G4Proton::Proton()){
 
     // Track ID:
     G4int ID = track->GetTrackID();
@@ -80,22 +80,22 @@ if(particle == G4Proton::Proton()){
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
     // Store hit in the ntuple
-    // analysisManager->FillNtupleIColumn(0, ID);
-    // analysisManager->FillNtupleIColumn(1, pdgCode);
-    // analysisManager->FillNtupleDColumn(2, Ekin/MeV);
-    // analysisManager->FillNtupleDColumn(3, localPosition.x()/cm);
-    // analysisManager->FillNtupleDColumn(4, localPosition.y()/cm);
-    // analysisManager->FillNtupleDColumn(5, time/ns);
-    // analysisManager->AddNtupleRow();
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleIColumn(0, 0, ID);
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleIColumn(0, 1, pdgCode);
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 2, Ekin/MeV);
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 3, localPosition.x()/cm);
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 4, localPosition.y()/cm);
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 5, time/ns);
+    analysisManager->AddNtupleRow(0);
 
     // // Store hit in histogram 
-    analysisManager->FillH1(0, ID);
-    analysisManager->FillH1(1, pdgCode);
-    analysisManager->FillH1(2, Ekin/MeV);
-    analysisManager->FillH1(3, localPosition.x()/cm);
-    analysisManager->FillH1(4, localPosition.y()/cm);
-    analysisManager->FillH1(5, time/ns);
-  }
+    // analysisManager->FillH1(0, ID);
+    // analysisManager->FillH1(1, pdgCode);
+    // analysisManager->FillH1(2, Ekin/MeV);
+    // analysisManager->FillH1(3, localPosition.x()/cm);
+    // analysisManager->FillH1(4, localPosition.y()/cm);
+    // analysisManager->FillH1(5, time/ns);
+  // }
   return true;
 }
 

@@ -21,5 +21,6 @@ class ElectromagneticPhysics : public G4VPhysicsConstructor
     virtual void ConstructProcess();
 };
 
+
 #endif
 
