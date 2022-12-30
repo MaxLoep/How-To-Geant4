@@ -128,8 +128,8 @@ void EventAction::EndOfEventAction(const G4Event* event)
   // from example B4d
   // Get hist collections IDs
   if ( fAbsoEdepHCID == -1 ) {
-    fAbsoEdepHCID 
-      = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/Edep");
+    fAbsoEdepHCID = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/TrackLength");
+    // fAbsoEdepHCID = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/Edep");
     // fGapEdepHCID 
     //   = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/Edep");
     // fAbsoTrackLengthHCID 
@@ -140,7 +140,8 @@ void EventAction::EndOfEventAction(const G4Event* event)
   
   // Get sum values from hits collections
   //
-  auto absoEdep = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
+  auto TrackLength = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
+  // auto absoEdep = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
   // auto gapEdep = GetSum(GetHitsCollection(fGapEdepHCID, event));
 
   // auto absoTrackLength 
@@ -160,11 +161,12 @@ void EventAction::EndOfEventAction(const G4Event* event)
   
   // fill ntuple
   //
-  if(absoEdep != 0)       analysisManager->FillNtupleDColumn(1, 0, absoEdep);
+  if(TrackLength != 0)       analysisManager->FillNtupleDColumn(0, 0, TrackLength);
+  // if(absoEdep != 0)       analysisManager->FillNtupleDColumn(0, 0, absoEdep);
   // if(gapEdep != 0)        analysisManager->FillNtupleDColumn(1, gapEdep);
   // if(absoTrackLength !=0) analysisManager->FillNtupleDColumn(2, absoTrackLength);
   // if(gapTrackLength != 0) analysisManager->FillNtupleDColumn(3, gapTrackLength);
-  analysisManager->AddNtupleRow(1); 
+  if(TrackLength != 0) analysisManager->AddNtupleRow(0); 
 
 }
 

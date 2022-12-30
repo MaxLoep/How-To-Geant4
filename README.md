@@ -1,4 +1,11 @@
 # How-To-Geant4
+V0.7:\
+-Moved example geometries to 'geometries'-folder\
+--'BasicGeometries.cc' contains build-in geometries\
+--'AdvancedGeometries.cc' contains how to import .stl- or .obj-files and some other more complex geometries\
+--'oldDetectorConstruction.cc' is the original file from V0.6\
+-'DetectorConstruction.cc' now features 5 flat boxes as Sensitive Detextor (SD) and a bigger box as Primitive Scorer (PS)\
+
 V0.6:\
 -new macro files for different things:\
 --'generalparticlesource.mac' for studying beams of particles\

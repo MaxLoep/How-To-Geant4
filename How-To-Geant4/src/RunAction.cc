@@ -109,20 +109,46 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 
   // Use Ntuples or Histograms
   //
-  // Create ntuple for Sensitive Detector - ID 0
-  analysisManager->CreateNtuple("SD", "Sensitive Detector");
-  analysisManager->CreateNtupleIColumn("ID");      // column id = 0
-  analysisManager->CreateNtupleIColumn("PDG");     // column id = 1
-  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 2
-  analysisManager->CreateNtupleDColumn("Xpos");    // column id = 3
-  analysisManager->CreateNtupleDColumn("Ypos");    // column id = 4
-  analysisManager->CreateNtupleDColumn("time");    // column id = 5
+
+
+  // Creating ntuple for Primitive Scorer - ID 0
+  analysisManager->CreateNtuple("PS", "Primitive Scorer");
+  analysisManager->CreateNtupleDColumn("TrackLength");           // column id = 0
   analysisManager->FinishNtuple();
 
-  // Creating ntuple for Primitive Scorer - ID 1
-  //
-  analysisManager->CreateNtuple("PS", "Primitive Scorer");
-  analysisManager->CreateNtupleDColumn("DepositedEnergy");    // column id = 0
+  // Create ntuple for Sensitive Detector SD1 - ID 1
+  analysisManager->CreateNtuple("SD1", "Sensitive Detector");
+  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
+  analysisManager->CreateNtupleDColumn("Xpos");    // column id = 1
+  analysisManager->CreateNtupleDColumn("time");    // column id = 2
+  analysisManager->FinishNtuple();
+
+  // Create ntuple for Sensitive Detector SD2 - ID 2
+  analysisManager->CreateNtuple("SD2", "Sensitive Detector");
+  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
+  analysisManager->CreateNtupleDColumn("Xpos");    // column id = 1
+  analysisManager->CreateNtupleDColumn("time");    // column id = 2
+  analysisManager->FinishNtuple();
+
+  // Create ntuple for Sensitive Detector SD3 - ID 3
+  analysisManager->CreateNtuple("SD3", "Sensitive Detector");
+  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
+  analysisManager->CreateNtupleDColumn("Xpos");    // column id = 1
+  analysisManager->CreateNtupleDColumn("time");    // column id = 2
+  analysisManager->FinishNtuple();
+
+  // Create ntuple for Sensitive Detector SD4 - ID 4
+  analysisManager->CreateNtuple("SD4", "Sensitive Detector");
+  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
+  analysisManager->CreateNtupleDColumn("Xpos");    // column id = 1
+  analysisManager->CreateNtupleDColumn("time");    // column id = 2
+  analysisManager->FinishNtuple();
+
+  // Create ntuple for Sensitive Detector SD5 - ID 5
+  analysisManager->CreateNtuple("SD5", "Sensitive Detector");
+  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
+  analysisManager->CreateNtupleDColumn("Xpos");    // column id = 1
+  analysisManager->CreateNtupleDColumn("time");    // column id = 2
   analysisManager->FinishNtuple();
 
 

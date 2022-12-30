@@ -33,33 +33,42 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
   public:  
 
-   G4double GetAbsorThickness()    {return fAbsorThickness;};
-   G4double GetAbsorSizeYZ()       {return fAbsorSizeYZ;};
-   G4Material* GetAbsorMaterial()  {return material1;};
+   G4double GetAbsorThickness()    {return boxX;};
+   G4double GetAbsorSizeYZ()       {return boxX;};
+   G4Material* GetAbsorMaterial()  {return boxMaterial;};
 
-   G4double GetWorldSizeX()   {return fWorldSizeX;};
-   G4double GetWorldSizeYZ()  {return fWorldSizeYZ;};
+   G4double GetWorldSizeX()   {return boxX;};
+   G4double GetWorldSizeYZ()  {return boxX;};
 
    void PrintParameters();
 
   private:
 
   // Define Variables for Materials and geometries you want to change per macro-file HERE:
-   G4double           boxsizeX;
-   G4double           boxsizeYZ;
 
-   G4double           fAbsorThickness;
-   G4double           fAbsorSizeYZ;
+  //world size 
+  G4double world_sizeXYZ;
+
+  // for the box
+   G4double           boxX;
+   G4double           boxY;
+   G4double           boxZ;
+
+// dummy variables
+   G4double           a;
+   G4double           b;
+   G4double           c;
+   G4double           d;
+   G4double           e;
+
    G4Material*        fAbsorMaterial;
    G4LogicalVolume*   fLAbsor;
 
-   G4double           fWorldSizeX;
-   G4double           fWorldSizeYZ;
-   G4Material*        fWorldMaterial;
    G4Material*        world_mat;
-   G4Material*        material1;
-   G4Material*        Graphite;
-   G4VPhysicalVolume* fWorldVolume;                        
+   G4Material*        boxMaterial;
+   G4Material*        dummyMat;
+
+   G4Material*        Graphite;                       
 
    DetectorMessenger* fDetectorMessenger;
 
