@@ -17,7 +17,6 @@
 #include "G4MTRunManager.hh"              //for Geant4 Version < 10.7.0 multi threaded
 #endif
 
-<<<<<<< HEAD
 #include "G4UImanager.hh"                 //Nessesary. You need this.
 #include "G4VisExecutive.hh"              //Nessesary. You need this.
 #include "G4UIExecutive.hh"               //Nessesary. You need this.
