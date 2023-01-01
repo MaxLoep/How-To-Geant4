@@ -4,29 +4,17 @@ There are no external dependencies, you find everything in this file. -> You can
 Remember to include the header-files in your simulation, e.g. if you want to place a Box, you have to put ' #include "G4Box.hh" ' in your file as well.
 */
 
-/*
-E- and B-Fields (see B5 maybe?)
-Scoring
-New ways to create materials , see Book for Application Developer
-*/
 
-#include "DetectorConstruction.hh"    //Header file where functions classes and variables may be defined (...)
-#include "G4RunManager.hh"              //Nessesary. You need this.
+#include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
+#include "DetectorMessenger.hh"         //Header file for own macro commands
+#include "G4RunManager.hh"              //Necessary. You need this.
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
+#include "G4Material.hh"
 
 #include "G4Box.hh"                     //for cuboid
-#include "G4Tubs.hh"                    //for cylinder
-#include "G4Sphere.hh"                  //for sphere
-#include "G4Cons.hh"                    //for cone
-#include "G4Trd.hh"                     //for trapezoid
-#include "G4Tet.hh"                     //for tetrahedra
-#include "G4Torus.hh"                   //for torus
-
-#include "G4LogicalVolume.hh"           //Nessesary. You need this.
-#include "G4PVPlacement.hh"             //Nessesary. You need this.
-#include "G4RotationMatrix.hh"          //for rotations
-#include "G4SubtractionSolid.hh"        //for the boolean subtraction operation
+#include "G4LogicalVolume.hh"           //Necessary. You need this.
+#include "G4PVPlacement.hh"             //Necessary. You need this.
 #include "G4SystemOfUnits.hh"           //for units
 #include "G4UnitsTable.hh"              //for units
 #include "G4PhysicalConstants.hh"       //for physial constants like pi
@@ -47,113 +35,115 @@ New ways to create materials , see Book for Application Developer
 #include "G4SDParticleFilter.hh"
 #include "G4SDChargedFilter.hh"
 
-#include "BoxSD.hh"
+#include "G4GeometryManager.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SolidStore.hh"
+
+#include "SensitiveDetector.hh"                     //the SensitiveDetector
 
 
 DetectorConstruction::DetectorConstruction()
-: G4VUserDetectorConstruction(),
-  fScoringVolume(0)
-{ }
+:G4VUserDetectorConstruction(),
+ fAbsorMaterial(nullptr), fLAbsor(nullptr), world_mat(nullptr), fDetectorMessenger(nullptr),
+ fScoringVolume(0)
+{
+  // World Size
+  world_sizeXYZ = 10.*m;
+
+  //set box parameters
+  boxX     = 10. *cm;
+  boxY     = 10. *cm;
+  boxZ     = 10. *cm;
+
+  // set dummy variables
+  a = 20.*cm; // used for x- and y-width of Sensitive Detectors
+  b = 1.*cm;
+  c = 1.*cm;
+  d = 1.*cm;
+  e = 1.*cm;
+
+  // materials
+  DefineMaterials(); // see below for this function
+  SetAbsorMaterial("G4_Co");
+
+  // create commands for interactive definition of the geometry
+  fDetectorMessenger = new DetectorMessenger(this);
+}
 
 DetectorConstruction::~DetectorConstruction()
-{ }
-
+{ delete fDetectorMessenger;}
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
-{ 
-  //BASICS:
-  //
-  //How to declare variables
-  //It's basically C++, but everything starts with 'G4'
-  G4int a    = 1;
-  G4double b = 2.5;
+{
+  return ConstructVolumes();
+}
 
-  //
-  //How to write stuff in output when executing
-  //Again, basically C++ but starts with 'G4'
-  G4cout  << "\n This is a comment! "
-          << "\n  a = " << a
-          << "\n  b = " << b << G4endl;
-
+//Define materials and compositions you want to use in the simulation
+void DetectorConstruction::DefineMaterials()
+{
   //MATERIALS:
   //
   //How to define Materials using the NIST database
-  //(They will produce warnings if they are unused variables in the simulation therefore they are commented out.)
+  //see https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html for a list of available materials
   //
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
 
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  G4Material* material1 = nist->FindOrBuildMaterial("G4_Galactic");
+  // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
+  world_mat    = nist->FindOrBuildMaterial("G4_AIR");
+  boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
+  dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
-  // //How to define Elements with NIST in their natural abundance
-  // G4Material* H  = nist->FindOrBuildMaterial("G4_H");
-  // G4Material* He = nist->FindOrBuildMaterial("G4_He");
-  // G4Material* Be = nist->FindOrBuildMaterial("G4_Be");
+  //Print all defined materials to console
+  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+}
 
-  // //Special NIST Compounds (just a selection, not complete)
-  // G4Material* Air      = nist->FindOrBuildMaterial("G4_AIR");
-  // G4Material* Water    = nist->FindOrBuildMaterial("G4_WATER");
-  // G4Material* Concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
-  // G4Material* Stilbene = nist->FindOrBuildMaterial("G4_STILBENE");
-  // G4Material* Graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
-  // G4Material* Steel    = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-  // G4Material* Galactic = nist->FindOrBuildMaterial("G4_Galactic");
+
+//
+//Functions for custom GUI and macro commands - see DetectorMessenger.cc
+//
+G4Material* DetectorConstruction::MaterialWithSingleIsotope( G4String name,
+                           G4String symbol, G4double density, G4int Z, G4int A)
+{
+ // define a material from an isotope
+ //
+ G4int ncomponents;
+ G4double abundance, massfraction;
+
+ G4Isotope* isotope = new G4Isotope(symbol, Z, A);
  
-  //How to define Isotopes by hand
-  //G4Isotope* name = new G4Isotope("name", #protons, #nucleons);
-  G4Isotope* U235 = new G4Isotope("U235", 92, 235);
-  G4Isotope* U238 = new G4Isotope("U238", 92, 238);
+ G4Element* element  = new G4Element(name, symbol, ncomponents=1);
+ element->AddIsotope(isotope, abundance= 100.*perCent);
+ 
+ G4Material* material = new G4Material(name, density, ncomponents=1);
+ material->AddElement(element, massfraction=100.*perCent);
 
-  //How to define Elements by hand
-  //G4Element* name = new G4Element("name", "symbol", atomic number, molar mass);
-  G4Element* Hydrogen = new G4Element("Hydrogen", "H", 1., 1.0079*g/mole);
-  G4Element* Carbon   = new G4Element("Carbon", "C", 6., 12.011*g/mole);
-  G4Element* Oxygen   = new G4Element("Oxygen", "o", 8., 16.*g/mole);
+ return material;
+}
 
-  //How to define an Element by using isotopes with their abundance
-  //G4Element* name= new G4Element("name", "symbol", #isotopes);
-  G4Element* enrichedUranium= new G4Element("enriched uranium", "U", 2);
-
-  //Add Isotopes to Element
-  enrichedUranium->AddIsotope(U235, 90.*perCent);
-  enrichedUranium->AddIsotope(U238, 10.*perCent);
-
-  //How to define a Material by hand
-  //G4Material* name = new G4Material("name", atomic number, molar mass, density)
-  //G4Material* U = new G4Material("Uranium", 92., 238.03*g/mole, 18.950*g/cm3);
-
-  //How to define an Material by using elements with their abundance
-  G4Material* BC400 = new G4Material("BC400",      //name
-                                      1.032*g/cm3, //density
-                                      2);          //number of elements
-
-  //Add Elements to Material
-  BC400->AddElement(Hydrogen, 8.5*perCent);
-  BC400->AddElement(Carbon, 91.5*perCent);
-
-  //How to define an Material by using elements with their composition number
-  G4Material* H20 = new G4Material("Water", 1.0*g/mole, 2);
-  H20->AddElement(Hydrogen, 2);
-  H20->AddElement(Oxygen, 1);
-
-  //NE213
-  G4Element* H  = new G4Element("Hydrogen" ,"H" , 1.,  1.01*g/mole);
-  G4Element* C  = new G4Element("Carbon"   ,"C" , 6., 12.00*g/mole);
-  G4Material* ne213 = 
-  new G4Material("NE213", 0.874*g/cm3, 2);
-  ne213->AddElement(H,    9.2*perCent);
-  ne213->AddElement(C,   90.8*perCent);
-
-
+G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
+{
+  // Cleanup old geometry
+  G4GeometryManager::GetInstance()->OpenGeometry();
+  G4PhysicalVolumeStore::GetInstance()->Clean();
+  G4LogicalVolumeStore::GetInstance()->Clean();
+  G4SolidStore::GetInstance()->Clean();
 
   //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
+  /*
+  How to create solids
+  It's basically a process with 3 steps:
+  1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
+  2.: Make it a Logical Volume by assigning a material to it
+  3.: Place it in your simulation
+  */ 
+
   //Start with creating a World-Volume to place things in
   // 
   // World
   // 
-  G4double world_sizeXYZ = 2.*m;
-  
+  // World box where the simulation takes place
   G4Box* solidWorld =    
     new G4Box("World",                       //its name
        0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
@@ -169,366 +159,232 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                       logicWorld,            //its logical volume
                       "World",               //its name
                       0,                     //its mother  volume
-                      false,                 //no boolean operation
+                      false,                 //boolean operation?
                       0,                     //copy number
-                      true);                 //overlaps checking
+                      true);                 //overlaps checking?
 
+  //Make world-volume invisible
+  auto logicWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
+  logicWorldVisAtt->SetVisibility(true);
+  logicWorld->SetVisAttributes(logicWorldVisAtt);
 
-  /*
-  How to create solids
-  It's basically a process with 3 steps:
-  1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
-  2.: Make it a Logical Volume by assigning a material to it
-  3.: Place it in our simulation
-  */ 
-
+//create a box as target and place it in the world volume
   //     
   // Box
-  //  
-  G4Box* solidBox =    
-    new G4Box("Box",                         //its name
-        10*cm, 10*cm, 10*cm);                //its size: half x, half y, half z
+  // 
+  G4Box* sBox =    
+    new G4Box("sBox",                        //its name
+        boxX/2, boxY/2, boxZ/2);                   //its size: half x, half y, half z
       
-  G4LogicalVolume* logicBox =                         
-    new G4LogicalVolume(solidBox,            //its solid
-                        material1,           //its material
+  G4LogicalVolume* lBox =                         
+    new G4LogicalVolume(sBox,                //its solid
+                        boxMaterial,           //its material
                         "Box");              //its name
   
   //G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
     new G4PVPlacement(0,                     //no rotation
-              G4ThreeVector(0,0,50.*cm),     //position
-              logicBox,                      //its logical volume
+              G4ThreeVector(0,0,80.*cm),     //position
+              lBox,                          //its logical volume
               "Box",                         //its name
               logicWorld,                    //its mother  volume
-              false,                         //no boolean operation
+              false,                         //boolean operation?
               0,                             //copy number
-              true);                         //overlaps checking
+              true);                         //overlaps checking?
 
   //Make (in-)visible and give it a color
-  //logicBox->SetVisAttributes (G4VisAttributes::GetInvisible());
-  auto logicBoxVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
-  logicBoxVisAtt->SetVisibility(true);
-  logicBox->SetVisAttributes(logicBoxVisAtt);
+  //lBox->SetVisAttributes (G4VisAttributes::GetInvisible());
+  auto lBoxVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+  lBoxVisAtt->SetVisibility(true);
+  lBox->SetVisAttributes(lBoxVisAtt);
 
-  //
-  // How to rotate an object
-  //
-  G4RotationMatrix* BoxRotation = new G4RotationMatrix();
-  BoxRotation->rotateX(45*deg);
-  BoxRotation->rotateY(45*deg);
-  BoxRotation->rotateZ(45*deg);
-
-  G4Box* solidBoxRotated =    
-    new G4Box("BoxRotated",                  //its name
-        10*cm, 10*cm, 10*cm);                //its size: x half length, y half length, z half length
+//create a 5 flat boxes as Sensitive Detector
+  //     
+  // SD1
+  // 
+  G4Box* sSD1 =    
+    new G4Box("sSD1",                        //its name
+        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
       
-  G4LogicalVolume* logicBoxRotated =                         
-    new G4LogicalVolume(solidBoxRotated,     //its solid
-                        material1,           //its material
-                        "BoxRotated");       //its name
-           
-  new G4PVPlacement(BoxRotation,             //no rotation
-              G4ThreeVector(0,0,80.*cm),     //position
-              logicBoxRotated,               //its logical volume
-              "Box",                         //its name
+  G4LogicalVolume* lSD1 =                         
+    new G4LogicalVolume(sSD1,                //its solid
+                        dummyMat,           //its material
+                        "SD1");              //its name
+    
+    new G4PVPlacement(0,                     //no rotation
+              G4ThreeVector(0,0,10.*cm),     //position
+              lSD1,                          //its logical volume
+              "SD1",                         //its name
               logicWorld,                    //its mother  volume
-              false,                         //no boolean operation
+              false,                         //boolean operation?
               0,                             //copy number
-              true);                         //overlaps checking
+              true);                         //overlaps checking?
 
-  //
-  // Cylinder
-  //
-  G4Tubs* solidCylinder = 
-    new G4Tubs("Cylinder",                    //name
-             0., 10.*cm,                      //inner radius, outer radius
-             10.*cm,                          //z half length
-             0., twopi);                      //min phi, max phi
-
-  G4LogicalVolume* logicCylinder = 
-    new G4LogicalVolume(solidCylinder,        //shape
-                       material1,             //material
-                       "Cylinder");           //name
-
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(0,50.*cm,0),      //position
-              logicCylinder,                  //logical volume
-              "Cylinder",                     //name
-              logicWorld,                     //mother  volume
-              false,                          //no boolean operation
-              0,                              //copy number
-              true);                          //overlaps checking
-
-  //
-  // Cylinder2
-  //
-  G4Tubs* solidCylinder2 = 
-    new G4Tubs("Cylinder2",                   //name
-             5.*cm, 10.*cm,                   //inner radius, outer radius
-             10.*cm,                          //z half length
-             0., pi);                         //min phi, max phi
-
-  G4LogicalVolume* logicCylinder2 = 
-    new G4LogicalVolume(solidCylinder2,       //shape
-                       material1,             //material
-                       "Cylinder2");          //name
-
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(0,80.*cm,0),      //position
-              logicCylinder2,                 //logical volume
-              "Cylinder2",                    //name
-              logicWorld,                     //mother  volume
-              false,                          //no boolean operation
-              0,                              //copy number
-              true);                          //overlaps checking
-
-  //
-  // Sphere
-  //
-  G4Sphere* solidSphere =
-    new G4Sphere("Sphere",                    //name
-              0., 10.*cm,                     //inner radius, outer radius
-              0., twopi,                      //min phi, max phi
-              0., pi);                        //min rho, max rho
-            
-  G4LogicalVolume* logicSphere =
-    new G4LogicalVolume(solidSphere,          //shape
-                        material1,            //material
-                        "Sphere");            //name
-
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(50.*cm, 0, 0),    //position
-              logicSphere,                    //logical volume
-              "Sphere",                       //name
-              logicWorld,                     //mother volume
-              false,                          //no boolean operation
-              0,                              //copy number
-              true);                          //overlaps checking
-                
-  //
-  // Sphere2
-  //
-  G4Sphere* solidSphere2 =
-    new G4Sphere("Sphere2",                   //name
-              5.*cm, 10.*cm,                  //inner radius, outer radius
-              0., pi,                         //min phi, max phi
-              0., pi);                        //min rho, max rho
-            
-  G4LogicalVolume* logicSphere2 =
-    new G4LogicalVolume(solidSphere2,         //shape
-                        material1,            //material
-                        "Sphere2");           //name
-
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(80.*cm, 0, 0),    //position
-              logicSphere2,                   //logical volume
-              "Sphere2",                      //name
-              logicWorld,                     //mother volume
-              false,                          //no boolean operation
-              0,                              //copy number
-              true);                          //overlaps checking
-
-  //
-  // Cone
-  //
-  G4Cons* solidCone =    
-      new G4Cons("Cone",                      //name
-      0., 0*cm,                               //inner radius side A, outer radius side A
-      0., 10*cm,                              //inner radius side B, outer radius side B
-      10*cm,                                  //z half length
-      0., twopi);                             //min phi, max phi
-                        
-  G4LogicalVolume* logicCone =                         
-    new G4LogicalVolume(solidCone,            //its solid
-                        material1,            //its material
-                        "Cone");              //its name
-                
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(-50.*cm, 0, 0),   //at position
-              logicCone,                      //its logical volume
-              "Cone",                         //its name
-              logicWorld,                     //its mother  volume
-              false,                          //no boolean operation
-              0,                              //copy number
-              true);                          //overlaps checking
-
-  //
-  // Cone2
-  //
-  G4Cons* solidCone2 =    
-      new G4Cons("Cone2",                     //name
-      2.*cm, 5*cm,                            //inner radius side A, outer radius side A
-      7.*cm, 10*cm,                           //inner radius side B, outer radius side B
-      10*cm,                                  //z half length
-      0., pi);                                //min phi, max phi
-                        
-  G4LogicalVolume* logicCone2 =                         
-    new G4LogicalVolume(solidCone2,           //its solid
-                        material1,            //its material
-                        "Cone2");             //its name
-                
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(-80.*cm, 0, 0),   //at position
-              logicCone2,                     //its logical volume
-              "Cone2",                        //its name
-              logicWorld,                     //its mother  volume
-              false,                          //no boolean operation
-              0,                              //copy number
-              true);                          //overlaps checking
-
-  //
-  // Trapezoid
-  //
-  G4Trd* solidTrapezoid =  
-    new G4Trd("Trapezoid",                    //its name
-              0., 10*cm,                      //half lenth side A in x direction, half lenth side B in x direction, 
-              0., 10*cm,                      //half lenth side A in y direction, half lenth side B in y direction, 
-               10*cm);                        //half z length
-                
-  G4LogicalVolume* logicTrapezoid =                         
-    new G4LogicalVolume(solidTrapezoid,       //its solid
-                        material1,            //its material
-                        "Trapezoid");         //its name
-               
-  new G4PVPlacement(0,                        //no rotation
-                G4ThreeVector(0,0,-50.*cm),   //at position
-                logicTrapezoid,               //its logical volume
-                "Trapezoid",                  //its name
-                logicWorld,                   //its mother  volume
-                false,                        //no boolean operation
-                0,                            //copy number
-                true);                        //overlaps checking
-
-  //
-  // Trapezoid2
-  //
-  G4Trd* solidTrapezoid2 =  
-    new G4Trd("Trapezoid2",                   //its name
-              5*cm, 10*cm,                    //half lenth side A in x direction, half lenth side B in x direction, 
-              5*cm, 10*cm,                    //half lenth side A in y direction, half lenth side B in y direction, 
-               10*cm);                        //half z length
-                
-  G4LogicalVolume* logicTrapezoid2 =                         
-    new G4LogicalVolume(solidTrapezoid2,       //its solid
-                        material1,             //its material
-                        "Trapezoid2");         //its name
-               
-  new G4PVPlacement(0,                         //no rotation
-                G4ThreeVector(0,0,-80.*cm),    //at position
-                logicTrapezoid2,               //its logical volume
-                "Trapezoid2",                  //its name
-                logicWorld,                    //its mother  volume
-                false,                         //no boolean operation
-                0,                             //copy number
-                true);                         //overlaps checking
-
-  //
-  // Torus
-  //
-  G4Torus* solidTorus =  
-    new G4Torus("Torus",                      //its name
-                0.*cm,                        //Rmin 
-                5.*cm,                        //Rmax
-                10.*cm,                       //RTorus
-                twopi,                        //Sphi
-                twopi);                       //Dphi
-                
-  G4LogicalVolume* logicTorus =                         
-    new G4LogicalVolume(solidTorus,           //its solid
-                        material1,            //its material
-                        "Torus");             //its name
-               
-  new G4PVPlacement(0,                        //no rotation
-                G4ThreeVector(0,-50*cm,0),    //at position
-                logicTorus,                   //its logical volume
-                "Torus",                      //its name
-                logicWorld,                   //its mother  volume
-                false,                        //no boolean operation
-                0,                            //copy number
-                true);                        //overlaps checking                
-
-  //
-  // Solids and Boolean operations
-  //(Works but has problems being rendered correctly with OpenGL. OpenGL draws a solid with cloud of points. RayTracer should be fine to render any geometry)
-  G4SubtractionSolid* solidBoxMinusCylinder =
-    new G4SubtractionSolid("BoxCylinder",     //its name
-                  solidBox,                   //Solid A
-                  solidCylinder,              //Solid B
-                  0,                          //Rotation
-                  G4ThreeVector(0,0,0));      //Translation
-
-  G4LogicalVolume* logicBoxMinusCylinder =                         
-    new G4LogicalVolume(solidBoxMinusCylinder,//its solid
-                        material1,            //its material
-                        "BoxCylinder");       //its name
-
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(0,0,0),           //at position
-              logicBoxMinusCylinder,          //its logical volume
-              "BoxCylinder",                  //its name
-              logicWorld,                     //its mother  volume
-              true,                           //no boolean operation
-              0,                              //copy number
-              true);                          //overlaps checking    
+  //Make (in-)visible and give it a color
+  auto lSD1VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+  lSD1VisAtt->SetVisibility(true);
+  lSD1->SetVisAttributes(lSD1VisAtt);
 
   //     
-  // Placing solids in other solids - useful to make copies of assemblies
-  //  
-  //Mothervolume
-  G4Box* solidMother =    
-    new G4Box("Mother",                      //its name
-        10.*cm, 10.*cm, 15.*cm);             //its size
+  // SD2
+  // 
+  G4Box* sSD2 =    
+    new G4Box("sSD2",                        //its name
+        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
       
-  G4LogicalVolume* logicMother =                         
-    new G4LogicalVolume(solidMother,         //its solid
-                        material1,           //its material
-                        "Mother");           //its name
+  G4LogicalVolume* lSD2 =                         
+    new G4LogicalVolume(sSD2,                //its solid
+                        dummyMat,           //its material
+                        "SD2");              //its name
+    
+    new G4PVPlacement(0,                     //no rotation
+              G4ThreeVector(0,0,20.*cm),     //position
+              lSD2,                          //its logical volume
+              "SD2",                         //its name
+              logicWorld,                    //its mother  volume
+              false,                         //boolean operation?
+              0,                             //copy number
+              true);                         //overlaps checking?
 
-  //place first entity of Mothervolume            
-  new G4PVPlacement(0,                       //no rotation
-              G4ThreeVector(60.*cm, 30*cm, 60*cm), //at position
-              logicMother,                   //its logical volume
-              "Mother",                      //its name
-              logicWorld,                    //its mother  volume
-              false,                         //no boolean operation
-              0,                             //copy number
-              true);                         //overlaps checking
-  //place second entity of Mothervolume
-  new G4PVPlacement(0,                       //no rotation
-              G4ThreeVector(60.*cm, 90*cm, 60*cm), //at position
-              logicMother,                   //its logical volume
-              "Mother2",                     //its name
-              logicWorld,                    //its mother  volume
-              false,                         //no boolean operation
-              0,                             //copy number
-              true);                         //overlaps checking
- 
+  //Make (in-)visible and give it a color
+  auto lSD2VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+  lSD2VisAtt->SetVisibility(true);
+  lSD2->SetVisAttributes(lSD2VisAtt);
+
   //     
-  // Put Cone in Mothervolume
-  //  
-  new G4PVPlacement(0,                       //no rotation
-                    G4ThreeVector(),         //at position
-                    logicCone,               //its logical volume
-                    "ConeInBox",             //its name
-                    logicMother,             //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    true);                   //overlaps checking
+  // SD3
+  // 
+  G4Box* sSD3 =    
+    new G4Box("sSD3",                        //its name
+        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+      
+  G4LogicalVolume* lSD3 =                         
+    new G4LogicalVolume(sSD3,                //its solid
+                        dummyMat,           //its material
+                        "SD3");              //its name
+    
+    new G4PVPlacement(0,                     //no rotation
+              G4ThreeVector(0,0,30.*cm),     //position
+              lSD3,                          //its logical volume
+              "SD3",                         //its name
+              logicWorld,                    //its mother  volume
+              false,                         //boolean operation?
+              0,                             //copy number
+              true);                         //overlaps checking?
 
+  //Make (in-)visible and give it a color
+  auto lSD3VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+  lSD3VisAtt->SetVisibility(true);
+  lSD3->SetVisAttributes(lSD3VisAtt);
+
+  //     
+  // SD4
+  // 
+  G4Box* sSD4 =    
+    new G4Box("sSD4",                        //its name
+        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+      
+  G4LogicalVolume* lSD4 =                         
+    new G4LogicalVolume(sSD4,                //its solid
+                        dummyMat,           //its material
+                        "SD4");              //its name
+    
+    new G4PVPlacement(0,                     //no rotation
+              G4ThreeVector(0,0,40.*cm),     //position
+              lSD4,                          //its logical volume
+              "SD4",                         //its name
+              logicWorld,                    //its mother  volume
+              false,                         //boolean operation?
+              0,                             //copy number
+              true);                         //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto lSD4VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+  lSD4VisAtt->SetVisibility(true);
+  lSD4->SetVisAttributes(lSD4VisAtt);
+
+  //     
+  // SD5
+  // 
+  G4Box* sSD5 =    
+    new G4Box("sSD5",                        //its name
+        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+      
+  G4LogicalVolume* lSD5 =                         
+    new G4LogicalVolume(sSD5,                //its solid
+                        dummyMat,           //its material
+                        "SD5");              //its name
+    
+    new G4PVPlacement(0,                     //no rotation
+              G4ThreeVector(0,0,50.*cm),     //position
+              lSD5,                          //its logical volume
+              "SD5",                         //its name
+              logicWorld,                    //its mother  volume
+              false,                         //boolean operation?
+              0,                             //copy number
+              true);                         //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto lSD5VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+  lSD5VisAtt->SetVisibility(true);
+  lSD5->SetVisAttributes(lSD5VisAtt);
 
   //B1 SCORING METHOD
   //You need also Code for this one to work in:
   //SteppingAction.cc,  RunAction.cc, EventAction.cc          
   // Set logical Box volume as scoring volume (must be a logical volume)
   //This is a public variable defined in the header file to make it accessible from other files
-  fScoringVolume = logicBox;
+  fScoringVolume = lBox;
 
-  //
-  //always return the physical World
+  PrintParameters();
+  
+  //always return the root volume
   //
   return physWorld;
 }
 
+void DetectorConstruction::PrintParameters()
+{
+  G4cout << "\n The Absorber is " << G4BestUnit(boxX,"Length")
+         << " of " << boxMaterial->GetName() 
+         << "\n \n" << boxMaterial << G4endl;
+}
+
+
+//
+//Functions for custom GUI and macro commands - see DetectorMessenger.cc
+//
+void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
+{
+  // search the material by its name
+  G4Material* pttoMaterial =
+     G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);   
+  
+  if (pttoMaterial) { 
+    fAbsorMaterial = pttoMaterial;
+    if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
+    G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+  } else {
+    G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+           << materialChoice << " not found" << G4endl;
+  }              
+}
+
+void DetectorConstruction::SetAbsorThickness(G4double value)
+{
+  boxX = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+}
+
+void DetectorConstruction::SetAbsorSizeYZ(G4double value)
+{
+  boxX = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+}
+
+
+//
+//Assign Detectors and Scorers to Volume
+//
 void DetectorConstruction::ConstructSDandField()
 {
   G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
@@ -536,15 +392,32 @@ void DetectorConstruction::ConstructSDandField()
   //
   //SENSITIVE DETECTORS
   //You need also Code for this one to work in:
-  //BoxSD.cc, RunAction.cc
+  //BoxSD.cc to specify what to quantity to track (Energy, position, etc.)
+  //RunAction.cc to open a file and declare ntuple or histograms to save data in
   //Make a Volume a Sensitive Detector (SD); SD are able to access Track/Step information of Particles going through e.g. :
   //Kinetic energy, Momentum
 
+
   //Declare a Sensitive Detector
-  auto boxSD = new BoxSD("BoxSD");
-  G4SDManager::GetSDMpointer()->AddNewDetector(boxSD);
-  //Apply Sensitive Detector to Volume
-  SetSensitiveDetector("Box", boxSD);
+  auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
+  SetSensitiveDetector("SD1", sd1);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+
+  auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
+  SetSensitiveDetector("SD2", sd2);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+
+  auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
+  SetSensitiveDetector("SD3", sd3);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+
+  auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
+  SetSensitiveDetector("SD4", sd4);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+
+  auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
+  SetSensitiveDetector("SD5", sd5);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
 
 
   // // 
@@ -556,16 +429,16 @@ void DetectorConstruction::ConstructSDandField()
 
 
   // //Filters
-  // //Declare filters on Particles, Charge, Energy
-  // G4String fltName,particleName;
+  //Declare filters on Particles, Charge, Energy
+  G4String fltName,particleName;
 
   // //charged particle filter
   // auto charged = new G4SDChargedFilter("chargedFilter");
   // G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
 
   // //Proton filter
-  // G4SDParticleFilter* protonFilter =
-  // new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+  G4SDParticleFilter* protonFilter =
+  new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
   
   // //Electron filter
   // G4SDParticleFilter* electronFilter =
@@ -594,29 +467,29 @@ void DetectorConstruction::ConstructSDandField()
   // neutronEnergy->SetKineticEnergy(100*keV, 300*MeV);
 
   // //Declare a volume as a MultiFunctionalDetector scorer 
-  // auto absDetector = new G4MultiFunctionalDetector("Absorber");
-  // G4SDManager::GetSDMpointer()->AddNewDetector(absDetector);
+  auto boxPS = new G4MultiFunctionalDetector("Scorer");
+  G4SDManager::GetSDMpointer()->AddNewDetector(boxPS);
 
   // //Declare what quantity should be scored and apply filters
   // //
   // //Score Deposited Energy (of protons)
-  // G4VPrimitiveScorer* primitive;
+  G4VPrimitiveScorer* primitive;
   // primitive = new G4PSEnergyDeposit("Edep");
-  // //primitive ->SetFilter(protonFilter);
+  // primitive ->SetFilter(protonFilter);
 
-  // //Register Filters to Scorer
-  // absDetector->RegisterPrimitive(primitive);
+  //Register Filters to Scorer
+  // boxPS->RegisterPrimitive(primitive);
 
   // //Score TrackLength (of protons/charged particle)
-  // primitive = new G4PSTrackLength("TrackLength");
-  // //primitive ->SetFilter(protonFilter);
+  primitive = new G4PSTrackLength("TrackLength");
+  //primitive ->SetFilter(protonFilter);
   // //primitive ->SetFilter(charged);
 
   // //Register Filters to Scorer
-  // absDetector->RegisterPrimitive(primitive);  
+  boxPS->RegisterPrimitive(primitive);  
 
-  // //Apply Scorer to Volume
-  // SetSensitiveDetector("Box",absDetector);
+  //Apply Scorer to Volume
+  SetSensitiveDetector("Box",boxPS);
   
 
   // //Declare a volume as a MultiFunctionalDetector scorer 

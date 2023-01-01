@@ -4,6 +4,7 @@
 #include "globals.hh"
 #include "G4VPhysicsConstructor.hh"
 
+
 class GammaNuclearPhysics : public G4VPhysicsConstructor
 {
   public:
@@ -14,6 +15,7 @@ class GammaNuclearPhysics : public G4VPhysicsConstructor
     virtual void ConstructParticle() { };
     virtual void ConstructProcess();
 };
+
 
 #endif
 

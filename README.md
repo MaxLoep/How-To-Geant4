@@ -1,4 +1,24 @@
 # How-To-Geant4
+V0.7:\
+-Moved example geometries to 'geometries'-folder\
+--'BasicGeometries.cc' contains build-in geometries\
+--'AdvancedGeometries.cc' contains how to import .stl- or .obj-files and some other more complex geometries\
+--'oldDetectorConstruction.cc' is the original file from V0.6\
+-'DetectorConstruction.cc' now features 5 flat boxes as Sensitive Detextor (SD) and a bigger box as Primitive Scorer (PS)
+
+V0.6:\
+-new macro files for different things:\
+--'generalparticlesource.mac' for studying beams of particles\
+--'radioactivedecay.mac' for studying decay chains and radio active sources\
+--'scoringmesh.mac' for an example of how to create a scoring mesh\
+--'vis.mac' as a default visualization script that is run if no other macro file is given\
+--'run.mac' as test and default macro file\
+-new header file 'CADMesh.hh' allows to import CAD files (like .obj, .stl) as geometries\
+--'Lochflansch.obj', 'Lochflansch.stl' and 'Austrittsfenster.obj' were added to show how this is done\
+-new python script 'PlotRootFile.py' to plot all TH1D and TTree in a root-file (Histograms)\
+-new feature: the simulation takes the process-ID as initial random seed to ensure different results are generated everytime it is run\
+--output file name changed to 'ID_processID.root'
+
 V0.4.1:\
 -The installed Geant4 version will be detected in the main file "How-to-Geant4.cc". "G4RunManagerFactory" will be used in version >=10.7.0 otherwise the old RunManager is used for backward compatibility.\
 -Running the simulation will create a new output file (RunData_X.root) with increased numbering X instead of deleting the existing one.\

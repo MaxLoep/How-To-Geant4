@@ -1,30 +1,53 @@
-/*
-Understand what this does and comment it
-*/
-
 #include "SteppingAction.hh"
-#include "EventAction.hh"
 #include "DetectorConstruction.hh"
+#include "Run.hh"
+#include "EventAction.hh"
+#include "Analysis.hh"
 
+#include "G4RunManager.hh"
+                           
 #include "G4Step.hh"
 #include "G4Event.hh"
-#include "G4RunManager.hh"
 #include "G4LogicalVolume.hh"
 
 
-SteppingAction::SteppingAction(EventAction* eventAction)
-: G4UserSteppingAction(),
-  fEventAction(eventAction),
-  fScoringVolume(0)
-{}
+SteppingAction::SteppingAction(DetectorConstruction* det, EventAction* event)
+: G4UserSteppingAction(), fDetector(det), fEventAction(event)
+{ }
 
 
 SteppingAction::~SteppingAction()
-{}
+{ }
 
 
-void SteppingAction::UserSteppingAction(const G4Step* step)
+void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
+  // count processes
+  // 
+  const G4StepPoint* endPoint = aStep->GetPostStepPoint();
+  const G4VProcess* process   = endPoint->GetProcessDefinedStep();
+  Run* run = static_cast<Run*>(
+        G4RunManager::GetRunManager()->GetNonConstCurrentRun());
+  run->CountProcesses(process);
+  
+  // energy deposit
+  //
+  G4double edepStep = aStep->GetTotalEnergyDeposit();
+  if (edepStep <= 0.) return; 
+  fEventAction->AddEdep(edepStep);
+  
+/*
+ //longitudinal profile of deposited energy
+ //randomize point of energy deposition
+ //
+ G4ThreeVector prePoint  = aStep->GetPreStepPoint() ->GetPosition();
+ G4ThreeVector postPoint = aStep->GetPostStepPoint()->GetPosition();
+ G4ThreeVector point = prePoint + G4UniformRand()*(postPoint - prePoint);
+ G4double x = point.x();
+ G4double xshifted = x + 0.5*fDetector->GetAbsorThickness();
+ G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+ analysisManager->FillH1(2, xshifted, edepStep); 
+*/
 
   //B1 SCORING METHOD
   //
@@ -51,7 +74,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   // // collect energy deposited in this step if we are in fScoringVolume
   // G4double edepStep = step->GetTotalEnergyDeposit();
   // // use function AddEdep(G4double), which is defined in EventAction.hh to sum up energy deposit
-  // fEventAction->AddEdep(edepStep);  
+  // fEventAction->AddEdep(edepStep); 
+    
 }
-
 
