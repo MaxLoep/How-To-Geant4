@@ -22,12 +22,6 @@
 #include "G4VisExecutive.hh"              //Nessesary. You need this.
 #include "G4UIExecutive.hh"               //Nessesary. You need this.
 #include "Randomize.hh"                   //To use the randomize-function
-=======
-#include "G4UImanager.hh"                 //Necessary. You need this.
-#include "G4VisExecutive.hh"              //Necessary. You need this.
-#include "G4UIExecutive.hh"               //Necessary. You need this.
-#include "Randomize.hh"
->>>>>>> baa2d9b57b79f14d649df45575ac1060912a0552
 
 #include "G4ScoringManager.hh"            //Necessary to use the built-in scoring mesh funtionality in the macro file
 
