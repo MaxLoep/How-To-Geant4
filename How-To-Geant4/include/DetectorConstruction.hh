@@ -31,6 +31,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void SetAbsorSizeYZ   (G4double);
     void SetAbsorMaterial (G4String);
 
+    void change_a   (G4double);
+
   public:  
 
    G4double GetAbsorThickness()    {return boxX;};

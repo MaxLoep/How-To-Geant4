@@ -381,6 +381,13 @@ void DetectorConstruction::SetAbsorSizeYZ(G4double value)
   G4RunManager::GetRunManager()->ReinitializeGeometry();
 }
 
+void DetectorConstruction::change_a(G4double value)
+{
+  a = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+  G4cout  << "\n a is now " << G4BestUnit(a,"Length") << G4endl;
+}
+
 
 //
 //Assign Detectors and Scorers to Volume

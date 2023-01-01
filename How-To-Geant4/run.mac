@@ -80,7 +80,11 @@
 
 #Start a run and print progress in console
 /run/printProgress 1000
-/run/beamOn 1
+/run/beamOn 100
+/custom/det/change_a 15 cm
+/run/beamOn 100
+
+
 
 #Write scores to a file (existing ones get overwriten!) at the end via
 #/score/dumpAllQuantitiesToFile <mesh_name> <file_name>

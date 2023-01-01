@@ -20,7 +20,7 @@ The actual functions can be found in files where they change variables, e.g. Det
 DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 :G4UImessenger(), 
  fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), fMaterCmd(nullptr),
- fThickCmd(nullptr), fSizeYZCmd(nullptr), fIsotopeCmd(nullptr)
+ fThickCmd(nullptr), fSizeYZCmd(nullptr), fIsotopeCmd(nullptr), fchange_aCmd(nullptr)
 {
   //Create a directory for your custom commands
   fTestemDir = new G4UIdirectory("/custom/");
@@ -81,6 +81,13 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
   fIsotopeCmd->SetParameter(unitPrm);
   //
   fIsotopeCmd->AvailableForStates(G4State_PreInit,G4State_Idle);  
+
+  fchange_aCmd = new G4UIcmdWithADoubleAndUnit("/custom/det/change_a",this);
+  fchange_aCmd->SetGuidance("Change the value of the variable 'a'");
+  fchange_aCmd->SetParameterName("a",false);
+  fchange_aCmd->SetRange("a>0.");
+  fchange_aCmd->SetUnitCategory("Length");
+  fchange_aCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 
@@ -92,6 +99,8 @@ DetectorMessenger::~DetectorMessenger()
   delete fIsotopeCmd;
   delete fDetDir;
   delete fTestemDir;
+
+  delete fchange_aCmd;
 }
 
 void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
@@ -114,5 +123,8 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
      dens *= G4UIcommand::ValueOf(unt);
      fDetector->MaterialWithSingleIsotope (name,name,dens,Z,A);
      fDetector->SetAbsorMaterial(name);    
-   }   
+   } 
+
+  if( command == fchange_aCmd )
+   { fDetector->change_a(fchange_aCmd->GetNewDoubleValue(newValue));}  
 }
