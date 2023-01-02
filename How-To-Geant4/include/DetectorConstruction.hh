@@ -24,14 +24,17 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
-    G4Material* 
-    MaterialWithSingleIsotope(G4String, G4String, G4double, G4int, G4int);
+    // G4Material* MaterialWithSingleIsotope(G4String, G4String, G4double, G4int, G4int);
 
-    void SetAbsorThickness(G4double);
-    void SetAbsorSizeYZ   (G4double);
+    // void SetAbsorThickness(G4double);
+    // void SetAbsorSizeYZ   (G4double);
     void SetAbsorMaterial (G4String);
 
     void change_a   (G4double);
+    void change_b   (G4double);
+    void change_c   (G4double);
+    void change_d   (G4double);
+    void change_e   (G4double);
 
   public:  
 

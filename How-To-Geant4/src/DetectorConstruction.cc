@@ -66,6 +66,8 @@ DetectorConstruction::DetectorConstruction()
   // materials
   DefineMaterials(); // see below for this function
   SetAbsorMaterial("G4_Co");
+  //Print all defined materials to console
+  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
   // create commands for interactive definition of the geometry
   fDetectorMessenger = new DetectorMessenger(this);
@@ -96,31 +98,31 @@ void DetectorConstruction::DefineMaterials()
   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
   //Print all defined materials to console
-  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+  // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
 
 
 //
 //Functions for custom GUI and macro commands - see DetectorMessenger.cc
 //
-G4Material* DetectorConstruction::MaterialWithSingleIsotope( G4String name,
-                           G4String symbol, G4double density, G4int Z, G4int A)
-{
- // define a material from an isotope
- //
- G4int ncomponents;
- G4double abundance, massfraction;
+// G4Material* DetectorConstruction::MaterialWithSingleIsotope( G4String name,
+//                            G4String symbol, G4double density, G4int Z, G4int A)
+// {
+//  // define a material from an isotope
+//  //
+//  G4int ncomponents;
+//  G4double abundance, massfraction;
 
- G4Isotope* isotope = new G4Isotope(symbol, Z, A);
+//  G4Isotope* isotope = new G4Isotope(symbol, Z, A);
  
- G4Element* element  = new G4Element(name, symbol, ncomponents=1);
- element->AddIsotope(isotope, abundance= 100.*perCent);
+//  G4Element* element  = new G4Element(name, symbol, ncomponents=1);
+//  element->AddIsotope(isotope, abundance= 100.*perCent);
  
- G4Material* material = new G4Material(name, density, ncomponents=1);
- material->AddElement(element, massfraction=100.*perCent);
+//  G4Material* material = new G4Material(name, density, ncomponents=1);
+//  material->AddElement(element, massfraction=100.*perCent);
 
- return material;
-}
+//  return material;
+// }
 
 G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 {
@@ -356,11 +358,10 @@ void DetectorConstruction::PrintParameters()
 void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
 {
   // search the material by its name
-  G4Material* pttoMaterial =
-     G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);   
+  G4Material* pttoMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);   
   
   if (pttoMaterial) { 
-    fAbsorMaterial = pttoMaterial;
+    dummyMat = pttoMaterial;
     if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
     G4RunManager::GetRunManager()->PhysicsHasBeenModified();
   } else {
@@ -369,23 +370,57 @@ void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
   }              
 }
 
-void DetectorConstruction::SetAbsorThickness(G4double value)
-{
-  boxX = value;
-  G4RunManager::GetRunManager()->ReinitializeGeometry();
-}
+// void DetectorConstruction::SetAbsorThickness(G4double value)
+// {
+//   boxX = value;
+//   G4RunManager::GetRunManager()->ReinitializeGeometry();
+// }
 
-void DetectorConstruction::SetAbsorSizeYZ(G4double value)
-{
-  boxX = value;
-  G4RunManager::GetRunManager()->ReinitializeGeometry();
-}
+// void DetectorConstruction::SetAbsorSizeYZ(G4double value)
+// {
+//   boxX = value;
+//   G4RunManager::GetRunManager()->ReinitializeGeometry();
+// }
 
+// Change Parameters via Macro file with these
+// Change a
 void DetectorConstruction::change_a(G4double value)
 {
   a = value;
   G4RunManager::GetRunManager()->ReinitializeGeometry();
   G4cout  << "\n a is now " << G4BestUnit(a,"Length") << G4endl;
+}
+
+// Change b
+void DetectorConstruction::change_b(G4double value)
+{
+  b = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+  G4cout  << "\n b is now " << G4BestUnit(b,"Length") << G4endl;
+}
+
+// Change c
+void DetectorConstruction::change_c(G4double value)
+{
+  c = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+  G4cout  << "\n c is now " << G4BestUnit(c,"Length") << G4endl;
+}
+
+// Change d
+void DetectorConstruction::change_d(G4double value)
+{
+  d = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+  G4cout  << "\n d is now " << G4BestUnit(d,"Length") << G4endl;
+}
+
+// Change e
+void DetectorConstruction::change_e(G4double value)
+{
+  e = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+  G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
 }
 
 
