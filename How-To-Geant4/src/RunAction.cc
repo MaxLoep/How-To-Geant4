@@ -151,6 +151,11 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   analysisManager->CreateNtupleDColumn("time");    // column id = 2
   analysisManager->FinishNtuple();
 
+  // Create ntuple for Sensitive Detector SphereSD - ID 6
+  analysisManager->CreateNtuple("SphereSD", "Sensitive Detector");
+  analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
+  analysisManager->FinishNtuple();
+
 
   // // Creating histograms
   // analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0

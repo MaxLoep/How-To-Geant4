@@ -13,6 +13,7 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4Material.hh"
 
 #include "G4Box.hh"                     //for cuboid
+#include "G4Sphere.hh"                  //for sphere
 #include "G4LogicalVolume.hh"           //Necessary. You need this.
 #include "G4PVPlacement.hh"             //Necessary. You need this.
 #include "G4SystemOfUnits.hh"           //for units
@@ -65,7 +66,7 @@ DetectorConstruction::DetectorConstruction()
 
   // materials
   DefineMaterials(); // see below for this function
-  SetAbsorMaterial("G4_Co");
+  // SetAbsorMaterial("G4_Co");
   //Print all defined materials to console
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
@@ -330,6 +331,34 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   lSD5VisAtt->SetVisibility(true);
   lSD5->SetVisAttributes(lSD5VisAtt);
 
+  //
+  // Sphere - SD to detect gammas and neutrons
+  //
+  G4Sphere* sSphere =
+    new G4Sphere("Sphere",                    //name
+              2.*cm, 2.1*cm,                     //inner radius, outer radius
+              0., twopi,                      //min phi, max phi
+              0., pi);                        //min rho, max rho
+            
+  G4LogicalVolume* lSphere =
+    new G4LogicalVolume(sSphere,          //shape
+                        dummyMat,            //material
+                        "Sphere");            //name
+
+  new G4PVPlacement(0,                        //no rotation
+              G4ThreeVector(0,0,0),    //position
+              lSphere,                    //logical volume
+              "Sphere",                       //name
+              logicWorld,                     //mother volume
+              false,                          //boolean operation?
+              0,                              //copy number
+              true);                          //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto lSphereVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+  lSphereVisAtt->SetVisibility(true);
+  lSphere->SetVisAttributes(lSphereVisAtt);
+
   //B1 SCORING METHOD
   //You need also Code for this one to work in:
   //SteppingAction.cc,  RunAction.cc, EventAction.cc          
@@ -460,6 +489,10 @@ void DetectorConstruction::ConstructSDandField()
   auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
   SetSensitiveDetector("SD5", sd5);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+
+  auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
+  SetSensitiveDetector("Sphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to Volume 'Box'
 
 
   // // 

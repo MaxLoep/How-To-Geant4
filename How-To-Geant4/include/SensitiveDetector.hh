@@ -62,5 +62,16 @@ class SD5 : public G4VSensitiveDetector
     virtual void   EndOfEvent(G4HCofThisEvent* hce);
 };
 
+class SphereSD : public G4VSensitiveDetector
+{
+  public:
+    SphereSD(const G4String& name);
+    virtual ~SphereSD();
+
+    virtual void   Initialize(G4HCofThisEvent* hce);
+    virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
+    virtual void   EndOfEvent(G4HCofThisEvent* hce);
+};
+
 
 #endif
