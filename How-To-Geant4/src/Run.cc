@@ -245,11 +245,15 @@ void Run::EndOfRun()
   //
   // Create an output file which increases in number if the simulation is run again
 
+  // create a folder for the files
+  std::string folderName = "Lists of Generated Particles";
+  std::filesystem::create_directory(folderName);
+
   //Get process ID
   G4long pid = getpid();
 
   // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "ListOfGeneratedParticles_pid+1.txt" exists. 
-  while(std::ifstream("ListOfGeneratedParticles_" + std::to_string(pid) + ".txt"))
+  while(std::ifstream(folderName + "/" + "ListOfGeneratedParticles_" + std::to_string(pid) + ".txt"))
   {
     pid++;
   }
@@ -257,9 +261,8 @@ void Run::EndOfRun()
   std::string fileName = "ListOfGeneratedParticles_" + std::to_string(pid) + ".txt";
 
   // flush output to file
-  // std::filesystem::create_directory("Folder");
-  // std::ofstream outFile("Folder/" + fileName);
-  std::ofstream outFile(fileName);
+  std::ofstream outFile(folderName + "/" + fileName);
+  // std::ofstream outFile(fileName);
 
   outFile << "\n List of generated particles:" << G4endl;
      

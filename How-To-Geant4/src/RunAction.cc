@@ -25,6 +25,7 @@ Understand what this does and comment it
 //Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
 G4bool SaveEachRunInSeparateFile = true;
 
+
 RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   : G4UserRunAction(),
     fDetector(det), fPrimary(prim), fRun(0), //fHistoManager(0),
@@ -35,6 +36,10 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   //Get process ID
   G4long pid = getpid();
   // G4cout << "\n PID is " << pid << G4endl;
+
+  // create a folder for the files
+  std::string folderName = "Root Files";
+  std::filesystem::create_directory(folderName);
 
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
@@ -47,7 +52,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
     //
 
     // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-    while(std::ifstream(std::to_string(pid) + ".root"))
+    while(std::ifstream(folderName + "/" + "ID_" + std::to_string(pid) + ".root"))
     {
       pid++;
     }
@@ -55,7 +60,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
     std::string fileName = "ID_" + std::to_string(pid);
 
     // Create the file
-    analysisManager->OpenFile(fileName);
+    analysisManager->OpenFile(folderName + "/" + fileName);
   }
 
   // add new units for dose
@@ -188,6 +193,10 @@ void RunAction::BeginOfRunAction(const G4Run*)
   //Get process ID
   G4long pid = getpid(); 
 
+  // create a folder for the files
+  std::string folderName = "Root Files";
+  std::filesystem::create_directory(folderName);
+
   // std::filesystem::create_directory("Folder2");
 
   //G4RunManager::GetRunManager()->GeometryHasBeenModified();
@@ -206,7 +215,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
     //
 
     // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-    while(std::ifstream("ID_" + std::to_string(pid) + ".root"))
+    while(std::ifstream(folderName + "/" + "ID_" + std::to_string(pid) + ".root"))
     {
       pid++;
     }
@@ -215,7 +224,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
 
     // Create the file
     // analysisManager->OpenFile("Folder2/" + fileName);
-    analysisManager->OpenFile(fileName);
+    analysisManager->OpenFile(folderName + "/" + fileName);
   }
 
   //
