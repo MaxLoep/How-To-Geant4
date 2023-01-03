@@ -51,10 +51,7 @@ G4THitsMap<G4double>*
 EventAction::GetHitsCollection(G4int hcID,
                                   const G4Event* event) const
 {
-  auto hitsCollection 
-    = static_cast<G4THitsMap<G4double>*>(
-        event->GetHCofThisEvent()->GetHC(hcID));
-
+  auto hitsCollection = static_cast<G4THitsMap<G4double>*>(event->GetHCofThisEvent()->GetHC(hcID));
   
   if ( ! hitsCollection ) {
     G4ExceptionDescription msg;
@@ -110,8 +107,7 @@ void EventAction::AddEflow(G4double Eflow)
 
 void EventAction::EndOfEventAction(const G4Event* event)
 {
-  Run* run = static_cast<Run*>(
-             G4RunManager::GetRunManager()->GetNonConstCurrentRun());
+  Run* run = static_cast<Run*>(G4RunManager::GetRunManager()->GetNonConstCurrentRun());
              
   run->AddEdep (fTotalEnergyDeposit);             
   run->AddEflow(fTotalEnergyFlow);
@@ -128,25 +124,21 @@ void EventAction::EndOfEventAction(const G4Event* event)
   // from example B4d
   // Get hist collections IDs
   if ( fAbsoEdepHCID == -1 ) {
-    fAbsoEdepHCID 
-      = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/Edep");
-    // fGapEdepHCID 
-    //   = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/Edep");
-    // fAbsoTrackLengthHCID 
-    //   = G4SDManager::GetSDMpointer()->GetCollectionID("Absorber/TrackLength");
-    // fGapTrackLengthHCID 
-    //   = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/TrackLength");
+    fAbsoEdepHCID           = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/TrackLength");
+    // fAbsoEdepHCID        = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/Edep");
+    // fGapEdepHCID         = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/Edep");
+    // fAbsoTrackLengthHCID = G4SDManager::GetSDMpointer()->GetCollectionID("Absorber/TrackLength");
+    // fGapTrackLengthHCID  = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/TrackLength");
   }
   
   // Get sum values from hits collections
   //
-  auto absoEdep = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
-  // auto gapEdep = GetSum(GetHitsCollection(fGapEdepHCID, event));
+  auto TrackLength        = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
+  // auto absoEdep        = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
+  // auto gapEdep         = GetSum(GetHitsCollection(fGapEdepHCID, event));
 
-  // auto absoTrackLength 
-  //   = GetSum(GetHitsCollection(fAbsoTrackLengthHCID, event));
-  // auto gapTrackLength 
-  //   = GetSum(GetHitsCollection(fGapTrackLengthHCID, event));
+  // auto absoTrackLength = GetSum(GetHitsCollection(fAbsoTrackLengthHCID, event));
+  // auto gapTrackLength  = GetSum(GetHitsCollection(fGapTrackLengthHCID, event));
 
   // get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
@@ -160,11 +152,12 @@ void EventAction::EndOfEventAction(const G4Event* event)
   
   // fill ntuple
   //
-  if(absoEdep != 0)       analysisManager->FillNtupleDColumn(1, 0, absoEdep);
+  if(TrackLength != 0)       analysisManager->FillNtupleDColumn(0, 0, TrackLength);
+  // if(absoEdep != 0)       analysisManager->FillNtupleDColumn(0, 0, absoEdep);
   // if(gapEdep != 0)        analysisManager->FillNtupleDColumn(1, gapEdep);
   // if(absoTrackLength !=0) analysisManager->FillNtupleDColumn(2, absoTrackLength);
   // if(gapTrackLength != 0) analysisManager->FillNtupleDColumn(3, gapTrackLength);
-  analysisManager->AddNtupleRow(1); 
+  if(TrackLength != 0)       analysisManager->AddNtupleRow(0); 
 
 }
 

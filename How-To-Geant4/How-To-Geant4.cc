@@ -17,10 +17,10 @@
 #include "G4MTRunManager.hh"              //for Geant4 Version < 10.7.0 multi threaded
 #endif
 
-#include "G4UImanager.hh"                 //Necessary. You need this.
-#include "G4VisExecutive.hh"              //Necessary. You need this.
-#include "G4UIExecutive.hh"               //Necessary. You need this.
-#include "Randomize.hh"
+#include "G4UImanager.hh"                 //Nessesary. You need this.
+#include "G4VisExecutive.hh"              //Nessesary. You need this.
+#include "G4UIExecutive.hh"               //Nessesary. You need this.
+#include "Randomize.hh"                   //To use the randomize-function
 
 #include "G4ScoringManager.hh"            //Necessary to use the built-in scoring mesh funtionality in the macro file
 
@@ -153,7 +153,7 @@ int main(int argc,char** argv) {
   //then it looks for the natural composition data of that element. Only if the element is not found then the cross section is set to zero. 
   //On the contrary, if this variable is not defined, GEANT4 looks then for the neutron data of another isotope close in Z and A, which will
   //have completely different nuclear properties and lead to incorrect results (highly recommended).
-  G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( false );
+  G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( true );
 
   //DoNotAdjustFinalState: If this variable is not defined, a GEANT4 model that attempts to satisfy the energy and momentum conservation in some nuclear 
   //reactions, by generating artificial gamma rays. By setting such a variable one avoids the correction and leads to the result obtained with the
@@ -161,7 +161,7 @@ int main(int argc,char** argv) {
   //between secondary particles for satisfying them in all cases. On the contrary, ENDF-6 libraries intrinsically violate energy and momentum 
   //conservation for several processes and have been built for preserving the overall average quantities such as average energy releases, average number of
   //secondaries. . . (highly recommended).
-  G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( false );
+  G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( true );
 
   G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
   G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );

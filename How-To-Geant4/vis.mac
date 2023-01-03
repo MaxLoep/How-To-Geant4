@@ -147,29 +147,29 @@
 #Define a scoring Mesh, assign a scorer+filter  and save the output in file
 #
 #define a boxMesh (cube) with name boxMesh_1
-/score/create/boxMesh boxMesh_1
+#/score/create/boxMesh boxMesh_1
 #define x,y,z-sizes
-/score/mesh/boxSize 10. 10. 10. cm 
+#/score/mesh/boxSize 10. 10. 10. cm 
 #define number of bins for each axes
-/score/mesh/nBin 10 10 10 
+#/score/mesh/nBin 10 10 10 
 #Place scoring mesh
-/score/mesh/translate/xyz 0. 0. 50. cm 
+#/score/mesh/translate/xyz 0. 0. 50. cm 
 
 #define a scorer via 
 #/score/quantity/xxxxx <scorer_name>
 # 'xxxxx' can be: energyDeposit, doseDeposit, trackLength, cellFlux, cellCharge, passageCellFlux, nOfStep, nOfSecondary, nOfCollision, nOfTrack, nOfTerminatedTrack, ...
-/score/quantity/energyDeposit eDep
+#/score/quantity/energyDeposit eDep
 
 #apply a filter to the scorer we are currently creating scorer
 #/score/filter/kineticEnergy <filter_name> <eLow> <eHigh> <unit>
 #/score/filter/particle <filter_name> <p1> <p2> <pn> 
 
 #Close the mesh when defining scorers is done
-/score/close
+#/score/close
 
 #Drawing a scorer via
 #/score/drawProjection <mesh_name> <scorer_name> <color_map> 
-/score/drawProjection boxMesh_1 eDep
+#/score/drawProjection boxMesh_1 eDep
 
 #Write scores to a file (existing ones get overwriten!) at the end via
 #/score/dumpAllQuantitiesToFile <mesh_name> <file_name>

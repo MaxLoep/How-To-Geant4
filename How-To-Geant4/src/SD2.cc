@@ -1,4 +1,4 @@
-#include "BoxSD.hh"
+#include "SensitiveDetector.hh"
 #include "Analysis.hh"
 
 #include "G4VTouchable.hh"
@@ -11,20 +11,20 @@
 #include "G4ParticleTypes.hh"
 
 
-BoxSD::BoxSD(const G4String& name)
+SD2::SD2(const G4String& name)
  : G4VSensitiveDetector(name)
 {}
 
 
-BoxSD::~BoxSD()
+SD2::~SD2()
 {}
 
 
-void BoxSD::Initialize(G4HCofThisEvent* /*hce*/)
+void SD2::Initialize(G4HCofThisEvent* /*hce*/)
 {}
 
 
-G4bool BoxSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
+G4bool SD2::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 {
   // Current track:
   const G4Track* track = step->GetTrack();
@@ -80,13 +80,10 @@ G4bool BoxSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
     // Store hit in the ntuple
-    if(particle == G4Proton::Proton())  analysisManager->FillNtupleIColumn(0, 0, ID);
-    if(particle == G4Proton::Proton())  analysisManager->FillNtupleIColumn(0, 1, pdgCode);
-    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 2, Ekin/MeV);
-    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 3, localPosition.x()/cm);
-    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 4, localPosition.y()/cm);
-    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 5, time/ns);
-    analysisManager->AddNtupleRow(0);
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(2, 0, Ekin/MeV);
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(2, 1, localPosition.x()/cm);
+    if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(2, 2, time/ns);
+    if(particle == G4Proton::Proton())  analysisManager->AddNtupleRow(2);
 
     // // Store hit in histogram 
     // analysisManager->FillH1(0, ID);
@@ -100,6 +97,6 @@ G4bool BoxSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 }
 
 
-void BoxSD::EndOfEvent(G4HCofThisEvent* /*hce*/)
+void SD2::EndOfEvent(G4HCofThisEvent* /*hce*/)
 {}
 

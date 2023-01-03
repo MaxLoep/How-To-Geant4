@@ -12,16 +12,17 @@
 /gps/particle ion
 
 #Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
-/gps/ion 11 24 0 0
-/gps/position 0 0 0      #GPS position
-/gps/energy 0. eV
+/gps/ion 11 24 0 0       #Na24 - 1368 keV gamma + 2754 keV gamma
+/gps/position 0 0 0      #GPS position of point source
+/gps/energy 0. eV        #at rest to study decay
 
-/gps/pos/type Volume
-/gps/pos/shape Sphere
-/gps/pos/shape Cylinder
-/gps/pos/centre 0. 0. 0. cm
-/gps/pos/radius 1 cm
-/gps/pos/halfz 1 cm
+#Give the source a spherical or cylindrical volume
+#/gps/pos/type Volume
+#/gps/pos/shape Sphere
+#/gps/pos/shape Cylinder
+#/gps/pos/centre 0. 0. 0. cm
+#/gps/pos/radius 1 cm
+#/gps/pos/halfz 1 cm
 
 #limit the decay chain to surpress following decays
 #/grdm/nucleusLimits 210 210 82 82
