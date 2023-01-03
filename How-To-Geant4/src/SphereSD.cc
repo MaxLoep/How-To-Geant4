@@ -81,7 +81,7 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
     // Store hit in the ntuple
     // if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(0, 0, Ekin/MeV);
-    if(particle == G4Gamma::Gamma())      analysisManager->FillNtupleIColumn(6, 0, Ekin/MeV);
+    if(particle == G4Gamma::Gamma())      analysisManager->FillNtupleDColumn(6, 0, Ekin/MeV);
     // if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 2, localPosition.x()/cm);
     // if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 3, localPosition.y()/cm);
     if(particle == G4Gamma::Gamma())analysisManager->AddNtupleRow(6);

@@ -248,7 +248,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
     //
 
     // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-    while(std::ifstream(std::to_string(pid) + ".root"))
+    while(std::ifstream("ID_" + std::to_string(pid) + ".root"))
     {
       pid++;
     }

@@ -103,28 +103,6 @@ void DetectorConstruction::DefineMaterials()
 }
 
 
-//
-//Functions for custom GUI and macro commands - see DetectorMessenger.cc
-//
-// G4Material* DetectorConstruction::MaterialWithSingleIsotope( G4String name,
-//                            G4String symbol, G4double density, G4int Z, G4int A)
-// {
-//  // define a material from an isotope
-//  //
-//  G4int ncomponents;
-//  G4double abundance, massfraction;
-
-//  G4Isotope* isotope = new G4Isotope(symbol, Z, A);
- 
-//  G4Element* element  = new G4Element(name, symbol, ncomponents=1);
-//  element->AddIsotope(isotope, abundance= 100.*perCent);
- 
-//  G4Material* material = new G4Material(name, density, ncomponents=1);
-//  material->AddElement(element, massfraction=100.*perCent);
-
-//  return material;
-// }
-
 G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 {
   // Cleanup old geometry
@@ -171,7 +149,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   logicWorldVisAtt->SetVisibility(true);
   logicWorld->SetVisAttributes(logicWorldVisAtt);
 
-//create a box as target and place it in the world volume
+//create a box to be used as Primitive Scorer (PS) and place it in the world volume
   //     
   // Box
   // 
@@ -200,7 +178,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   lBoxVisAtt->SetVisibility(true);
   lBox->SetVisAttributes(lBoxVisAtt);
 
-//create a 5 flat boxes as Sensitive Detector
+//create 5 flat boxes to use as Sensitive Detector (SD)
   //     
   // SD1
   // 
@@ -332,22 +310,22 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   lSD5->SetVisAttributes(lSD5VisAtt);
 
   //
-  // Sphere - SD to detect gammas and neutrons
+  // Sphere - SD to detect gammas
   //
   G4Sphere* sSphere =
     new G4Sphere("Sphere",                    //name
-              2.*cm, 2.1*cm,                     //inner radius, outer radius
+              2.*cm, 2.1*cm,                  //inner radius, outer radius
               0., twopi,                      //min phi, max phi
               0., pi);                        //min rho, max rho
             
   G4LogicalVolume* lSphere =
-    new G4LogicalVolume(sSphere,          //shape
-                        dummyMat,            //material
+    new G4LogicalVolume(sSphere,              //shape
+                        dummyMat,             //material
                         "Sphere");            //name
 
   new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(0,0,0),    //position
-              lSphere,                    //logical volume
+              G4ThreeVector(0,0,0),           //position
+              lSphere,                        //logical volume
               "Sphere",                       //name
               logicWorld,                     //mother volume
               false,                          //boolean operation?
@@ -382,7 +360,7 @@ void DetectorConstruction::PrintParameters()
 
 
 //
-//Functions for custom GUI and macro commands - see DetectorMessenger.cc
+//Functions for custom GUI and macro commands - see DetextorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
 //
 void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
 {
@@ -398,18 +376,6 @@ void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
            << materialChoice << " not found" << G4endl;
   }              
 }
-
-// void DetectorConstruction::SetAbsorThickness(G4double value)
-// {
-//   boxX = value;
-//   G4RunManager::GetRunManager()->ReinitializeGeometry();
-// }
-
-// void DetectorConstruction::SetAbsorSizeYZ(G4double value)
-// {
-//   boxX = value;
-//   G4RunManager::GetRunManager()->ReinitializeGeometry();
-// }
 
 // Change Parameters via Macro file with these
 // Change a
@@ -557,7 +523,7 @@ void DetectorConstruction::ConstructSDandField()
 
   // //Score TrackLength (of protons/charged particle)
   primitive = new G4PSTrackLength("TrackLength");
-  //primitive ->SetFilter(protonFilter);
+  primitive ->SetFilter(protonFilter);
   // //primitive ->SetFilter(charged);
 
   // //Register Filters to Scorer
