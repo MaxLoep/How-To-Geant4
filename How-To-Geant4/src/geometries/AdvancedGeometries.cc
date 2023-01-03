@@ -492,31 +492,31 @@ How to import one object from an .stl-file
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // 
-//AmBe Neutron Source
+//AmBe Neutron Source - Capsule type X21 - Emission: ~2.2x10^6 n/s/Ci (Amersham) -> ~6x10^-5 n/s/Bq (ISO 8529-1:2021)
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #pragma region
   //
   // Cylinder - outer Steel Cylinder 
   //
   G4Tubs* sCylinder_out = 
-    new G4Tubs("Cylinder_out",                    //name
+    new G4Tubs("Cylinder_out",                   //name
               0., 7.8/2*mm,                      //inner radius, outer radius
               15./2*mm,                          //z half length
-              0., twopi);                      //min phi, max phi
+              0., twopi);                        //min phi, max phi
 
   G4LogicalVolume* lCylinder_out = 
-    new G4LogicalVolume(sCylinder_out,        //shape
-                        Steel,             //material
-                        "Cylinder_out");           //name
+    new G4LogicalVolume(sCylinder_out,           //shape
+                        Steel,                   //material
+                        "Cylinder_out");         //name
 
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(0,0,0),      //position
-              lCylinder_out,                  //logical volume
-              "Cylinder_out",                     //name
-              logicWorld,                     //mother  volume
-              false,                          //boolean operation?
-              0,                              //copy number
-              true);                          //overlaps checking?
+  new G4PVPlacement(0,                           //no rotation
+              G4ThreeVector(0,0,0),              //position
+              lCylinder_out,                     //logical volume
+              "Cylinder_out",                    //name
+              logicWorld,                        //mother  volume
+              false,                             //boolean operation?
+              0,                                 //copy number
+              true);                             //overlaps checking?
 
   //Make (in-)visible and give it a color
   auto lCylinder_outVisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.9)); //(r, g, b , transparency)
@@ -529,22 +529,22 @@ How to import one object from an .stl-file
   G4Tubs* sCylinder_in = 
     new G4Tubs("Cylinder_in",                    //name
               0., 4.6/2*mm,                      //inner radius, outer radius
-              13./2*mm,                          //z half length
-              0., twopi);                      //min phi, max phi
+              11.8/2*mm,                         //z half length
+              0., twopi);                        //min phi, max phi
 
   G4LogicalVolume* lCylinder_in = 
-    new G4LogicalVolume(sCylinder_in,        //shape
-                        BeO,             //material
-                        "Cylinder_in");           //name
+    new G4LogicalVolume(sCylinder_in,            //shape
+                        BeO,                     //material
+                        "Cylinder_in");          //name
 
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(0,0,0),      //position
-              lCylinder_in,                  //logical volume
+  new G4PVPlacement(0,                           //no rotation
+              G4ThreeVector(0,0,0),              //position
+              lCylinder_in,                      //logical volume
               "Cylinder_in",                     //name
               lCylinder_out,                     //mother  volume
-              false,                          //boolean operation?
-              0,                              //copy number
-              true);                          //overlaps checking?
+              false,                             //boolean operation?
+              0,                                 //copy number
+              true);                             //overlaps checking?
 
   //Make (in-)visible and give it a color
   auto lCylinder_inVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
