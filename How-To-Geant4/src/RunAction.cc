@@ -58,14 +58,6 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
     analysisManager->OpenFile(fileName);
   }
 
-  // Creating histograms
-  // analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
-  // analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
-  // analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
-  // analysisManager->CreateH1("Xpos","Hit Position X", 100, -1.*cm, 1.*cm);   // column id = 3
-  // analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
-  // analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
-
   // add new units for dose
   // 
   const G4double milligray = 1.e-3*gray;
@@ -102,14 +94,11 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   analysisManager->SetNtupleMerging(true);
      // Note: merging ntuples is available only with Root output
 
-
-  // From example extended/physicslist/genericPL
   // Set default fileName
   // analysisManager->SetFileName(fFileName);
 
   // Use Ntuples or Histograms
   //
-
 
   // Creating ntuple for Primitive Scorer - ID 0
   analysisManager->CreateNtuple("PS", "Primitive Scorer");
@@ -165,42 +154,9 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   // analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
   // analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
 
-  //PRIMITIVE SCORERS
-  //From example B4d
-  // Create analysis manager
-  // The choice of analysis technology is done via selectin of a namespace in Analysis.hh
-  //auto analysisManager = G4AnalysisManager::Instance();
-  //G4cout << "Using " << analysisManager->GetType() << G4endl;
-  //analysisManager->SetVerboseLevel(1);
-  //analysisManager->SetNtupleMerging(true);
-  // Note: merging ntuples is available only with Root output
-
-
   // Create directories in the root file - commented out in the original B4d example!
   // analysisManager->SetHistoDirectoryName("histograms");
   // analysisManager->SetNtupleDirectoryName("ntuple");
-
-  // Book histograms, ntuple
-  //
-  
-  // // Creating histograms
-  // analysisManager->CreateH1("Eabs","Edep in absorber", 100, 0., 800*MeV);
-  // analysisManager->CreateH1("Egap","Edep in gap", 100, 0., 800*MeV);
-  // //analysisManager->CreateH1("Egap","Edep in Surface", 100, 0., 800*MeV);
-  // analysisManager->CreateH1("Labs","trackL in absorber", 100, 0., 1*m);
-  // analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., 1*m);
-  // //analysisManager->CreateH1("Surface","trackL in Surface", 100, 0., 100000);
-
-  // // Creating ntuple
-  // //
-  // analysisManager->CreateNtuple("B4", "Edep and TrackL");
-  // analysisManager->CreateNtupleDColumn("Eabs");
-  // analysisManager->CreateNtupleDColumn("Egap");
-  // analysisManager->CreateNtupleDColumn("Labs");
-  // analysisManager->CreateNtupleDColumn("Lgap");
-  // //analysisManager->CreateNtupleDColumn("Surface1");
-  // //analysisManager->CreateNtupleDColumn("Surface2");
-  // analysisManager->FinishNtuple();
  
 }
 
@@ -232,6 +188,8 @@ void RunAction::BeginOfRunAction(const G4Run*)
   //Get process ID
   G4long pid = getpid(); 
 
+  // std::filesystem::create_directory("Folder2");
+
   //G4RunManager::GetRunManager()->GeometryHasBeenModified();
   //G4RunManager::GetRunManager()->ReinitializeGeometry();
 
@@ -256,6 +214,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
     std::string fileName = "ID_" + std::to_string(pid);
 
     // Create the file
+    // analysisManager->OpenFile("Folder2/" + fileName);
     analysisManager->OpenFile(fileName);
   }
 
@@ -290,11 +249,6 @@ void RunAction::BeginOfRunAction(const G4Run*)
   // // Get analysis manager
   // auto analysisManager = G4AnalysisManager::Instance();
 
-  // // Open an output file
-  // //
-  // G4String fileName = "RunData";
-  // analysisManager->OpenFile(fileName);
-
   // show Rndm status
   if (isMaster) G4Random::showEngineStatus();
   
@@ -305,15 +259,6 @@ void RunAction::BeginOfRunAction(const G4Run*)
     G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
     fRun->SetPrimary(particle, energy);
   }
-
-  /*        
-  //histograms
-  //
-  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-  if ( analysisManager->IsActive() ) {
-    analysisManager->OpenFile();
-  }
-  */
 }
 
 
@@ -360,16 +305,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
      (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
   G4String runCondition;
 
-  //PARTICLE GUN
-  // if (generatorAction)
-  // {
-  //   const G4ParticleGun* particleGun = generatorAction->GetParticleGun();
-  //   runCondition += particleGun->GetParticleDefinition()->GetParticleName();
-  //   runCondition += " of ";
-  //   G4double particleEnergy = particleGun->GetParticleEnergy();
-  //   runCondition += G4BestUnit(particleEnergy,"Energy");
-  // }
-
 
   //GPS
     if (generatorAction)
@@ -412,40 +347,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
     //  << G4endl
    ;
 
-  //from example B4d
-  // print histogram statistics
-  //
-  //auto analysisManager = G4AnalysisManager::Instance();
-  // if ( analysisManager->GetH1(1) ) {
-  //   G4cout << G4endl << " ----> print histograms statistic ";
-  //   if(isMaster) {
-  //     G4cout << "for the entire run " << G4endl << G4endl; 
-  //   }
-  //   else {
-  //     G4cout << "for the local thread " << G4endl << G4endl; 
-  //   }
-    
-  //   G4cout << " EAbs : mean = " 
-  //      << G4BestUnit(analysisManager->GetH1(0)->mean(), "Energy") 
-  //      << " rms = " 
-  //      << G4BestUnit(analysisManager->GetH1(0)->rms(),  "Energy") << G4endl;
-    
-  //   G4cout << " EGap : mean = " 
-  //      << G4BestUnit(analysisManager->GetH1(1)->mean(), "Energy") 
-  //      << " rms = " 
-  //      << G4BestUnit(analysisManager->GetH1(1)->rms(),  "Energy") << G4endl;
-    
-  //   G4cout << " LAbs : mean = " 
-  //     << G4BestUnit(analysisManager->GetH1(2)->mean(), "Length") 
-  //     << " rms = " 
-  //     << G4BestUnit(analysisManager->GetH1(2)->rms(),  "Length") << G4endl;
-
-  //   G4cout << " LGap : mean = " 
-  //     << G4BestUnit(analysisManager->GetH1(3)->mean(), "Length") 
-  //     << " rms = " 
-  //     << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
-  // }
-
 
   if (isMaster) fRun->EndOfRun();    
   
@@ -469,6 +370,4 @@ void RunAction::AddEdep(G4double edep)
   fEdep  += edep;
   fEdep2 += edep*edep;
 }
-
-
 

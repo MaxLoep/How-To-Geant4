@@ -46,6 +46,9 @@ set(How-To-Geant4_SCRIPTS
     PlotRootFile.py
     vis.mac
     run.mac
+    radioactivedecay.mac
+    generalparticlesource.mac
+    scoringmesh.mac
     Lochflansch.stl
     Lochflansch.obj
     Austrittsfenster.obj

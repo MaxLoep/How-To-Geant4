@@ -8,6 +8,8 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 
+#include <filesystem>
+
 // mutex in a file scope
 
 namespace {
@@ -247,7 +249,7 @@ void Run::EndOfRun()
   G4long pid = getpid();
 
   // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "ListOfGeneratedParticles_pid+1.txt" exists. 
-  while(std::ifstream(std::to_string(pid) + ".txt"))
+  while(std::ifstream("ListOfGeneratedParticles_" + std::to_string(pid) + ".txt"))
   {
     pid++;
   }
@@ -255,6 +257,8 @@ void Run::EndOfRun()
   std::string fileName = "ListOfGeneratedParticles_" + std::to_string(pid) + ".txt";
 
   // flush output to file
+  // std::filesystem::create_directory("Folder");
+  // std::ofstream outFile("Folder/" + fileName);
   std::ofstream outFile(fileName);
 
   outFile << "\n List of generated particles:" << G4endl;
