@@ -24,6 +24,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
+    void SetOutputFolder (std::string);
     void SetAbsorMaterial (G4String);
 
     void change_a   (G4double);
@@ -46,6 +47,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
   private:
 
   // Define Variables for Materials and geometries you want to change per macro-file HERE:
+
+  
 
   //world size 
   G4double world_sizeXYZ;

@@ -10,8 +10,21 @@
 
 #include <filesystem>
 
-// mutex in a file scope
+// get folderName from where it is defined (RunAction.cc) - the really dirty way 
+extern std::string folderName;
+// Standard folder name for the 'ListOfGeneratedParticles' files
+std::string ListFolder = "Lists of generated Particles";
 
+//
+//Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
+//
+// void DetectorConstruction::SetOutputFolder(G4String OutFoldName)
+// void DetectorConstruction::SetOutputFolder(std::string OutFoldName)
+// {
+// folderName = OutFoldName;             
+// }
+
+// mutex in a file scope
 namespace {
   //Mutex to lock updating the global ion map
   G4Mutex ionIdMapMutex = G4MUTEX_INITIALIZER;
@@ -246,14 +259,15 @@ void Run::EndOfRun()
   // Create an output file which increases in number if the simulation is run again
 
   // create a folder for the files
-  std::string folderName = "Lists of Generated Particles";
+  // std::string folderName = "Lists of Generated Particles";
   std::filesystem::create_directory(folderName);
+  std::filesystem::create_directory(folderName + "/" + ListFolder);
 
   //Get process ID
   G4long pid = getpid();
 
   // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "ListOfGeneratedParticles_pid+1.txt" exists. 
-  while(std::ifstream(folderName + "/" + "ListOfGeneratedParticles_" + std::to_string(pid) + ".txt"))
+  while(std::ifstream(folderName + "/" + ListFolder + "/" + "ListOfGeneratedParticles_" + std::to_string(pid) + ".txt"))
   {
     pid++;
   }
@@ -261,7 +275,7 @@ void Run::EndOfRun()
   std::string fileName = "ListOfGeneratedParticles_" + std::to_string(pid) + ".txt";
 
   // flush output to file
-  std::ofstream outFile(folderName + "/" + fileName);
+  std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
   // std::ofstream outFile(fileName);
 
   outFile << "\n List of generated particles:" << G4endl;

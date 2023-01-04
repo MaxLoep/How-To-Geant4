@@ -1,6 +1,7 @@
 # How-To-Geant4
 V0.7.2:\
--much code clean up
+-much code clean up\
+-root output files and 'ListOfGeneratedParticles.txt' are now saved in subfolders
 
 V0.7.1:\
 -some code clean up\

@@ -360,7 +360,7 @@ void DetectorConstruction::PrintParameters()
 
 
 //
-//Functions for custom GUI and macro commands - see DetextorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
+//Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
 //
 void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
 {

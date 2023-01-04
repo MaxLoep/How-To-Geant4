@@ -25,6 +25,20 @@ Understand what this does and comment it
 //Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
 G4bool SaveEachRunInSeparateFile = true;
 
+// Standard output folder name
+std::string folderName = "Output";
+// Standardd folder name for the root files
+std::string RootFolder = "Root Files";
+
+//
+//Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
+//
+// void DetectorConstruction::SetOutputFolder(G4String OutFoldName)
+void DetectorConstruction::SetOutputFolder(std::string OutFoldName)
+{
+folderName = OutFoldName;             
+}
+
 
 RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   : G4UserRunAction(),
@@ -38,8 +52,9 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   // G4cout << "\n PID is " << pid << G4endl;
 
   // create a folder for the files
-  std::string folderName = "Root Files";
+  // std::string folderName = "Root Files";
   std::filesystem::create_directory(folderName);
+  std::filesystem::create_directory(folderName + "/" + RootFolder);
 
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
@@ -52,7 +67,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
     //
 
     // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-    while(std::ifstream(folderName + "/" + "ID_" + std::to_string(pid) + ".root"))
+    while(std::ifstream(folderName + "/" + RootFolder + "/" + "ID_" + std::to_string(pid) + ".root"))
     {
       pid++;
     }
@@ -60,7 +75,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
     std::string fileName = "ID_" + std::to_string(pid);
 
     // Create the file
-    analysisManager->OpenFile(folderName + "/" + fileName);
+    analysisManager->OpenFile(folderName + "/" + RootFolder + "/" + fileName);
   }
 
   // add new units for dose
@@ -194,10 +209,9 @@ void RunAction::BeginOfRunAction(const G4Run*)
   G4long pid = getpid(); 
 
   // create a folder for the files
-  std::string folderName = "Root Files";
+  // std::string folderName = "Root Files";
   std::filesystem::create_directory(folderName);
-
-  // std::filesystem::create_directory("Folder2");
+  std::filesystem::create_directory(folderName + "/" + RootFolder);
 
   //G4RunManager::GetRunManager()->GeometryHasBeenModified();
   //G4RunManager::GetRunManager()->ReinitializeGeometry();
@@ -215,7 +229,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
     //
 
     // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
-    while(std::ifstream(folderName + "/" + "ID_" + std::to_string(pid) + ".root"))
+    while(std::ifstream(folderName + "/" + RootFolder + "/" + "ID_" + std::to_string(pid) + ".root"))
     {
       pid++;
     }
@@ -224,7 +238,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
 
     // Create the file
     // analysisManager->OpenFile("Folder2/" + fileName);
-    analysisManager->OpenFile(folderName + "/" + fileName);
+    analysisManager->OpenFile(folderName + "/" + RootFolder + "/" + fileName);
   }
 
   //
