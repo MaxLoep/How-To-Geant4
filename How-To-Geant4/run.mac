@@ -13,7 +13,7 @@
 #/process/verbose 0
 #/process/em/verbose 0
 
-#Set number o worker threads and initialize run
+#Set number of worker threads and initialize run
 /run/numberOfThreads 4
 /run/initialize
 

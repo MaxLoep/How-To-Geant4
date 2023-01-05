@@ -84,7 +84,7 @@ def plot_TTree(data, TTreeFolder, TTreeBranch, bins):
 
 if __name__ == "__main__":
     #Plot the content of the following file
-    mainfile = uproot.open("ID_8012.root")
+    mainfile = uproot.open("Output\Root Files\ID_15840.root")
     
     #Count substructures in the file
     mainkeys = mainfile.keys()
