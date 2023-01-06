@@ -46,7 +46,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
   Run* run = static_cast<Run*>(
        G4RunManager::GetRunManager()->GetNonConstCurrentRun());
   
-  G4AnalysisManager* analysis = G4AnalysisManager::Instance();
+  // G4AnalysisManager* analysis = G4AnalysisManager::Instance();
   
   const G4ParticleDefinition* particle = track->GetParticleDefinition();
   G4String name     = particle->GetParticleName();

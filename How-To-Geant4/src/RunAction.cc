@@ -21,6 +21,7 @@ Understand what this does and comment it
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include <filesystem>
+namespace fs = std::filesystem;
 
 //Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
 G4bool SaveEachRunInSeparateFile = true;
@@ -53,8 +54,10 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 
   // create a folder for the files
   // std::string folderName = "Root Files";
-  std::filesystem::create_directory(folderName);
-  std::filesystem::create_directory(folderName + "/" + RootFolder);
+  // std::filesystem::create_directory(folderName);
+  // std::filesystem::create_directory(folderName + "/" + RootFolder);
+  fs::create_directory(folderName);
+  fs::create_directory(folderName + "/" + RootFolder);
 
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
@@ -210,8 +213,10 @@ void RunAction::BeginOfRunAction(const G4Run*)
 
   // create a folder for the files
   // std::string folderName = "Root Files";
-  std::filesystem::create_directory(folderName);
-  std::filesystem::create_directory(folderName + "/" + RootFolder);
+  // std::filesystem::create_directory(folderName);
+  // std::filesystem::create_directory(folderName + "/" + RootFolder);
+  fs::create_directory(folderName);
+  fs::create_directory(folderName + "/" + RootFolder);
 
   //G4RunManager::GetRunManager()->GeometryHasBeenModified();
   //G4RunManager::GetRunManager()->ReinitializeGeometry();

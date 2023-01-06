@@ -34,7 +34,7 @@
 
 #Start a run and print progress in console
 /run/printProgress 1000
-/run/beamOn 1
+/run/beamOn 10000
 
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

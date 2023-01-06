@@ -49,10 +49,10 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 // if(particle == G4Proton::Proton()){
 
     // Track ID:
-    G4int ID = track->GetTrackID();
+    // G4int ID = track->GetTrackID();
 
     // code PDG:
-    G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
+    // G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
     //G4String name   = track->GetDefinition()->GetParticleName();
     
   //G4String name   = particle->GetParticleName();

@@ -19,8 +19,9 @@ The actual functions can be found in files where they change variables, e.g. Det
 
 DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 :G4UImessenger(), 
- fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), fMaterCmd(nullptr),
+ fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), 
  fOutFoldCmd(nullptr),
+ fMaterCmd(nullptr),
  fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr)
 {
   //Create a directory for your custom commands

@@ -1,5 +1,6 @@
 #----------------------------------------------------------------------------
 # Setup the project
+#set(CMAKE_CXX_STANDARD 17)
 cmake_minimum_required(VERSION 3.8...3.18)
 if(${CMAKE_VERSION} VERSION_LESS 3.12)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
@@ -35,7 +36,14 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(How-To-Geant4 How-To-Geant4.cc ${sources} ${headers})
-target_link_libraries(How-To-Geant4 ${Geant4_LIBRARIES} )
+target_compile_features(How-To-Geant4 PRIVATE cxx_std_17)
+
+#if gcc is the compiler, you need to use this because of '#include <filesystem>'
+if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
+  target_link_libraries(How-To-Geant4 ${Geant4_LIBRARIES} stdc++fs)
+else()
+  target_link_libraries(How-To-Geant4 ${Geant4_LIBRARIES})
+endif()
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

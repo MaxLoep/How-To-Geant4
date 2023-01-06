@@ -9,6 +9,7 @@
 #include "G4SystemOfUnits.hh"
 
 #include <filesystem>
+namespace fs = std::filesystem;
 
 // get folderName from where it is defined (RunAction.cc) - the really dirty way 
 extern std::string folderName;
@@ -260,8 +261,10 @@ void Run::EndOfRun()
 
   // create a folder for the files
   // std::string folderName = "Lists of Generated Particles";
-  std::filesystem::create_directory(folderName);
-  std::filesystem::create_directory(folderName + "/" + ListFolder);
+  // std::filesystem::create_directory(folderName);
+  // std::filesystem::create_directory(folderName + "/" + ListFolder);
+  fs::create_directory(folderName);
+  fs::create_directory(folderName + "/" + ListFolder);
 
   //Get process ID
   G4long pid = getpid();

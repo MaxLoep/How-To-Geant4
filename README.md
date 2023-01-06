@@ -1,4 +1,7 @@
 # How-To-Geant4
+V0.7.3:\
+-some fixes in 'CMakeLists.txt' for compilation with gcc version <9
+
 V0.7.2:\
 -much code clean up\
 -root output files and 'ListOfGeneratedParticles.txt' are now saved in subfolders
