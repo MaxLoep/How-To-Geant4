@@ -1,4 +1,7 @@
 # How-To-Geant4
+V0.7.4:\
+-more advanced geometries
+
 V0.7.3:\
 -some fixes in 'CMakeLists.txt' for compilation with gcc version <9
 
