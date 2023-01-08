@@ -619,11 +619,53 @@ How to import one object from an .stl-file
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // 
-//Import Mobile Faraday Cup and place it in CupBox
-// 
+//Import Mobile Faraday Cup and place it in surrounding CupBox in BoxBox
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #pragma region 
   // 
-  // Box for Mobile Faraday Cup
+  // Materials
+  // 
+  //Define borated PE (Röchling- Polystone M nuclear with 5% Boron)
+  G4Material* BoratedPE = new G4Material("BoratedPE",      //name
+                                      1.03*g/cm3,          //density
+                                      3);                  //number of elements
+
+  //Add Elements to Material
+  BoratedPE->AddMaterial(nist->FindOrBuildMaterial("G4_H"), 14.*perCent);
+  BoratedPE->AddMaterial(nist->FindOrBuildMaterial("G4_C"), 81.*perCent);
+  BoratedPE->AddMaterial(nist->FindOrBuildMaterial("G4_B"), 5.*perCent);
+
+  dummyMat     = nist->FindOrBuildMaterial("BoratedPE");
+  
+  // 
+  // surounding BoxBox for the box surrounding the Mobile Faraday Cup
+  // 
+    G4Box* solidBoxBox =    
+    new G4Box("BoxBox",                       //its name
+       (150.*mm+b)/2, (120.*mm+b)/2, (298.*mm+b/2)/2 );     //its size - b-size shielding in x- and y-direction but only b/2 in z-direction because not shielding in front
+      
+  G4LogicalVolume* logicBoxBox =                         
+    new G4LogicalVolume(solidBoxBox,          //its solid
+                        dummyMat,           //its material
+                        "BoxBox");            //its name
+                                   
+  G4VPhysicalVolume* physBoxBox = 
+    new G4PVPlacement(0,                     //no rotation
+                      G4ThreeVector(0, 0,(298.*mm+b/2)/2),       //at (0,0,0)
+                      logicBoxBox,            //its logical volume
+                      "BoxBox",               //its name
+                      logicWorld,                     //its mother  volume
+                      false,                 //no boolean operation
+                      0,                     //copy number
+                      true);                 //overlaps checking
+
+  //Make BoxBox-volume invisible
+  auto logicBoxBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b , transparency)
+  logicBoxBoxVisAtt->SetVisibility(true);
+  logicBoxBox->SetVisAttributes(logicBoxBoxVisAtt);
+
+  // 
+  // surounding Box for Mobile Faraday Cup
   // 
     G4Box* solidCupBox =    
     new G4Box("CupBox",                       //its name
@@ -636,10 +678,10 @@ How to import one object from an .stl-file
                                    
   G4VPhysicalVolume* physCupBox = 
     new G4PVPlacement(0,                     //no rotation
-                      G4ThreeVector(0, 0, 30.*cm),       //at (0,0,0)
+                      G4ThreeVector(0, 0, -b/4),       //at (0,0,0)  - move -b/4 in z-direction for no shielding in front but b-size shielding in the back
                       logicCupBox,            //its logical volume
                       "CupBox",               //its name
-                      logicWorld,                     //its mother  volume
+                      logicBoxBox,                     //its mother  volume
                       false,                 //no boolean operation
                       0,                     //copy number
                       true);                 //overlaps checking
@@ -660,7 +702,7 @@ How to import one object from an .stl-file
   //Volumen 1
   auto logicDumpTarget = 
     new G4LogicalVolume( FaradayCup_mesh->GetSolid("DumpTarget"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-                                         world_mat,                 //its material         
+                                         Graphite,                 //its material         
                                          "DumpTarget",         //its name
                                          0, 0, 0
   );
@@ -681,7 +723,7 @@ How to import one object from an .stl-file
   //Volumen 2
   auto logicDumpCube = 
     new G4LogicalVolume( FaradayCup_mesh->GetSolid("DumpCube"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-                                         world_mat,                 //its material         
+                                         Aluminum,                 //its material         
                                          "DumpCube",         //its name
                                          0, 0, 0
   );
@@ -867,12 +909,38 @@ How to import one object from an .stl-file
   logicRingOutsideVisAtt->SetVisibility(true);
   logicRingOutside->SetVisAttributes(logicRingOutsideVisAtt);
 
+  //     
+  // Experimental Hall Floor
+  // 
+  G4Box* sFloor =    
+    new G4Box("sFloor",                        //its name
+        14.*m/2, 1.*m/2, 14.*m /2);                   //its size: half x, half y, half z
+      
+  G4LogicalVolume* lFloor =                         
+    new G4LogicalVolume(sFloor,                //its solid
+                        Concrete,           //its material
+                        "Floor");              //its name
+    
+    new G4PVPlacement(0,                     //no rotation
+              G4ThreeVector(0,-1.33*m - 50.*cm,0),     //position
+              lFloor,                          //its logical volume
+              "Floor",                         //its name
+              logicWorld,                    //its mother  volume
+              false,                         //boolean operation?
+              0,                             //copy number
+              true);                         //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto lFloorVisAtt = new G4VisAttributes(G4Color(133/255,138/255,126/255, 0.8)); //(r, g, b , transparency)
+  lFloorVisAtt->SetVisibility(true);
+  lFloor->SetVisAttributes(lFloorVisAtt);
+
 #pragma endregion
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // 
 //Import Lenard Window and place it in LenardWindowCylinder
-// 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 #pragma region 
   //
   // Cylinder
@@ -1026,7 +1094,7 @@ How to import one object from an .stl-file
 
 // 
 //Geometry from Celinas Bachelor Thesis
-// 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #pragma region 
   
   Cylinder - Outer Steel

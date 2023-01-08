@@ -70,9 +70,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
    G4Material*        world_mat;
    G4Material*        boxMaterial;
-   G4Material*        dummyMat;
-
-   G4Material*        Graphite;                       
+   G4Material*        dummyMat;                    
 
    DetectorMessenger* fDetectorMessenger;
 

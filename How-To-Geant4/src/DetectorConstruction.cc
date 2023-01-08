@@ -42,6 +42,7 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4SolidStore.hh"
 
 #include "SensitiveDetector.hh"                     //the SensitiveDetector
+#include "CADMesh.hh"                   // for importing CAD-files (.stl, .obj, ...). Read all about it at: https://github.com/christopherpoole/CADMesh
 
 
 DetectorConstruction::DetectorConstruction()
@@ -50,7 +51,7 @@ DetectorConstruction::DetectorConstruction()
  fScoringVolume(0)
 {
   // World Size
-  world_sizeXYZ = 10.*m;
+  world_sizeXYZ = 20.*m;
 
   //set box parameters
   boxX     = 10. *cm;
@@ -59,7 +60,7 @@ DetectorConstruction::DetectorConstruction()
 
   // set dummy variables
   a = 20.*cm; // used for x- and y-width of Sensitive Detectors
-  b = 1.*cm;
+  b = 10.*cm; 
   c = 1.*cm;
   d = 1.*cm;
   e = 1.*cm;
@@ -94,11 +95,11 @@ void DetectorConstruction::DefineMaterials()
   G4NistManager* nist = G4NistManager::Instance();
 
   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
-  // world_mat    = nist->FindOrBuildMaterial("G4_AIR");
-  // boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
+  world_mat    = nist->FindOrBuildMaterial("G4_AIR");
+  boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
 
-  world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
-  boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
+  // world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
+  // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
   //Print all defined materials to console
@@ -340,12 +341,13 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   lSphereVisAtt->SetVisibility(true);
   lSphere->SetVisAttributes(lSphereVisAtt);
 
+
   //B1 SCORING METHOD
   //You need also Code for this one to work in:
   //SteppingAction.cc,  RunAction.cc, EventAction.cc          
   // Set logical Box volume as scoring volume (must be a logical volume)
   //This is a public variable defined in the header file to make it accessible from other files
-  fScoringVolume = lBox;
+  fScoringVolume = lSD1;
 
   PrintParameters();
   
@@ -443,25 +445,25 @@ void DetectorConstruction::ConstructSDandField()
   G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
   SetSensitiveDetector("SD1", sd1);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
 
-  // auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
-  // G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-  // SetSensitiveDetector("SD2", sd2);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
+  SetSensitiveDetector("SD2", sd2);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
 
-  // auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
-  // G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-  // SetSensitiveDetector("SD3", sd3);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
+  SetSensitiveDetector("SD3", sd3);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
 
-  // auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
-  // G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-  // SetSensitiveDetector("SD4", sd4);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
+  SetSensitiveDetector("SD4", sd4);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
 
-  // auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
-  // G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-  // SetSensitiveDetector("SD5", sd5);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
+  SetSensitiveDetector("SD5", sd5);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
 
-  // auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
-  // G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-  // SetSensitiveDetector("Sphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to Volume 'Box'
+  auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
+  G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
+  SetSensitiveDetector("Sphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to Volume 'Box'
 
 
   // // 

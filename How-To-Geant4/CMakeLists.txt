@@ -60,6 +60,7 @@ set(How-To-Geant4_SCRIPTS
     Lochflansch.stl
     Lochflansch.obj
     Austrittsfenster.obj
+    FaradayCupMobile.obj
   )
 
 foreach(_script ${How-To-Geant4_SCRIPTS})
