@@ -85,7 +85,8 @@ def plot_TTree(data, TTreeFolder, TTreeBranch, bins):
       
     #Close the file/figure 
     plt.close()
-    
+  
+#Plot all content of a Root file - UNNICE
 def plot_all(path_to_file):
     #Plot the content of the following file
     mainfile = uproot.open(path_to_file)
@@ -126,7 +127,8 @@ def plot_all(path_to_file):
             print(str(mainkeys[i]) + " is not a TTree")
             #plot the histogram
             plot_TH1D(key, mainkeys[i])
-            
+    
+#Plot one Plot but nicely - with label, name, axis, etc.
 def plot_one(path_to_file, histo_path, bins ):
     mainfile = uproot.open(path_to_file)
     mainkey = histo_path[:histo_path.rfind("/")]
@@ -215,18 +217,28 @@ def plot_one(path_to_file, histo_path, bins ):
         plt.close()
 
         
- 
+#main function for different use cases
 def main(arg):
-    if arg == "all":
+    if arg == "every":
         plot_all(path)
     else:
         # print("arg not given")
-        plot_all(path)
+        # plot_all(path)
+        plot_one(path, arg, 100)
 
+#do stuff if this script is called directly otherwise do nothing
 if __name__ == "__main__":
+    #if script is called without argument plot everything in Root File
     if len(sys.argv) == 1:
-        main(all)
-        # plot_one(path, "SD1/2", 100)
+        main("every")
+        
+    else:
+        try:
+            # print(sys.argv[1])
+            main(sys.argv[1])
+            # plot_one(path, "SD1/2", 100)
+        except:
+            print("Argument is no valid Plotname")
     
          
     
