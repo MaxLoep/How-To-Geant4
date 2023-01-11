@@ -97,6 +97,7 @@ void DetectorConstruction::DefineMaterials()
   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
   world_mat    = nist->FindOrBuildMaterial("G4_AIR");
   boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
+  Vacuum    = nist->FindOrBuildMaterial("G4_Galactic");
 
   // world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
   // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
@@ -192,7 +193,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD1 =                         
     new G4LogicalVolume(sSD1,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD1");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -218,7 +219,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD2 =                         
     new G4LogicalVolume(sSD2,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD2");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -244,7 +245,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD3 =                         
     new G4LogicalVolume(sSD3,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD3");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -270,7 +271,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD4 =                         
     new G4LogicalVolume(sSD4,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD4");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -296,7 +297,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD5 =                         
     new G4LogicalVolume(sSD5,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD5");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -324,7 +325,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
             
   G4LogicalVolume* lSphere =
     new G4LogicalVolume(sSphere,              //shape
-                        dummyMat,             //material
+                        Vacuum,             //material
                         "Sphere");            //name
 
   new G4PVPlacement(0,                        //no rotation
@@ -374,8 +375,14 @@ void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
   
   if (pttoMaterial) { 
     dummyMat = pttoMaterial;
+    G4RunManager::GetRunManager()->ReinitializeGeometry();
+    G4cout << "\n The dummyMat is now "
+           << dummyMat->GetName() 
+           << "\n \n" << dummyMat << G4endl;
+
     if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
     G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+    G4cout << "\n Weird if-case happened..." << G4endl;
   } else {
     G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
            << materialChoice << " not found" << G4endl;
