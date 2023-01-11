@@ -1,3 +1,5 @@
+# to run in Spyder console: runfile('PlotRootFile.py', args)
+
 import uproot
 import numpy as np
 import matplotlib
@@ -5,8 +7,11 @@ import matplotlib.pyplot as plt
 from scipy import optimize as op
 import os
 import math
+import sys
 
-#Function to plot a T1HD Histogram from a root file with matplotlib
+path = "build\\Output\\Root Files\\ID_15188.root"
+
+#Function to plot a T1HD Histogram from a root file with matplotlib - UNNICE PLOT
 def plot_TH1D(name, title):
     # Plot stuff
     # Start a figure and set its size 
@@ -46,7 +51,7 @@ def plot_TH1D(name, title):
     #Close the file/figure 
     plt.close()
  
-#Function to plot a TTree Histogram from a root file with matplotlib
+#Function to plot a TTree Histogram from a root file with matplotlib - UNNICE PLOT
 def plot_TTree(data, TTreeFolder, TTreeBranch, bins): 
     #Plot stuff
     #Start a figure and set its size 
@@ -54,7 +59,7 @@ def plot_TTree(data, TTreeFolder, TTreeBranch, bins):
 
     #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
     ax1 = fig.add_subplot(1, 1, 1)
-    counts_Ekin, bining_Ekin, patches_Ekin = ax1.hist(array, bins= bins, label="Counts: " + str(len(array)), zorder=10)
+    counts_Ekin, bining_Ekin, patches_Ekin = ax1.hist(data, bins= bins, label="Counts: " + str(len(data)), zorder=10)
     
     #Set title for ax1
     ax1.set_title(str(TTreeFolder) + " - " +  str(TTreeBranch))
@@ -80,11 +85,11 @@ def plot_TTree(data, TTreeFolder, TTreeBranch, bins):
       
     #Close the file/figure 
     plt.close()
- 
-
-if __name__ == "__main__":
+    
+def plot_all(path_to_file):
     #Plot the content of the following file
-    mainfile = uproot.open("Output\Root Files\ID_15840.root")
+    mainfile = uproot.open(path_to_file)
+    # mainfile = uproot.open("build\Output\Root Files\ID_15188.root")
     
     #Count substructures in the file
     mainkeys = mainfile.keys()
@@ -107,18 +112,122 @@ if __name__ == "__main__":
             #iterate over branches of TTree
             for j in range(len(key.branches)):
                 # print(j)
-                print(key.branches[j].name + " is a branch of " + mainkeys[i])
+                print(key.branches[j].name + " is a branch of " + mainkeys[i] + "\nIt's path is \n" + 
+                      str(mainkeys[i]) + "/" + str(j) +"\n")
                 #read data of branch in array
                 array = mainfile[mainkeys[i]].branches[j].array()
                 
                 #plot the TTreeBranch data as histogramm
                 plot_TTree(array, mainkeys[i], mainfile[mainkeys[i]].branches[j].name, bins=100)
+                
 
         #if key is no TTree, it is a TH1D histogramm    
         except: 
             print(str(mainkeys[i]) + " is not a TTree")
             #plot the histogram
             plot_TH1D(key, mainkeys[i])
+            
+def plot_one(path_to_file, histo_path, bins ):
+    mainfile = uproot.open(path_to_file)
+    mainkey = histo_path[:histo_path.rfind("/")]
+    j = int(histo_path[histo_path.rfind("/")+1:])
+    # #read data of branch in array
+    array = mainfile[mainkey].branches[j].array()
+    try:
+        # this will raise an error if key is no TTree
+        key = mainfile[str(mainkey)]
+        key.tree
+        #plot the TTreeBranch data as histogramm
+        # plot_TTree(array, mainkey, mainfile[mainkey].branches[j].name, bins=bins)
+        #Plot stuff
+        #Start a figure and set its size 
+        fig = plt.figure(figsize=(6, 6))
+
+        #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
+        ax1 = fig.add_subplot(1, 1, 1)
+        counts_Ekin, bining_Ekin, patches_Ekin = ax1.hist(array, bins= bins, label="Counts: " + str(len(array)), zorder=10)
+        
+        #Set title for ax1
+        ax1.set_title(str(mainkey) + " - " +  str(mainfile[mainkey].branches[j].name))
+        
+        # #Set axis labels for ax1
+        ax1.set_xlabel(" / cm")
+        ax1.set_ylabel("counts")
+        
+        #Set x- and y-range
+        # ax1.set_xlim(1,2.5)
+        #ax1.set_ylim(0, 15)
+        
+        # Plot with grid
+        ax1.grid()
+         
+        # Set legend for ax1
+        ax1.legend(loc='best')
+        
+        # plt.savefig('Plot0.pdf')
+        
+        #Show the figure
+        plt.show()
+          
+        #Close the file/figure 
+        plt.close()
+    #if key is no TTree, it is a TH1D histogramm    
+    except: 
+        print(str(mainkey) + " is not a TTree")
+        #plot the histogram
+        # plot_TH1D(key, mainkey)
+        # Plot stuff
+        # Start a figure and set its size 
+        fig = plt.figure(figsize=(6, 6))
+        
+        #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
+        ax1 = fig.add_subplot(1, 1, 1)
+        
+        counts_, bins_, _ = plt.hist((key.axis().edges()[:-1] + key.axis().edges()[1:]) / 2,
+                                     bins=key.axis().edges(),
+                                          weights=key.values(),
+                                          range=(min(key.axis().edges()),
+                                                 max(key.axis().edges())),
+                                          label="Counts: " + str(sum(key.values())) )
+        #Set title for ax1
+        ax1.set_title(str(mainkey))
+        
+        # #Set axis labels for ax1
+        # ax1.set_xlabel(" / cm")
+        ax1.set_ylabel("counts")
+        
+        #Set x- and y-range
+        # ax1.set_xlim(1,2.5)
+        #ax1.set_ylim(0, 15)
+        
+        # Plot with grid
+        ax1.grid()
+         
+        # Set legend for ax1
+        ax1.legend(loc='best')
+        
+        # plt.savefig('Plot0.pdf')
+        
+        #Show the figure
+        plt.show()
+          
+        #Close the file/figure 
+        plt.close()
+
+        
+ 
+def main(arg):
+    if arg == "all":
+        plot_all(path)
+    else:
+        # print("arg not given")
+        plot_all(path)
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        main(all)
+        # plot_one(path, "SD1/2", 100)
+    
          
     
 
