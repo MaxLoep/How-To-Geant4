@@ -1,17 +1,19 @@
 # to run in Spyder console: runfile('PlotRootFile.py', args)
 
-import uproot
-import numpy as np
-import matplotlib
+import uproot                       #for reading .root files
+#import numpy as np                  #for nice arrays
+#import matplotlib
 import matplotlib.pyplot as plt
-from scipy import optimize as op
-import os
-import math
-import sys
+#from scipy import optimize as op
+#import os
+#import math
+import sys                          #for getting argument if executet from console
 
-path = "build\\Output\\Root Files\\ID_15188.root"
+#Path to file
+path = "build\\Output\\Root Files\\ID_16716.root"
 
-#Function to plot a T1HD Histogram from a root file with matplotlib - UNNICE PLOT
+#Function to plot a T1HD Histogram from a root file with matplotlib
+#UNNICE PLOT - no axis label, generic title, generic axis range
 def plot_TH1D(name, title):
     # Plot stuff
     # Start a figure and set its size 
@@ -20,6 +22,7 @@ def plot_TH1D(name, title):
     #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
     ax1 = fig.add_subplot(1, 1, 1)
     
+    #read bin edges and number of entries from file and plot
     counts_, bins_, _ = plt.hist((name.axis().edges()[:-1] + name.axis().edges()[1:]) / 2,
                                  bins=name.axis().edges(),
                                       weights=name.values(),
@@ -28,14 +31,10 @@ def plot_TH1D(name, title):
                                       label="Counts: " + str(sum(name.values())) )
     #Set title for ax1
     ax1.set_title(str(title))
-    
+      
     # #Set axis labels for ax1
     # ax1.set_xlabel(" / cm")
     ax1.set_ylabel("counts")
-    
-    #Set x- and y-range
-    # ax1.set_xlim(1,2.5)
-    #ax1.set_ylim(0, 15)
     
     # Plot with grid
     ax1.grid()
@@ -43,15 +42,14 @@ def plot_TH1D(name, title):
     # Set legend for ax1
     ax1.legend(loc='best')
     
-    # plt.savefig('Plot0.pdf')
-    
     #Show the figure
     plt.show()
       
     #Close the file/figure 
     plt.close()
  
-#Function to plot a TTree Histogram from a root file with matplotlib - UNNICE PLOT
+#Function to plot a TTree Histogram from a root file with matplotlib
+#UNNICE PLOT - no axis label, generic title, generic axis range
 def plot_TTree(data, TTreeFolder, TTreeBranch, bins): 
     #Plot stuff
     #Start a figure and set its size 
@@ -59,6 +57,8 @@ def plot_TTree(data, TTreeFolder, TTreeBranch, bins):
 
     #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
     ax1 = fig.add_subplot(1, 1, 1)
+    
+    #create histo from data
     counts_Ekin, bining_Ekin, patches_Ekin = ax1.hist(data, bins= bins, label="Counts: " + str(len(data)), zorder=10)
     
     #Set title for ax1
@@ -68,17 +68,11 @@ def plot_TTree(data, TTreeFolder, TTreeBranch, bins):
     # ax1.set_xlabel(" / cm")
     ax1.set_ylabel("counts")
     
-    #Set x- and y-range
-    # ax1.set_xlim(1,2.5)
-    #ax1.set_ylim(0, 15)
-    
     # Plot with grid
     ax1.grid()
      
     # Set legend for ax1
     ax1.legend(loc='best')
-    
-    # plt.savefig('Plot0.pdf')
     
     #Show the figure
     plt.show()
@@ -102,6 +96,7 @@ def plot_all(path_to_file):
     
     #Iterate over keys and plot the content
     for i in range(len(mainkeys)):
+        #Get current Key
         key = mainfile[str(mainkeys[i])]
         
         #try to identify key a TTree
@@ -173,6 +168,7 @@ def plot_one(path_to_file, histo_path, bins ):
           
         #Close the file/figure 
         plt.close()
+        
     #if key is no TTree, it is a TH1D histogramm    
     except: 
         print(str(mainkey) + " is not a TTree")
@@ -629,3 +625,9 @@ if __name__ == "__main__":
       
     # #Close the file/figure 
     # plt.close()
+    
+    #Set x- and y-range
+    # ax1.set_xlim(1,2.5)
+    #ax1.set_ylim(0, 15)
+    
+    # plt.savefig('Plot0.pdf')
