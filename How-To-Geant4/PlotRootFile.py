@@ -1,8 +1,8 @@
 # to run in Spyder console: runfile('PlotRootFile.py', args)
 
 import uproot                       #for reading .root files
-#import numpy as np                  #for nice arrays
-#import matplotlib
+import numpy as np                  #for nice arrays
+import matplotlib
 import matplotlib.pyplot as plt
 #from scipy import optimize as op
 #import os
@@ -211,30 +211,122 @@ def plot_one(path_to_file, histo_path, bins ):
           
         #Close the file/figure 
         plt.close()
+ 
+#Plot one Heatmap but nicely - with label, name, axis, etc.
+def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
+    # args[0]=title
+    # args[1]=xlabel
+    # args[2]=ylabel
+    
+    mainfile = uproot.open(path_to_file)
+    mainkey1 = histo_path_1[:histo_path_1.rfind("/")]
+    j = int(histo_path_1[histo_path_1.rfind("/")+1:])
+    # #read data of branch in array
+    data1 = np.array(mainfile[mainkey1].branches[j].array())
+    # print(data1)
+    
+    mainkey2 = histo_path_2[:histo_path_2.rfind("/")]
+    k = int(histo_path_2[histo_path_2.rfind("/")+1:])
+    # #read data of branch in array
+    data2 = np.array(mainfile[mainkey2].branches[k].array())
+    # print(data2)
+    
+    # data1_clean = []
+    # for i in range(len(data1)):
+    #     if (data1[i] > 0) and (data1[i] < 100)):
+    #         data1_clean += [data1[i]]
+    
+    # data2_clean = []
+    # for i in range(len(data2)):
+    #     if (data2[i] > 0) and (data2[i] < 100)):
+    #         data2_clean += [data2[i]]
+    
+    # try:
+        # this will raise an error if key is no TTree
+    key1 = mainfile[str(mainkey1)]
+    key1.tree
+    key2 = mainfile[str(mainkey2)]
+    key2.tree
+    #Plot stuff
+    #Start a figure and set its size 
+    fig = plt.figure(figsize=(6, 6))
+    # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
+    ax1 = fig.add_subplot(1,1,1)
+    
+    h = ax1.hist2d(data1, data2, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm(vmin=1, vmax=1000))
+    
+    cb = fig.colorbar(h[3], ax=ax1)
+    # cb.set_label('Number of entries')
+    
+    if len(args) >= 1:
+        #Set title for ax3
+        ax1.set_title(str(args[0]))
+        # print(args[0])
+        
+    
+    if len(args) >= 2:
+        #Set axis labels for ax3
+        ax1.set_xlabel(str(args[1]))
+        ax1.set_ylabel(str(args[2]))
+        # print(args)
+     
+    #Plot with grid
+    ax1.grid()
+    
+    #Set legend for ax3
+    # ax1.legend(loc='best')
+    # except:
+    #     print("Something went wrong with heatmap")
+    #     print(histo_path_1)
+    #     print(histo_path_2)
 
         
 #main function for different use cases
-def main(arg):
-    if arg == "every":
+def main(plottype, *args):
+    #if argument is "every" then plot everything in the root file
+    if plottype == "every":
+    # if "every" in args:
+        print("Plotting every plot in the Root file:")
         plot_all(path)
+    elif plottype == "single":
+    # elif "single" in args:
+        print("Plotting a single plot:")
+        # print(args[0])
+        plot_one(path, args[0], 100)
+    elif plottype == "heatmap":
+    # elif "heatmap" in args:
+        print("Plotting a heatmap:")
+        plot_heatmap(path, args[0], args[1], *args[2:])
     else:
-        # print("arg not given")
-        # plot_all(path)
-        plot_one(path, arg, 100)
+        print("Else-case")
+        print("Try to keep it like")
+        print("PlotRootFile.py every")
+        print("PlotRootFile.py single pathname")
+        print("PlotRootFile.py heatmap pathname1 pathname2 title")
 
 #do stuff if this script is called directly otherwise do nothing
 if __name__ == "__main__":
-    #if script is called without argument plot everything in Root File
+    #if script is called without argument sys.argv only contains one element (the program name)
+    #execute main function to plot everything in Root File
     if len(sys.argv) == 1:
         main("every")
         
+    #if arguments are given, try to execute main function with given arguments
     else:
-        try:
+        # try:
+            # print(sys.argv)
             # print(sys.argv[1])
-            main(sys.argv[1])
+            # print(sys.argv[2])
+            # main(sys.argv)
+            main(sys.argv[1], *sys.argv[2:])
             # plot_one(path, "SD1/2", 100)
-        except:
-            print("Argument is no valid Plotname")
+        # print error message
+        # except:
+        #     print("Ooops something is wrong. Maybe invalid arguments")
+        #     print("Try to keep it like")
+        #     print("PlotRootFile.py every")
+        #     print("PlotRootFile.py single pathname")
+        #     print("PlotRootFile.py heatmap pathname1 pathname2 title")
     
          
     
