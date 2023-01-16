@@ -1,4 +1,5 @@
 # to run in Spyder console: runfile('PlotRootFile.py', args)
+#runfile("PlotRootFile.py", "heatmap SD1/1 SD1/2 '' 'x-pos / cm' 'z-pos / cm' 1 1000 SD1/0 0 1")
 
 import uproot                       #for reading .root files
 import numpy as np                  #for nice arrays
@@ -10,7 +11,7 @@ import matplotlib.pyplot as plt
 import sys                          #for getting argument if executet from console
 
 #Path to file
-path = "build\\Output\\Root Files\\ID_16716.root"
+path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
 
 #Function to plot a T1HD Histogram from a root file with matplotlib
 #UNNICE PLOT - no axis label, generic title, generic axis range
@@ -217,6 +218,11 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
     # args[0]=title
     # args[1]=xlabel
     # args[2]=ylabel
+    # args[3]=colorbar min
+    # args[4]=colorbar max
+    # args[5]=data to cut with
+    # args[6]=cut min value
+    # args[7]=cut max value
     
     mainfile = uproot.open(path_to_file)
     mainkey1 = histo_path_1[:histo_path_1.rfind("/")]
@@ -230,16 +236,26 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
     # #read data of branch in array
     data2 = np.array(mainfile[mainkey2].branches[k].array())
     # print(data2)
-    
-    # data1_clean = []
-    # for i in range(len(data1)):
-    #     if (data1[i] > 0) and (data1[i] < 100)):
-    #         data1_clean += [data1[i]]
-    
-    # data2_clean = []
-    # for i in range(len(data2)):
-    #     if (data2[i] > 0) and (data2[i] < 100)):
-    #         data2_clean += [data2[i]]
+ 
+    if len(args) >= 5:
+        try:
+            mainkey3 = args[5][:args[5].rfind("/")]
+            l = int(args[5][args[5].rfind("/")+1:])
+            # #read data of branch in array
+            data3 = np.array(mainfile[mainkey3].branches[l].array())
+            # print(data3)
+            
+            data1_clean = []
+            for i in range(len(data3)):
+                if (data3[i] > float(args[6])) and (data3[i] < float(args[7])):
+                    data1_clean += [data1[i]]
+            
+            data2_clean = []
+            for i in range(len(data3)):
+                if (data3[i] > float(args[6])) and (data3[i] < float(args[7])):
+                    data2_clean += [data2[i]]
+        except IndexError:
+            print("Missing arguments for cutting data")
     
     # try:
         # this will raise an error if key is no TTree
@@ -252,8 +268,26 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
     fig = plt.figure(figsize=(6, 6))
     # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
     ax1 = fig.add_subplot(1,1,1)
-    
-    h = ax1.hist2d(data1, data2, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm(vmin=1, vmax=1000))
+
+    try:
+        try:
+            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
+            print("Generating heatmap with cuts applied to data...")
+            print("Generating heatmap with given scaling...")
+        except IndexError:
+            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm())
+            print("Generating heatmap with cuts applied to data...")
+            print("Autoscaling Heatmap...")
+            
+    except:
+        try:
+            h = ax1.hist2d(data1, data2, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
+            print("Generating heatmap with NO cuts applied to data...")
+            print("Generating heatmap with given scaling...")
+        except IndexError or ValueError:
+            h = ax1.hist2d(data1, data2, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm())
+            print("Generating heatmap with NO cuts applied to data...")
+            print("Autoscaling Heatmap...")
     
     cb = fig.colorbar(h[3], ax=ax1)
     # cb.set_label('Number of entries')
