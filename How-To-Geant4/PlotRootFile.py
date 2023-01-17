@@ -11,7 +11,10 @@ import matplotlib.pyplot as plt
 import sys                          #for getting argument if executet from console
 
 #Path to file
-path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
+# path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
+# path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
+# path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
+path = "build\\Output\\Root Files\\ID_11488.root"
 
 #Function to plot a T1HD Histogram from a root file with matplotlib
 #UNNICE PLOT - no axis label, generic title, generic axis range
@@ -149,12 +152,12 @@ def plot_one(path_to_file, histo_path, bins ):
         ax1.set_title(str(mainkey) + " - " +  str(mainfile[mainkey].branches[j].name))
         
         # #Set axis labels for ax1
-        ax1.set_xlabel(" / cm")
+        ax1.set_xlabel("z-pos / cm")
         ax1.set_ylabel("counts")
         
         #Set x- and y-range
         # ax1.set_xlim(1,2.5)
-        #ax1.set_ylim(0, 15)
+        ax1.set_ylim(0, 115000)
         
         # Plot with grid
         ax1.grid()

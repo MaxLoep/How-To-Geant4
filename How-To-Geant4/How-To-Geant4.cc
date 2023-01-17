@@ -144,6 +144,7 @@ int main(int argc,char** argv) {
   // G4VModularPhysicsList* physicsList = new Shielding;
 
   runManager->SetUserInitialization(physicsList);
+  G4HadronicProcessStore::Instance()->SetVerbose(0);
 
   runManager->SetUserInitialization(new ActionInitialization(det));
 
@@ -171,9 +172,9 @@ int main(int argc,char** argv) {
 
   // Initialize visualization
   //
-  G4VisManager* visManager = new G4VisExecutive;
+  // G4VisManager* visManager = new G4VisExecutive;
   // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-  // G4VisManager* visManager = new G4VisExecutive("Quiet");
+  G4VisManager* visManager = new G4VisExecutive("Quiet");
   visManager->Initialize();
 
   // Get the pointer to the User Interface manager
