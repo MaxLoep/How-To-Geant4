@@ -180,6 +180,19 @@ int main(int argc,char** argv) {
   // Get the pointer to the User Interface manager
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
+  // set verbosity off
+  UImanager->ApplyCommand(G4String("/process/verbose       0"));
+  UImanager->ApplyCommand(G4String("/process/em/verbose    0"));
+  UImanager->ApplyCommand(G4String("/process/had/verbose   0"));
+  UImanager->ApplyCommand(G4String("/process/eLoss/verbose 0"));
+
+  UImanager->ApplyCommand(G4String("/control/verbose  0"));
+  UImanager->ApplyCommand(G4String("/run/verbose      0"));
+  UImanager->ApplyCommand(G4String("/event/verbose    0"));
+  UImanager->ApplyCommand(G4String("/hits/verbose     0"));
+  UImanager->ApplyCommand(G4String("/tracking/verbose 0"));
+  UImanager->ApplyCommand(G4String("/stepping/verbose 0"));
+
   // Process macro or start UI session
   // A UI session is started if the program is execute without a macro file.
   if ( ! ui ) { 

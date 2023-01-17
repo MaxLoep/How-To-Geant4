@@ -1,4 +1,8 @@
 # How-To-Geant4
+V0.7.5:\
+-verbosity reduced via UI commands in How-To-Geant4.cc (console doesn't show wall-of-text with physics infos when run)\
+-PlotRootFile.py got some changes
+
 V0.7.4:\
 -more advanced geometries
 
