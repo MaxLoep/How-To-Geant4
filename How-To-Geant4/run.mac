@@ -20,9 +20,9 @@
 #BEAM
 #------------------------------------------------------------------------
 #Commands to use with the General Particle Source (GPS)
-/gps/particle proton     #beam particle
+#/gps/particle proton     #beam particle
 #/gps/particle deuteron     #beam particle
-#/gps/particle neutron     #beam particle
+/gps/particle neutron     #beam particle
 /gps/position 0 0 0 m      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
@@ -53,7 +53,7 @@
 
 
 #Start a run and print progress in console
-/run/printProgress 100
+/run/printProgress 1000
 #/custom/geo/change_a 15 cm
 #/custom/geo/change_b 15 cm
 #/custom/geo/change_c 15 cm
@@ -61,7 +61,7 @@
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
 #/custom/ana/setOutFolder Test
-/run/beamOn 1000
+/run/beamOn 10000
 
 
 

@@ -14,7 +14,7 @@ import sys                          #for getting argument if executet from conso
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
-path = "build\\Output\\Root Files\\ID_20616.root"
+path = "build\\Output\\Root Files\\ID_12780.root"
 
 #Function to plot a T1HD Histogram from a root file with matplotlib
 #UNNICE PLOT - no axis label, generic title, generic axis range

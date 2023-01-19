@@ -95,11 +95,11 @@ void DetectorConstruction::DefineMaterials()
   G4NistManager* nist = G4NistManager::Instance();
 
   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
-  world_mat    = nist->FindOrBuildMaterial("G4_AIR");
+  // world_mat    = nist->FindOrBuildMaterial("G4_AIR");
   boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
   Vacuum    = nist->FindOrBuildMaterial("G4_Galactic");
 
-  // world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
+  world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
   // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
@@ -490,8 +490,8 @@ void DetectorConstruction::ConstructSDandField()
   // G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
 
   // //Proton filter
-  G4SDParticleFilter* protonFilter =
-  new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+  // G4SDParticleFilter* protonFilter =
+  // new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
   
   // //Electron filter
   // G4SDParticleFilter* electronFilter =
@@ -499,10 +499,10 @@ void DetectorConstruction::ConstructSDandField()
   // electronFilter->add(particleName="e+");   // accept electrons.
   // electronFilter->add(particleName="e-");   // accept positrons.
   
-  // //Neutron filter
-  // G4SDParticleFilter* neutronFilter =
-  // new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
-  
+  //Neutron filter
+  G4SDParticleFilter* neutronFilter =
+  new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
+
   // //Gamma filter
   // G4SDParticleFilter* gammaFilter =
   // new G4SDParticleFilter("gammaFilter", "gamma");
@@ -534,8 +534,10 @@ void DetectorConstruction::ConstructSDandField()
   // boxPS->RegisterPrimitive(primitive);
 
   // //Score TrackLength (of protons/charged particle)
-  primitive = new G4PSTrackLength("TrackLength");
-  primitive ->SetFilter(protonFilter);
+  // primitive = new G4PSTrackLength("TrackLength");
+  primitive = new G4PSEnergyDeposit("TrackLength");
+  // primitive ->SetFilter(protonFilter);
+  primitive ->SetFilter(neutronFilter);
   // //primitive ->SetFilter(charged);
 
   // //Register Filters to Scorer
