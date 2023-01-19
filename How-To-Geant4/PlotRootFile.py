@@ -14,7 +14,7 @@ import sys                          #for getting argument if executet from conso
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
-path = "build\\Output\\Root Files\\ID_12780.root"
+path = "build\\Output\\Root Files\\ID_21388.root"
 
 #Function to plot a T1HD Histogram from a root file with matplotlib
 #UNNICE PLOT - no axis label, generic title, generic axis range
@@ -272,23 +272,26 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
     # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
     ax1 = fig.add_subplot(1,1,1)
 
+    # color = 'Reds'
+    color = 'rainbow'
+
     try:
         try:
-            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
+            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap=color, norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
             print("Generating heatmap with cuts applied to data...")
             print("Generating heatmap with given scaling...")
         except IndexError:
-            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm())
+            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap=color, norm=matplotlib.colors.LogNorm())
             print("Generating heatmap with cuts applied to data...")
             print("Autoscaling Heatmap...")
             
     except:
         try:
-            h = ax1.hist2d(data1, data2, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
+            h = ax1.hist2d(data1, data2, bins=100, cmap=color, norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
             print("Generating heatmap with NO cuts applied to data...")
             print("Generating heatmap with given scaling...")
         except IndexError or ValueError:
-            h = ax1.hist2d(data1, data2, bins=100, cmap='Reds', norm=matplotlib.colors.LogNorm())
+            h = ax1.hist2d(data1, data2, bins=100, cmap=color, norm=matplotlib.colors.LogNorm())
             print("Generating heatmap with NO cuts applied to data...")
             print("Autoscaling Heatmap...")
     

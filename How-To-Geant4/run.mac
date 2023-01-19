@@ -2,10 +2,6 @@
 # ./How-To-Geant4 run.mac
 #
 
-#/custom/directory/setMat G4_Co
-#/custom/directory/setThickness 10 cm
-#/custom/directory/setSizeYZ 10 cm
-
 #Silence hadronic process summary (works in Geant4 v10.7.1)
 #/control/verbose 0
 #/run/verbose 0
@@ -49,8 +45,6 @@
 
 #limit the decay chain to surpress following decays
 #/grdm/nucleusLimits 210 210 82 82
-#------------------------------------------------------------------------
-
 
 #Start a run and print progress in console
 /run/printProgress 1000
@@ -62,7 +56,5 @@
 #/custom/geo/setMat G4_AIR
 #/custom/ana/setOutFolder Test
 /run/beamOn 10000
-
-
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
