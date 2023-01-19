@@ -291,14 +291,15 @@ void Run::EndOfRun()
     G4double eMin = data.fEmin;
     G4double eMax = data.fEmax;
     G4double meanLife = data.fTmean;
-         
-    outFile << "  " << std::setw(13) << name << ": " << std::setw(7) << count
-           << "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
+
+    // tabulator divided for a more handy output
+    outFile << "  " << std::setw(13) << name << "\t" << std::setw(7) << count
+           << "\t  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
            << "\t( "  << G4BestUnit(eMin, "Energy")
            << " --> " << G4BestUnit(eMax, "Energy") << ")";
     if (meanLife >= 0.)
-      outFile << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
-    else outFile << "\tstable" << G4endl;
+      outFile << "\thalf life = \t" << G4BestUnit(meanLife, "Time")   << G4endl;
+    else outFile << "\tstable\tstable" << G4endl;
  }
 
   // compute mean Energy deposited and rms
