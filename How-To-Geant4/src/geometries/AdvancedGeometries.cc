@@ -549,15 +549,31 @@ How to import one object from an .stl-file
   // Materials
   // 
   world_mat  = nist->FindOrBuildMaterial("G4_Galactic");
-  Vacuum  = nist->FindOrBuildMaterial("G4_Galactic");
+  Vacuum     = nist->FindOrBuildMaterial("G4_Galactic");
   Steel      = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-  Be      = nist->FindOrBuildMaterial("G4_Be");
-  O      = nist->FindOrBuildMaterial("G4_O");
+  Be         = nist->FindOrBuildMaterial("G4_Be");  //1.848 g/cm3
+  O          = nist->FindOrBuildMaterial("G4_O");   //13.67 g/cm3
+  Am         = nist->FindOrBuildMaterial("G4_Am");  //0.001429 g/cm3
 
+  //Define AmBeO via number of atoms
+  //AmO2-Be
+  //AmO2: 0.37g
+  //Be:   4.6g
   G4int ncomponents, natoms;
-  BeO =  new G4Material("BeO", 3.05*g/cm3, ncomponents=2);
+  BeO =  new G4Material("BeO", 3.05*g/cm3, ncomponents=3);
+  BeO->AddMaterial(Am, natoms=1);
   BeO->AddMaterial(Be, natoms=1);
   BeO->AddMaterial(O, natoms=1);
+
+  //Define AmBeO via percent
+  AmBeO= new G4Material("AmBeO",                           //name
+                                      3.05*g/cm3,          //density
+                                      3);                  //number of elements
+
+  //Add Elements to Material
+  AmBeO->AddMaterial(Am, 95.*perCent);
+  AmBeO->AddMaterial(Be, 1.6*perCent);
+  AmBeO->AddMaterial(O, 3.4*perCent);
 
   //
   // Cylinder - outer Steel Cylinder 
