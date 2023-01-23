@@ -95,11 +95,11 @@ void DetectorConstruction::DefineMaterials()
   G4NistManager* nist = G4NistManager::Instance();
 
   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
-  // world_mat    = nist->FindOrBuildMaterial("G4_AIR");
+  world_mat    = nist->FindOrBuildMaterial("G4_AIR");
   boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
   Vacuum    = nist->FindOrBuildMaterial("G4_Galactic");
 
-  world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
+  // world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
   // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 

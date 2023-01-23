@@ -154,7 +154,7 @@ int main(int argc,char** argv) {
   //then it looks for the natural composition data of that element. Only if the element is not found then the cross section is set to zero. 
   //On the contrary, if this variable is not defined, GEANT4 looks then for the neutron data of another isotope close in Z and A, which will
   //have completely different nuclear properties and lead to incorrect results (highly recommended).
-  G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( false );
+  G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( true );
 
   //DoNotAdjustFinalState: If this variable is not defined, a GEANT4 model that attempts to satisfy the energy and momentum conservation in some nuclear 
   //reactions, by generating artificial gamma rays. By setting such a variable one avoids the correction and leads to the result obtained with the
@@ -162,7 +162,7 @@ int main(int argc,char** argv) {
   //between secondary particles for satisfying them in all cases. On the contrary, ENDF-6 libraries intrinsically violate energy and momentum 
   //conservation for several processes and have been built for preserving the overall average quantities such as average energy releases, average number of
   //secondaries. . . (highly recommended).
-  G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( false );
+  G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( true );
 
   G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
   G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
