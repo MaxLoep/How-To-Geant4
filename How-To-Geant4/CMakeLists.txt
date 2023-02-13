@@ -7,6 +7,21 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
 endif()
 project(How-To-Geant4)
 
+#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build)
+#set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build)
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build) 
+#set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}//build)
+
+#set(EXECUTABLE_OUTPUT_PATH  ${PROJECT_SOURCE_DIR}//build)
+#set(RUNTIME_OUTPUT_DIRECTORY  ${PROJECT_SOURCE_DIR}/build)
+#set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build) 
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build) 
+#set(CMAKE_BINARY_DIR ${PROJECT_SOURCE_DIR}/build)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build) 
+
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
@@ -75,3 +90,6 @@ endforeach()
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
 install(TARGETS How-To-Geant4 DESTINATION bin)
+
+set_target_properties(How-To-Geant4 PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR})

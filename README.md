@@ -1,4 +1,7 @@
 # How-To-Geant4
+V0.7.5.1:\
+-changes to 'CMakeLists.txt' to make it run nicely from VSCode's CMake extension
+
 V0.7.5:\
 -verbosity reduced via UI commands in How-To-Geant4.cc (console doesn't show wall-of-text with physics infos when run)\
 -PlotRootFile.py got some changes
