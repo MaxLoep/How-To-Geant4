@@ -91,5 +91,8 @@ endforeach()
 #
 install(TARGETS How-To-Geant4 DESTINATION bin)
 
-set_target_properties(How-To-Geant4 PROPERTIES
-  RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR})
+#if using Visual Studio
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  set_target_properties(How-To-Geant4 PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR})
+endif()

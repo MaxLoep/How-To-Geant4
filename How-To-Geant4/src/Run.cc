@@ -329,7 +329,7 @@ void Run::EndOfRun()
 
  //particles flux
  //
- G4cout << "\n List of particles emerging from the target :" << G4endl;
+ G4cout << "\n List of particles emerging from the world volume :" << G4endl;
      
  for ( const auto& particleData : fParticleDataMap2 ) {
     G4String name = particleData.first;
