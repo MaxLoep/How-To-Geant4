@@ -12,7 +12,8 @@
 /gps/particle ion
 
 #Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
-/gps/ion 11 24 0 0       #Na24 - 1368 keV gamma + 2754 keV gamma
+#/gps/ion 11 24 0 0       #Na24 - 1368 keV gamma + 2754 keV gamma
+/gps/ion 55 137 0 0      #Cs137 - 661 keV gamma from Ba137*
 /gps/position 0 0 0      #GPS position of point source
 /gps/energy 0. eV        #at rest to study decay
 
