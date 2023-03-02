@@ -79,6 +79,7 @@ G4bool SD1::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
     // Get Analysis Manager
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
+    // ntuples and histograms are set up in RunAction.cc
     // Store hit in the ntuple
     if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(1, 0, Ekin/MeV);
     if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(1, 1, localPosition.x()/cm);

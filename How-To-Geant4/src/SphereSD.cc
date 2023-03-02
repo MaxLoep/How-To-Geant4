@@ -79,6 +79,7 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
     // Get Analysis Manager
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
+    // ntuples and histograms are set up in RunAction.cc
     // Store hit in the ntuple
     // if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(0, 0, Ekin/MeV);
     if(particle == G4Gamma::Gamma())      analysisManager->FillNtupleDColumn(6, 0, Ekin/MeV);

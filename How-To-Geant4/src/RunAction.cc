@@ -121,7 +121,11 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   // analysisManager->SetFileName(fFileName);
 
   // Use Ntuples or Histograms
-  //
+  // 
+  // Create ntuples
+  // CreateNtuple ("name", "title")
+  // CreateNtupleDColumn ("name")
+  // FinishNtuple ()
 
   // Creating ntuple for Primitive Scorer - ID 0
   analysisManager->CreateNtuple("PS", "Primitive Scorer");
@@ -169,13 +173,18 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   analysisManager->FinishNtuple();
 
 
-  // // Creating histograms
+  // Creating one dimensional histograms
+  // CreateH1 ("name", "title", nbins, xmin, xmax, unitName="none", fcnName="none")
   // analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
   // analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
   // analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
   // analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3
   // analysisManager->CreateH1("Ypos","Hit Position Y", 100, -1.*cm, 1.*cm);   // column id = 4
   // analysisManager->CreateH1("time","Time", 100, 0.*ns, 3.*ns);              // column id = 5
+
+  // Creating two dimensional histograms - heatmaps
+  // CreateH2 ("name", "title", nxbins, xmin, xmax, nybins, ymin, ymax, xunitName="none", yunitName="none", xfcnName="none", yfcnName="none")
+  analysisManager->CreateH2 ("X-Y-pos", "X-Y-pos heatmap", 100, -3.*cm, 3.*cm, 100, -3.*cm, 3.*cm);
 
   // Create directories in the root file - commented out in the original B4d example!
   // analysisManager->SetHistoDirectoryName("histograms");

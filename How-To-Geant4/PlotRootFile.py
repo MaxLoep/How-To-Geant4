@@ -1,24 +1,41 @@
 # to run in Spyder console: runfile('PlotRootFile.py', args)
+
+#plot all
+#runfile("PlotRootFile.py")
+#runfile("PlotRootFile.py", "every")
+
+#plot one single histo
+#runfile("PlotRootFile.py", "single histo1")
+#runfile("PlotRootFile.py", "single SD1/1")
+
+#Plot Heatmap with two TTrees and cut data according to a third
+#runfile("PlotRootFile.py", "heatmap histo1 histo2 'title' 'x-label' 'y-label' colorbarMIN colorbarMAX dataToCutWith  cutMIN cutMAX")
 #runfile("PlotRootFile.py", "heatmap SD1/1 SD1/2 '' 'x-pos / cm' 'z-pos / cm' 1 1000 SD1/0 0 1")
+
+
+
 
 import uproot                       #for reading .root files
 import numpy as np                  #for nice arrays
-import matplotlib
-import matplotlib.pyplot as plt
+import matplotlib                   #for plotting
+import matplotlib.pyplot as plt     #for plotting
+import sys                          #for getting argument if executet from console
 #from scipy import optimize as op
 #import os
 #import math
-import sys                          #for getting argument if executet from console
+
 
 #Path to file
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
-path = "build\\Output\\Root Files\\ID_21388.root"
+path = "build\\Output\\Root Files\\ID_14964.root"
 
-#Function to plot a T1HD Histogram from a root file with matplotlib
+#Function to plot a TH1D Histogram from a root file with matplotlib
 #UNNICE PLOT - no axis label, generic title, generic axis range
 def plot_TH1D(name, title):
+    print()
+    
     # Plot stuff
     # Start a figure and set its size 
     fig = plt.figure(figsize=(6, 6))
@@ -33,6 +50,78 @@ def plot_TH1D(name, title):
                                       range=(min(name.axis().edges()),
                                              max(name.axis().edges())),
                                       label="Counts: " + str(sum(name.values())) )
+    #Set title for ax1
+    ax1.set_title(str(title))
+      
+    # #Set axis labels for ax1
+    # ax1.set_xlabel(" / cm")
+    ax1.set_ylabel("counts")
+    
+    # Plot with grid
+    ax1.grid()
+     
+    # Set legend for ax1
+    ax1.legend(loc='best')
+    
+    #Show the figure
+    plt.show()
+      
+    #Close the file/figure 
+    plt.close()
+ 
+# NOT WORKING
+#Function to plot a TH2D Histogram from a root file with matplotlib
+#UNNICE PLOT - no axis label, generic title, generic axis range
+def plot_TH2D(name, title):   
+    #Plot stuff
+    #Start a figure and set its size 
+    fig = plt.figure(figsize=(6, 6))
+    # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
+    ax1 = fig.add_subplot(1,1,1)
+
+    # color = 'Reds'
+    color = 'rainbow'
+    
+    #read bin edges and number of entries from file and plot
+    # counts_, bins_, _ = plt.hist((name.axis().edges()[:-1] + name.axis().edges()[1:]) / 2,
+    #                               bins=name.axis().edges(),
+    #                                   weights=name.values(),
+    #                                   range=(min(name.axis().edges()),
+    #                                           max(name.axis().edges())),
+    #                                   label="Counts: " + str(sum(name.values())) )
+    
+    # h = ax1.hist2d(name.values(0), 
+    #                 name.values(1), 
+    #                 bins=[name.axis(0).edges(),
+    #                       name.axis(1).edges()], 
+    #                 cmap=color, norm=matplotlib.colors.LogNorm(vmin=1, vmax=100))
+    
+    h = ax1.hist2d(
+                    (name.axis('x').edges()[:-1] + name.axis('x').edges()[1:]) / 2,
+                    (name.axis('y').edges()[:-1] + name.axis('y').edges()[1:]) / 2,
+                    # sum(name.values('x')),
+                    # sum(name.values('y')),
+                    # name.values(1).reshape(-1), 
+                    # name.values(2).reshape(-1),
+                    bins=100,
+                    # bins=[name.axis('x').edges(),
+                    #       name.axis('y').edges()],
+                    # weights=[np.delete(sum(name.values('x')),0),
+                    #          np.delete(sum(name.values('y')),0)],
+                    # weights=np.array(name.values(0)),
+                    # weights=name.values(0),
+                    # weights=name.values('x').reshape(-1),
+                    # weights=[sum(name.values('x')),
+                    #           sum(name.values('y'))],
+                    # range=[[min(name.axis(0).edges()), max(name.axis(0).edges())],
+                    #       [min(name.axis(1).edges()), max(name.axis(1).edges())]],
+                    cmap=color,
+                    norm=matplotlib.colors.LogNorm(vmin=1, vmax=10))
+    
+    
+    
+    cb = fig.colorbar(h[3], ax=ax1)
+    
     #Set title for ax1
     ax1.set_title(str(title))
       
@@ -121,11 +210,17 @@ def plot_all(path_to_file):
                 plot_TTree(array, mainkeys[i], mainfile[mainkeys[i]].branches[j].name, bins=100)
                 
 
-        #if key is no TTree, it is a TH1D histogramm    
+        #if key is no TTree, it is a TH1D histogramm or a TH2D  
         except: 
-            print(str(mainkeys[i]) + " is not a TTree")
-            #plot the histogram
-            plot_TH1D(key, mainkeys[i])
+            # print(str(mainkeys[i]) + " is not a TTree")
+            try:              
+                #plot TH1D histogram
+                plot_TH1D(key, mainkeys[i])
+                print(str(mainkeys[i]) + " is a TH1D")
+            except:
+                # plot_TH2D(key, mainkeys[i])
+                print(str(mainkeys[i]) + " is a maybe a TH2D")
+                
     
 #Plot one Plot but nicely - with label, name, axis, etc.
 def plot_one(path_to_file, histo_path, bins ):
@@ -218,6 +313,7 @@ def plot_one(path_to_file, histo_path, bins ):
  
 #Plot one Heatmap but nicely - with label, name, axis, etc.
 def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
+    #List of args:
     # args[0]=title
     # args[1]=xlabel
     # args[2]=ylabel

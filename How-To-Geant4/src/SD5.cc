@@ -79,19 +79,27 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
     // Get Analysis Manager
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
+    // ntuples and histograms are set up in RunAction.cc
     // Store hit in the ntuple
     if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(5, 0, Ekin/MeV);
     if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(5, 1, localPosition.x()/cm);
     if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(5, 2, time/ns);
     if(particle == G4Proton::Proton())  analysisManager->AddNtupleRow(5);
 
-    // // Store hit in histogram 
+    // Store hit in one dimensional histogram 
+    // analysisManager->FillH1(id, value, G4double weight=1.0)
     // analysisManager->FillH1(0, ID);
     // analysisManager->FillH1(1, pdgCode);
     // analysisManager->FillH1(2, Ekin/MeV);
     // analysisManager->FillH1(3, localPosition.x()/cm);
     // analysisManager->FillH1(4, localPosition.y()/cm);
     // analysisManager->FillH1(5, time/ns);
+
+    // Store hit in two dimensional histogram - heatmap
+    // analysisManager->FillH2(id, xvalue, yvalue, G4double weight=1.0)
+    if(particle == G4Proton::Proton())  analysisManager->FillH2(0, localPosition.x()/cm, localPosition.y()/cm);
+
+
   // }
   return true;
 }
