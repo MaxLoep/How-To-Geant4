@@ -1,3 +1,5 @@
+// obsolete?
+
 #ifndef ElectromagneticPhysics_h
 #define ElectromagneticPhysics_h 1
 

@@ -1,3 +1,5 @@
+// obsolete?
+
 #include "GammaNuclearPhysics.hh"
 
 #include "G4ParticleDefinition.hh"

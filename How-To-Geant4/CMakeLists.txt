@@ -6,21 +6,7 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
 project(How-To-Geant4)
-
-#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build)
-#set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build)
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build) 
-#set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}//build)
-
-#set(EXECUTABLE_OUTPUT_PATH  ${PROJECT_SOURCE_DIR}//build)
-#set(RUNTIME_OUTPUT_DIRECTORY  ${PROJECT_SOURCE_DIR}/build)
-#set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build) 
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build) 
-#set(CMAKE_BINARY_DIR ${PROJECT_SOURCE_DIR}/build)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build) 
+ 
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -61,37 +47,35 @@ else()
 endif()
 
 #----------------------------------------------------------------------------
-# Copy all scripts to the build directory, i.e. the directory in which we
-# build Hadr06. This is so that we can run the executable directly because it
-# relies on these scripts being in the current working directory.
-#
-set(How-To-Geant4_SCRIPTS
-    PlotRootFile.py
-    vis.mac
-    run.mac
-    radioactivedecay.mac
-    generalparticlesource.mac
-    scoringmesh.mac
-    Lochflansch.stl
-    Lochflansch.obj
-    Austrittsfenster.obj
-    FaradayCupMobile.obj
-  )
+# Copy all scripts to the build directory. This is so that we have a backup of those scripts.
+#->REALLY NECESSARY?
+# set(How-To-Geant4_SCRIPTS
+#     PlotRootFile.py
+#     vis.mac
+#     run.mac
+#     radioactivedecay.mac
+#     generalparticlesource.mac
+#     scoringmesh.mac
+#     Lochflansch.stl
+#     Lochflansch.obj
+#     Austrittsfenster.obj
+#     FaradayCupMobile.obj
+#   )
 
-foreach(_script ${How-To-Geant4_SCRIPTS})
-  configure_file(
-    ${PROJECT_SOURCE_DIR}/${_script}
-    ${PROJECT_BINARY_DIR}/${_script}
-    COPYONLY
-    )
-endforeach()
+# foreach(_script ${How-To-Geant4_SCRIPTS})
+#   configure_file(
+#     ${PROJECT_SOURCE_DIR}/${_script}
+#     ${PROJECT_BINARY_DIR}/${_script}
+#     COPYONLY
+#     )
+# endforeach()
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
 install(TARGETS How-To-Geant4 DESTINATION bin)
 
-#if using Visual Studio
+#if using Visual Studio, copy the executable from the "release"-folder to the build directory 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   set_target_properties(How-To-Geant4 PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR})

@@ -149,7 +149,7 @@ PhysicsList::PhysicsList()
   //fHadronElastic = new G4HadronElasticPhysicsPHP(verb);
   //fHadronElastic = new G4HadronElasticPhysicsLEND(verb);
 
-  //fHadronElastic = new HadronElasticPhysicsHP(verb);
+  //fHadronElastic = new HadronElasticPhysicsHP(verb); //selfwritten in include-folder
   RegisterPhysics(fHadronElastic);
   
   // Hadron Inelastic Physics
@@ -192,11 +192,11 @@ PhysicsList::PhysicsList()
   RegisterPhysics(fStopping);
 
   // Gamma-Nuclear Physics
-  fGammaNuclear = new GammaNuclearPhysics("gamma");
+  fGammaNuclear = new GammaNuclearPhysics("gamma"); //selfwritten in include-folder
   RegisterPhysics(fGammaNuclear);
 
   // EM physics
-  fElectromagnetic = new ElectromagneticPhysics();
+  fElectromagnetic = new ElectromagneticPhysics(); //selfwritten in include-folder
   //fElectromagnetic = new G4EmStandardPhysics(verb);
   RegisterPhysics(fElectromagnetic);
 

@@ -1,3 +1,5 @@
+// obsolete?
+
 #include "ElectromagneticPhysics.hh"
 
 #include "G4BuilderType.hh"

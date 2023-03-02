@@ -1,4 +1,5 @@
 // HP models for neutron < 20 MeV
+// obsolete?
 
 #include "HadronElasticPhysicsHP.hh"
 

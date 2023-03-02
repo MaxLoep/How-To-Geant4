@@ -1,3 +1,5 @@
+// obsolete?
+
 #ifndef GammaNuclearPhysics_h
 #define GammaNuclearPhysics_h 1
 
