@@ -13,11 +13,23 @@
 
 SD5::SD5(const G4String& name)
  : G4VSensitiveDetector(name)
-{}
+{
+  // G4cout << G4endl;
+  // G4cout << "THIS IS CONSTRUCTOR OF SD5" << G4endl;
+  // G4cout << G4endl;
+  // oldTrackId = 0;
+  // particle_counter5 = 0;
+}
 
 
 SD5::~SD5()
-{}
+{
+  // G4cout << G4endl;
+  // G4cout << "THIS IS DESTRUCTOR OF SD5" << G4endl;
+  // G4cout << particle_counter5 << G4endl;
+  // G4cout << G4endl;
+
+}
 
 
 void SD5::Initialize(G4HCofThisEvent* /*hce*/)
@@ -28,6 +40,12 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 {
   // Current track:
   const G4Track* track = step->GetTrack();
+
+  // currentTrackId = track->GetTrackID();
+  // if (currentTrackId != oldTrackId) particle_counter5++;
+
+  // oldTrackId = currentTrackId;
+
 
  // keep only outgoing particle
  const G4ParticleDefinition* particle = track->GetParticleDefinition();
@@ -106,5 +124,9 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 
 void SD5::EndOfEvent(G4HCofThisEvent* /*hce*/)
-{}
+{
+  // G4cout << G4endl;
+  // G4cout << "SD5 END OF EVENT!" << G4endl;
+  // G4cout << G4endl;
+}
 

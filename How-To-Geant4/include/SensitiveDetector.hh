@@ -60,6 +60,10 @@ class SD5 : public G4VSensitiveDetector
     virtual void   Initialize(G4HCofThisEvent* hce);
     virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
     virtual void   EndOfEvent(G4HCofThisEvent* hce);
+
+    G4int oldTrackId;
+    G4int currentTrackId;
+    G4int particle_counter5;
 };
 
 class SphereSD : public G4VSensitiveDetector

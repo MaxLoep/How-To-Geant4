@@ -1,4 +1,11 @@
 # How-To-Geant4
+V0.7.6.0\
+-started to implement counter in SensitiveDetector to count number of produced isotopes in volume
+
+V0.7.5.2:\
+-changes in 'PlotRootFile.py' to plot TH2D (not fully working)\
+-changes in 'CmakeLists.txt'; macro areno longer copied to build directory
+
 V0.7.5.1:\
 -changes to 'CMakeLists.txt' to make it run nicely from VSCode's CMake extension
 
