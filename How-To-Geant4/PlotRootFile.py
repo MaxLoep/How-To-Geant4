@@ -29,7 +29,7 @@ import sys                          #for getting argument if executet from conso
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
-path = "build\\Output\\Root Files\\ID_14964.root"
+path = "build\\C26-5n_4_2_4_0\\Root Files\\ID_19184.root"
 
 #Function to plot a TH1D Histogram from a root file with matplotlib
 #UNNICE PLOT - no axis label, generic title, generic axis range
