@@ -79,17 +79,17 @@ int main(int argc,char** argv) {
 
   // set a initial random seed based on system time and/or process id
   G4long unix_time = time(NULL);
-  G4cout << "\n TIME is  " << unix_time << G4endl;
+  // G4cout << "\n TIME is  " << unix_time << G4endl;
 
   G4long pid = getpid();
-  G4cout << "\n PID is " << pid << G4endl;
+  // G4cout << "\n PID is " << pid << G4endl;
 
   // G4long seed = unix_time;
   G4long seed = pid;
   // G4long seed = unix_time*pid;
 
   G4Random::setTheSeed(seed);
-  G4cout << "\n SEED is " << seed << G4endl;
+  // G4cout << "\n SEED is " << seed << G4endl;
   
   #if G4VERSION_NUMBER>=1070
     // Construct the default run manager in Geant4 Version > 10.7.0

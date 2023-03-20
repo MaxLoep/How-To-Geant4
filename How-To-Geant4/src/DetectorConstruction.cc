@@ -95,11 +95,11 @@ void DetectorConstruction::DefineMaterials()
   G4NistManager* nist = G4NistManager::Instance();
 
   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
-  world_mat    = nist->FindOrBuildMaterial("G4_AIR");
+  // world_mat    = nist->FindOrBuildMaterial("G4_AIR");
   boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
   Vacuum    = nist->FindOrBuildMaterial("G4_Galactic");
 
-  // world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
+  world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
   // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
@@ -164,7 +164,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lBox =                         
     new G4LogicalVolume(sBox,                //its solid
-                        boxMaterial,           //its material
+                        // boxMaterial,           //its material
+                        Vacuum,
                         "Box");              //its name
   
   //G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
@@ -293,11 +294,13 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD5 =    
     new G4Box("sSD5",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        // a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 2.*cm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD5 =                         
     new G4LogicalVolume(sSD5,                //its solid
-                        Vacuum,           //its material
+                        // Vacuum,           //its material
+                        boxMaterial,
                         "SD5");              //its name
     
     new G4PVPlacement(0,                     //no rotation
