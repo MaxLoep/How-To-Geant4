@@ -10,7 +10,7 @@
 #/process/em/verbose 0
 
 #Set number of worker threads and initialize run
-/run/numberOfThreads 1
+/run/numberOfThreads 4
 /run/initialize
 
 #BEAM

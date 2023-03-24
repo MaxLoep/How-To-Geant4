@@ -63,7 +63,6 @@ class SD5 : public G4VSensitiveDetector
 
     G4int oldTrackId;
     G4int currentTrackId;
-    G4int particle_counter5;
 };
 
 class SphereSD : public G4VSensitiveDetector
