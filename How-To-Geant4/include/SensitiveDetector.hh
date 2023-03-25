@@ -63,6 +63,7 @@ class SD5 : public G4VSensitiveDetector
 
     G4int oldTrackId;
     G4int currentTrackId;
+    std::thread::id thread_id;
 };
 
 class SphereSD : public G4VSensitiveDetector

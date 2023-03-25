@@ -5,41 +5,45 @@
 #include "G4Step.hh"
 #include "G4ios.hh"
 #include "G4SystemOfUnits.hh"
-
 #include "G4VProcess.hh"
-
 #include "G4ParticleTypes.hh"
 
 // initialize particleCounter outside of anything so this will work with multithreading
-G4int particle_counter5 = 0;
+G4int particle_counterSD5 = 0;
+
+//Get process Main ID
+std::thread::id main_id = std::this_thread::get_id();
 
 SD5::SD5(const G4String& name)
  : G4VSensitiveDetector(name)
 {
-  G4cout << G4endl;
-  G4cout << "THIS IS CONSTRUCTOR OF SD5" << G4endl;
-  G4cout << "TRACK_ID = 0 AND COUNT = 0" << G4endl;
-  G4cout << G4endl;
+  // DEBUG: Print to see where constructor is called
+  // G4cout << G4endl;
+  // G4cout << "THIS IS CONSTRUCTOR OF SD5" << G4endl;
+  // G4cout << "TRACK_ID = 0 AND COUNT = 0" << G4endl;
+  // G4cout << G4endl;
 
-  //Get process ID
-  const std::thread::id id = std::this_thread::get_id();
-  G4cout << "\n ID is " << id << G4endl;
-
-  //  initialize oldTrackID with 0, which will never be a trackID - primaries have TrackID=1
+  //  initialize oldTrackID with 0, which will never be a trackID - primaries have TrackID=1, secondaries have TrackID>1
   oldTrackId = 0;
 }
 
 
 SD5::~SD5()
 {
-  G4cout << G4endl;
-  G4cout << "THIS IS DESTRUCTOR OF SD5" << G4endl;
-  G4cout << "COUNTER IS " << particle_counter5 << G4endl;
-  G4cout << G4endl;
-
   //Get process ID
-  const std::thread::id id = std::this_thread::get_id();
-  G4cout << "\n ID is " << id << G4endl;
+  thread_id = std::this_thread::get_id();
+
+  // DEBUG: Print to see where Destructor is called and Thread and Main ID for comparison
+  // G4cout << "THIS IS DESTRUCTOR OF SD5" << G4endl;
+  // G4cout << "\n Thread_ID is " << thread_id << G4endl;
+  // G4cout << "\n Main_ID is " << main_id << G4endl;
+
+  //  If returned to main thread (after closing all threads created by multithreading) print secondary counter
+  if (main_id == thread_id){
+    G4cout << G4endl;
+    G4cout << "SECONDARY COUNTER IS " << particle_counterSD5 << G4endl;
+    G4cout << G4endl;
+  }
 }
 
 
@@ -54,14 +58,14 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
   currentTrackId = track->GetTrackID();
   G4String name   = track->GetDefinition()->GetParticleName();
 
-  // Print for debbuging
+  // DEBUG: Print current and old TrackID
   // G4cout <<"TRACK ID IS " << currentTrackId <<  G4endl;
   // G4cout <<"OLD   ID IS " << oldTrackId <<  G4endl;
 
   // if particle is a secondary (trackID>1) and we have not counted it yet increase the particleCounter
-  if ( (currentTrackId > 1) && (currentTrackId != oldTrackId) ) particle_counter5++;
+  if ( (currentTrackId > 1) && (currentTrackId != oldTrackId) ) particle_counterSD5++;
 
-  // if particle is a secondary (trackID>1) print its name in the console
+  // DEBUG:if particle is a secondary (trackID>1) print its name in the console
   // if ( (currentTrackId >1) && (currentTrackId != oldTrackId)) G4cout << name << G4endl;
 
   // overwrite oldTrackID with currentTrackID
@@ -146,9 +150,10 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 void SD5::EndOfEvent(G4HCofThisEvent* /*hce*/)
 {
+  // DEBUG: Print to see where EndOfEvent is called
   // G4cout << G4endl;
   // G4cout << "SD5 END OF EVENT!" << G4endl;
-  // G4cout <<  "CURRENT COUNTER " << particle_counter5  << G4endl;
+  // G4cout <<  "CURRENT COUNTER " << particle_counterSD5  << G4endl;
   // G4cout << G4endl;
 
   // reset oldTrackID for the next event
