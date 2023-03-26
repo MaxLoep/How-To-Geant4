@@ -63,7 +63,7 @@ class SD5 : public G4VSensitiveDetector
 
     G4int oldTrackId;
     G4int currentTrackId;
-    std::thread::id thread_id;
+    std::thread::id thread_id;  //does this needs to be here? can it be defined in SDX.cc? what is nicer coding?
 };
 
 class SphereSD : public G4VSensitiveDetector

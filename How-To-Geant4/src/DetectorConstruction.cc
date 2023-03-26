@@ -164,8 +164,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lBox =                         
     new G4LogicalVolume(sBox,                //its solid
-                        // boxMaterial,           //its material
-                        Vacuum,
+                        boxMaterial,           //its material
+                        // Vacuum,
                         "Box");              //its name
   
   //G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
@@ -294,7 +294,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD5 =    
     new G4Box("sSD5",                        //its name
-        // a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        // a/2, a/2, 0.002*mm /2);                   //its size: half x, half y, half z
         a/2, a/2, 2.*cm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD5 =                         

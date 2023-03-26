@@ -8,6 +8,9 @@
 #include "G4VProcess.hh"
 #include "G4ParticleTypes.hh"
 
+// Create a map of strings to integers
+std::map<std::string, int> SD5map;
+
 // initialize particleCounter outside of anything so this will work with multithreading
 G4int particle_counterSD5 = 0;
 
@@ -40,8 +43,19 @@ SD5::~SD5()
 
   //  If returned to main thread (after closing all threads created by multithreading) print secondary counter
   if (main_id == thread_id){
+     // Get an iterator pointing to the first element in the map
+    std::map<std::string, int>::iterator it = SD5map.begin();
+
+
     G4cout << G4endl;
     G4cout << "SECONDARY COUNTER IS " << particle_counterSD5 << G4endl;
+
+    // Iterate through the map and print the elements
+    while (it != SD5map.end()){
+      G4cout << "Particle: " << it->first << ", created: " << it->second << G4endl;
+    ++it;
+    }
+     
     G4cout << G4endl;
   }
 }
@@ -63,7 +77,11 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
   // G4cout <<"OLD   ID IS " << oldTrackId <<  G4endl;
 
   // if particle is a secondary (trackID>1) and we have not counted it yet increase the particleCounter
-  if ( (currentTrackId > 1) && (currentTrackId != oldTrackId) ) particle_counterSD5++;
+  if ( (currentTrackId > 1) && (currentTrackId != oldTrackId) ){
+     particle_counterSD5++;
+     SD5map[name] = SD5map[name]+1;
+    //  G4cout << name << SD5map[name] << G4endl;
+  }
 
   // DEBUG:if particle is a secondary (trackID>1) print its name in the console
   // if ( (currentTrackId >1) && (currentTrackId != oldTrackId)) G4cout << name << G4endl;
