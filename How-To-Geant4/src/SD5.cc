@@ -50,9 +50,11 @@ SD5::~SD5()
     G4cout << G4endl;
     G4cout << "SECONDARY COUNTER IS " << particle_counterSD5 << G4endl;
 
+
     // Iterate through the map and print the elements
+    G4cout << "PARTICLE COUNT OF SD5" << G4endl;
     while (it != SD5map.end()){
-      G4cout << "Particle: " << it->first << ", created: " << it->second << G4endl;
+      G4cout << "  " << std::setw(13) << it->first << ": " << std::setw(7) << it->second << G4endl;
     ++it;
     }
      
@@ -71,6 +73,7 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
   const G4Track* track = step->GetTrack();
   currentTrackId = track->GetTrackID();
   G4String name   = track->GetDefinition()->GetParticleName();
+  G4double HalfLife = track->GetDefinition()->GetPDGLifeTime() / 1.443; // mean life time divided by 1.443 equals half-life
 
   // DEBUG: Print current and old TrackID
   // G4cout <<"TRACK ID IS " << currentTrackId <<  G4endl;
