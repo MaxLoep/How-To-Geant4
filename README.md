@@ -1,5 +1,10 @@
 # How-To-Geant4
-V0.7.6.0\
+V0.7.6.5:\
+-particle counter in every SensitiveDetector implemented\
+-particles passing through are saved in file 'ListOfGeneratedParticles in SDX.txt'\
+-some code cleanup and commenting 
+
+V0.7.6.0:\
 -started to implement counter in SensitiveDetector to count number of produced isotopes in volume
 
 V0.7.5.2:\

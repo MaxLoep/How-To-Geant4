@@ -1,3 +1,6 @@
+// obsolete?
+//is this a custom command to turn thermalScattering on/off?
+
 #include "NeutronHPMessenger.hh"
 
 #include "HadronElasticPhysicsHP.hh"

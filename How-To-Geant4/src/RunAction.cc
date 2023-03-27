@@ -1,5 +1,5 @@
 /*
-Understand what this does and comment it
+Create output Root file and its structure here
 */
 
 #include "RunAction.hh"
@@ -266,13 +266,6 @@ void RunAction::BeginOfRunAction(const G4Run*)
 
   seed[0] = (G4long) pid;
   seed[1] = (G4long) pid;
-
-  // Random seed 
-  // G4int seednumber_1 = G4UniformRand() * 2147483646;
-  // G4int seednumber_2 = G4UniformRand() * 2147483646;
-  // seed[0] = (G4long) seednumber_1;
-  // seed[1] = (G4long) seednumber_2;
-
   G4Random::setTheSeeds(seed);
 
   // reset accumulables to their initial values

@@ -1,4 +1,5 @@
 // obsolete?
+//is this a self made EM physics list?
 
 #include "ElectromagneticPhysics.hh"
 

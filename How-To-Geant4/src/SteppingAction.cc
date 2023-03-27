@@ -1,3 +1,7 @@
+/*
+do stuff every step
+*/
+
 #include "SteppingAction.hh"
 #include "DetectorConstruction.hh"
 #include "Run.hh"

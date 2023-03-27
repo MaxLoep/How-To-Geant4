@@ -1,5 +1,7 @@
 /*
-Comment it more
+Define the way you create primaries:
+Either use ParticleGun and need to create energy and angular distributions here and yourself or
+use GeneralParticleSource and use built-in functions to set energy and angular distribution in the macro file
 */
 
 #include "PrimaryGeneratorAction.hh"    //Header file where functions classes and variables may be defined (...)

@@ -1,4 +1,5 @@
 // obsolete?
+//is this a self made GammaNuclear physics list?
 
 #include "GammaNuclearPhysics.hh"
 

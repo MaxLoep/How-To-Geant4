@@ -1,5 +1,6 @@
 // HP models for neutron < 20 MeV
 // obsolete?
+//is this a self made HadronElastic physics list?
 
 #include "HadronElasticPhysicsHP.hh"
 

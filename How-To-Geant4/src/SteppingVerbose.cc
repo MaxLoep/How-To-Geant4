@@ -1,3 +1,8 @@
+/*
+prints verbosity of every step if turned on?
+for debuging?
+*/
+
 #include "SteppingVerbose.hh"
 
 #include "G4SteppingManager.hh"
