@@ -357,7 +357,52 @@ How to import one object from an .stl-file
 //Copper Colimator with double conical Tungsten Inlet
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #pragma region
+  // 
+  // Parameters
+  // 
+  TargetDia = 40.*mm;
+  TargetLen = 4.*mm;
+  
+  TubeDia = 40.*mm;
+  TubeLen = 4.*cm;
+
+  //Collimator parameters
+  //Beam diameter is ~2cm, so 1cm is used for geometrical calculations
+  colli_angle     = 0.92*degree;      //half opening angle - max = 0.92° to reach an Exit radius of 3cm
+  x = 1*cm / (std::tan(colli_angle)); //helpful variable for smaller calculation steps
+  Entrance_Radius = 2.*cm;
+  // Inner_Radius    = 2.*cm;
+  // Exit_Radius     = 3.*cm;
+  Inner_Radius    = (4.*cm + x) * std::tan(colli_angle);
+  Exit_Radius     = (124.*cm + x) * std::tan(colli_angle);
+
+  // 
+  // Materials
+  // 
+  world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+
+  TargetMat = nist->FindOrBuildMaterial("G4_GRAPHITE");
+  DetectorMat = nist->FindOrBuildMaterial("G4_Galactic");
+  TubeMat = nist->FindOrBuildMaterial("G4_Galactic");
+  
+  Copper = nist->FindOrBuildMaterial("G4_Cu");
+  Tungsten = nist->FindOrBuildMaterial("G4_W");
+  Iron = nist->FindOrBuildMaterial("G4_Fe");
+  Nickel = nist->FindOrBuildMaterial("G4_Ni");
+
+  //Define Densimet180 (Manufacturer: Plansee)
+  Densimet180 = new G4Material("Densimet180",      //name
+                                      18.0*g/cm3,          //density
+                                      3);                  //number of elements
+
+  //Add Elements to Material
+  Densimet180->AddMaterial(Tungsten, 95.*perCent);
+  Densimet180->AddMaterial(Iron, 1.6*perCent);
+  Densimet180->AddMaterial(Nickel, 3.4*perCent);
+
+  // 
   //Combine two boxes to Copper collimator and cut a a cylinder because Tungsten Colli does not cover whole range
+  // 
   G4Box* sSmallCuBox =    
     new G4Box("sSmallCuBox",                  //its name
         8.*cm, 8.*cm, 33.*cm);                //its size: half x, half y, half z
@@ -372,7 +417,6 @@ How to import one object from an .stl-file
              2.0*cm,                          //z half length
              0., twopi);                      //min phi, max phi
 
-
   G4UnionSolid* sCuBoxes =
     new G4UnionSolid("solid Copper Boxes",          //its name
                   sSmallCuBox,                      //Solid A
@@ -380,7 +424,9 @@ How to import one object from an .stl-file
                   0,                                //Rotation of B relative to A
                   G4ThreeVector(0,0,62.*cm));       //Translation of B relative to A
 
-  //Subtract 
+  // 
+  // Subtract
+  // 
   G4SubtractionSolid* sCuColli =
     new G4SubtractionSolid("solid Copper Collimator",     //its name
                   sCuBoxes,                               //Solid A
@@ -407,7 +453,9 @@ How to import one object from an .stl-file
   logicCopperCollimatorVisAtt->SetVisibility(true);
   lCuColli->SetVisAttributes(logicCopperCollimatorVisAtt);
 
+  // 
   //Combine two cylinders to Tungsten collimator
+  // 
   G4Tubs* sSmallWCylinder = 
     new G4Tubs("sSmallWCylinder",       //name
              0., 3.07*cm,               //inner radius, outer radius
@@ -447,7 +495,9 @@ How to import one object from an .stl-file
   logicTungstenInletVisAtt->SetVisibility(true);
   lWColli->SetVisAttributes(logicTungstenInletVisAtt);
 
+  // 
   //Combine Cones for collimating shape
+  // 
   G4Cons* sSmallCone =    
       new G4Cons("solid small Cone",          //name
       0., Entrance_Radius,                               //inner radius side A, outer radius side A (negative side)
@@ -492,31 +542,61 @@ How to import one object from an .stl-file
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // 
-//AmBe Neutron Source
+//AmBe Neutron Source - Capsule type X21 - Emission: ~2.2x10^6 n/s/Ci (Amersham) -> ~6x10^-5 n/s/Bq (ISO 8529-1:2021)
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #pragma region
+  // 
+  // Materials
+  // 
+  world_mat  = nist->FindOrBuildMaterial("G4_Galactic");
+  Vacuum     = nist->FindOrBuildMaterial("G4_Galactic");
+  Steel      = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+  Be         = nist->FindOrBuildMaterial("G4_Be");  //1.848 g/cm3
+  O          = nist->FindOrBuildMaterial("G4_O");   //13.67 g/cm3
+  Am         = nist->FindOrBuildMaterial("G4_Am");  //0.001429 g/cm3
+
+  //Define AmBeO via number of atoms
+  //AmO2-Be
+  //AmO2: 0.37g
+  //Be:   4.6g
+  G4int ncomponents, natoms;
+  BeO =  new G4Material("BeO", 3.05*g/cm3, ncomponents=3);
+  BeO->AddMaterial(Am, natoms=1);
+  BeO->AddMaterial(Be, natoms=1);
+  BeO->AddMaterial(O, natoms=1);
+
+  //Define AmBeO via percent
+  AmBeO= new G4Material("AmBeO",                           //name
+                                      3.05*g/cm3,          //density
+                                      3);                  //number of elements
+
+  //Add Elements to Material
+  AmBeO->AddMaterial(Am, 95.*perCent);
+  AmBeO->AddMaterial(Be, 1.6*perCent);
+  AmBeO->AddMaterial(O, 3.4*perCent);
+
   //
   // Cylinder - outer Steel Cylinder 
   //
   G4Tubs* sCylinder_out = 
-    new G4Tubs("Cylinder_out",                    //name
+    new G4Tubs("Cylinder_out",                   //name
               0., 7.8/2*mm,                      //inner radius, outer radius
               15./2*mm,                          //z half length
-              0., twopi);                      //min phi, max phi
+              0., twopi);                        //min phi, max phi
 
   G4LogicalVolume* lCylinder_out = 
-    new G4LogicalVolume(sCylinder_out,        //shape
-                        Steel,             //material
-                        "Cylinder_out");           //name
+    new G4LogicalVolume(sCylinder_out,           //shape
+                        Steel,                   //material
+                        "Cylinder_out");         //name
 
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(0,0,0),      //position
-              lCylinder_out,                  //logical volume
-              "Cylinder_out",                     //name
-              logicWorld,                     //mother  volume
-              false,                          //boolean operation?
-              0,                              //copy number
-              true);                          //overlaps checking?
+  new G4PVPlacement(0,                           //no rotation
+              G4ThreeVector(0,0,0),              //position
+              lCylinder_out,                     //logical volume
+              "Cylinder_out",                    //name
+              logicWorld,                        //mother  volume
+              false,                             //boolean operation?
+              0,                                 //copy number
+              true);                             //overlaps checking?
 
   //Make (in-)visible and give it a color
   auto lCylinder_outVisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.9)); //(r, g, b , transparency)
@@ -529,28 +609,602 @@ How to import one object from an .stl-file
   G4Tubs* sCylinder_in = 
     new G4Tubs("Cylinder_in",                    //name
               0., 4.6/2*mm,                      //inner radius, outer radius
-              13./2*mm,                          //z half length
-              0., twopi);                      //min phi, max phi
+              11.8/2*mm,                         //z half length
+              0., twopi);                        //min phi, max phi
 
   G4LogicalVolume* lCylinder_in = 
-    new G4LogicalVolume(sCylinder_in,        //shape
-                        BeO,             //material
-                        "Cylinder_in");           //name
+    new G4LogicalVolume(sCylinder_in,            //shape
+                        BeO,                     //material
+                        "Cylinder_in");          //name
 
-  new G4PVPlacement(0,                        //no rotation
-              G4ThreeVector(0,0,0),      //position
-              lCylinder_in,                  //logical volume
+  new G4PVPlacement(0,                           //no rotation
+              G4ThreeVector(0,0,0),              //position
+              lCylinder_in,                      //logical volume
               "Cylinder_in",                     //name
               lCylinder_out,                     //mother  volume
-              false,                          //boolean operation?
-              0,                              //copy number
-              true);                          //overlaps checking?
+              false,                             //boolean operation?
+              0,                                 //copy number
+              true);                             //overlaps checking?
 
   //Make (in-)visible and give it a color
   auto lCylinder_inVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
   lCylinder_inVisAtt->SetVisibility(true);
   lCylinder_in->SetVisAttributes(lCylinder_inVisAtt);
 
+#pragma endregion
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// 
+//Import Mobile Faraday Cup and place it in surrounding CupBox in BoxBox
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#pragma region 
+  // 
+  // Materials
+  // 
+  //Define borated PE (Röchling- Polystone M nuclear with 5% Boron)
+  G4Material* BoratedPE = new G4Material("BoratedPE",      //name
+                                      1.03*g/cm3,          //density
+                                      3);                  //number of elements
+
+  //Add Elements to Material
+  BoratedPE->AddMaterial(nist->FindOrBuildMaterial("G4_H"), 14.*perCent);
+  BoratedPE->AddMaterial(nist->FindOrBuildMaterial("G4_C"), 81.*perCent);
+  BoratedPE->AddMaterial(nist->FindOrBuildMaterial("G4_B"), 5.*perCent);
+
+  dummyMat     = nist->FindOrBuildMaterial("BoratedPE");
+  
+  // 
+  // surounding BoxBox for the box surrounding the Mobile Faraday Cup
+  // 
+    G4Box* solidBoxBox =    
+    new G4Box("BoxBox",                       //its name
+       (150.*mm+b)/2, (120.*mm+b)/2, (298.*mm+b/2)/2 );     //its size - b-size shielding in x- and y-direction but only b/2 in z-direction because not shielding in front
+      
+  G4LogicalVolume* logicBoxBox =                         
+    new G4LogicalVolume(solidBoxBox,          //its solid
+                        dummyMat,           //its material
+                        "BoxBox");            //its name
+                                   
+  G4VPhysicalVolume* physBoxBox = 
+    new G4PVPlacement(0,                     //no rotation
+                      G4ThreeVector(0, 0,(298.*mm+b/2)/2),       //at (0,0,0)
+                      logicBoxBox,            //its logical volume
+                      "BoxBox",               //its name
+                      logicWorld,                     //its mother  volume
+                      false,                 //no boolean operation
+                      0,                     //copy number
+                      true);                 //overlaps checking
+
+  //Make BoxBox-volume invisible
+  auto logicBoxBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b , transparency)
+  logicBoxBoxVisAtt->SetVisibility(true);
+  logicBoxBox->SetVisAttributes(logicBoxBoxVisAtt);
+
+  // 
+  // surounding Box for Mobile Faraday Cup
+  // 
+    G4Box* solidCupBox =    
+    new G4Box("CupBox",                       //its name
+       150.*mm/2, 120.*mm/2, 298.*mm/2);     //its size
+      
+  G4LogicalVolume* logicCupBox =                         
+    new G4LogicalVolume(solidCupBox,          //its solid
+                        world_mat,           //its material
+                        "CupBox");            //its name
+                                   
+  G4VPhysicalVolume* physCupBox = 
+    new G4PVPlacement(0,                     //no rotation
+                      G4ThreeVector(0, 0, -b/4),       //at (0,0,0)  - move -b/4 in z-direction for no shielding in front but b-size shielding in the back
+                      logicCupBox,            //its logical volume
+                      "CupBox",               //its name
+                      logicBoxBox,                     //its mother  volume
+                      false,                 //no boolean operation
+                      0,                     //copy number
+                      true);                 //overlaps checking
+
+  //Make CupBox-volume invisible
+  auto logicCupBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b , transparency)
+  logicCupBoxVisAtt->SetVisibility(true);
+  logicCupBox->SetVisAttributes(logicCupBoxVisAtt);
+
+
+  ////////////////////
+  // CADMesh :: OBJ // - ASSEMBLIES
+  ////////////////////
+  //import .obj-file containing an assembly
+  auto FaradayCup_mesh = CADMesh::TessellatedMesh::FromOBJ("./FaradayCupMobile.obj");
+  FaradayCup_mesh->SetScale(1);
+
+  //Volumen 1
+  auto logicDumpTarget = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("DumpTarget"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         Graphite,                 //its material         
+                                         "DumpTarget",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicDumpTarget,              //its logical volume
+                     "DumpTarget",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicDumpTargetVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicDumpTargetVisAtt->SetVisibility(true);
+  logicDumpTarget->SetVisAttributes(logicDumpTargetVisAtt);
+
+  //Volumen 2
+  auto logicDumpCube = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("DumpCube"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         Aluminum,                 //its material         
+                                         "DumpCube",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicDumpCube,              //its logical volume
+                     "DumpCube",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicDumpCubeVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicDumpCubeVisAtt->SetVisibility(true);
+  logicDumpCube->SetVisAttributes(logicDumpCubeVisAtt);
+
+  //Volumen 3
+  auto logicRingInside = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("RingInside"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "RingInside",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicRingInside,              //its logical volume
+                     "RingInside",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicRingInsideVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicRingInsideVisAtt->SetVisibility(true);
+  logicRingInside->SetVisAttributes(logicRingInsideVisAtt);
+
+  //Volumen 4
+  auto logic4WayCross = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("4WayCross"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "4WayCross",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logic4WayCross,              //its logical volume
+                     "4WayCross",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logic4WayCrossVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logic4WayCrossVisAtt->SetVisibility(true);
+  logic4WayCross->SetVisAttributes(logic4WayCrossVisAtt);
+
+  //Volumen 5
+  auto logicCylinderkathode = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("Cylinderkathode"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "Cylinderkathode",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicCylinderkathode,              //its logical volume
+                     "Cylinderkathode",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicCylinderkathodeVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicCylinderkathodeVisAtt->SetVisibility(true);
+  logicCylinderkathode->SetVisAttributes(logicCylinderkathodeVisAtt);
+
+  //Volumen 6
+  auto logicBlindflansch1 = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("Blindflansch1"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "Blindflansch1",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicBlindflansch1,              //its logical volume
+                     "Blindflansch1",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicBlindflansch1VisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicBlindflansch1VisAtt->SetVisibility(true);
+  logicBlindflansch1->SetVisAttributes(logicBlindflansch1VisAtt);
+
+  //Volumen 7
+  auto logicBlindflansch2 = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("Blindflansch2"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "Blindflansch2",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicBlindflansch2,              //its logical volume
+                     "Blindflansch2",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicBlindflansch2VisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicBlindflansch2VisAtt->SetVisibility(true);
+  logicBlindflansch2->SetVisAttributes(logicBlindflansch2VisAtt);
+
+  //Volumen 8
+  auto logicLenardWindow = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("LenardWindow"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "LenardWindow",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicLenardWindow,              //its logical volume
+                     "LenardWindow",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicLenardWindowVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicLenardWindowVisAtt->SetVisibility(true);
+  logicLenardWindow->SetVisAttributes(logicLenardWindowVisAtt);
+
+  //Volumen 9
+  auto logicFoil = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("Foil"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "FoilCup",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicFoil,              //its logical volume
+                     "Foil",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicFoilVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicFoilVisAtt->SetVisibility(true);
+  logicFoil->SetVisAttributes(logicFoilVisAtt);
+
+  //Volumen 10
+  auto logicRingOutside = 
+    new G4LogicalVolume( FaradayCup_mesh->GetSolid("RingOutside"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "RingOutside",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,-16.*mm),   //position
+                     logicRingOutside,              //its logical volume
+                     "RingOutside",                 //its name
+                     logicCupBox,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicRingOutsideVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicRingOutsideVisAtt->SetVisibility(true);
+  logicRingOutside->SetVisAttributes(logicRingOutsideVisAtt);
+
+  //     
+  // Experimental Hall Floor
+  // 
+  G4Box* sFloor =    
+    new G4Box("sFloor",                        //its name
+        14.*m/2, 1.*m/2, 14.*m /2);                   //its size: half x, half y, half z
+      
+  G4LogicalVolume* lFloor =                         
+    new G4LogicalVolume(sFloor,                //its solid
+                        Concrete,           //its material
+                        "Floor");              //its name
+    
+    new G4PVPlacement(0,                     //no rotation
+              G4ThreeVector(0,-1.33*m - 50.*cm,0),     //position
+              lFloor,                          //its logical volume
+              "Floor",                         //its name
+              logicWorld,                    //its mother  volume
+              false,                         //boolean operation?
+              0,                             //copy number
+              true);                         //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto lFloorVisAtt = new G4VisAttributes(G4Color(133/255,138/255,126/255, 0.8)); //(r, g, b , transparency)
+  lFloorVisAtt->SetVisibility(true);
+  lFloor->SetVisAttributes(lFloorVisAtt);
+
+#pragma endregion
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// 
+//Import Lenard Window and place it in LenardWindowCylinder
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+#pragma region 
+  //
+  // Cylinder
+  //
+  G4Tubs* solidLenardWindowCylinder = 
+    new G4Tubs("LenardWindowCylinder",                    //name
+             0., 65.*mm,                      //inner radius, outer radius
+             130.*mm/2,                          //z half length
+             0., twopi);                      //min phi, max phi
+
+  G4LogicalVolume* logicLenardWindowCylinder = 
+    new G4LogicalVolume(solidLenardWindowCylinder,        //shape
+                       world_mat,             //material
+                       "LenardWindowCylinder");           //name
+
+  new G4PVPlacement(0,                        //no rotation
+              G4ThreeVector(0.*cm,0,0.*cm),      //position
+              logicLenardWindowCylinder,                  //logical volume
+              "LenardWindowCylinder",                     //name
+              logicWorld,                     //mother  volume
+              false,                          //boolean operation?
+              0,                              //copy number
+              true);                          //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto logicLenardWindowCylinderVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+  logicLenardWindowCylinderVisAtt->SetVisibility(true);
+  logicLenardWindowCylinder->SetVisAttributes(logicLenardWindowCylinderVisAtt);
+
+  ////////////////////
+  // CADMesh :: OBJ // - ASSEMBLIES
+  ////////////////////
+  //import .obj-file containing an assembly
+  auto LenardWindow_mesh = CADMesh::TessellatedMesh::FromOBJ("./LenardWindowAssembly60.obj");
+  LenardWindow_mesh->SetScale(1);
+
+  //Volumen 1
+  auto logicTube = 
+    new G4LogicalVolume( LenardWindow_mesh->GetSolid("Tube"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "Tube",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,55.*mm),   //position
+                     logicTube,              //its logical volume
+                     "Tube",                 //its name
+                     logicLenardWindowCylinder,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicTubeVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicTubeVisAtt->SetVisibility(true);
+  logicTube->SetVisAttributes(logicTubeVisAtt);
+
+  //Volumen 2
+  auto logicLenardWindowExit = 
+    new G4LogicalVolume( LenardWindow_mesh->GetSolid("LenardWindow"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "LenardWindowExit",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,55.*mm),   //position
+                     logicLenardWindowExit,              //its logical volume
+                     "LenardWindowExit",                 //its name
+                     logicLenardWindowCylinder,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicLenardWindowExitVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicLenardWindowExitVisAtt->SetVisibility(true);
+  logicLenardWindowExit->SetVisAttributes(logicLenardWindowExitVisAtt);
+
+  //Volumen 3
+  auto logicRingExit = 
+    new G4LogicalVolume( LenardWindow_mesh->GetSolid("Ring"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "RingExit",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,55.*mm),   //position
+                     logicRingExit,              //its logical volume
+                     "RingExit",                 //its name
+                     logicLenardWindowCylinder,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicRingExitVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicRingExitVisAtt->SetVisibility(true);
+  logicRingExit->SetVisAttributes(logicRingExitVisAtt);
+
+  //Volumen 4
+  auto logicFoilExit = 
+    new G4LogicalVolume( LenardWindow_mesh->GetSolid("Foil"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+                                         world_mat,                 //its material         
+                                         "FoilExit",         //its name
+                                         0, 0, 0
+  );
+
+  new G4PVPlacement( 0,                                 //no rotation
+                     G4ThreeVector(0,0,55.*mm),   //position
+                     logicFoilExit,              //its logical volume
+                     "FoilExit",                 //its name
+                     logicLenardWindowCylinder,                        //its mother volume
+                     false,                             //boolean operation?
+                     0,                                 //copy number
+                     true);                             //overlaps checking?
+
+  auto logicFoilExitVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  logicFoilExitVisAtt->SetVisibility(true);
+  logicFoilExit->SetVisAttributes(logicFoilExitVisAtt);
+
+  //
+  // Cylinder Vacuum in Tube
+  //
+  G4Tubs* solidVacuumInTube = 
+    new G4Tubs("VacuumInTube",                    //name
+             0., 102.*mm/2,                      //inner radius, outer radius
+             108.*mm/2,                          //z half length
+             0., twopi);                      //min phi, max phi
+
+  G4LogicalVolume* logicVacuumInTube = 
+    new G4LogicalVolume(solidVacuumInTube,        //shape
+                       world_mat,             //material
+                       "VacuumInTube");           //name
+
+  new G4PVPlacement(0,                        //no rotation
+              G4ThreeVector(0.*cm,0,-11.*mm),      //position
+              logicVacuumInTube,                  //logical volume
+              "VacuumInTube",                     //name
+              logicLenardWindowCylinder,                     //mother  volume
+              false,                          //boolean operation?
+              0,                              //copy number
+              true);                          //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto logicVacuumInTubeVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+  logicVacuumInTubeVisAtt->SetVisibility(true);
+  logicVacuumInTube->SetVisAttributes(logicVacuumInTubeVisAtt);
+
+#pragma endregion
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// 
+//Geometry from Celinas Bachelor Thesis
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#pragma region 
+  
+  Cylinder - Outer Steel
+  
+  G4Tubs* solidOutCylinder = 
+    new G4Tubs("OutCylinder",                    //name
+             0., 5.1*cm,                      //inner radius, outer radius
+             5.*cm,                          //z half length
+             0., twopi);                      //min phi, max phi
+
+  G4LogicalVolume* logicOutCylinder = 
+    new G4LogicalVolume(solidOutCylinder,        //shape
+                       air,             //material
+                       "OuterCylinder");           //name
+
+  new G4PVPlacement(0,                        //no rotation
+              G4ThreeVector(0,0,15.*cm),      //position
+              logicOutCylinder,                  //logical volume
+              "OutCylinder",                     //name
+              logicWorld,                     //mother  volume
+              false,                          //boolean operation?
+              0,                              //copy number
+              true);                          //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto logicOutCylinderVisAtt = new G4VisAttributes(G4Color(132,135,137, 0.8)); //(r, g, b , transparency)
+  logicOutCylinderVisAtt->SetVisibility(true);
+  logicOutCylinder->SetVisAttributes(logicOutCylinderVisAtt);
+
+  //
+  // Cylinder - Inner Air
+  //
+  G4Tubs* solidInnerCylinder = 
+    new G4Tubs("InnerCylinder",                    //name
+             0., 5.*cm,                      //inner radius, outer radius
+             5.*cm,                          //z half length
+             0., twopi);                      //min phi, max phi
+
+  G4LogicalVolume* logicInnerCylinder = 
+    new G4LogicalVolume(solidInnerCylinder,        //shape
+                      //  air,             //material
+                      Air_selfmade,
+                       "InnerCylinder");           //name
+
+  new G4PVPlacement(0,                        //no rotation
+              G4ThreeVector(0,0,0),      //position
+              logicInnerCylinder,                  //logical volume
+              "InnerCylinder",                     //name
+              logicOutCylinder,                     //mother  volume
+              false,                          //boolean operation?
+              0,                              //copy number
+              true);                          //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto logicInnerCylinderVisAtt = new G4VisAttributes(G4Color(1,0,0, 0.9)); //(r, g, b , transparency)
+  logicInnerCylinderVisAtt->SetVisibility(true);
+  logicInnerCylinder->SetVisAttributes(logicInnerCylinderVisAtt);
+
+  //
+  // Cylinder - foil
+  //
+  G4Tubs* solidFoilCylinder = 
+    new G4Tubs("FoilCylinder",                    //name
+             0., 5.1*cm,                      //inner radius, outer radius
+             0.025*mm /2,                          //z half length
+             0., twopi);                      //min phi, max phi
+
+  G4LogicalVolume* logicFoilCylinder = 
+    new G4LogicalVolume(solidFoilCylinder,        //shape
+                       foil,             //material
+                       "foil");           //name
+
+  new G4PVPlacement(0,                        //no rotation
+              G4ThreeVector(0,0,10.*cm - 0.025*mm /2),      //position
+              logicFoilCylinder,                  //logical volume
+              "FoilCylinder1",                     //name
+              logicWorld,                     //mother  volume
+              false,                          //boolean operation?
+              0,                              //copy number
+              true);                          //overlaps checking?
+
+  new G4PVPlacement(0,                        //no rotation
+              G4ThreeVector(0,0,20.*cm + 0.025*mm /2),      //position
+              logicFoilCylinder,                  //logical volume
+              "FoilCylinder2",                     //name
+              logicWorld,                     //mother  volume
+              false,                          //boolean operation?
+              0,                              //copy number
+              true);                          //overlaps checking?
+
+  //Make (in-)visible and give it a color
+  auto logicFoilCylinderVisAtt = new G4VisAttributes(G4Color(132,135,137, 0.8)); //(r, g, b , transparency)
+  logicFoilCylinderVisAtt->SetVisibility(true);
+  logicFoilCylinder->SetVisAttributes(logicFoilCylinderVisAtt);
 #pragma endregion
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

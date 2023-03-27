@@ -1,5 +1,6 @@
 /*
 Understand what this does and comment it
+Primitive Scorer data are saved here
 */
 
 #include "EventAction.hh"

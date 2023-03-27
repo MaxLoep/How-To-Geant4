@@ -1,3 +1,6 @@
+// obsolete?
+//is this a self made EM physics list?
+
 #include "ElectromagneticPhysics.hh"
 
 #include "G4BuilderType.hh"

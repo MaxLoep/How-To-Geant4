@@ -1,0 +1,71 @@
+# To be run preferably in batch, without graphics:
+# ./How-To-Geant4 run.mac
+#
+
+#/custom/directory/setMat G4_Co
+#/custom/directory/setThickness 10 cm
+#/custom/directory/setSizeYZ 10 cm
+
+#Silence hadronic process summary (works in Geant4 v10.7.1)
+#/control/verbose 0
+#/run/verbose 0
+#/process/had/verbose 0
+#/process/verbose 0
+#/process/em/verbose 0
+
+#Set number of worker threads and initialize run
+/run/numberOfThreads 4
+/run/initialize
+
+#BEAM
+#------------------------------------------------------------------------
+#Commands to use with the General Particle Source (GPS)
+#/gps/particle proton     #beam particle
+/gps/particle deuteron     #beam particle
+/gps/position 0 0 0      #GPS position
+/gps/direction 0 0 1     #oriented along the Z axis
+/gps/ene/type Mono       #monoenergetic:   I=E
+#/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
+/gps/ene/mono 28. MeV   #sets energy for monoenergetic sources
+#/gps/pos/type Point 
+
+#/gps/pos/shape Circle    #the beam geometry is a circle
+#/gps/pos/radius 0. mm
+
+#HISKP Cyclotron FWHM is approx 4mm. FWHM = 2.3548*sigma -> sigma = 1.79mm
+#/gps/pos/sigma_r 1.79 mm
+#/gps/pos/sigma_r 4. mm
+#/gps/pos/type Beam
+#------------------------------------------------------------------------
+
+#DECAYING SOURCE
+#------------------------------------------------------------------------
+#Commands to use with the General Particle Source (GPS) for radioactive ion source
+#/gps/particle ion
+#Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
+#/gps/ion 11 24 0 0
+#/gps/energy 0. eV
+
+#limit the decay chain to surpress following decays
+#/grdm/nucleusLimits 210 210 82 82
+#------------------------------------------------------------------------
+
+
+#Start a run and print progress in console
+/run/printProgress 100
+
+#/custom/geo/setMat G4_GALACTIC
+#/custom/geo/change_b 0 cm
+#/custom/ana/setOutFolder 28d-C-MobileCup-00PE
+
+#/custom/geo/change_b 10 cm
+#/custom/ana/setOutFolder 28d-C-MobileCup-10PE
+
+#/custom/geo/change_b 20 cm
+#/custom/ana/setOutFolder 28d-C-MobileCup-20PE
+
+/run/beamOn 10000000
+
+
+
+#max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

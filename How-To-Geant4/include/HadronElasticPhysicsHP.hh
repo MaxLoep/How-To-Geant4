@@ -1,3 +1,5 @@
+// obsolete?
+
 #ifndef HadronElasticPhysicsHP_h
 #define HadronElasticPhysicsHP_h 1
 

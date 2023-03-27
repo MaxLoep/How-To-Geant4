@@ -8,8 +8,24 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 
-// mutex in a file scope
+#include <filesystem>
+namespace fs = std::filesystem;
 
+// get folderName from where it is defined (RunAction.cc) - the really dirty way 
+extern std::string folderName;
+// Standard folder name for the 'ListOfGeneratedParticles' files
+std::string ListFolder = "Lists of generated Particles";
+
+//
+//Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
+//
+// void DetectorConstruction::SetOutputFolder(G4String OutFoldName)
+// void DetectorConstruction::SetOutputFolder(std::string OutFoldName)
+// {
+// folderName = OutFoldName;             
+// }
+
+// mutex in a file scope
 namespace {
   //Mutex to lock updating the global ion map
   G4Mutex ionIdMapMutex = G4MUTEX_INITIALIZER;
@@ -243,19 +259,24 @@ void Run::EndOfRun()
   //
   // Create an output file which increases in number if the simulation is run again
 
+  // create a folder for the files
+  fs::create_directory(folderName);
+  fs::create_directory(folderName + "/" + ListFolder);
+
   //Get process ID
   G4long pid = getpid();
 
-  // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "ListOfGeneratedParticles_pid+1.txt" exists. 
-  while(std::ifstream(std::to_string(pid) + ".txt"))
+  // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticle.txt" exists. 
+  while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt"))
   {
     pid++;
   }
   // Set final file name 
-  std::string fileName = "ListOfGeneratedParticles_" + std::to_string(pid) + ".txt";
+  std::string fileName = std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt";
 
   // flush output to file
-  std::ofstream outFile(fileName);
+  std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
+  // std::ofstream outFile(fileName);
 
   outFile << "\n List of generated particles:" << G4endl;
      
@@ -267,14 +288,15 @@ void Run::EndOfRun()
     G4double eMin = data.fEmin;
     G4double eMax = data.fEmax;
     G4double meanLife = data.fTmean;
-         
-    outFile << "  " << std::setw(13) << name << ": " << std::setw(7) << count
-           << "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
+
+    // tabulator divided for a more handy output
+    outFile << "  " << std::setw(13) << name << "\t" << std::setw(7) << count
+           << "\t  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
            << "\t( "  << G4BestUnit(eMin, "Energy")
            << " --> " << G4BestUnit(eMax, "Energy") << ")";
     if (meanLife >= 0.)
-      outFile << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
-    else outFile << "\tstable" << G4endl;
+      outFile << "\thalf life = \t" << G4BestUnit(meanLife, "Time")   << G4endl;
+    else outFile << "\tstable\tstable" << G4endl;
  }
 
   // compute mean Energy deposited and rms
@@ -304,7 +326,7 @@ void Run::EndOfRun()
 
  //particles flux
  //
- G4cout << "\n List of particles emerging from the target :" << G4endl;
+ G4cout << "\n List of particles emerging from the world volume :" << G4endl;
      
  for ( const auto& particleData : fParticleDataMap2 ) {
     G4String name = particleData.first;

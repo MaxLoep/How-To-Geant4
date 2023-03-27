@@ -1,4 +1,33 @@
 # How-To-Geant4
+V0.7.6.5:\
+-particle counter in every SensitiveDetector implemented\
+-particles passing through are saved in file 'ListOfGeneratedParticles in SDX.txt'\
+-some code cleanup and commenting 
+
+V0.7.6.0:\
+-started to implement counter in SensitiveDetector to count number of produced isotopes in volume
+
+V0.7.5.2:\
+-changes in 'PlotRootFile.py' to plot TH2D (not fully working)\
+-changes in 'CmakeLists.txt'; macro areno longer copied to build directory
+
+V0.7.5.1:\
+-changes to 'CMakeLists.txt' to make it run nicely from VSCode's CMake extension
+
+V0.7.5:\
+-verbosity reduced via UI commands in How-To-Geant4.cc (console doesn't show wall-of-text with physics infos when run)\
+-PlotRootFile.py got some changes
+
+V0.7.4:\
+-more advanced geometries
+
+V0.7.3:\
+-some fixes in 'CMakeLists.txt' for compilation with gcc version <9
+
+V0.7.2:\
+-much code clean up\
+-root output files and 'ListOfGeneratedParticles.txt' are now saved in subfolders
+
 V0.7.1:\
 -some code clean up\
 -added custom commands to change the parameters a,b,c,d,e in 'DetectorConstriction.cc' via macro commands (change_x)\
@@ -25,7 +54,7 @@ V0.6:\
 --'Lochflansch.obj', 'Lochflansch.stl' and 'Austrittsfenster.obj' were added to show how this is done\
 -new python script 'PlotRootFile.py' to plot all TH1D and TTree in a root-file (Histograms)\
 -new feature: the simulation takes the process-ID as initial random seed to ensure different results are generated everytime it is started\
---output file name changed to 'ID_processID.root'\
+--output file name changed to 'ID_processID.root'
 
 V0.4.1:\
 -The installed Geant4 version will be detected in the main file "How-to-Geant4.cc". "G4RunManagerFactory" will be used in version >=10.7.0 otherwise the old RunManager is used for backward compatibility.\

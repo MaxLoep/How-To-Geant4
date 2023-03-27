@@ -1,13 +1,41 @@
-import uproot
-import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-from scipy import optimize as op
-import os
-import math
+# to run in Spyder console: runfile('PlotRootFile.py', args)
 
-#Function to plot a T1HD Histogram from a root file with matplotlib
+#plot all
+#runfile("PlotRootFile.py")
+#runfile("PlotRootFile.py", "every")
+
+#plot one single histo
+#runfile("PlotRootFile.py", "single histo1")
+#runfile("PlotRootFile.py", "single SD1/1")
+
+#Plot Heatmap with two TTrees and cut data according to a third
+#runfile("PlotRootFile.py", "heatmap histo1 histo2 'title' 'x-label' 'y-label' colorbarMIN colorbarMAX dataToCutWith  cutMIN cutMAX")
+#runfile("PlotRootFile.py", "heatmap SD1/1 SD1/2 '' 'x-pos / cm' 'z-pos / cm' 1 1000 SD1/0 0 1")
+
+
+
+
+import uproot                       #for reading .root files
+import numpy as np                  #for nice arrays
+import matplotlib                   #for plotting
+import matplotlib.pyplot as plt     #for plotting
+import sys                          #for getting argument if executet from console
+#from scipy import optimize as op
+#import os
+#import math
+
+
+#Path to file
+# path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
+# path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
+# path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
+path = "build\\C26-5n_4_2_4_0\\Root Files\\ID_19184.root"
+
+#Function to plot a TH1D Histogram from a root file with matplotlib
+#UNNICE PLOT - no axis label, generic title, generic axis range
 def plot_TH1D(name, title):
+    print()
+    
     # Plot stuff
     # Start a figure and set its size 
     fig = plt.figure(figsize=(6, 6))
@@ -15,6 +43,7 @@ def plot_TH1D(name, title):
     #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
     ax1 = fig.add_subplot(1, 1, 1)
     
+    #read bin edges and number of entries from file and plot
     counts_, bins_, _ = plt.hist((name.axis().edges()[:-1] + name.axis().edges()[1:]) / 2,
                                  bins=name.axis().edges(),
                                       weights=name.values(),
@@ -23,14 +52,10 @@ def plot_TH1D(name, title):
                                       label="Counts: " + str(sum(name.values())) )
     #Set title for ax1
     ax1.set_title(str(title))
-    
+      
     # #Set axis labels for ax1
     # ax1.set_xlabel(" / cm")
     ax1.set_ylabel("counts")
-    
-    #Set x- and y-range
-    # ax1.set_xlim(1,2.5)
-    #ax1.set_ylim(0, 15)
     
     # Plot with grid
     ax1.grid()
@@ -38,7 +63,77 @@ def plot_TH1D(name, title):
     # Set legend for ax1
     ax1.legend(loc='best')
     
-    # plt.savefig('Plot0.pdf')
+    #Show the figure
+    plt.show()
+      
+    #Close the file/figure 
+    plt.close()
+ 
+# NOT WORKING
+#Function to plot a TH2D Histogram from a root file with matplotlib
+#UNNICE PLOT - no axis label, generic title, generic axis range
+def plot_TH2D(name, title):   
+    #Plot stuff
+    #Start a figure and set its size 
+    fig = plt.figure(figsize=(6, 6))
+    # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
+    ax1 = fig.add_subplot(1,1,1)
+
+    # color = 'Reds'
+    color = 'rainbow'
+    
+    #read bin edges and number of entries from file and plot
+    # counts_, bins_, _ = plt.hist((name.axis().edges()[:-1] + name.axis().edges()[1:]) / 2,
+    #                               bins=name.axis().edges(),
+    #                                   weights=name.values(),
+    #                                   range=(min(name.axis().edges()),
+    #                                           max(name.axis().edges())),
+    #                                   label="Counts: " + str(sum(name.values())) )
+    
+    # h = ax1.hist2d(name.values(0), 
+    #                 name.values(1), 
+    #                 bins=[name.axis(0).edges(),
+    #                       name.axis(1).edges()], 
+    #                 cmap=color, norm=matplotlib.colors.LogNorm(vmin=1, vmax=100))
+    
+    h = ax1.hist2d(
+                    (name.axis('x').edges()[:-1] + name.axis('x').edges()[1:]) / 2,
+                    (name.axis('y').edges()[:-1] + name.axis('y').edges()[1:]) / 2,
+                    # sum(name.values('x')),
+                    # sum(name.values('y')),
+                    # name.values(1).reshape(-1), 
+                    # name.values(2).reshape(-1),
+                    bins=100,
+                    # bins=[name.axis('x').edges(),
+                    #       name.axis('y').edges()],
+                    # weights=[np.delete(sum(name.values('x')),0),
+                    #          np.delete(sum(name.values('y')),0)],
+                    # weights=np.array(name.values(0)),
+                    # weights=name.values(0),
+                    # weights=name.values('x').reshape(-1),
+                    # weights=[sum(name.values('x')),
+                    #           sum(name.values('y'))],
+                    # range=[[min(name.axis(0).edges()), max(name.axis(0).edges())],
+                    #       [min(name.axis(1).edges()), max(name.axis(1).edges())]],
+                    cmap=color,
+                    norm=matplotlib.colors.LogNorm(vmin=1, vmax=10))
+    
+    
+    
+    cb = fig.colorbar(h[3], ax=ax1)
+    
+    #Set title for ax1
+    ax1.set_title(str(title))
+      
+    # #Set axis labels for ax1
+    # ax1.set_xlabel(" / cm")
+    ax1.set_ylabel("counts")
+    
+    # Plot with grid
+    ax1.grid()
+     
+    # Set legend for ax1
+    ax1.legend(loc='best')
     
     #Show the figure
     plt.show()
@@ -47,6 +142,7 @@ def plot_TH1D(name, title):
     plt.close()
  
 #Function to plot a TTree Histogram from a root file with matplotlib
+#UNNICE PLOT - no axis label, generic title, generic axis range
 def plot_TTree(data, TTreeFolder, TTreeBranch, bins): 
     #Plot stuff
     #Start a figure and set its size 
@@ -54,7 +150,9 @@ def plot_TTree(data, TTreeFolder, TTreeBranch, bins):
 
     #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
     ax1 = fig.add_subplot(1, 1, 1)
-    counts_Ekin, bining_Ekin, patches_Ekin = ax1.hist(array, bins= bins, label="Counts: " + str(len(array)), zorder=10)
+    
+    #create histo from data
+    counts_Ekin, bining_Ekin, patches_Ekin = ax1.hist(data, bins= bins, label="Counts: " + str(len(data)), zorder=10)
     
     #Set title for ax1
     ax1.set_title(str(TTreeFolder) + " - " +  str(TTreeBranch))
@@ -63,28 +161,23 @@ def plot_TTree(data, TTreeFolder, TTreeBranch, bins):
     # ax1.set_xlabel(" / cm")
     ax1.set_ylabel("counts")
     
-    #Set x- and y-range
-    # ax1.set_xlim(1,2.5)
-    #ax1.set_ylim(0, 15)
-    
     # Plot with grid
     ax1.grid()
      
     # Set legend for ax1
     ax1.legend(loc='best')
     
-    # plt.savefig('Plot0.pdf')
-    
     #Show the figure
     plt.show()
       
     #Close the file/figure 
     plt.close()
- 
-
-if __name__ == "__main__":
+  
+#Plot all content of a Root file - UNNICE
+def plot_all(path_to_file):
     #Plot the content of the following file
-    mainfile = uproot.open("ID_8012.root")
+    mainfile = uproot.open(path_to_file)
+    # mainfile = uproot.open("build\Output\Root Files\ID_15188.root")
     
     #Count substructures in the file
     mainkeys = mainfile.keys()
@@ -96,6 +189,7 @@ if __name__ == "__main__":
     
     #Iterate over keys and plot the content
     for i in range(len(mainkeys)):
+        #Get current Key
         key = mainfile[str(mainkeys[i])]
         
         #try to identify key a TTree
@@ -107,18 +201,269 @@ if __name__ == "__main__":
             #iterate over branches of TTree
             for j in range(len(key.branches)):
                 # print(j)
-                print(key.branches[j].name + " is a branch of " + mainkeys[i])
+                print(key.branches[j].name + " is a branch of " + mainkeys[i] + "\nIt's path is \n" + 
+                      str(mainkeys[i]) + "/" + str(j) +"\n")
                 #read data of branch in array
                 array = mainfile[mainkeys[i]].branches[j].array()
                 
                 #plot the TTreeBranch data as histogramm
                 plot_TTree(array, mainkeys[i], mainfile[mainkeys[i]].branches[j].name, bins=100)
+                
 
-        #if key is no TTree, it is a TH1D histogramm    
+        #if key is no TTree, it is a TH1D histogramm or a TH2D  
         except: 
-            print(str(mainkeys[i]) + " is not a TTree")
-            #plot the histogram
-            plot_TH1D(key, mainkeys[i])
+            # print(str(mainkeys[i]) + " is not a TTree")
+            try:              
+                #plot TH1D histogram
+                plot_TH1D(key, mainkeys[i])
+                print(str(mainkeys[i]) + " is a TH1D")
+            except:
+                # plot_TH2D(key, mainkeys[i])
+                print(str(mainkeys[i]) + " is a maybe a TH2D")
+                
+    
+#Plot one Plot but nicely - with label, name, axis, etc.
+def plot_one(path_to_file, histo_path, bins ):
+    mainfile = uproot.open(path_to_file)
+    mainkey = histo_path[:histo_path.rfind("/")]
+    j = int(histo_path[histo_path.rfind("/")+1:])
+    # #read data of branch in array
+    array = mainfile[mainkey].branches[j].array()
+    try:
+        # this will raise an error if key is no TTree
+        key = mainfile[str(mainkey)]
+        key.tree
+        #plot the TTreeBranch data as histogramm
+        # plot_TTree(array, mainkey, mainfile[mainkey].branches[j].name, bins=bins)
+        #Plot stuff
+        #Start a figure and set its size 
+        fig = plt.figure(figsize=(6, 6))
+
+        #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
+        ax1 = fig.add_subplot(1, 1, 1)
+        counts_Ekin, bining_Ekin, patches_Ekin = ax1.hist(array, bins= bins, label="Counts: " + str(len(array)), zorder=10)
+        
+        #Set title for ax1
+        ax1.set_title(str(mainkey) + " - " +  str(mainfile[mainkey].branches[j].name))
+        
+        # #Set axis labels for ax1
+        ax1.set_xlabel("z-pos / cm")
+        ax1.set_ylabel("counts")
+        
+        #Set x- and y-range
+        # ax1.set_xlim(1,2.5)
+        ax1.set_ylim(0, 115000)
+        
+        # Plot with grid
+        ax1.grid()
+         
+        # Set legend for ax1
+        ax1.legend(loc='best')
+        
+        # plt.savefig('Plot0.pdf')
+        
+        #Show the figure
+        plt.show()
+          
+        #Close the file/figure 
+        plt.close()
+        
+    #if key is no TTree, it is a TH1D histogramm    
+    except: 
+        print(str(mainkey) + " is not a TTree")
+        #plot the histogram
+        # plot_TH1D(key, mainkey)
+        # Plot stuff
+        # Start a figure and set its size 
+        fig = plt.figure(figsize=(6, 6))
+        
+        #create a 2x2 grid  (first is rows, second is columns) and add one ax (graphs are called axes) to position 1 
+        ax1 = fig.add_subplot(1, 1, 1)
+        
+        counts_, bins_, _ = plt.hist((key.axis().edges()[:-1] + key.axis().edges()[1:]) / 2,
+                                     bins=key.axis().edges(),
+                                          weights=key.values(),
+                                          range=(min(key.axis().edges()),
+                                                 max(key.axis().edges())),
+                                          label="Counts: " + str(sum(key.values())) )
+        #Set title for ax1
+        ax1.set_title(str(mainkey))
+        
+        # #Set axis labels for ax1
+        # ax1.set_xlabel(" / cm")
+        ax1.set_ylabel("counts")
+        
+        #Set x- and y-range
+        # ax1.set_xlim(1,2.5)
+        #ax1.set_ylim(0, 15)
+        
+        # Plot with grid
+        ax1.grid()
+         
+        # Set legend for ax1
+        ax1.legend(loc='best')
+        
+        # plt.savefig('Plot0.pdf')
+        
+        #Show the figure
+        plt.show()
+          
+        #Close the file/figure 
+        plt.close()
+ 
+#Plot one Heatmap but nicely - with label, name, axis, etc.
+def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
+    #List of args:
+    # args[0]=title
+    # args[1]=xlabel
+    # args[2]=ylabel
+    # args[3]=colorbar min
+    # args[4]=colorbar max
+    # args[5]=data to cut with
+    # args[6]=cut min value
+    # args[7]=cut max value
+    
+    mainfile = uproot.open(path_to_file)
+    mainkey1 = histo_path_1[:histo_path_1.rfind("/")]
+    j = int(histo_path_1[histo_path_1.rfind("/")+1:])
+    # #read data of branch in array
+    data1 = np.array(mainfile[mainkey1].branches[j].array())
+    # print(data1)
+    
+    mainkey2 = histo_path_2[:histo_path_2.rfind("/")]
+    k = int(histo_path_2[histo_path_2.rfind("/")+1:])
+    # #read data of branch in array
+    data2 = np.array(mainfile[mainkey2].branches[k].array())
+    # print(data2)
+ 
+    if len(args) >= 5:
+        try:
+            mainkey3 = args[5][:args[5].rfind("/")]
+            l = int(args[5][args[5].rfind("/")+1:])
+            # #read data of branch in array
+            data3 = np.array(mainfile[mainkey3].branches[l].array())
+            # print(data3)
+            
+            data1_clean = []
+            for i in range(len(data3)):
+                if (data3[i] > float(args[6])) and (data3[i] < float(args[7])):
+                    data1_clean += [data1[i]]
+            
+            data2_clean = []
+            for i in range(len(data3)):
+                if (data3[i] > float(args[6])) and (data3[i] < float(args[7])):
+                    data2_clean += [data2[i]]
+        except IndexError:
+            print("Missing arguments for cutting data")
+    
+    # try:
+        # this will raise an error if key is no TTree
+    key1 = mainfile[str(mainkey1)]
+    key1.tree
+    key2 = mainfile[str(mainkey2)]
+    key2.tree
+    #Plot stuff
+    #Start a figure and set its size 
+    fig = plt.figure(figsize=(6, 6))
+    # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
+    ax1 = fig.add_subplot(1,1,1)
+
+    # color = 'Reds'
+    color = 'rainbow'
+
+    try:
+        try:
+            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap=color, norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
+            print("Generating heatmap with cuts applied to data...")
+            print("Generating heatmap with given scaling...")
+        except IndexError:
+            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap=color, norm=matplotlib.colors.LogNorm())
+            print("Generating heatmap with cuts applied to data...")
+            print("Autoscaling Heatmap...")
+            
+    except:
+        try:
+            h = ax1.hist2d(data1, data2, bins=100, cmap=color, norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
+            print("Generating heatmap with NO cuts applied to data...")
+            print("Generating heatmap with given scaling...")
+        except IndexError or ValueError:
+            h = ax1.hist2d(data1, data2, bins=100, cmap=color, norm=matplotlib.colors.LogNorm())
+            print("Generating heatmap with NO cuts applied to data...")
+            print("Autoscaling Heatmap...")
+    
+    cb = fig.colorbar(h[3], ax=ax1)
+    # cb.set_label('Number of entries')
+    
+    if len(args) >= 1:
+        #Set title for ax3
+        ax1.set_title(str(args[0]))
+        # print(args[0])
+        
+    
+    if len(args) >= 2:
+        #Set axis labels for ax3
+        ax1.set_xlabel(str(args[1]))
+        ax1.set_ylabel(str(args[2]))
+        # print(args)
+     
+    #Plot with grid
+    ax1.grid()
+    
+    #Set legend for ax3
+    # ax1.legend(loc='best')
+    # except:
+    #     print("Something went wrong with heatmap")
+    #     print(histo_path_1)
+    #     print(histo_path_2)
+
+        
+#main function for different use cases
+def main(plottype, *args):
+    #if argument is "every" then plot everything in the root file
+    if plottype == "every":
+    # if "every" in args:
+        print("Plotting every plot in the Root file:")
+        plot_all(path)
+    elif plottype == "single":
+    # elif "single" in args:
+        print("Plotting a single plot:")
+        # print(args[0])
+        plot_one(path, args[0], 100)
+    elif plottype == "heatmap":
+    # elif "heatmap" in args:
+        print("Plotting a heatmap:")
+        plot_heatmap(path, args[0], args[1], *args[2:])
+    else:
+        print("Else-case")
+        print("Try to keep it like")
+        print("PlotRootFile.py every")
+        print("PlotRootFile.py single pathname")
+        print("PlotRootFile.py heatmap pathname1 pathname2 title")
+
+#do stuff if this script is called directly otherwise do nothing
+if __name__ == "__main__":
+    #if script is called without argument sys.argv only contains one element (the program name)
+    #execute main function to plot everything in Root File
+    if len(sys.argv) == 1:
+        main("every")
+        
+    #if arguments are given, try to execute main function with given arguments
+    else:
+        # try:
+            # print(sys.argv)
+            # print(sys.argv[1])
+            # print(sys.argv[2])
+            # main(sys.argv)
+            main(sys.argv[1], *sys.argv[2:])
+            # plot_one(path, "SD1/2", 100)
+        # print error message
+        # except:
+        #     print("Ooops something is wrong. Maybe invalid arguments")
+        #     print("Try to keep it like")
+        #     print("PlotRootFile.py every")
+        #     print("PlotRootFile.py single pathname")
+        #     print("PlotRootFile.py heatmap pathname1 pathname2 title")
+    
          
     
 
@@ -508,3 +853,9 @@ if __name__ == "__main__":
       
     # #Close the file/figure 
     # plt.close()
+    
+    #Set x- and y-range
+    # ax1.set_xlim(1,2.5)
+    #ax1.set_ylim(0, 15)
+    
+    # plt.savefig('Plot0.pdf')

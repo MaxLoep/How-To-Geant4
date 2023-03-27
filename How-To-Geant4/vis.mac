@@ -1,11 +1,15 @@
 # Macro file for the initialization of an interactive session
 #This gets executed automatically if the main file is executed without an argument (= another macro file)
 #
-# Set some default verbose
-/control/verbose 2
-/control/saveHistory
-/run/verbose 2
-
+# Set some default verbose - done in How-To-Geant4.cc now
+#/control/verbose 2
+#/control/saveHistory
+#/run/verbose 2
+#/control/verbose 0
+#/process/verbose 0
+#/process/had/verbose 0
+#/control/saveHistory
+#/run/verbose 0
 
 #
 /run/initialize
@@ -42,8 +46,8 @@
 /vis/viewer/set/viewpointVector -1 0 0
 /vis/viewer/set/viewpointThetaPhi 120 150
 /vis/viewer/set/lightsVector -1 0 0
-/vis/viewer/set/background 1 1 1 1 #bakcground white
-/vis/viewer/set/background 0 0 0 1 #bakcground black
+/vis/viewer/set/background 1 1 1 1 #background white
+/vis/viewer/set/background 0 0 0 1 #background black
 
 # Specify style (surface, wireframe, auxiliary edges,...)
 #/vis/viewer/set/style wireframe
@@ -125,7 +129,7 @@
 #/vis/geometry/set/colour Trapezoid2   0 0 1 0 .8
 #/vis/geometry/set/colour Torus        0 1 0 0 .8
 #/vis/geometry/set/colour BoxCylinder  0 1 1 0 .8
-/vis/geometry/set/colour Mother       0 0 0 1 .3
+#/vis/geometry/set/colour Mother       0 0 0 1 .3
 
 
 # Re-establish auto refreshing and verbosity:

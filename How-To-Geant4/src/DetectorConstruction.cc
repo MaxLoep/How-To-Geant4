@@ -42,6 +42,7 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4SolidStore.hh"
 
 #include "SensitiveDetector.hh"                     //the SensitiveDetector
+#include "CADMesh.hh"                   // for importing CAD-files (.stl, .obj, ...). Read all about it at: https://github.com/christopherpoole/CADMesh
 
 
 DetectorConstruction::DetectorConstruction()
@@ -50,7 +51,7 @@ DetectorConstruction::DetectorConstruction()
  fScoringVolume(0)
 {
   // World Size
-  world_sizeXYZ = 10.*m;
+  world_sizeXYZ = 20.*m;
 
   //set box parameters
   boxX     = 10. *cm;
@@ -59,7 +60,7 @@ DetectorConstruction::DetectorConstruction()
 
   // set dummy variables
   a = 20.*cm; // used for x- and y-width of Sensitive Detectors
-  b = 1.*cm;
+  b = 10.*cm; 
   c = 1.*cm;
   d = 1.*cm;
   e = 1.*cm;
@@ -94,8 +95,12 @@ void DetectorConstruction::DefineMaterials()
   G4NistManager* nist = G4NistManager::Instance();
 
   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
-  world_mat    = nist->FindOrBuildMaterial("G4_AIR");
+  // world_mat    = nist->FindOrBuildMaterial("G4_AIR");
   boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
+  Vacuum    = nist->FindOrBuildMaterial("G4_Galactic");
+
+  world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
+  // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
   //Print all defined materials to console
@@ -160,6 +165,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4LogicalVolume* lBox =                         
     new G4LogicalVolume(sBox,                //its solid
                         boxMaterial,           //its material
+                        // Vacuum,
                         "Box");              //its name
   
   //G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
@@ -188,7 +194,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD1 =                         
     new G4LogicalVolume(sSD1,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD1");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -214,7 +220,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD2 =                         
     new G4LogicalVolume(sSD2,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD2");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -240,7 +246,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD3 =                         
     new G4LogicalVolume(sSD3,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD3");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -266,7 +272,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
       
   G4LogicalVolume* lSD4 =                         
     new G4LogicalVolume(sSD4,                //its solid
-                        dummyMat,           //its material
+                        Vacuum,           //its material
                         "SD4");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -288,11 +294,13 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD5 =    
     new G4Box("sSD5",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        // a/2, a/2, 0.002*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 2.*cm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD5 =                         
     new G4LogicalVolume(sSD5,                //its solid
-                        dummyMat,           //its material
+                        // Vacuum,           //its material
+                        boxMaterial,
                         "SD5");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -320,7 +328,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
             
   G4LogicalVolume* lSphere =
     new G4LogicalVolume(sSphere,              //shape
-                        dummyMat,             //material
+                        Vacuum,             //material
                         "Sphere");            //name
 
   new G4PVPlacement(0,                        //no rotation
@@ -337,12 +345,13 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   lSphereVisAtt->SetVisibility(true);
   lSphere->SetVisAttributes(lSphereVisAtt);
 
+
   //B1 SCORING METHOD
   //You need also Code for this one to work in:
   //SteppingAction.cc,  RunAction.cc, EventAction.cc          
   // Set logical Box volume as scoring volume (must be a logical volume)
   //This is a public variable defined in the header file to make it accessible from other files
-  fScoringVolume = lBox;
+  fScoringVolume = lSD1;
 
   PrintParameters();
   
@@ -360,7 +369,7 @@ void DetectorConstruction::PrintParameters()
 
 
 //
-//Functions for custom GUI and macro commands - see DetextorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
+//Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
 //
 void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
 {
@@ -369,8 +378,14 @@ void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
   
   if (pttoMaterial) { 
     dummyMat = pttoMaterial;
+    G4RunManager::GetRunManager()->ReinitializeGeometry();
+    G4cout << "\n The dummyMat is now "
+           << dummyMat->GetName() 
+           << "\n \n" << dummyMat << G4endl;
+
     if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
     G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+    G4cout << "\n Weird if-case happened..." << G4endl;
   } else {
     G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
            << materialChoice << " not found" << G4endl;
@@ -429,7 +444,7 @@ void DetectorConstruction::ConstructSDandField()
   //
   //SENSITIVE DETECTORS
   //You need also Code for this one to work in:
-  //BoxSD.cc to specify what to quantity to track (Energy, position, etc.)
+  //SDX.cc to specify what to quantity to track (Energy, position, etc.)
   //RunAction.cc to open a file and declare ntuple or histograms to save data in
   //Make a Volume a Sensitive Detector (SD); SD are able to access Track/Step information of Particles going through e.g. :
   //Kinetic energy, Momentum
@@ -480,16 +495,16 @@ void DetectorConstruction::ConstructSDandField()
   // //Proton filter
   G4SDParticleFilter* protonFilter =
   new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+
+  //Neutron filter
+  // G4SDParticleFilter* neutronFilter =
+  // new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
   
   // //Electron filter
   // G4SDParticleFilter* electronFilter =
   // new G4SDParticleFilter(fltName="electronFilter");
   // electronFilter->add(particleName="e+");   // accept electrons.
   // electronFilter->add(particleName="e-");   // accept positrons.
-  
-  // //Neutron filter
-  // G4SDParticleFilter* neutronFilter =
-  // new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
   
   // //Gamma filter
   // G4SDParticleFilter* gammaFilter =
@@ -501,12 +516,6 @@ void DetectorConstruction::ConstructSDandField()
   // protonEnergy->add("proton");
   // protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
 
-  // //Neutron energy filter (Neutrons in energy range)
-  // G4SDParticleWithEnergyFilter* neutronEnergy=
-  // new G4SDParticleWithEnergyFilter(fltName="neutronEnergy");
-  // neutronEnergy->add("neutron");
-  // neutronEnergy->SetKineticEnergy(100*keV, 300*MeV);
-
   // //Declare a volume as a MultiFunctionalDetector scorer 
   auto boxPS = new G4MultiFunctionalDetector("Scorer");
   G4SDManager::GetSDMpointer()->AddNewDetector(boxPS);
@@ -515,49 +524,20 @@ void DetectorConstruction::ConstructSDandField()
   // //
   // //Score Deposited Energy (of protons)
   G4VPrimitiveScorer* primitive;
-  // primitive = new G4PSEnergyDeposit("Edep");
-  // primitive ->SetFilter(protonFilter);
 
-  //Register Filters to Scorer
-  // boxPS->RegisterPrimitive(primitive);
-
-  // //Score TrackLength (of protons/charged particle)
+  // //Score TrackLength (of protons)
   primitive = new G4PSTrackLength("TrackLength");
   primitive ->SetFilter(protonFilter);
-  // //primitive ->SetFilter(charged);
 
   // //Register Filters to Scorer
   boxPS->RegisterPrimitive(primitive);  
 
   //Apply Scorer to Volume
   SetSensitiveDetector("Box",boxPS);
-  
 
-  // //Declare a volume as a MultiFunctionalDetector scorer 
-  // //(Same as above. Copied from Example B4d. It has 2 Primitive Scorers)
-  // auto gapDetector = new G4MultiFunctionalDetector("Gap");
-  // G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
-
-  // //Declare what quantity should be scored and apply filters
   // //
   // //Score Deposited Energy
   // primitive = new G4PSEnergyDeposit("Edep");
-  // //primitive ->SetFilter(protonEnergy);
-  // //primitive ->SetFilter(neutronFilter);
 
-  // //Register Filters to Scorer
-  // gapDetector->RegisterPrimitive(primitive);
-  
-  // //Score TrackLength (of protons/charged particle/neutrons)
-  // primitive = new G4PSTrackLength("TrackLength");
-  // //primitive ->SetFilter(chargedFilter);
-  // //primitive ->SetFilter(protonEnergy);
-  // //primitive ->SetFilter(neutronFilter);
-
-  // //Register Filters to Scorer
-  // gapDetector->RegisterPrimitive(primitive);  
-  
-  // //Apply Scorer to Volume
-  // SetSensitiveDetector("Box",gapDetector); 
 
 }

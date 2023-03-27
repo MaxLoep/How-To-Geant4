@@ -53,7 +53,6 @@
 int main(int argc,char** argv) {
 
   // Detect interactive mode (if no arguments) and define UI session
-  //
   G4UIExecutive* ui = 0;
   if ( argc == 1 ) {
     ui = new G4UIExecutive(argc, argv);
@@ -77,25 +76,15 @@ int main(int argc,char** argv) {
   // G4Random::setTheEngine(new CLHEP::RandEngine);       -not working!
   // G4Random::setTheEngine(new CLHEP::TripleRand);       -not working!
 
-  // set a initial random seed based on system time and/or process id
-  G4long unix_time = time(NULL);
-  G4cout << "\n TIME is  " << unix_time << G4endl;
-
-  G4long pid = getpid();
-  G4cout << "\n PID is " << pid << G4endl;
-
-  // G4long seed = unix_time;
+  // set a initial random seed based on process id
+  G4long pid = getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
   G4long seed = pid;
-  // G4long seed = unix_time*pid;
-
   G4Random::setTheSeed(seed);
-  G4cout << "\n SEED is " << seed << G4endl;
   
   #if G4VERSION_NUMBER>=1070
     // Construct the default run manager in Geant4 Version > 10.7.0
     // Auto detect if singlethreaded mode or multithreaded mode is used
     auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
-
   #else
     //for Geant4 Versions < 10.7 use this!
     //check if Geant4 is built with multithread option
@@ -111,8 +100,6 @@ int main(int argc,char** argv) {
  // Activate UI-command base scorer
  G4ScoringManager * scManager = G4ScoringManager::GetScoringManager();
  scManager->SetVerboseLevel(1);
-
-
 
   //set mandatory initialization classes
   DetectorConstruction* det= new DetectorConstruction;
@@ -144,6 +131,7 @@ int main(int argc,char** argv) {
   // G4VModularPhysicsList* physicsList = new Shielding;
 
   runManager->SetUserInitialization(physicsList);
+  G4HadronicProcessStore::Instance()->SetVerbose(0);
 
   runManager->SetUserInitialization(new ActionInitialization(det));
 
@@ -170,17 +158,28 @@ int main(int argc,char** argv) {
   G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
 
   // Initialize visualization
-  //
-  G4VisManager* visManager = new G4VisExecutive;
   // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-  // G4VisManager* visManager = new G4VisExecutive("Quiet");
+  G4VisManager* visManager = new G4VisExecutive("Quiet");
   visManager->Initialize();
 
   // Get the pointer to the User Interface manager
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
+  // set verbosity off
+  UImanager->ApplyCommand(G4String("/process/verbose       0"));
+  UImanager->ApplyCommand(G4String("/process/em/verbose    0"));
+  UImanager->ApplyCommand(G4String("/process/had/verbose   0"));
+  UImanager->ApplyCommand(G4String("/process/eLoss/verbose 0"));
+
+  UImanager->ApplyCommand(G4String("/control/verbose  0"));
+  UImanager->ApplyCommand(G4String("/run/verbose      0"));
+  UImanager->ApplyCommand(G4String("/event/verbose    0"));
+  UImanager->ApplyCommand(G4String("/hits/verbose     0"));
+  UImanager->ApplyCommand(G4String("/tracking/verbose 0"));
+  UImanager->ApplyCommand(G4String("/stepping/verbose 0"));
+
   // Process macro or start UI session
-  // A UI session is started if the program is execute without a macro file.
+  // A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../vis.mac will be executed
   if ( ! ui ) { 
     // batch mode
     G4String command = "/control/execute ";
@@ -189,7 +188,7 @@ int main(int argc,char** argv) {
   }
   else { 
     // interactive mode
-    UImanager->ApplyCommand("/control/execute vis.mac");
+    UImanager->ApplyCommand("/control/execute ../vis.mac");
     ui->SessionStart();
     delete ui;
   }
