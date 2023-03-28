@@ -72,7 +72,11 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        boxMaterial;
    G4Material*        dummyMat; 
 
-   G4Material*        Vacuum;                   
+   G4Material*        Vacuum;
+   G4Material*        Copper;
+   G4Material*        Iron;
+   G4Material*        Titanium;
+   G4Material*        Aluminum;
 
    DetectorMessenger* fDetectorMessenger;
 

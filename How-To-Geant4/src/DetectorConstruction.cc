@@ -41,7 +41,7 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
 
-#include "SensitiveDetector.hh"                     //the SensitiveDetector
+#include "SensitiveDetector.hh"         //the SensitiveDetector
 #include "CADMesh.hh"                   // for importing CAD-files (.stl, .obj, ...). Read all about it at: https://github.com/christopherpoole/CADMesh
 
 
@@ -54,16 +54,16 @@ DetectorConstruction::DetectorConstruction()
   world_sizeXYZ = 20.*m;
 
   //set box parameters
-  boxX     = 10. *cm;
-  boxY     = 10. *cm;
-  boxZ     = 10. *cm;
+  boxX  = 10. *cm;
+  boxY  = 10. *cm;
+  boxZ  = 10. *cm;
 
   // set dummy variables
   a = 20.*cm; // used for x- and y-width of Sensitive Detectors
-  b = 10.*cm; 
-  c = 1.*cm;
-  d = 1.*cm;
-  e = 1.*cm;
+  b = 10.*cm; // unused
+  c = 1.*cm;  // unused
+  d = 1.*cm;  // unused
+  e = 1.*cm;  // unused
 
   // materials
   DefineMaterials(); // see below for this function
@@ -96,10 +96,14 @@ void DetectorConstruction::DefineMaterials()
 
   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
   // world_mat    = nist->FindOrBuildMaterial("G4_AIR");
-  boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
-  Vacuum    = nist->FindOrBuildMaterial("G4_Galactic");
+  world_mat   = nist->FindOrBuildMaterial("G4_Galactic");
+  boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
+  Vacuum      = nist->FindOrBuildMaterial("G4_Galactic");
+  Copper      = nist->FindOrBuildMaterial("G4_Cu");
+  Iron        = nist->FindOrBuildMaterial("G4_Fe");
+  Titanium    = nist->FindOrBuildMaterial("G4_Ti");
+  Aluminum    = nist->FindOrBuildMaterial("G4_Al");
 
-  world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
   // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
@@ -190,7 +194,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD1 =    
     new G4Box("sSD1",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD1 =                         
     new G4LogicalVolume(sSD1,                //its solid
@@ -216,11 +220,11 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD2 =    
     new G4Box("sSD2",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD2 =                         
     new G4LogicalVolume(sSD2,                //its solid
-                        Vacuum,           //its material
+                        Iron,           //its material
                         "SD2");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -242,11 +246,11 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD3 =    
     new G4Box("sSD3",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD3 =                         
     new G4LogicalVolume(sSD3,                //its solid
-                        Vacuum,           //its material
+                        Titanium,           //its material
                         "SD3");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -268,11 +272,11 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD4 =    
     new G4Box("sSD4",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD4 =                         
     new G4LogicalVolume(sSD4,                //its solid
-                        Vacuum,           //its material
+                        Aluminum,           //its material
                         "SD4");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -294,13 +298,13 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD5 =    
     new G4Box("sSD5",                        //its name
-        // a/2, a/2, 0.002*mm /2);                   //its size: half x, half y, half z
-        a/2, a/2, 2.*cm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
+        // a/2, a/2, 2.*cm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD5 =                         
     new G4LogicalVolume(sSD5,                //its solid
                         // Vacuum,           //its material
-                        boxMaterial,
+                        Copper,
                         "SD5");              //its name
     
     new G4PVPlacement(0,                     //no rotation
