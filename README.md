@@ -1,4 +1,7 @@
 # How-To-Geant4
+V0.7.6.6:\
+-SensitiveDetectors are different metallic materials now (20um)
+
 V0.7.6.5:\
 -particle counter in every SensitiveDetector implemented\
 -particles passing through are saved in file 'ListOfGeneratedParticles in SDX.txt'\
