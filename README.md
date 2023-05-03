@@ -1,4 +1,8 @@
 # How-To-Geant4
+V0.7.7:\
+-started implementing import of a GDML file for DetectorConstruction and export geometry to a GDML file\
+-custom commands added for import/export of GDML file
+
 V0.7.6.6:\
 -SensitiveDetectors are different metallic materials now (20um)
 
