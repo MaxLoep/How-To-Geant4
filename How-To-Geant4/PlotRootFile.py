@@ -20,16 +20,23 @@ import numpy as np                  #for nice arrays
 import matplotlib                   #for plotting
 import matplotlib.pyplot as plt     #for plotting
 import sys                          #for getting argument if executet from console
+import os
 #from scipy import optimize as op
-#import os
 #import math
 
 
 #Path to file
-path = "build\\Output\\Root Files\\ID_19220.root"
+# path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
-# path = "build\\C26-5n_4_2_4_0\\Root Files\\ID_19220.root"
+# path = "build\\Output\\Root Files\\ID_14964.root"
+# path = "C26-5d_4_1_2_0.root"
+# path = "C26-5d_4_1_3_0.root"
+# path = "C26-5d_4_1_4_0.root"
+# path = "C26-5d_4_2_3_0.root"
+# path = "C26-5d_4_2_4_0.root"
+# path = "C26-5d_4_2_5_0.root"
+path = "C26-5d_4_2_4_0_INCLXX_HP.root"
 
 #Function to plot a TH1D Histogram from a root file with matplotlib
 #UNNICE PLOT - no axis label, generic title, generic axis range
@@ -247,12 +254,14 @@ def plot_one(path_to_file, histo_path, bins ):
         ax1.set_title(str(mainkey) + " - " +  str(mainfile[mainkey].branches[j].name))
         
         # #Set axis labels for ax1
-        ax1.set_xlabel("z-pos / cm")
+        # ax1.set_xlabel("z-pos / cm")
+        ax1.set_xlabel("E / MeV")
         ax1.set_ylabel("counts")
         
         #Set x- and y-range
-        # ax1.set_xlim(1,2.5)
-        ax1.set_ylim(0, 115000)
+        # ax1.set_xlim(-5,5)
+        ax1.set_xlim(0.01,1)
+        ax1.set_ylim(0, 250)
         
         # Plot with grid
         ax1.grid()
@@ -319,9 +328,12 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
     # args[2]=ylabel
     # args[3]=colorbar min
     # args[4]=colorbar max
-    # args[5]=data to cut with
+    # args[5]=data1 to cut with
     # args[6]=cut min value
     # args[7]=cut max value
+    # args[8]=data2 to cut with
+    # args[9]=cut min value
+    # args[10]=cut max value
     
     mainfile = uproot.open(path_to_file)
     mainkey1 = histo_path_1[:histo_path_1.rfind("/")]
@@ -336,7 +348,7 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
     data2 = np.array(mainfile[mainkey2].branches[k].array())
     # print(data2)
  
-    if len(args) >= 5:
+    if len(args) >= 5 and len(args)<9:
         try:
             mainkey3 = args[5][:args[5].rfind("/")]
             l = int(args[5][args[5].rfind("/")+1:])
@@ -355,6 +367,31 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
                     data2_clean += [data2[i]]
         except IndexError:
             print("Missing arguments for cutting data")
+            
+    if len(args) >= 9:
+        try:
+            mainkey3 = args[5][:args[5].rfind("/")]
+            l = int(args[5][args[5].rfind("/")+1:])
+            # #read data of branch in array
+            data3 = np.array(mainfile[mainkey3].branches[l].array())
+            
+            mainkey4 = args[8][:args[8].rfind("/")]
+            l = int(args[8][args[8].rfind("/")+1:])
+            # #read data of branch in array
+            data4 = np.array(mainfile[mainkey4].branches[l].array())
+            # print(data3)
+            
+            data1_clean = []
+            for i in range(len(data4)):
+                if (data3[i] > float(args[6])) and (data3[i] < float(args[7])) and (data4[i] > float(args[9])) and (data4[i] < float(args[10])):
+                    data1_clean += [data1[i]]
+            
+            data2_clean = []
+            for i in range(len(data3)):
+                if (data3[i] > float(args[6])) and (data3[i] < float(args[7])) and (data4[i] > float(args[9])) and (data4[i] < float(args[10])):
+                    data2_clean += [data2[i]]
+        except IndexError:
+            print("Missing arguments for cutting data")
     
     # try:
         # this will raise an error if key is no TTree
@@ -364,30 +401,38 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
     key2.tree
     #Plot stuff
     #Start a figure and set its size 
-    fig = plt.figure(figsize=(6, 6))
+    fig = plt.figure(figsize=(6, 6), dpi=200)
     # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
     ax1 = fig.add_subplot(1,1,1)
 
     # color = 'Reds'
     color = 'rainbow'
+    bins = 50
+
+    # print("Number of entries in heatmap: " + str(len(data1_clean)))
+    # print("Mean of Data1: " + str(np.mean(data1_clean)))
+    # print("Mean of Data2: " + str(np.mean(data2_clean)))
 
     try:
         try:
-            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap=color, norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
+            h = ax1.hist2d(data1_clean, data2_clean, bins=bins, cmap=color, norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
             print("Generating heatmap with cuts applied to data...")
             print("Generating heatmap with given scaling...")
+            print(h[0].max())
         except IndexError:
-            h = ax1.hist2d(data1_clean, data2_clean, bins=100, cmap=color, norm=matplotlib.colors.LogNorm())
+            h = ax1.hist2d(data1_clean, data2_clean, bins=bins, cmap=color, norm=matplotlib.colors.LogNorm())
             print("Generating heatmap with cuts applied to data...")
             print("Autoscaling Heatmap...")
+            print(h.max())
             
     except:
         try:
-            h = ax1.hist2d(data1, data2, bins=100, cmap=color, norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
+            h = ax1.hist2d(data1, data2, bins=bins, cmap=color, norm=matplotlib.colors.LogNorm(vmin=args[3], vmax=args[4]))
             print("Generating heatmap with NO cuts applied to data...")
             print("Generating heatmap with given scaling...")
+            print(h.max())
         except IndexError or ValueError:
-            h = ax1.hist2d(data1, data2, bins=100, cmap=color, norm=matplotlib.colors.LogNorm())
+            h = ax1.hist2d(data1, data2, bins=bins, cmap=color, norm=matplotlib.colors.LogNorm())
             print("Generating heatmap with NO cuts applied to data...")
             print("Autoscaling Heatmap...")
     
@@ -408,6 +453,103 @@ def plot_heatmap(path_to_file, histo_path_1, histo_path_2, *args):
      
     #Plot with grid
     ax1.grid()
+    # plt.savefig(str(args[0])+'.pdf')
+    
+    x1=np.array([-30,30])
+    y1=np.array([30,30])
+    ax1.plot(x1, y1, 'black', linestyle='-', marker='', label="Collimator Dimensions")
+    ax1.plot(x1, y1*(-1), 'black', linestyle='-', marker='')
+    ax1.plot(y1, x1, 'black', linestyle='-', marker='')
+    ax1.plot(y1*(-1), x1, 'black', linestyle='-', marker='')
+    
+    # Set legend for ax1
+    # ax1.legend(loc='best')
+    
+    plt.show()
+
+    plt.close(fig)
+
+    #GET NEUTRON DAMAGE FUNCTION DATA------------------------------------------
+    txt_path = os.path.join(os.path.dirname(__file__))
+    neutrons = os.path.join(txt_path, 'neutrons.txt')   
+    neutrons_data  = np.loadtxt(neutrons, usecols = (0,1), skiprows=1).flatten() 
+    neutrons_xdata = neutrons_data[0::2]
+    neutrons_ydata = neutrons_data[1::2]
+    
+    
+    neutrons_centroids = (neutrons_xdata[:-1] + neutrons_xdata[1:]) / 2
+    neutrons_bins = np.insert(neutrons_centroids, 0, 0)
+    neutrons_bins = np.append(neutrons_bins, 9.02E+03)
+    
+    # print(neutrons_xdata)
+    # print(len(neutrons_xdata))
+    # print(neutrons_ydata)
+    # print(len(neutrons_ydata))
+    # print(neutrons_centroids)
+    # print(neutrons_bins)
+    # print(len(neutrons_bins))
+
+
+
+    #PLOT 1D HISTO OF FIRST TTree----------------------------------------------    
+    #Plot stuff
+    #Start a figure and set its size 
+    fig2 = plt.figure(figsize=(6, 6), dpi=200)
+    # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
+    ax2 = fig2.add_subplot(1,1,1)
+
+    bins = 50  
+    
+    data1_clean = np.array(data1_clean) #/ 3000000000 *1E-6 / 1.6E-19
+
+    #create histogram from TTree
+    counts_data1, bining_data1, patches_data1 = ax2.hist(data1_clean, bins= bins, label="Counts: " + str(len(data1_clean)), zorder=10)
+    
+    #create histogram with given bining for calculating neutron damage factor
+    # counts_data1, bining_data1, patches_data1 = ax2.hist(data1_clean, bins= neutrons_bins, label="Counts: " + str(len(data1_clean)), zorder=10)
+    plt.close()
+    
+    #Plot stuff
+    #Start a figure and set its size 
+    fig2 = plt.figure(figsize=(6, 6), dpi=200)
+    # create a 1x2 grid and add one ax (graphs are called axes) to position 1 
+    ax2 = fig2.add_subplot(1,1,1)
+    
+    #replot above histogram from TTree
+    counts_, bins_, _ = ax2.hist((bining_data1[:-1] + bining_data1[1:]) / 2,
+                                  bins=bining_data1,
+                                        weights=counts_data1, #/ 3000000000 *1E-6 / 1.6E-19,
+                                       # weights=counts_data1/sum(counts_data1),
+                                      range=(min(bining_data1),
+                                              max(bining_data1)),
+                                       # label="Counts: " + str(int(len(data1_clean)  )))  #/ 3000000000 *1E-6 / 1.6E-19)) )
+                                       # label="QGSP_BIC_AllHP"  )
+                                       label="QGSP_INCLXX_HP"  )
+    
+    print(sum(counts_))
+    # print(sum(counts_*neutrons_ydata))
+    
+    
+    #Plot with grid
+    ax2.grid()
+    #Set title for ax3
+    # ax1.set_title(str(args[0])) 
+    #Set axis labels for ax3
+    ax2.set_xlabel("E / MeV")
+    # ax2.set_xlabel("x / cm")
+    ax2.set_ylabel("counts")
+    
+    #Set x- and y-range
+    # ax2.set_xlim(0,20)
+    
+    
+    # Set legend for ax1
+    ax2.legend(loc='best')
+    
+    plt.savefig('Energy Neutrons.pdf')
+    plt.show()
+    plt.close(fig2)
+    
     
     #Set legend for ax3
     # ax1.legend(loc='best')
@@ -428,7 +570,7 @@ def main(plottype, *args):
     # elif "single" in args:
         print("Plotting a single plot:")
         # print(args[0])
-        plot_one(path, args[0], 100)
+        plot_one(path, args[0], 1000)
     elif plottype == "heatmap":
     # elif "heatmap" in args:
         print("Plotting a heatmap:")

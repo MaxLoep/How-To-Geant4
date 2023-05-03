@@ -41,9 +41,9 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
 
-#include "SensitiveDetector.hh"         //the SensitiveDetector
+#include "SensitiveDetector.hh"         // the SensitiveDetector file
 #include "CADMesh.hh"                   // for importing CAD-files (.stl, .obj, ...). Read all about it at: https://github.com/christopherpoole/CADMesh
-#include "G4GDMLParser.hh"              // for importing GDML-files
+#include "G4GDMLParser.hh"              // for importing/exporting GDML-files
 
 DetectorConstruction::DetectorConstruction()
 :G4VUserDetectorConstruction(),

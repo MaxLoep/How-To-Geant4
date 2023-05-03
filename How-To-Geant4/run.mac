@@ -46,8 +46,7 @@
 #limit the decay chain to surpress following decays
 #/grdm/nucleusLimits 210 210 82 82
 
-#Start a run and print progress in console
-/run/printProgress 1000
+#custom commands to change things
 #/custom/geo/change_a 15 cm
 #/custom/geo/change_b 15 cm
 #/custom/geo/change_c 15 cm
@@ -55,6 +54,9 @@
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
 #/custom/ana/setOutFolder Test
+
+#Start a run and print progress in console
+/run/printProgress 1000
 /run/beamOn 10000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
