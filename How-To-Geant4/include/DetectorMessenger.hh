@@ -32,7 +32,7 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithAString*        fOutFoldCmd;
     G4UIcmdWithAString*        fMaterCmd;
 
-    G4UIcmdWithAString*        fTheReadCommand;
+    G4UIcmdWithAString*        fTheLoadCommand;
     G4UIcmdWithAString*        fTheWriteCommand;
 
     G4UIcmdWithADoubleAndUnit* fchange_aCmd;

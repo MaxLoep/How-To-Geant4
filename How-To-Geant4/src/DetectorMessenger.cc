@@ -23,7 +23,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
  fOutFoldCmd(nullptr),
  fMaterCmd(nullptr),
  fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr),
- fTheReadCommand(0),fTheWriteCommand(0)
+ fTheLoadCommand(0),fTheWriteCommand(0)
 {
   //Create a directory for your custom commands
   fTestemDir = new G4UIdirectory("/custom/");
@@ -95,12 +95,12 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
   fchange_eCmd->SetUnitCategory("Length");
   fchange_eCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  // Change GDML-read-file name
-  fTheReadCommand = new G4UIcmdWithAString("/custom/GDML/readFile", this);
-  fTheReadCommand ->SetGuidance("READ GDML file with given name");
-  fTheReadCommand ->SetParameterName("FileRead", false);
-  fTheReadCommand ->SetDefaultValue("test.gdml");
-  fTheReadCommand ->AvailableForStates(G4State_PreInit);
+  // Change GDML-load-file name
+  fTheLoadCommand = new G4UIcmdWithAString("/custom/GDML/loadFile", this);
+  fTheLoadCommand ->SetGuidance("READ GDML file with given name");
+  fTheLoadCommand ->SetParameterName("FileRead", false);
+  fTheLoadCommand ->SetDefaultValue("test.gdml");
+  fTheLoadCommand ->AvailableForStates(G4State_PreInit);
   
   // Change GDML-write-file name
   fTheWriteCommand = new G4UIcmdWithAString("/custom/GDML/writeFile", this);
@@ -129,7 +129,7 @@ DetectorMessenger::~DetectorMessenger()
   delete fchange_dCmd;
   delete fchange_eCmd;
 
-  delete fTheReadCommand;
+  delete fTheLoadCommand;
   delete fTheWriteCommand;
 }
 
@@ -159,9 +159,9 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
   if( command == fchange_eCmd )
    { fDetector->change_e(fchange_eCmd->GetNewDoubleValue(newValue));} 
 
-  // Change GDML read-file-name
-  if( command == fTheReadCommand )
-   { fDetector->SetReadGDMLFile(newValue);}
+  // Change GDML load-file-name
+  if( command == fTheLoadCommand )
+   { fDetector->SetLoadGDMLFile(newValue);}
 
   // Change GDML write-file-name
   if( command == fTheWriteCommand )

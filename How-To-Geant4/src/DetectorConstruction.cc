@@ -51,9 +51,10 @@ DetectorConstruction::DetectorConstruction()
  fScoringVolume(0)
 {
   // for reading and writing GDML
-  fReadFile  ="test.gdml";
+  fLoadFile  ="test.gdml";
   fWriteFile ="wtest.gdml";
-  fWritingChoice = 2;
+  fWritingChoice = 0;
+  fLoadingChoice = 0;
 
 
   // World Size
@@ -121,90 +122,89 @@ void DetectorConstruction::DefineMaterials()
 //GDML-Stuff
 G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
 { 
-  // Writing or Reading of Geometry using G4GDML
-  // G4VPhysicalVolume* fWorldPhysVol;
-  // fWorldPhysVol = ConstructVolumes();
 
-  // Cleanup old geometry
+  // Cleanup old geometry - needed if you want to change parameters via macro commands
   G4GeometryManager::GetInstance()->OpenGeometry();
   G4PhysicalVolumeStore::GetInstance()->Clean();
   G4LogicalVolumeStore::GetInstance()->Clean();
   G4SolidStore::GetInstance()->Clean();
 
-  // READ GDML FILE 
-  // per default: fWritingChoice = 2 , you need to set it to 0 by using the macro command 'SetReadGDMLFile' to read a GDML file
-  if(fWritingChoice==0)
+  // LOAD GDML FILE 
+  // you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
+  if(fLoadingChoice==1)
   {
     // **** LOOK HERE*** FOR READING GDML FILES
     // ACTIVATING OVERLAP CHECK when read volumes are placed.
     // Can take long time in case of complex geometries
     fParser.SetOverlapCheck(true);
 
-    G4cout << "\n WritingChoice = 0 " << G4endl;
-    fParser.Read(fReadFile);
+    // print for DEBUGGING 
+    // G4cout << "\n WritingChoice = 0 " << G4endl;
+
+    fParser.Read(fLoadFile);
 
     // READING GDML FILES OPTION: 2nd Boolean argument "Validate".
     // Flag to "false" disables check with the Schema when reading GDML file.
     // See the GDML Documentation for more information.
-    // fParser.Read(fReadFile,false);
+    // fParser.Read(fLoadFile,false);
      
     // Prints the material information
     // G4cout << *(G4Material::GetMaterialTable() ) << G4endl;
          
     // Giving World Physical Volume from GDML Parser 
     fWorldPhysVol = fParser.GetWorldVolume(); 
-    ConstructVolumes();
+    // ConstructVolumes();
      
   }
   // WRITE GDML FILE 
   // per default: fWritingChoice = 2 , you need to set it to 1 by using the macro command 'SetWriteGDMLFile' to write the existing geometry in a GDML file
-  else if(fWritingChoice==1) 
-  {
-    // **** LOOK HERE*** FOR WRITING GDML FILES
-    // Detector Construction and WRITING to GDML
+  // else if(fWritingChoice==1) 
+  // {
+  //   // **** LOOK HERE*** FOR WRITING GDML FILES
+  //   // Detector Construction and WRITING to GDML
 
-    // print for DEBUGGING 
-    G4cout << "\n WritingChoice = 1 " << G4endl;
+  //   // print for DEBUGGING 
+  //   G4cout << "\n WritingChoice = 1 " << G4endl;
 
-    // Call function ConstructVolumes() to construct things inside Geant4
-    fWorldPhysVol = ConstructVolumes();
+  //   // Call function ConstructVolumes() to construct things inside Geant4
+  //   fWorldPhysVol = ConstructVolumes();
 
-    // OPTION: TO ADD MODULE AT DEPTH LEVEL ...
-    // Can be a integer or a pointer to the top Physical Volume:
-    // G4int depth=1;
-    // fParser.AddModule(depth);
+  //   // OPTION: TO ADD MODULE AT DEPTH LEVEL ...
+  //   // Can be a integer or a pointer to the top Physical Volume:
+  //   // G4int depth=1;
+  //   // fParser.AddModule(depth);
      
-    // OPTION: SETTING ADDITION OF POINTER TO NAME TO FALSE
-    // By default, written names in GDML consist of the given name with
-    // appended the pointer reference to it, in order to make it unique.
-    // Naming policy can be changed by using the following method, or
-    // calling Write with additional Boolean argument to "false".
-    // NOTE: you have to be sure not to have duplication of names in your
-    //       Geometry Setup.
-    // fParser.SetAddPointerToName(false); //<- does not work?
-    // or
-    // Writing Geometry to GDML File
-    fParser.Write(fWriteFile, fWorldPhysVol, false);
-    // fParser.Write(fWriteFile, fWorldPhysVol);
+  //   // OPTION: SETTING ADDITION OF POINTER TO NAME TO FALSE
+  //   // By default, written names in GDML consist of the given name with
+  //   // appended the pointer reference to it, in order to make it unique.
+  //   // Naming policy can be changed by using the following method, or
+  //   // calling Write with additional Boolean argument to "false".
+  //   // NOTE: you have to be sure not to have duplication of names in your
+  //   //       Geometry Setup.
+  //   // fParser.SetAddPointerToName(false); //<- does not work?
+  //   // or
+  //   // Writing Geometry to GDML File
+  //   fParser.Write(fWriteFile, fWorldPhysVol, false);
+  //   // fParser.Write(fWriteFile, fWorldPhysVol);
 
-    // print for DEBUGGING:
-    G4cout << "\n WritingFile " << G4endl;
+  //   // print for DEBUGGING:
+  //   G4cout << "\n WritingFile " << G4endl;
     
-    // OPTION: SET MAXIMUM LEVEL TO EXPORT (REDUCED TREE)...
-    // Can be a integer greater than zero:
-    // G4int maxlevel=3;
-    // fParser.SetMaxExportLevel(maxlevel);
+  //   // OPTION: SET MAXIMUM LEVEL TO EXPORT (REDUCED TREE)...
+  //   // Can be a integer greater than zero:
+  //   // G4int maxlevel=3;
+  //   // fParser.SetMaxExportLevel(maxlevel);
 
-    // OPTION: SPECIFYING THE SCHEMA LOCATION
-    // When writing GDML file the default the Schema Location from the
-    // GDML web site will be used:
-    // "http://cern.ch/service-spi/app/releases/GDML/GDML_2_10_0/src/GDMLSchema/gdml.xsd"
-    // NOTE: GDML Schema is distributed in Geant4 in the directory:
-    //    $G4INSTALL/source/persistency/gdml/schema
-    // You can change the Schema path by adding a parameter to the Write
-    // command, as follows:
-    // fParser.Write(fWriteFile, fWorldPhysVol, "your-path-to-schema/gdml.xsd");
-  }
+  //   // OPTION: SPECIFYING THE SCHEMA LOCATION
+  //   // When writing GDML file the default the Schema Location from the
+  //   // GDML web site will be used:
+  //   // "http://cern.ch/service-spi/app/releases/GDML/GDML_2_10_0/src/GDMLSchema/gdml.xsd"
+  //   // NOTE: GDML Schema is distributed in Geant4 in the directory:
+  //   //    $G4INSTALL/source/persistency/gdml/schema
+  //   // You can change the Schema path by adding a parameter to the Write
+  //   // command, as follows:
+  //   // fParser.Write(fWriteFile, fWorldPhysVol, "your-path-to-schema/gdml.xsd");
+  // }
   // DONT DO STUFF WITH GDML
   // per default: fWritingChoice = 2 , this simply constructs the Volumes without any GDML stuff
     else
@@ -213,6 +213,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
   } 
 
   return fWorldPhysVol;
+  // return 0;
 }
 
 G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
@@ -235,13 +236,9 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   3.: Place it in your simulation
   */ 
 
-  //Start with creating a World-Volume to place things in
-  // 
-  // World
-  // 
-  // World box where the simulation takes place
-  if(fWritingChoice!=0)
+  if(fLoadingChoice==0)
   {
+    // If no GDML file is loaded, a World volume needs to be created - otherwise it should be in the GDML file
     G4Box* solidWorld =    
       new G4Box("sWorld",                       //its name
         0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
@@ -271,6 +268,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4cout << "\n ----WORLD VOLUME CONSTRUCTED---- " << G4endl;
   }
 
+  // print for DEBUGGING 
   G4cout << fWorldPhysVol->GetLogicalVolume()->GetName() << G4endl;
 
   //create a box to be used as Primitive Scorer (PS) and place it in the world volume
@@ -481,6 +479,55 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
   PrintParameters();
 
+  if(fWritingChoice==1) 
+    {
+      // **** LOOK HERE*** FOR WRITING GDML FILES
+      // Detector Construction and WRITING to GDML
+
+      // print for DEBUGGING 
+      G4cout << "\n WritingChoice = 1 " << G4endl;
+
+      // Call function ConstructVolumes() to construct things inside Geant4
+      // fWorldPhysVol = ConstructVolumes();
+
+      // OPTION: TO ADD MODULE AT DEPTH LEVEL ...
+      // Can be a integer or a pointer to the top Physical Volume:
+      // G4int depth=1;
+      // fParser.AddModule(depth);
+      
+      // OPTION: SETTING ADDITION OF POINTER TO NAME TO FALSE
+      // By default, written names in GDML consist of the given name with
+      // appended the pointer reference to it, in order to make it unique.
+      // Naming policy can be changed by using the following method, or
+      // calling Write with additional Boolean argument to "false".
+      // NOTE: you have to be sure not to have duplication of names in your
+      //       Geometry Setup.
+      // fParser.SetAddPointerToName(false); //<- does not work?
+      // or
+      // Writing Geometry to GDML File
+      fParser.Write(fWriteFile, fWorldPhysVol, false);
+      // fParser.Write(fWriteFile, fWorldPhysVol);
+
+      // print for DEBUGGING:
+      G4cout << "\n WritingFile " << G4endl;
+      
+      // OPTION: SET MAXIMUM LEVEL TO EXPORT (REDUCED TREE)...
+      // Can be a integer greater than zero:
+      // G4int maxlevel=3;
+      // fParser.SetMaxExportLevel(maxlevel);
+
+      // OPTION: SPECIFYING THE SCHEMA LOCATION
+      // When writing GDML file the default the Schema Location from the
+      // GDML web site will be used:
+      // "http://cern.ch/service-spi/app/releases/GDML/GDML_2_10_0/src/GDMLSchema/gdml.xsd"
+      // NOTE: GDML Schema is distributed in Geant4 in the directory:
+      //    $G4INSTALL/source/persistency/gdml/schema
+      // You can change the Schema path by adding a parameter to the Write
+      // command, as follows:
+      // fParser.Write(fWriteFile, fWorldPhysVol, "your-path-to-schema/gdml.xsd");
+    }
+
+
   //always return the root volume
   //
   return fWorldPhysVol;
@@ -559,12 +606,12 @@ void DetectorConstruction::change_e(G4double value)
   G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
 }
 
-// SetGDMLReadFile
-void DetectorConstruction::SetReadGDMLFile( const G4String& File )
+// SetGDMLLoadFile
+void DetectorConstruction::SetLoadGDMLFile( const G4String& File )
 {
-  G4cout  << "GDML read file is now " << File << G4endl;
-  fReadFile=File;
-  fWritingChoice=0;
+  G4cout  << "GDML load file is now " << File << G4endl;
+  fLoadFile=File;
+  fLoadingChoice=1;
 }
 
 // SetGDMLWriteFile

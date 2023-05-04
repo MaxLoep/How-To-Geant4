@@ -30,7 +30,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void SetAbsorMaterial (G4String);
 
    // Writing and Reading GDML
-   void SetReadGDMLFile( const G4String& File );
+   void SetLoadGDMLFile( const G4String& File );
    void SetWriteGDMLFile( const G4String& File );
 
     void change_a   (G4double);
@@ -56,9 +56,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4GDMLParser fParser;
       
    // Reading and Writing Settings
-   G4String fReadFile;
+   G4String fLoadFile;
    G4String fWriteFile;
    G4int fWritingChoice;
+   G4int fLoadingChoice;
 
   // Define Variables for Materials and geometries you want to change per macro-file HERE:
 
