@@ -122,8 +122,14 @@ void DetectorConstruction::DefineMaterials()
 G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
 { 
   // Writing or Reading of Geometry using G4GDML
-  G4VPhysicalVolume* fWorldPhysVol;
-  fWorldPhysVol = ConstructVolumes();
+  // G4VPhysicalVolume* fWorldPhysVol;
+  // fWorldPhysVol = ConstructVolumes();
+
+  // Cleanup old geometry
+  G4GeometryManager::GetInstance()->OpenGeometry();
+  G4PhysicalVolumeStore::GetInstance()->Clean();
+  G4LogicalVolumeStore::GetInstance()->Clean();
+  G4SolidStore::GetInstance()->Clean();
 
   // READ GDML FILE 
   // per default: fWritingChoice = 2 , you need to set it to 0 by using the macro command 'SetReadGDMLFile' to read a GDML file
@@ -132,7 +138,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
     // **** LOOK HERE*** FOR READING GDML FILES
     // ACTIVATING OVERLAP CHECK when read volumes are placed.
     // Can take long time in case of complex geometries
-    // fParser.SetOverlapCheck(true);
+    fParser.SetOverlapCheck(true);
 
     G4cout << "\n WritingChoice = 0 " << G4endl;
     fParser.Read(fReadFile);
@@ -147,7 +153,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
          
     // Giving World Physical Volume from GDML Parser 
     fWorldPhysVol = fParser.GetWorldVolume(); 
-    // ConstructVolumes();
+    ConstructVolumes();
      
   }
   // WRITE GDML FILE 
@@ -211,11 +217,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
 
 G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 {
+  // print for DEBUGGING 
+  G4cout << "\n ----CONSTRUCTING VOLUMES!!!---- " << G4endl;
+
   // Cleanup old geometry
-  G4GeometryManager::GetInstance()->OpenGeometry();
-  G4PhysicalVolumeStore::GetInstance()->Clean();
-  G4LogicalVolumeStore::GetInstance()->Clean();
-  G4SolidStore::GetInstance()->Clean();
+  // G4GeometryManager::GetInstance()->OpenGeometry();
+  // G4PhysicalVolumeStore::GetInstance()->Clean();
+  // G4LogicalVolumeStore::GetInstance()->Clean();
+  // G4SolidStore::GetInstance()->Clean();
 
   //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
   /*
@@ -231,29 +240,38 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // World
   // 
   // World box where the simulation takes place
-  G4Box* solidWorld =    
-    new G4Box("World",                       //its name
-       0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
-      
-  G4LogicalVolume* logicWorld =                         
-    new G4LogicalVolume(solidWorld,          //its solid
-                        world_mat,           //its material
-                        "World");            //its name
-                                   
-  G4VPhysicalVolume* physWorld = 
-    new G4PVPlacement(0,                     //no rotation
-                      G4ThreeVector(),       //at (0,0,0)
-                      logicWorld,            //its logical volume
-                      "World",               //its name
-                      0,                     //its mother  volume
-                      false,                 //boolean operation?
-                      0,                     //copy number
-                      true);                 //overlaps checking?
+  if(fWritingChoice!=0)
+  {
+    G4Box* solidWorld =    
+      new G4Box("sWorld",                       //its name
+        0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
+        
+    G4LogicalVolume* logicWorld =                         
+      new G4LogicalVolume(solidWorld,          //its solid
+                          world_mat,           //its material
+                          "lWorld");            //its name
+                                    
+    // G4VPhysicalVolume* fWorldPhysVol = 
+    fWorldPhysVol = 
+      new G4PVPlacement(0,                     //no rotation
+                        G4ThreeVector(),       //at (0,0,0)
+                        logicWorld,            //its logical volume
+                        "pWorld",               //its name
+                        0,                     //its mother  volume
+                        false,                 //boolean operation?
+                        0,                     //copy number
+                        true);                 //overlaps checking?
 
-  //Make world-volume invisible
-  auto logicWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
-  logicWorldVisAtt->SetVisibility(true);
-  logicWorld->SetVisAttributes(logicWorldVisAtt);
+    //Make world-volume invisible
+    auto logicWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
+    logicWorldVisAtt->SetVisibility(true);
+    logicWorld->SetVisAttributes(logicWorldVisAtt);
+
+  // print for DEBUGGING 
+  G4cout << "\n ----WORLD VOLUME CONSTRUCTED---- " << G4endl;
+  }
+
+  G4cout << fWorldPhysVol->GetLogicalVolume()->GetName() << G4endl;
 
   //create a box to be used as Primitive Scorer (PS) and place it in the world volume
   //     
@@ -267,14 +285,15 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
     new G4LogicalVolume(sBox,                //its solid
                         boxMaterial,           //its material
                         // Vacuum,
-                        "Box");              //its name
+                        "lBox");              //its name
   
   //G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,80.*cm),     //position
               lBox,                          //its logical volume
-              "Box",                         //its name
-              logicWorld,                    //its mother  volume
+              "pBox",                         //its name
+              fWorldPhysVol->GetLogicalVolume(),
+              // logicWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -296,13 +315,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4LogicalVolume* lSD1 =                         
     new G4LogicalVolume(sSD1,                //its solid
                         Vacuum,           //its material
-                        "SD1");              //its name
+                        "lSD1");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,10.*cm),     //position
               lSD1,                          //its logical volume
-              "SD1",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD1",                         //its name
+              fWorldPhysVol->GetLogicalVolume(),
+              // logicWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -322,13 +342,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4LogicalVolume* lSD2 =                         
     new G4LogicalVolume(sSD2,                //its solid
                         Iron,           //its material
-                        "SD2");              //its name
+                        "lSD2");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,20.*cm),     //position
               lSD2,                          //its logical volume
-              "SD2",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD2",                         //its name
+              fWorldPhysVol->GetLogicalVolume(),
+              // logicWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -348,13 +369,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4LogicalVolume* lSD3 =                         
     new G4LogicalVolume(sSD3,                //its solid
                         Titanium,           //its material
-                        "SD3");              //its name
+                        "lSD3");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,30.*cm),     //position
               lSD3,                          //its logical volume
-              "SD3",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD3",                         //its name
+              fWorldPhysVol->GetLogicalVolume(),
+              // logicWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -374,13 +396,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4LogicalVolume* lSD4 =                         
     new G4LogicalVolume(sSD4,                //its solid
                         Aluminum,           //its material
-                        "SD4");              //its name
+                        "lSD4");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,40.*cm),     //position
               lSD4,                          //its logical volume
-              "SD4",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD4",                         //its name
+              fWorldPhysVol->GetLogicalVolume(),
+              // logicWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -402,13 +425,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
     new G4LogicalVolume(sSD5,                //its solid
                         // Vacuum,           //its material
                         Copper,
-                        "SD5");              //its name
+                        "lSD5");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,50.*cm),     //position
               lSD5,                          //its logical volume
-              "SD5",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD5",                         //its name
+              fWorldPhysVol->GetLogicalVolume(),
+              // logicWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -422,7 +446,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // Sphere - SD to detect gammas
   //
   G4Sphere* sSphere =
-    new G4Sphere("Sphere",                    //name
+    new G4Sphere("sSphere",                    //name
               2.*cm, 2.1*cm,                  //inner radius, outer radius
               0., twopi,                      //min phi, max phi
               0., pi);                        //min rho, max rho
@@ -430,13 +454,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4LogicalVolume* lSphere =
     new G4LogicalVolume(sSphere,              //shape
                         Vacuum,             //material
-                        "Sphere");            //name
+                        "lSphere");            //name
 
   new G4PVPlacement(0,                        //no rotation
               G4ThreeVector(0,0,0),           //position
               lSphere,                        //logical volume
-              "Sphere",                       //name
-              logicWorld,                     //mother volume
+              "pSphere",                       //name
+              fWorldPhysVol->GetLogicalVolume(),
+              // logicWorld,                     //mother volume
               false,                          //boolean operation?
               0,                              //copy number
               true);                          //overlaps checking?
@@ -458,7 +483,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
   //always return the root volume
   //
-  return physWorld;
+  return fWorldPhysVol;
 }
 
 void DetectorConstruction::PrintParameters()
@@ -570,27 +595,27 @@ void DetectorConstruction::ConstructSDandField()
   //Declare a Sensitive Detector
   auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-  SetSensitiveDetector("SD1", sd1);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-  SetSensitiveDetector("SD2", sd2);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD2", sd2);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-  SetSensitiveDetector("SD3", sd3);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD3", sd3);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-  SetSensitiveDetector("SD4", sd4);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD4", sd4);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-  SetSensitiveDetector("SD5", sd5);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD5", sd5);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-  SetSensitiveDetector("Sphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to Volume 'Box'
+  SetSensitiveDetector("lSphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to logical Volume 'Sphere'
 
 
   // // 
@@ -650,7 +675,7 @@ void DetectorConstruction::ConstructSDandField()
   boxPS->RegisterPrimitive(primitive);  
 
   //Apply Scorer to Volume
-  SetSensitiveDetector("Box",boxPS);
+  SetSensitiveDetector("lBox",boxPS);
 
   // //
   // //Score Deposited Energy

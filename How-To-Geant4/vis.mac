@@ -13,7 +13,7 @@
 
 #
 #/custom/GDML/readFile Test0.gdml
-/custom/GDML/writeFile Test0.gdml
+#/custom/GDML/writeFile Test0.gdml
 #
 /run/initialize
 #
