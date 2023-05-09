@@ -1,4 +1,4 @@
-// obsolete?
+// obsolete? from an older geant4 version? outdated?
 //is this a self made GammaNuclear physics list?
 
 #include "GammaNuclearPhysics.hh"

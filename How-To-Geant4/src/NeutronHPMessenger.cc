@@ -1,4 +1,4 @@
-// obsolete?
+// obsolete? from an older geant4 version? outdated?
 //is this a custom command to turn thermalScattering on/off?
 
 #include "NeutronHPMessenger.hh"

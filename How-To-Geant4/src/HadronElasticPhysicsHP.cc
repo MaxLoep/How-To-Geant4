@@ -1,5 +1,5 @@
 // HP models for neutron < 20 MeV
-// obsolete?
+// obsolete? from an older geant4 version? outdated?
 //is this a self made HadronElastic physics list?
 
 #include "HadronElasticPhysicsHP.hh"

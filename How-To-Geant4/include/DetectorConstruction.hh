@@ -30,8 +30,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void SetAbsorMaterial (G4String);
 
    // Writing and Reading GDML
-   void SetLoadGDMLFile( const G4String& File );
-   void SetWriteGDMLFile( const G4String& File );
+   void SetLoadGDMLFile( const G4String& File );  // for the macro command to load a GDML file
+   void SetWriteGDMLFile( const G4String& File ); // for the macro command to save to a GDML file
+
+   void LoadGDML( const G4String& File );         // function for loading a GML file
 
     void change_a   (G4double);
     void change_b   (G4double);
@@ -101,6 +103,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4VPhysicalVolume* ConstructVolumes(); 
    G4VPhysicalVolume* ConstructVolumesGDML(); 
    G4VPhysicalVolume* fWorldPhysVol; ; 
+   G4LogicalVolume* lWorld;
 
   protected:
     G4LogicalVolume*  fScoringVolume;    
