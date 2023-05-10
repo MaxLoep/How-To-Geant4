@@ -12,6 +12,10 @@
 #/run/verbose 0
 
 #
+#/custom/GDML/loadFile Test0.gdml
+#/custom/GDML/LoadOnly true
+#/custom/GDML/writeFile Test0.gdml
+#
 /run/initialize
 #
 # Use these open statements to open selected visualization

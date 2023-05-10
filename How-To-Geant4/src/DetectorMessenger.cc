@@ -19,10 +19,11 @@ The actual functions can be found in files where they change variables, e.g. Det
 
 DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 :G4UImessenger(), 
- fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), 
+ fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), fGDMLDir(nullptr), 
  fOutFoldCmd(nullptr),
  fMaterCmd(nullptr),
- fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr)
+ fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr),
+ fTheLoadCommand(0),fTheWriteCommand(0), fTheOnlyLoadCommand(0)
 {
   //Create a directory for your custom commands
   fTestemDir = new G4UIdirectory("/custom/");
@@ -36,6 +37,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
   //Create a sub-directory for better sorting - analysis changing variables
   fDetDir = new G4UIdirectory("/custom/ana/",broadcast);
   fDetDir->SetGuidance("Custom commands that change the analysis.");
+
+  //Create a sub-directory for better sorting - GDML related variables
+  fGDMLDir = new G4UIdirectory("/custom/GDML/",broadcast);
+  fGDMLDir->SetGuidance("Custom commands related to GDML.");
 
   // Change output folder name
   fOutFoldCmd = new G4UIcmdWithAString("/custom/ana/setOutFolder",this);
@@ -89,6 +94,27 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
   fchange_eCmd->SetRange("e>0.");
   fchange_eCmd->SetUnitCategory("Length");
   fchange_eCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  // Change GDML-load-file name
+  fTheLoadCommand = new G4UIcmdWithAString("/custom/GDML/loadFile", this);
+  fTheLoadCommand ->SetGuidance("READ GDML file with given name");
+  fTheLoadCommand ->SetParameterName("FileRead", false);
+  fTheLoadCommand ->SetDefaultValue("test.gdml");
+  fTheLoadCommand ->AvailableForStates(G4State_PreInit);
+  
+  // Change GDML-write-file name
+  fTheWriteCommand = new G4UIcmdWithAString("/custom/GDML/writeFile", this);
+  fTheWriteCommand ->SetGuidance("WRITE geometry to GDML file with given name");
+  fTheWriteCommand ->SetParameterName("FileWrite", false);
+  fTheWriteCommand ->SetDefaultValue("wtest.gdml");
+  fTheWriteCommand ->AvailableForStates(G4State_PreInit);
+
+  // Change if only a GDML-file should be loaded
+  fTheOnlyLoadCommand = new G4UIcmdWithABool("/custom/GDML/LoadOnly", this);
+  fTheOnlyLoadCommand ->SetGuidance("Decide if you only want to load a GDML file (true) or if you want to load a GDML file and add Geometries via Detector Construction (false)");
+  fTheOnlyLoadCommand ->SetParameterName("LoadOnly", false);
+  fTheOnlyLoadCommand ->SetDefaultValue( false );
+  fTheOnlyLoadCommand ->AvailableForStates(G4State_PreInit);
 }
 
 
@@ -109,6 +135,10 @@ DetectorMessenger::~DetectorMessenger()
   delete fchange_cCmd;
   delete fchange_dCmd;
   delete fchange_eCmd;
+
+  delete fTheLoadCommand;
+  delete fTheWriteCommand;
+  delete fTheOnlyLoadCommand;
 }
 
 void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
@@ -136,4 +166,16 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 
   if( command == fchange_eCmd )
    { fDetector->change_e(fchange_eCmd->GetNewDoubleValue(newValue));} 
+
+  // Change GDML load-file-name
+  if( command == fTheLoadCommand )
+   { fDetector->SetLoadGDMLFile(newValue);}
+
+  // Change GDML write-file-name
+  if( command == fTheWriteCommand )
+   { fDetector->SetWriteGDMLFile(newValue);}
+
+  // Change Only load GDML-file
+  if( command == fTheOnlyLoadCommand )
+   { fDetector->SetOnlyLoadGDML(newValue);}
 }

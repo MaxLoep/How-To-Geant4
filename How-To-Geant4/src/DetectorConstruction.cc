@@ -41,29 +41,37 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
 
-#include "SensitiveDetector.hh"                     //the SensitiveDetector
+#include "SensitiveDetector.hh"         // the SensitiveDetector file
 #include "CADMesh.hh"                   // for importing CAD-files (.stl, .obj, ...). Read all about it at: https://github.com/christopherpoole/CADMesh
-
+#include "G4GDMLParser.hh"              // for importing/exporting GDML-files
 
 DetectorConstruction::DetectorConstruction()
 :G4VUserDetectorConstruction(),
  fAbsorMaterial(nullptr), fLAbsor(nullptr), world_mat(nullptr), fDetectorMessenger(nullptr),
  fScoringVolume(0)
 {
+  // for reading and writing GDML
+  fLoadFile  ="test.gdml";
+  fWriteFile ="wtest.gdml";
+  fWritingChoice = 0;
+  fLoadingChoice = 0;
+  fOnlyLoadChoice = false;
+
+
   // World Size
   world_sizeXYZ = 20.*m;
 
   //set box parameters
-  boxX     = 10. *cm;
-  boxY     = 10. *cm;
-  boxZ     = 10. *cm;
+  boxX  = 10. *cm;
+  boxY  = 10. *cm;
+  boxZ  = 10. *cm;
 
   // set dummy variables
   a = 20.*cm; // used for x- and y-width of Sensitive Detectors
-  b = 10.*cm; 
-  c = 1.*cm;
-  d = 1.*cm;
-  e = 1.*cm;
+  b = 10.*cm; // unused
+  c = 1.*cm;  // unused
+  d = 1.*cm;  // unused
+  e = 1.*cm;  // unused
 
   // materials
   DefineMaterials(); // see below for this function
@@ -76,11 +84,12 @@ DetectorConstruction::DetectorConstruction()
 }
 
 DetectorConstruction::~DetectorConstruction()
-{ delete fDetectorMessenger;}
+{ delete fDetectorMessenger; }
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-  return ConstructVolumes();
+  return ConstructVolumesGDML();
+  // return ConstructVolumes();   // before GDML stuff was added this line was used to construct the Geometry
 }
 
 //Define materials and compositions you want to use in the simulation
@@ -96,10 +105,14 @@ void DetectorConstruction::DefineMaterials()
 
   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
   // world_mat    = nist->FindOrBuildMaterial("G4_AIR");
-  boxMaterial  = nist->FindOrBuildMaterial("G4_Cu");
-  Vacuum    = nist->FindOrBuildMaterial("G4_Galactic");
+  world_mat   = nist->FindOrBuildMaterial("G4_Galactic");
+  boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
+  Vacuum      = nist->FindOrBuildMaterial("G4_Galactic");
+  Copper      = nist->FindOrBuildMaterial("G4_Cu");
+  Iron        = nist->FindOrBuildMaterial("G4_Fe");
+  Titanium    = nist->FindOrBuildMaterial("G4_Ti");
+  Aluminum    = nist->FindOrBuildMaterial("G4_Al");
 
-  world_mat    = nist->FindOrBuildMaterial("G4_Galactic");
   // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
@@ -107,14 +120,64 @@ void DetectorConstruction::DefineMaterials()
   // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
 
+//GDML-Stuff
+G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
+{ 
 
-G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
-{
-  // Cleanup old geometry
+  // Cleanup old geometry - needed if you want to change parameters via macro commands
   G4GeometryManager::GetInstance()->OpenGeometry();
   G4PhysicalVolumeStore::GetInstance()->Clean();
   G4LogicalVolumeStore::GetInstance()->Clean();
   G4SolidStore::GetInstance()->Clean();
+
+  // LOAD GDML FILE 
+  // default value = 0
+  // you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
+  if(fLoadingChoice==1 && fOnlyLoadChoice==1) 
+  {
+    // print for DEBUGGING 
+    G4cout << "\n ----READING GDML!---- " << G4endl;
+
+    LoadGDML(fLoadFile); // load a Geometry from GDML file
+  }
+  else if(fLoadingChoice==1 && fOnlyLoadChoice==0)
+  {
+    // print for DEBUGGING 
+    G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
+
+    LoadGDML(fLoadFile);                  // load a Geometry from GDML file
+    fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in this file
+  }
+  else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )
+  {
+    // print for DEBUGGING 
+    G4cout << "\n ----You did not load any GDML file---- " << G4endl;
+    G4cout << "\n ----CONSTRUCTING VOLUMES instead!---- " << G4endl;
+
+    fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
+  }
+  else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
+  {
+    // print for DEBUGGING 
+    G4cout << "\n ----CONSTRUCTING VOLUMES!---- " << G4endl;
+
+    fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
+  } 
+
+  // always return the root volume
+  return fWorldPhysVol;
+}
+
+G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
+{
+    // print for DEBUGGING 
+    G4cout << "\n ----ONLYLOAD is---- " << fOnlyLoadChoice <<  G4endl;
+
+  // Cleanup old geometry - this already hapened in ConstructVolumesGDML
+  // G4GeometryManager::GetInstance()->OpenGeometry();
+  // G4PhysicalVolumeStore::GetInstance()->Clean();
+  // G4LogicalVolumeStore::GetInstance()->Clean();
+  // G4SolidStore::GetInstance()->Clean();
 
   //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
   /*
@@ -125,37 +188,354 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   3.: Place it in your simulation
   */ 
 
-  //Start with creating a World-Volume to place things in
+  if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to bes constructed
+  {
+    // If no GDML file is loaded, a World volume needs to be created - otherwise it should be in the GDML file
+    G4Box* solidWorld =    
+      new G4Box("sWorld",                       //its name
+        0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
+        
+    // G4LogicalVolume* lWorld =  
+    lWorld =                       
+      new G4LogicalVolume(solidWorld,          //its solid
+                          world_mat,           //its material
+                          "lWorld");            //its name
+                                    
+    // G4VPhysicalVolume* fWorldPhysVol = 
+    fWorldPhysVol = 
+      new G4PVPlacement(0,                     //no rotation
+                        G4ThreeVector(),       //at (0,0,0)
+                        lWorld,            //its logical volume
+                        "pWorld",               //its name
+                        0,                     //its mother  volume
+                        false,                 //boolean operation?
+                        0,                     //copy number
+                        true);                 //overlaps checking?
+
+    //Make world-volume invisible
+    auto lWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
+    lWorldVisAtt->SetVisibility(true);
+    lWorld->SetVisAttributes(lWorldVisAtt);
+
+  }
+  else // GDML file is loaded = use world volume from GDML file as global world volume
+  {
+    lWorld = fWorldPhysVol->GetLogicalVolume();
+  }
+
+  // print for DEBUGGING 
+  G4cout << lWorld->GetName() << " is the world volume" << G4endl;
+
+// 
+//Import Mobile Faraday Cup and place it in surrounding CupBox in BoxBox
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#pragma region   
   // 
-  // World
+  // surounding BoxBox for the box surrounding the Mobile Faraday Cup
   // 
-  // World box where the simulation takes place
-  G4Box* solidWorld =    
-    new G4Box("World",                       //its name
-       0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
+  //   G4Box* solidBoxBox =    
+  //   new G4Box("sBoxBox",                       //its name
+  //      (150.*mm+b)/2, (120.*mm+b)/2, (298.*mm+b/2)/2 );     //its size - b-size shielding in x- and y-direction but only b/2 in z-direction because not shielding in front
       
-  G4LogicalVolume* logicWorld =                         
-    new G4LogicalVolume(solidWorld,          //its solid
-                        world_mat,           //its material
-                        "World");            //its name
+  // G4LogicalVolume* logicBoxBox =                         
+  //   new G4LogicalVolume(solidBoxBox,          //its solid
+  //                       Vacuum,           //its material
+  //                       "lBoxBox");            //its name
                                    
-  G4VPhysicalVolume* physWorld = 
-    new G4PVPlacement(0,                     //no rotation
-                      G4ThreeVector(),       //at (0,0,0)
-                      logicWorld,            //its logical volume
-                      "World",               //its name
-                      0,                     //its mother  volume
-                      false,                 //boolean operation?
-                      0,                     //copy number
-                      true);                 //overlaps checking?
+  // G4VPhysicalVolume* physBoxBox = 
+  //   new G4PVPlacement(0,                     //no rotation
+  //                     G4ThreeVector(0, 0,(298.*mm+b/2)/2),       //at (0,0,0)
+  //                     logicBoxBox,            //its logical volume
+  //                     "pBoxBox",               //its name
+  //                     lWorld,                     //its mother  volume
+  //                     false,                 //no boolean operation
+  //                     0,                     //copy number
+  //                     true);                 //overlaps checking
 
-  //Make world-volume invisible
-  auto logicWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
-  logicWorldVisAtt->SetVisibility(true);
-  logicWorld->SetVisAttributes(logicWorldVisAtt);
+  // //Make BoxBox-volume invisible
+  // auto logicBoxBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b , transparency)
+  // logicBoxBoxVisAtt->SetVisibility(true);
+  // logicBoxBox->SetVisAttributes(logicBoxBoxVisAtt);
 
-//create a box to be used as Primitive Scorer (PS) and place it in the world volume
-  //     
+  // // 
+  // // surounding Box for Mobile Faraday Cup
+  // // 
+  //   G4Box* solidCupBox =    
+  //   new G4Box("sCupBox",                       //its name
+  //      150.*mm/2, 120.*mm/2, 298.*mm/2);     //its size
+      
+  // G4LogicalVolume* logicCupBox =                         
+  //   new G4LogicalVolume(solidCupBox,          //its solid
+  //                       Vacuum,           //its material
+  //                       "lCupBox");            //its name
+                                   
+  // G4VPhysicalVolume* physCupBox = 
+  //   new G4PVPlacement(0,                     //no rotation
+  //                     G4ThreeVector(0, 0, -b/4),       //at (0,0,0)  - move -b/4 in z-direction for no shielding in front but b-size shielding in the back
+  //                     logicCupBox,            //its logical volume
+  //                     "pCupBox",               //its name
+  //                     logicBoxBox,                     //its mother  volume
+  //                     false,                 //no boolean operation
+  //                     0,                     //copy number
+  //                     true);                 //overlaps checking
+
+  // //Make CupBox-volume invisible
+  // auto logicCupBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b , transparency)
+  // logicCupBoxVisAtt->SetVisibility(true);
+  // logicCupBox->SetVisAttributes(logicCupBoxVisAtt);
+
+
+  // ////////////////////
+  // // CADMesh :: OBJ // - ASSEMBLIES
+  // ////////////////////
+  // //import .obj-file containing an assembly
+  // auto FaradayCup_mesh = CADMesh::TessellatedMesh::FromOBJ("../FaradayCupMobile.obj");
+  // FaradayCup_mesh->SetScale(1);
+
+  // //Volumen 1
+  // auto logicDumpTarget = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("DumpTarget"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lDumpTarget",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicDumpTarget,              //its logical volume
+  //                    "pDumpTarget",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicDumpTargetVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicDumpTargetVisAtt->SetVisibility(true);
+  // logicDumpTarget->SetVisAttributes(logicDumpTargetVisAtt);
+
+  // //Volumen 2
+  // auto logicDumpCube = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("DumpCube"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lDumpCube",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicDumpCube,              //its logical volume
+  //                    "pDumpCube",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicDumpCubeVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicDumpCubeVisAtt->SetVisibility(true);
+  // logicDumpCube->SetVisAttributes(logicDumpCubeVisAtt);
+
+  // //Volumen 3
+  // auto logicRingInside = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("RingInside"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lRingInside",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicRingInside,              //its logical volume
+  //                    "pRingInside",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicRingInsideVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicRingInsideVisAtt->SetVisibility(true);
+  // logicRingInside->SetVisAttributes(logicRingInsideVisAtt);
+
+  // //Volumen 4
+  // auto logicFourWayCross = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("FourWayCross"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lFourWayCross",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicFourWayCross,              //its logical volume
+  //                    "pFourWayCross",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicFourWayCrossVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicFourWayCrossVisAtt->SetVisibility(true);
+  // logicFourWayCross->SetVisAttributes(logicFourWayCrossVisAtt);
+
+  // //Volumen 5
+  // auto logicCylinderkathode = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("Cylinderkathode"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lCylinderkathode",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicCylinderkathode,              //its logical volume
+  //                    "pCylinderkathode",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicCylinderkathodeVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicCylinderkathodeVisAtt->SetVisibility(true);
+  // logicCylinderkathode->SetVisAttributes(logicCylinderkathodeVisAtt);
+
+  // //Volumen 6
+  // auto logicBlindflansch1 = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("Blindflansch1"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lBlindflansch1",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicBlindflansch1,              //its logical volume
+  //                    "pBlindflansch1",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicBlindflansch1VisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicBlindflansch1VisAtt->SetVisibility(true);
+  // logicBlindflansch1->SetVisAttributes(logicBlindflansch1VisAtt);
+
+  // //Volumen 7
+  // auto logicBlindflansch2 = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("Blindflansch2"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lBlindflansch2",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicBlindflansch2,              //its logical volume
+  //                    "pBlindflansch2",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicBlindflansch2VisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicBlindflansch2VisAtt->SetVisibility(true);
+  // logicBlindflansch2->SetVisAttributes(logicBlindflansch2VisAtt);
+
+  // //Volumen 8
+  // auto logicLenardWindow = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("LenardWindow"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lLenardWindow",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicLenardWindow,              //its logical volume
+  //                    "pLenardWindow",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicLenardWindowVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicLenardWindowVisAtt->SetVisibility(true);
+  // logicLenardWindow->SetVisAttributes(logicLenardWindowVisAtt);
+
+  // //Volumen 9
+  // auto logicFoil = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("Foil"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lFoilCup",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicFoil,              //its logical volume
+  //                    "pFoil",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicFoilVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicFoilVisAtt->SetVisibility(true);
+  // logicFoil->SetVisAttributes(logicFoilVisAtt);
+
+  // //Volumen 10
+  // auto logicRingOutside = 
+  //   new G4LogicalVolume( FaradayCup_mesh->GetSolid("RingOutside"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
+  //                                        Vacuum,                 //its material         
+  //                                        "lRingOutside",         //its name
+  //                                        0, 0, 0
+  // );
+
+  // new G4PVPlacement( 0,                                 //no rotation
+  //                    G4ThreeVector(0,0,-16.*mm),   //position
+  //                    logicRingOutside,              //its logical volume
+  //                    "pRingOutside",                 //its name
+  //                    logicCupBox,                        //its mother volume
+  //                    false,                             //boolean operation?
+  //                    0,                                 //copy number
+  //                    true);                             //overlaps checking?
+
+  // auto logicRingOutsideVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
+  // logicRingOutsideVisAtt->SetVisibility(true);
+  // logicRingOutside->SetVisAttributes(logicRingOutsideVisAtt);
+
+  // //     
+  // // Experimental Hall Floor
+  // // 
+  // G4Box* sFloor =    
+  //   new G4Box("sFloor",                        //its name
+  //       14.*m/2, 1.*m/2, 14.*m /2);                   //its size: half x, half y, half z
+      
+  // G4LogicalVolume* lFloor =                         
+  //   new G4LogicalVolume(sFloor,                //its solid
+  //                       Vacuum,           //its material
+  //                       "lFloor");              //its name
+    
+  //   new G4PVPlacement(0,                     //no rotation
+  //             G4ThreeVector(0,-1.33*m - 50.*cm,0),     //position
+  //             lFloor,                          //its logical volume
+  //             "pFloor",                         //its name
+  //             lWorld,                    //its mother  volume
+  //             false,                         //boolean operation?
+  //             0,                             //copy number
+  //             true);                         //overlaps checking?
+
+  // //Make (in-)visible and give it a color
+  // auto lFloorVisAtt = new G4VisAttributes(G4Color(133/255,138/255,126/255, 0.8)); //(r, g, b , transparency)
+  // lFloorVisAtt->SetVisibility(true);
+  // lFloor->SetVisAttributes(lFloorVisAtt);
+
+#pragma endregion
+
+// 
+//Import Standard Geometry (1 box, 1 sphere and 5 SDs)
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#pragma region  
+  // create a box to be used as Primitive Scorer (PS) and place it in the world volume
+  //  
   // Box
   // 
   G4Box* sBox =    
@@ -166,14 +546,15 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
     new G4LogicalVolume(sBox,                //its solid
                         boxMaterial,           //its material
                         // Vacuum,
-                        "Box");              //its name
+                        "lBox");              //its name
   
   //G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,80.*cm),     //position
               lBox,                          //its logical volume
-              "Box",                         //its name
-              logicWorld,                    //its mother  volume
+              "pBox",                         //its name
+              lWorld,
+              // lWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -184,24 +565,25 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   lBoxVisAtt->SetVisibility(true);
   lBox->SetVisAttributes(lBoxVisAtt);
 
-//create 5 flat boxes to use as Sensitive Detector (SD)
+  //create 5 flat boxes to use as Sensitive Detector (SD)
   //     
   // SD1
   // 
   G4Box* sSD1 =    
     new G4Box("sSD1",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD1 =                         
     new G4LogicalVolume(sSD1,                //its solid
                         Vacuum,           //its material
-                        "SD1");              //its name
+                        "lSD1");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,10.*cm),     //position
               lSD1,                          //its logical volume
-              "SD1",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD1",                         //its name
+              lWorld,
+              // lWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -216,18 +598,19 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD2 =    
     new G4Box("sSD2",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD2 =                         
     new G4LogicalVolume(sSD2,                //its solid
-                        Vacuum,           //its material
-                        "SD2");              //its name
+                        Iron,           //its material
+                        "lSD2");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,20.*cm),     //position
               lSD2,                          //its logical volume
-              "SD2",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD2",                         //its name
+              lWorld,
+              // lWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -242,18 +625,19 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD3 =    
     new G4Box("sSD3",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD3 =                         
     new G4LogicalVolume(sSD3,                //its solid
-                        Vacuum,           //its material
-                        "SD3");              //its name
+                        Titanium,           //its material
+                        "lSD3");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,30.*cm),     //position
               lSD3,                          //its logical volume
-              "SD3",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD3",                         //its name
+              lWorld,
+              // lWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -268,18 +652,19 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD4 =    
     new G4Box("sSD4",                        //its name
-        a/2, a/2, 2.*mm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD4 =                         
     new G4LogicalVolume(sSD4,                //its solid
-                        Vacuum,           //its material
-                        "SD4");              //its name
+                        Aluminum,           //its material
+                        "lSD4");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,40.*cm),     //position
               lSD4,                          //its logical volume
-              "SD4",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD4",                         //its name
+              lWorld,
+              // lWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -294,20 +679,21 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // 
   G4Box* sSD5 =    
     new G4Box("sSD5",                        //its name
-        // a/2, a/2, 0.002*mm /2);                   //its size: half x, half y, half z
-        a/2, a/2, 2.*cm /2);                   //its size: half x, half y, half z
+        a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
+        // a/2, a/2, 2.*cm /2);                   //its size: half x, half y, half z
       
   G4LogicalVolume* lSD5 =                         
     new G4LogicalVolume(sSD5,                //its solid
                         // Vacuum,           //its material
-                        boxMaterial,
-                        "SD5");              //its name
+                        Copper,
+                        "lSD5");              //its name
     
     new G4PVPlacement(0,                     //no rotation
               G4ThreeVector(0,0,50.*cm),     //position
               lSD5,                          //its logical volume
-              "SD5",                         //its name
-              logicWorld,                    //its mother  volume
+              "pSD5",                         //its name
+              lWorld,
+              // lWorld,                    //its mother  volume
               false,                         //boolean operation?
               0,                             //copy number
               true);                         //overlaps checking?
@@ -321,7 +707,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // Sphere - SD to detect gammas
   //
   G4Sphere* sSphere =
-    new G4Sphere("Sphere",                    //name
+    new G4Sphere("sSphere",                    //name
               2.*cm, 2.1*cm,                  //inner radius, outer radius
               0., twopi,                      //min phi, max phi
               0., pi);                        //min rho, max rho
@@ -329,13 +715,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4LogicalVolume* lSphere =
     new G4LogicalVolume(sSphere,              //shape
                         Vacuum,             //material
-                        "Sphere");            //name
+                        "lSphere");            //name
 
   new G4PVPlacement(0,                        //no rotation
               G4ThreeVector(0,0,0),           //position
               lSphere,                        //logical volume
-              "Sphere",                       //name
-              logicWorld,                     //mother volume
+              "pSphere",                       //name
+              lWorld,
+              // lWorld,                     //mother volume
               false,                          //boolean operation?
               0,                              //copy number
               true);                          //overlaps checking?
@@ -344,20 +731,25 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   auto lSphereVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
   lSphereVisAtt->SetVisibility(true);
   lSphere->SetVisAttributes(lSphereVisAtt);
-
+  #pragma endregion
 
   //B1 SCORING METHOD
   //You need also Code for this one to work in:
   //SteppingAction.cc,  RunAction.cc, EventAction.cc          
   // Set logical Box volume as scoring volume (must be a logical volume)
   //This is a public variable defined in the header file to make it accessible from other files
-  fScoringVolume = lSD1;
+  // fScoringVolume = lSD1;
 
   PrintParameters();
-  
+
+  // default value = 0
+  if(fWritingChoice==1) // save geometry in GDML file
+    {
+      SaveGDML( fWriteFile );
+    }
+
   //always return the root volume
-  //
-  return physWorld;
+  return fWorldPhysVol;
 }
 
 void DetectorConstruction::PrintParameters()
@@ -433,6 +825,79 @@ void DetectorConstruction::change_e(G4double value)
   G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
 }
 
+// SetGDMLLoadFile - Function for changing the name of the File that gets loaded via Macro Command
+void DetectorConstruction::SetLoadGDMLFile( const G4String& File )
+{
+  G4cout  << "GDML load file is now " << File << G4endl;
+  fLoadFile=File;
+  fLoadingChoice=1;
+}
+
+// SetGDMLWriteFile - Function for changing the name of the File that gets saved as GDML via Macro Command
+void DetectorConstruction::SetWriteGDMLFile( const G4String& File )
+{
+  G4cout  << "GDML write file is now " << File << G4endl;
+  fWriteFile=File;
+  fWritingChoice=1;
+}
+
+void DetectorConstruction::SetOnlyLoadGDML( G4bool value )
+{
+  G4cout  << "Only-GDML choice is now " << value << G4endl;
+  fOnlyLoadChoice = value;
+}
+
+// LoadGDML - function that loads a GDML file into the geometry
+void DetectorConstruction::LoadGDML( const G4String& File )
+{
+  // **** LOOK HERE*** FOR READING GDML FILES
+  // ACTIVATING OVERLAP CHECK when read volumes are placed.
+  // Can take long time in case of complex geometries
+  fParser.SetOverlapCheck(true);
+
+  fParser.Read(File);
+
+  // READING GDML FILES OPTION: 2nd Boolean argument "Validate".
+  // Flag to "false" disables check with the Schema when reading GDML file.
+  // See the GDML Documentation for more information.
+  // fParser.Read(fLoadFile,false);
+     
+  // Prints the material information
+  // G4cout << *(G4Material::GetMaterialTable() ) << G4endl;
+         
+  // Giving World Physical Volume from GDML Parser 
+  fWorldPhysVol = fParser.GetWorldVolume(); 
+}
+
+// SaveGDML - function that saves the geometry into a GDML file
+void DetectorConstruction::SaveGDML( const G4String& File )
+{
+  // **** LOOK HERE*** FOR WRITING GDML FILES
+  // If everything is constructed, then you can save the Geometry in a GDML file 
+
+  // OPTION: TO ADD MODULE AT DEPTH LEVEL ...
+  // Can be a integer or a pointer to the top Physical Volume:
+  // G4int depth=1;
+  // fParser.AddModule(depth);
+      
+  // OPTION: SETTING ADDITION OF POINTER TO NAME TO FALSE
+  // By default, written names in GDML consist of the given name with
+  // appended the pointer reference to it, in order to make it unique.
+  // Naming policy can be changed by using the following method, or
+  // calling Write with additional Boolean argument to "false".
+  // NOTE: you have to be sure not to have duplication of names in your Geometry Setup.
+  // fParser.SetAddPointerToName(false); //<- does not work?
+  // or
+  // Writing Geometry to GDML File
+  fParser.Write(fWriteFile, fWorldPhysVol, false);
+  // fParser.Write(fWriteFile, fWorldPhysVol);
+      
+  // OPTION: SET MAXIMUM LEVEL TO EXPORT (REDUCED TREE)...
+  // Can be a integer greater than zero:
+  // G4int maxlevel=3;
+  // fParser.SetMaxExportLevel(maxlevel);
+}
+
 
 //
 //Assign Detectors and Scorers to Volume
@@ -453,27 +918,27 @@ void DetectorConstruction::ConstructSDandField()
   //Declare a Sensitive Detector
   auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-  SetSensitiveDetector("SD1", sd1);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-  SetSensitiveDetector("SD2", sd2);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD2", sd2);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-  SetSensitiveDetector("SD3", sd3);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD3", sd3);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-  SetSensitiveDetector("SD4", sd4);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD4", sd4);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-  SetSensitiveDetector("SD5", sd5);                   //Apply Sensitive Detector 'sdX' to Volume 'SDX'
+  SetSensitiveDetector("lSD5", sd5);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
   auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
   G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-  SetSensitiveDetector("Sphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to Volume 'Box'
+  SetSensitiveDetector("lSphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to logical Volume 'Sphere'
 
 
   // // 
@@ -533,7 +998,7 @@ void DetectorConstruction::ConstructSDandField()
   boxPS->RegisterPrimitive(primitive);  
 
   //Apply Scorer to Volume
-  SetSensitiveDetector("Box",boxPS);
+  // SetSensitiveDetector("lBox",boxPS);
 
   // //
   // //Score Deposited Energy
