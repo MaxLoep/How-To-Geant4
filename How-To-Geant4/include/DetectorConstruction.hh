@@ -29,11 +29,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void SetOutputFolder (std::string);
     void SetAbsorMaterial (G4String);
 
-   // Writing and Reading GDML
-   void SetLoadGDMLFile( const G4String& File );  // for the macro command to load a GDML file
-   void SetWriteGDMLFile( const G4String& File ); // for the macro command to save to a GDML file
+    // Writing and Reading GDML
+    void SetLoadGDMLFile( const G4String& File );  // for the macro command to load a GDML file
+    void SetWriteGDMLFile( const G4String& File ); // for the macro command to save to a GDML file
+    void SetOnlyLoadGDML( bool value );                     // for the macro command to decide if only a GDML should be loaded
 
-   void LoadGDML( const G4String& File );         // function for loading a GML file
+    void LoadGDML( const G4String& File );         // function for loading a GDML file
+    void SaveGDML( const G4String& File );         // function for saving to a GDML file
+
 
     void change_a   (G4double);
     void change_b   (G4double);
@@ -58,10 +61,11 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4GDMLParser fParser;
       
    // Reading and Writing Settings
-   G4String fLoadFile;
-   G4String fWriteFile;
-   G4int fWritingChoice;
-   G4int fLoadingChoice;
+   G4String fLoadFile;    // name of GDML file that should be loaded
+   G4String fWriteFile;   // name of the GDML file that should be written
+   G4int fWritingChoice;  // variable to control if GDML should be written
+   G4int fLoadingChoice;  // variable to control if GDML should be loaded
+   G4bool fOnlyLoadChoice; // variable to control if only a GDML file should be loaded without building additional geometries via Geant4/DetectorConstruction
 
   // Define Variables for Materials and geometries you want to change per macro-file HERE:
 

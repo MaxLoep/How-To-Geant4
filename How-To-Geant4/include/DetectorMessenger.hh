@@ -10,6 +10,7 @@ class G4UIcommand;
 class G4UIcmdWithAString;
 class G4UIcmdWithADoubleAndUnit;
 class G4UIcmdWithoutParameter;
+class G4UIcmdWithABool;
 
 
 class DetectorMessenger: public G4UImessenger
@@ -34,6 +35,7 @@ class DetectorMessenger: public G4UImessenger
 
     G4UIcmdWithAString*        fTheLoadCommand;
     G4UIcmdWithAString*        fTheWriteCommand;
+    G4UIcmdWithABool*          fTheOnlyLoadCommand;
 
     G4UIcmdWithADoubleAndUnit* fchange_aCmd;
     G4UIcmdWithADoubleAndUnit* fchange_bCmd;

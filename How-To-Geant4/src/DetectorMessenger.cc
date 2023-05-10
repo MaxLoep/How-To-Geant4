@@ -23,7 +23,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
  fOutFoldCmd(nullptr),
  fMaterCmd(nullptr),
  fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr),
- fTheLoadCommand(0),fTheWriteCommand(0)
+ fTheLoadCommand(0),fTheWriteCommand(0), fTheOnlyLoadCommand(0)
 {
   //Create a directory for your custom commands
   fTestemDir = new G4UIdirectory("/custom/");
@@ -108,6 +108,13 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
   fTheWriteCommand ->SetParameterName("FileWrite", false);
   fTheWriteCommand ->SetDefaultValue("wtest.gdml");
   fTheWriteCommand ->AvailableForStates(G4State_PreInit);
+
+  // Change if only a GDML-file should be loaded
+  fTheOnlyLoadCommand = new G4UIcmdWithABool("/custom/GDML/LoadOnly", this);
+  fTheOnlyLoadCommand ->SetGuidance("Decide if you only want to load a GDML file (true) or if you want to load a GDML file and add Geometries via Detector Construction (false)");
+  fTheOnlyLoadCommand ->SetParameterName("LoadOnly", false);
+  fTheOnlyLoadCommand ->SetDefaultValue( false );
+  fTheOnlyLoadCommand ->AvailableForStates(G4State_PreInit);
 }
 
 
@@ -131,6 +138,7 @@ DetectorMessenger::~DetectorMessenger()
 
   delete fTheLoadCommand;
   delete fTheWriteCommand;
+  delete fTheOnlyLoadCommand;
 }
 
 void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
@@ -166,4 +174,8 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
   // Change GDML write-file-name
   if( command == fTheWriteCommand )
    { fDetector->SetWriteGDMLFile(newValue);}
+
+  // Change Only load GDML-file
+  if( command == fTheOnlyLoadCommand )
+   { fDetector->SetOnlyLoadGDML(newValue);}
 }

@@ -55,6 +55,7 @@ DetectorConstruction::DetectorConstruction()
   fWriteFile ="wtest.gdml";
   fWritingChoice = 0;
   fLoadingChoice = 0;
+  fOnlyLoadChoice = false;
 
 
   // World Size
@@ -88,7 +89,7 @@ DetectorConstruction::~DetectorConstruction()
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   return ConstructVolumesGDML();
-  // return ConstructVolumes();   // before this line was used to construct the Geometry
+  // return ConstructVolumes();   // before GDML stuff was added this line was used to construct the Geometry
 }
 
 //Define materials and compositions you want to use in the simulation
@@ -130,13 +131,27 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
   G4SolidStore::GetInstance()->Clean();
 
   // LOAD GDML FILE 
+  // default value = 0
   // you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
-  if(fLoadingChoice==1) // load a Geometry from GDML file
+  if(fLoadingChoice==1 && fOnlyLoadChoice==1) 
   {
-    LoadGDML(fLoadFile);
+    // print for DEBUGGING 
+    G4cout << "\n ----READING GDML!---- " << G4endl;
+
+    LoadGDML(fLoadFile); // load a Geometry from GDML file
+  }
+  else if(fLoadingChoice==1 && fOnlyLoadChoice==0)
+  {
+    // print for DEBUGGING 
+    G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
+
+    fWorldPhysVol = ConstructVolumes();
   }
   else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
   {
+    // print for DEBUGGING 
+    G4cout << "\n ----CONSTRUCTING VOLUMES!---- " << G4endl;
+
     fWorldPhysVol = ConstructVolumes();
   } 
 
@@ -146,10 +161,10 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
 
 G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 {
-  // print for DEBUGGING 
-  G4cout << "\n ----CONSTRUCTING VOLUMES!!!---- " << G4endl;
+    // print for DEBUGGING 
+    G4cout << "\n ----ONLYLOAD is---- " << fOnlyLoadChoice <<  G4endl;
 
-  // Cleanup old geometry
+  // Cleanup old geometry - this already hapened in ConstructVolumesGDML
   // G4GeometryManager::GetInstance()->OpenGeometry();
   // G4PhysicalVolumeStore::GetInstance()->Clean();
   // G4LogicalVolumeStore::GetInstance()->Clean();
@@ -193,8 +208,6 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
     lWorldVisAtt->SetVisibility(true);
     lWorld->SetVisAttributes(lWorldVisAtt);
 
-    // print for DEBUGGING 
-    G4cout << "\n ----WORLD VOLUME CONSTRUCTED---- " << G4endl;
   }
   else // GDML file is loaded = use world volume from GDML file as global world volume
   {
@@ -720,40 +733,11 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
   PrintParameters();
 
-  if(fWritingChoice==1) 
+  // default value = 0
+  if(fWritingChoice==1) // save geometry in GDML file
     {
-      // **** LOOK HERE*** FOR WRITING GDML FILES
-      // If everything is constructed, then you can save the Geometry in a GDML file 
-
-      // print for DEBUGGING 
-      G4cout << "\n WritingChoice = 1 " << G4endl;
-
-      // OPTION: TO ADD MODULE AT DEPTH LEVEL ...
-      // Can be a integer or a pointer to the top Physical Volume:
-      // G4int depth=1;
-      // fParser.AddModule(depth);
-      
-      // OPTION: SETTING ADDITION OF POINTER TO NAME TO FALSE
-      // By default, written names in GDML consist of the given name with
-      // appended the pointer reference to it, in order to make it unique.
-      // Naming policy can be changed by using the following method, or
-      // calling Write with additional Boolean argument to "false".
-      // NOTE: you have to be sure not to have duplication of names in your Geometry Setup.
-      // fParser.SetAddPointerToName(false); //<- does not work?
-      // or
-      // Writing Geometry to GDML File
-      fParser.Write(fWriteFile, fWorldPhysVol, false);
-      // fParser.Write(fWriteFile, fWorldPhysVol);
-
-      // print for DEBUGGING:
-      G4cout << "\n WritingFile " << G4endl;
-      
-      // OPTION: SET MAXIMUM LEVEL TO EXPORT (REDUCED TREE)...
-      // Can be a integer greater than zero:
-      // G4int maxlevel=3;
-      // fParser.SetMaxExportLevel(maxlevel);
+      SaveGDML( fWriteFile );
     }
-
 
   //always return the root volume
   return fWorldPhysVol;
@@ -848,30 +832,63 @@ void DetectorConstruction::SetWriteGDMLFile( const G4String& File )
   fWritingChoice=1;
 }
 
-// LoadGDML - function that load a GDML file into the geometry
+void DetectorConstruction::SetOnlyLoadGDML( G4bool value )
+{
+  G4cout  << "Only-GDML choice is now " << value << G4endl;
+  fOnlyLoadChoice = value;
+}
+
+// LoadGDML - function that loads a GDML file into the geometry
 void DetectorConstruction::LoadGDML( const G4String& File )
 {
-    // **** LOOK HERE*** FOR READING GDML FILES
-    // ACTIVATING OVERLAP CHECK when read volumes are placed.
-    // Can take long time in case of complex geometries
-    fParser.SetOverlapCheck(true);
+  // **** LOOK HERE*** FOR READING GDML FILES
+  // ACTIVATING OVERLAP CHECK when read volumes are placed.
+  // Can take long time in case of complex geometries
+  fParser.SetOverlapCheck(true);
 
-    // print for DEBUGGING 
-    // G4cout << "\n WritingChoice = 0 " << G4endl;
+  fParser.Read(File);
 
-    fParser.Read(File);
-
-    // READING GDML FILES OPTION: 2nd Boolean argument "Validate".
-    // Flag to "false" disables check with the Schema when reading GDML file.
-    // See the GDML Documentation for more information.
-    // fParser.Read(fLoadFile,false);
+  // READING GDML FILES OPTION: 2nd Boolean argument "Validate".
+  // Flag to "false" disables check with the Schema when reading GDML file.
+  // See the GDML Documentation for more information.
+  // fParser.Read(fLoadFile,false);
      
-    // Prints the material information
-    // G4cout << *(G4Material::GetMaterialTable() ) << G4endl;
+  // Prints the material information
+  // G4cout << *(G4Material::GetMaterialTable() ) << G4endl;
          
-    // Giving World Physical Volume from GDML Parser 
-    fWorldPhysVol = fParser.GetWorldVolume(); 
+  // Giving World Physical Volume from GDML Parser 
+  fWorldPhysVol = fParser.GetWorldVolume(); 
 }
+
+// SaveGDML - function that saves the geometry into a GDML file
+void DetectorConstruction::SaveGDML( const G4String& File )
+{
+  // **** LOOK HERE*** FOR WRITING GDML FILES
+  // If everything is constructed, then you can save the Geometry in a GDML file 
+
+  // OPTION: TO ADD MODULE AT DEPTH LEVEL ...
+  // Can be a integer or a pointer to the top Physical Volume:
+  // G4int depth=1;
+  // fParser.AddModule(depth);
+      
+  // OPTION: SETTING ADDITION OF POINTER TO NAME TO FALSE
+  // By default, written names in GDML consist of the given name with
+  // appended the pointer reference to it, in order to make it unique.
+  // Naming policy can be changed by using the following method, or
+  // calling Write with additional Boolean argument to "false".
+  // NOTE: you have to be sure not to have duplication of names in your Geometry Setup.
+  // fParser.SetAddPointerToName(false); //<- does not work?
+  // or
+  // Writing Geometry to GDML File
+  fParser.Write(fWriteFile, fWorldPhysVol, false);
+  // fParser.Write(fWriteFile, fWorldPhysVol);
+      
+  // OPTION: SET MAXIMUM LEVEL TO EXPORT (REDUCED TREE)...
+  // Can be a integer greater than zero:
+  // G4int maxlevel=3;
+  // fParser.SetMaxExportLevel(maxlevel);
+}
+
 
 //
 //Assign Detectors and Scorers to Volume
