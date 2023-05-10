@@ -145,14 +145,23 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
     // print for DEBUGGING 
     G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
 
-    fWorldPhysVol = ConstructVolumes();
+    LoadGDML(fLoadFile);                  // load a Geometry from GDML file
+    fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in this file
+  }
+  else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )
+  {
+    // print for DEBUGGING 
+    G4cout << "\n ----You did not load any GDML file---- " << G4endl;
+    G4cout << "\n ----CONSTRUCTING VOLUMES instead!---- " << G4endl;
+
+    fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
   }
   else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
   {
     // print for DEBUGGING 
     G4cout << "\n ----CONSTRUCTING VOLUMES!---- " << G4endl;
 
-    fWorldPhysVol = ConstructVolumes();
+    fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
   } 
 
   // always return the root volume
@@ -215,7 +224,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   }
 
   // print for DEBUGGING 
-  G4cout << lWorld->GetName() << "is the world volume" << G4endl;
+  G4cout << lWorld->GetName() << " is the world volume" << G4endl;
 
 // 
 //Import Mobile Faraday Cup and place it in surrounding CupBox in BoxBox
