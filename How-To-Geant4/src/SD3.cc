@@ -28,7 +28,7 @@ std::thread::id main_idSD3 = std::this_thread::get_id();
 SD3::SD3(const G4String& name)
  : G4VSensitiveDetector(name)
 {
-  //  initialize oldTrackID with 0, which will never be a trackID - primaries have TrackID=1, secondaries have TrackID>1
+  // initialize oldTrackID with 0, which will never be a trackID - primaries have TrackID=1, secondaries have TrackID>1
   oldTrackId = 0;
 }
 
@@ -38,7 +38,7 @@ SD3::~SD3()
   // Get thread process ID
   thread_id = std::this_thread::get_id();
 
-  //  If returned to main thread (after closing all threads created by multithreading) print secondary counter
+  // If returned to main thread (after closing all threads created by multithreading) print secondary counter
   if (main_idSD3 == thread_id)
   {
     // Get an iterator pointing to the first element in the map
@@ -111,9 +111,6 @@ G4bool SD3::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
  
   // code PDG:
   // G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
-  //G4String name   = track->GetDefinition()->GetParticleName();
-    
-  //G4String name   = particle->GetParticleName();
 
   // Remember preStepPoint:
   G4StepPoint* preStepPoint = step->GetPreStepPoint();
