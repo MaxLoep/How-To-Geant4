@@ -121,110 +121,113 @@ void DetectorConstruction::DefineMaterials()
 }
 
 //GDML-Stuff
-G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
-{ 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#pragma region
+  G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
+  { 
 
-  // Cleanup old geometry - needed if you want to change parameters via macro commands
-  G4GeometryManager::GetInstance()->OpenGeometry();
-  G4PhysicalVolumeStore::GetInstance()->Clean();
-  G4LogicalVolumeStore::GetInstance()->Clean();
-  G4SolidStore::GetInstance()->Clean();
+    // Cleanup old geometry - needed if you want to change parameters via macro commands
+    G4GeometryManager::GetInstance()->OpenGeometry();
+    G4PhysicalVolumeStore::GetInstance()->Clean();
+    G4LogicalVolumeStore::GetInstance()->Clean();
+    G4SolidStore::GetInstance()->Clean();
 
-  // LOAD GDML FILE 
-  // default value = 0
-  // you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
-  if(fLoadingChoice==1 && fOnlyLoadChoice==1) 
-  {
-    // print for DEBUGGING 
-    G4cout << "\n ----READING GDML!---- " << G4endl;
+    // LOAD GDML FILE 
+    // default value = 0
+    // you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
+    if(fLoadingChoice==1 && fOnlyLoadChoice==1) 
+    {
+      // print for DEBUGGING 
+      G4cout << "\n ----READING GDML!---- " << G4endl;
 
-    LoadGDML(fLoadFile); // load a Geometry from GDML file
-  }
-  else if(fLoadingChoice==1 && fOnlyLoadChoice==0)
-  {
-    // print for DEBUGGING 
-    G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
+      LoadGDML(fLoadFile); // load a Geometry from GDML file
+    }
+    else if(fLoadingChoice==1 && fOnlyLoadChoice==0)
+    {
+      // print for DEBUGGING 
+      G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
 
-    LoadGDML(fLoadFile);                  // load a Geometry from GDML file
-    fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in this file
-  }
-  else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )
-  {
-    // print for DEBUGGING 
-    G4cout << "\n ----You did not load any GDML file---- " << G4endl;
-    G4cout << "\n ----CONSTRUCTING VOLUMES instead!---- " << G4endl;
+      LoadGDML(fLoadFile);                  // load a Geometry from GDML file
+      fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in this file
+    }
+    else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )
+    {
+      // print for DEBUGGING 
+      G4cout << "\n ----You did not load any GDML file---- " << G4endl;
+      G4cout << "\n ----CONSTRUCTING VOLUMES instead!---- " << G4endl;
 
-    fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
-  }
-  else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
-  {
-    // print for DEBUGGING 
-    G4cout << "\n ----CONSTRUCTING VOLUMES!---- " << G4endl;
+      fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
+    }
+    else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
+    {
+      // print for DEBUGGING 
+      G4cout << "\n ----CONSTRUCTING VOLUMES!---- " << G4endl;
 
-    fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
-  } 
+      fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
+    } 
 
-  // always return the root volume
-  return fWorldPhysVol;
-}
-
-G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
-{
-    // print for DEBUGGING 
-    G4cout << "\n ----ONLYLOAD is---- " << fOnlyLoadChoice <<  G4endl;
-
-  // Cleanup old geometry - this already hapened in ConstructVolumesGDML
-  // G4GeometryManager::GetInstance()->OpenGeometry();
-  // G4PhysicalVolumeStore::GetInstance()->Clean();
-  // G4LogicalVolumeStore::GetInstance()->Clean();
-  // G4SolidStore::GetInstance()->Clean();
-
-  //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
-  /*
-  How to create solids
-  It's basically a process with 3 steps:
-  1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
-  2.: Make it a Logical Volume by assigning a material to it
-  3.: Place it in your simulation
-  */ 
-
-  if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to bes constructed
-  {
-    // If no GDML file is loaded, a World volume needs to be created - otherwise it should be in the GDML file
-    G4Box* solidWorld =    
-      new G4Box("sWorld",                       //its name
-        0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
-        
-    // G4LogicalVolume* lWorld =  
-    lWorld =                       
-      new G4LogicalVolume(solidWorld,          //its solid
-                          world_mat,           //its material
-                          "lWorld");            //its name
-                                    
-    // G4VPhysicalVolume* fWorldPhysVol = 
-    fWorldPhysVol = 
-      new G4PVPlacement(0,                     //no rotation
-                        G4ThreeVector(),       //at (0,0,0)
-                        lWorld,            //its logical volume
-                        "pWorld",               //its name
-                        0,                     //its mother  volume
-                        false,                 //boolean operation?
-                        0,                     //copy number
-                        true);                 //overlaps checking?
-
-    //Make world-volume invisible
-    auto lWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
-    lWorldVisAtt->SetVisibility(true);
-    lWorld->SetVisAttributes(lWorldVisAtt);
-
-  }
-  else // GDML file is loaded = use world volume from GDML file as global world volume
-  {
-    lWorld = fWorldPhysVol->GetLogicalVolume();
+    // always return the root volume
+    return fWorldPhysVol;
   }
 
-  // print for DEBUGGING 
-  G4cout << lWorld->GetName() << " is the world volume" << G4endl;
+  G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
+  {
+      // print for DEBUGGING 
+      G4cout << "\n ----ONLYLOAD is---- " << fOnlyLoadChoice <<  G4endl;
+
+    // Cleanup old geometry - this already hapened in ConstructVolumesGDML
+    // G4GeometryManager::GetInstance()->OpenGeometry();
+    // G4PhysicalVolumeStore::GetInstance()->Clean();
+    // G4LogicalVolumeStore::GetInstance()->Clean();
+    // G4SolidStore::GetInstance()->Clean();
+
+    //SOLIDS, GEOMETRIES, PLACEMENT, ETC.
+    /*
+    How to create solids
+    It's basically a process with 3 steps:
+    1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
+    2.: Make it a Logical Volume by assigning a material to it
+    3.: Place it in your simulation
+    */ 
+
+    if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to bes constructed
+    {
+      // If no GDML file is loaded, a World volume needs to be created - otherwise it should be in the GDML file
+      G4Box* solidWorld =    
+        new G4Box("sWorld",                       //its name
+          0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
+          
+      // G4LogicalVolume* lWorld =  
+      lWorld =                       
+        new G4LogicalVolume(solidWorld,          //its solid
+                            world_mat,           //its material
+                            "lWorld");            //its name
+                                      
+      // G4VPhysicalVolume* fWorldPhysVol = 
+      fWorldPhysVol = 
+        new G4PVPlacement(0,                     //no rotation
+                          G4ThreeVector(),       //at (0,0,0)
+                          lWorld,            //its logical volume
+                          "pWorld",               //its name
+                          0,                     //its mother  volume
+                          false,                 //boolean operation?
+                          0,                     //copy number
+                          true);                 //overlaps checking?
+
+      //Make world-volume invisible
+      auto lWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
+      lWorldVisAtt->SetVisibility(true);
+      lWorld->SetVisAttributes(lWorldVisAtt);
+
+    }
+    else // GDML file is loaded = use world volume from GDML file as global world volume
+    {
+      lWorld = fWorldPhysVol->GetLogicalVolume();
+    }
+
+    // print for DEBUGGING 
+    G4cout << lWorld->GetName() << " is the world volume" << G4endl;
+#pragma endregion
 
 // 
 //Import Mobile Faraday Cup and place it in surrounding CupBox in BoxBox
@@ -750,7 +753,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
   //always return the root volume
   return fWorldPhysVol;
-}
+  }
 
 void DetectorConstruction::PrintParameters()
 {
