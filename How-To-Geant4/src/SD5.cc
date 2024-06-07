@@ -152,7 +152,7 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
   // Store hit in two dimensional histogram - heatmap
   // analysisManager->FillH2(id, xvalue, yvalue, G4double weight=1.0)
-  if(particle == G4Proton::Proton())  analysisManager->FillH2(0, localPosition.x()/cm, localPosition.y()/cm);
+  // if(particle == G4Proton::Proton())  analysisManager->FillH2(0, localPosition.x()/cm, localPosition.y()/cm);
 
 
 
