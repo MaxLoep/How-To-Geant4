@@ -57,7 +57,7 @@ Test physics Lists. Do they work?
 #include "G4EmDNAChemistry.hh"
 #include "G4EmDNAChemistry_option1.hh"          //_option1 to _option8 available
 #include "G4EmExtraPhysics.hh"
-#include "G4EmLEPTSPhysics.hh"
+//#include "G4EmLEPTSPhysics.hh"
 #include "G4EmLowEPPhysics.hh"
 #include "G4EmPenelopePhysics.hh"
 #include "G4EmLivermorePhysics.hh"

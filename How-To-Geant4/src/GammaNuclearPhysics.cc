@@ -8,7 +8,7 @@
 
 // Processes
 
-#include "G4PhotoNuclearProcess.hh"
+//#include "G4PhotoNuclearProcess.hh"
 #include "G4LowEGammaNuclearModel.hh"
 #include "G4CascadeInterface.hh"
 
