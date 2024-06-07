@@ -106,7 +106,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    void               DefineMaterials();
    G4VPhysicalVolume* ConstructVolumes(); 
    G4VPhysicalVolume* ConstructVolumesGDML(); 
-   G4VPhysicalVolume* fWorldPhysVol; ; 
+   G4VPhysicalVolume* fWorldPhysVol; 
    G4LogicalVolume* lWorld;
 
   protected:

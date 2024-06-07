@@ -184,7 +184,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 
   // Creating two dimensional histograms - heatmaps
   // CreateH2 ("name", "title", nxbins, xmin, xmax, nybins, ymin, ymax, xunitName="none", yunitName="none", xfcnName="none", yfcnName="none")
-  analysisManager->CreateH2 ("X-Y-pos", "X-Y-pos heatmap", 100, -3.*cm, 3.*cm, 100, -3.*cm, 3.*cm);
+  // analysisManager->CreateH2 ("X-Y-pos", "X-Y-pos heatmap", 100, -3.*cm, 3.*cm, 100, -3.*cm, 3.*cm);
 
   // Create directories in the root file - commented out in the original B4d example!
   // analysisManager->SetHistoDirectoryName("histograms");
