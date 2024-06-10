@@ -216,7 +216,7 @@ void DetectorConstruction::DefineMaterials()
 
       //Make world-volume invisible
       auto lWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
-      lWorldVisAtt->SetVisibility(true);
+      lWorldVisAtt->SetVisibility(false);
       lWorld->SetVisAttributes(lWorldVisAtt);
 
     }
