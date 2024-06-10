@@ -57,7 +57,7 @@ Test physics Lists. Do they work?
 #include "G4EmDNAChemistry.hh"
 #include "G4EmDNAChemistry_option1.hh"          //_option1 to _option8 available
 #include "G4EmExtraPhysics.hh"
-#include "G4EmLEPTSPhysics.hh"
+//#include "G4EmLEPTSPhysics.hh"
 #include "G4EmLowEPPhysics.hh"
 #include "G4EmPenelopePhysics.hh"
 #include "G4EmLivermorePhysics.hh"
@@ -79,13 +79,14 @@ Test physics Lists. Do they work?
 
 #include "ElectromagneticPhysics.hh"          //selfwritten in include-folder
 #include "HadronElasticPhysicsHP.hh"          //selfwritten in include-folder
-#include "GammaNuclearPhysics.hh"             //selfwritten in include-folder
+//#include "GammaNuclearPhysics.hh"             //selfwritten in include-folder
 
 PhysicsList::PhysicsList()
 :G4VModularPhysicsList(),
  fHadronElastic(nullptr), fHadronInelastic(nullptr),
  fIonElastic(nullptr), fIonInelastic(nullptr),
- fGammaNuclear(nullptr), fElectromagnetic(nullptr),
+//  fGammaNuclear(nullptr),
+ fElectromagnetic(nullptr),
  fDecay(nullptr), fRadioactiveDecay(nullptr), fStopping(nullptr)
 {
   G4int verb = 0;
@@ -192,8 +193,8 @@ PhysicsList::PhysicsList()
   RegisterPhysics(fStopping);
 
   // Gamma-Nuclear Physics
-  fGammaNuclear = new GammaNuclearPhysics("gamma"); //selfwritten in include-folder
-  RegisterPhysics(fGammaNuclear);
+  // fGammaNuclear = new GammaNuclearPhysics("gamma"); //selfwritten in include-folder
+  // RegisterPhysics(fGammaNuclear);
 
   // EM physics
   fElectromagnetic = new ElectromagneticPhysics(); //selfwritten in include-folder
@@ -226,7 +227,7 @@ void PhysicsList::ConstructProcess()
   fHadronInelastic->ConstructProcess();
   fIonElastic->ConstructProcess();
   fIonInelastic->ConstructProcess();
-  fGammaNuclear->ConstructProcess();
+  // fGammaNuclear->ConstructProcess();
   fElectromagnetic->ConstructProcess();
   fDecay->ConstructProcess();
   //fRadioactiveDecay->ConstructProcess();

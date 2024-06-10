@@ -20,7 +20,7 @@ public:
     G4VPhysicsConstructor* fHadronInelastic;
     G4VPhysicsConstructor* fIonElastic;
     G4VPhysicsConstructor* fIonInelastic;
-    G4VPhysicsConstructor* fGammaNuclear;
+    // G4VPhysicsConstructor* fGammaNuclear;
     G4VPhysicsConstructor* fElectromagnetic;
     G4VPhysicsConstructor* fDecay;
     G4VPhysicsConstructor* fRadioactiveDecay;
