@@ -1,3 +1,5 @@
+// This is the Geant4 v10.7.3 version. Does not work in v11.0.3
+// Take a look at the NeutronSource example to get a new working version of this
 // obsolete? from an older geant4 version? outdated?
 //is this a self made GammaNuclear physics list?
 
