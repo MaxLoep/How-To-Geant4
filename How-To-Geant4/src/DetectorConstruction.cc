@@ -552,7 +552,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       
   G4LogicalVolume* lSD1 =                         
     new G4LogicalVolume(sSD1,                //its solid
-                        Vacuum,           //its material
+                        Aluminum,           //its material
                         "lSD1");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -579,7 +579,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       
   G4LogicalVolume* lSD2 =                         
     new G4LogicalVolume(sSD2,                //its solid
-                        Vacuum,           //its material
+                        Titanium,           //its material
                         "lSD2");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -606,7 +606,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       
   G4LogicalVolume* lSD3 =                         
     new G4LogicalVolume(sSD3,                //its solid
-                        Vacuum,           //its material
+                        Copper,           //its material
                         "lSD3");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -633,7 +633,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       
   G4LogicalVolume* lSD4 =                         
     new G4LogicalVolume(sSD4,                //its solid
-                        Vacuum,           //its material
+                        Nickel,           //its material
                         "lSD4");              //its name
     
     new G4PVPlacement(0,                     //no rotation
@@ -662,7 +662,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* lSD5 =                         
     new G4LogicalVolume(sSD5,                //its solid
                         // Vacuum,           //its material
-                        Vacuum,
+                        Iron,
                         "lSD5");              //its name
     
     new G4PVPlacement(0,                     //no rotation
