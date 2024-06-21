@@ -1,3 +1,9 @@
+/*
+REWORK NEEDED!
+-remove Energy info about created isotopes (what shall this be good for anyway?!)
+*/
+
+
 #include "Run.hh"
 #include "DetectorConstruction.hh"
 #include "PrimaryGeneratorAction.hh"
