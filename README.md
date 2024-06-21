@@ -1,6 +1,10 @@
 # How-To-Geant4
 
 v1.0.2:\
+
+v1.1.0:\
+-introduced new file 'Materials.cc' where all materials will be defined in future
+
 -code clean up + make nice\
 --uses _getpid() because getpid() is deprecated (less warnings)
 --SteppingVerbose.cc/.hh got kicked out

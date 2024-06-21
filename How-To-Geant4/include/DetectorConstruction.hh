@@ -19,8 +19,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     DetectorConstruction();
    ~DetectorConstruction();
 
-  public:
-
     virtual G4VPhysicalVolume* Construct();
     virtual void ConstructSDandField();
 
@@ -44,16 +42,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void change_d   (G4double);
     void change_e   (G4double);
 
-  public:  
+    G4double GetAbsorThickness()    {return boxX;};
+    G4double GetAbsorSizeYZ()       {return boxX;};
+    G4Material* GetAbsorMaterial()  {return boxMaterial;};
 
-   G4double GetAbsorThickness()    {return boxX;};
-   G4double GetAbsorSizeYZ()       {return boxX;};
-   G4Material* GetAbsorMaterial()  {return boxMaterial;};
+    G4double GetWorldSizeX()   {return boxX;};
+    G4double GetWorldSizeYZ()  {return boxX;};
 
-   G4double GetWorldSizeX()   {return boxX;};
-   G4double GetWorldSizeYZ()  {return boxX;};
-
-   void PrintParameters();
+    void PrintParameters();
 
   private:
 
@@ -68,9 +64,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4bool fOnlyLoadChoice; // variable to control if only a GDML file should be loaded without building additional geometries via Geant4/DetectorConstruction
 
   // Define Variables for Materials and geometries you want to change per macro-file HERE:
-
-  
-
   //world size 
   G4double world_sizeXYZ;
 
@@ -100,8 +93,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        Aluminum;
 
    DetectorMessenger* fDetectorMessenger;
-
-  private:
 
    void               DefineMaterials();
    G4VPhysicalVolume* ConstructVolumes(); 
