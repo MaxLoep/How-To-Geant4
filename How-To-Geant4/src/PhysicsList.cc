@@ -1,5 +1,9 @@
 /*
+File for making a custom physics list
+
+To-Do's:
 Test physics Lists. Do they work?
+clean up code
 */
 #include "PhysicsList.hh"                     //Necessary. You need this.
 #include "G4SystemOfUnits.hh"
@@ -57,7 +61,7 @@ Test physics Lists. Do they work?
 #include "G4EmDNAChemistry.hh"
 #include "G4EmDNAChemistry_option1.hh"          //_option1 to _option8 available
 #include "G4EmExtraPhysics.hh"
-//#include "G4EmLEPTSPhysics.hh"
+//#include "G4EmLEPTSPhysics.hh"                //works in Geant4v10.7.3 , does not work in v11.0.3 - did it got a new name?
 #include "G4EmLowEPPhysics.hh"
 #include "G4EmPenelopePhysics.hh"
 #include "G4EmLivermorePhysics.hh"
@@ -77,21 +81,24 @@ Test physics Lists. Do they work?
 
 #include "G4Neutron.hh"
 
-#include "ElectromagneticPhysics.hh"          //selfwritten in include-folder
-#include "HadronElasticPhysicsHP.hh"          //selfwritten in include-folder
-//#include "GammaNuclearPhysics.hh"             //selfwritten in include-folder
+// #include "ElectromagneticPhysics.hh"          //selfwritten in include-folder
+// #include "HadronElasticPhysicsHP.hh"          //selfwritten in include-folder
+// #include "GammaNuclearPhysics.hh"             //selfwritten in include-folder
 
 PhysicsList::PhysicsList()
 :G4VModularPhysicsList(),
  fHadronElastic(nullptr), fHadronInelastic(nullptr),
  fIonElastic(nullptr), fIonInelastic(nullptr),
-//  fGammaNuclear(nullptr),
- fElectromagnetic(nullptr),
+//  fGammaNuclear(nullptr),     //self-written physicsLists
+//  fElectromagnetic(nullptr),  //self-written physicsLists
  fDecay(nullptr), fRadioactiveDecay(nullptr), fStopping(nullptr)
 {
   G4int verb = 0;
   SetVerboseLevel(verb);
 
+
+  //Why are new units added HERE?!
+  //new units are also added in RunAction.cc -> clean up!
   //add new units
   //
   new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);  
@@ -108,6 +115,11 @@ PhysicsList::PhysicsList()
   new G4UnitDefinition("hour",   "h",   "Time", hour);
   new G4UnitDefinition("day",    "d",   "Time", day);
   new G4UnitDefinition("year",   "y",   "Time", year);
+
+//--------------------------------------------------------------------------
+
+  // The Fuck is this? Looks like a more compact version of the code below
+  // -> delete this? rewrite the stuff below in THIS style?
 
   // Hadron Elastic scattering
  // RegisterPhysics( new HadronElasticPhysicsHP(verb) );
@@ -144,7 +156,7 @@ PhysicsList::PhysicsList()
 //--------------------------------------------------------------------------
 
   // Hadron Elastic scattering
-  //fHadronElastic = new G4HadronElasticPhysics(verb);
+  // fHadronElastic = new G4HadronElasticPhysics(verb);
   fHadronElastic = new G4HadronElasticPhysicsHP(verb);
   //fHadronElastic = new G4HadronElasticPhysicsXS(verb);
   //fHadronElastic = new G4HadronElasticPhysicsPHP(verb);
@@ -197,9 +209,9 @@ PhysicsList::PhysicsList()
   // RegisterPhysics(fGammaNuclear);
 
   // EM physics
-  fElectromagnetic = new ElectromagneticPhysics(); //selfwritten in include-folder
+  // fElectromagnetic = new ElectromagneticPhysics(); //selfwritten in include-folder
   //fElectromagnetic = new G4EmStandardPhysics(verb);
-  RegisterPhysics(fElectromagnetic);
+  // RegisterPhysics(fElectromagnetic);
 
   // Decay
   fDecay = new G4DecayPhysics(verb);
@@ -227,12 +239,14 @@ void PhysicsList::ConstructProcess()
   fHadronInelastic->ConstructProcess();
   fIonElastic->ConstructProcess();
   fIonInelastic->ConstructProcess();
-  // fGammaNuclear->ConstructProcess();
-  fElectromagnetic->ConstructProcess();
+  // fGammaNuclear->ConstructProcess();     //self-written physics list
+  // fElectromagnetic->ConstructProcess();  //self-written physics list
   fDecay->ConstructProcess();
   //fRadioactiveDecay->ConstructProcess();
   fStopping->ConstructProcess();
 
+// still relevant in Geant4v11.0.3? 
+// -> check NeutronSource-Example (this should come from there)
 
   // example of GetHadronicModel (due to bug in QGSP_BIC_AllHP)
   //
