@@ -86,12 +86,28 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        boxMaterial;
    G4Material*        dummyMat; 
 
-  // List of all Materials that get defined in Materials.cc
-   G4Material*        Vacuum;
-   G4Material*        Copper;
-   G4Material*        Iron;
-   G4Material*        Titanium;
-   G4Material*        Aluminum;
+    // List of all Materials that get defined in Materials.cc
+    // NIST Materials
+    G4Material* Vacuum;
+    G4Material* Hydrogen;
+    G4Material* Boron;
+    G4Material* Carbon;
+    G4Material* Aluminum;
+    G4Material* Titanium;
+    G4Material* Iron;
+    G4Material* Nickel;
+    G4Material* Copper;
+    G4Material* Tungsten;
+
+    // NIST pre-defined Compounds
+    G4Material* Concrete;
+    G4Material* Graphite;
+    G4Material* Steel;
+    G4Material* Water;
+    
+    //Self-definded Materials
+    G4Material* BoratedPE;
+    G4Material* Densimet180;
 
    DetectorMessenger* fDetectorMessenger;
 

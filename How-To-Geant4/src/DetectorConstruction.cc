@@ -74,7 +74,7 @@ DetectorConstruction::DetectorConstruction()
   e = 1.*cm;  // unused
 
   // materials
-  DefineMaterials(); // see below for this function
+  DefineMaterials(); // see Materials.cc for defined Materials
   // SetAbsorMaterial("G4_Co");
   //Print all defined materials to console
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;
@@ -92,33 +92,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // return ConstructVolumes();   // before GDML stuff was added this line was used to construct the Geometry
 }
 
-// //Define materials and compositions you want to use in the simulation
-// void DetectorConstruction::DefineMaterials()
-// {
-//   //MATERIALS:
-//   //
-//   //How to define Materials using the NIST database
-//   //see https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html for a list of available materials
-//   //
-//   // Get nist material manager
-//   G4NistManager* nist = G4NistManager::Instance();
-
-//   // define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
-//   // world_mat    = nist->FindOrBuildMaterial("G4_AIR");
-//   world_mat   = nist->FindOrBuildMaterial("G4_Galactic");
-//   boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
-//   Vacuum      = nist->FindOrBuildMaterial("G4_Galactic");
-//   Copper      = nist->FindOrBuildMaterial("G4_Cu");
-//   Iron        = nist->FindOrBuildMaterial("G4_Fe");
-//   Titanium    = nist->FindOrBuildMaterial("G4_Ti");
-//   Aluminum    = nist->FindOrBuildMaterial("G4_Al");
-
-//   // boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
-//   dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
-
-//   //Print all defined materials to console
-//   // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
-// }
 
 //GDML-Stuff
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
