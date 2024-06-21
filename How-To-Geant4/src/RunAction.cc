@@ -75,12 +75,14 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
       pid++;
     }
     // Set final file name 
-    std::string fileName = "ID_" + std::to_string(pid);
+    std::string fileName = "ID_" + std::to_string(pid) + ".root";
 
     // Create the file
     analysisManager->OpenFile(folderName + "/" + RootFolder + "/" + fileName);
   }
 
+  //Why are new units added HERE?!
+  //new units are also added in PhysicsList.cc -> clean up!
   // add new units for dose
   // 
   const G4double milligray = 1.e-3*gray;
@@ -248,7 +250,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
       pid++;
     }
     // Set final file name 
-    std::string fileName = "ID_" + std::to_string(pid);
+    std::string fileName = "ID_" + std::to_string(pid) + ".root";
 
     // Create the file
     // analysisManager->OpenFile("Folder2/" + fileName);

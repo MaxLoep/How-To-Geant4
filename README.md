@@ -1,4 +1,15 @@
 # How-To-Geant4
+
+v1.0.1:\
+-code cleanup
+--moved self-written PhysicsLists "ElectromagneticPhysics.cc", "GammaNuclearPhysics.cc", "HadronElasticPhysicsHP.cc" and "NeutronHPMessenger.cc" to seperate folder\
+--marked some things for future clean ups
+ 
+v1.0.0:\
+-migration from Geant4 v10.7.3 to Geant4 v11.0.3\
+--Obsolete(?) custom physics lists in 'GammaNuclearPhysics.cc' commented out because Geant4 changed how to implement these\
+--Selecting the .root-file format is now done by "G4AnalysisManager.hh" therefore things needed to be changed in "Anlysis.hh" and "RunAction.cc"\
+
 V0.7.7:\
 -started implementing import of a GDML file for DetectorConstruction and export geometry to a GDML file\
 -custom commands added for import/export of GDML file

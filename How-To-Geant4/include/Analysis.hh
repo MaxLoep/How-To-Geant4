@@ -2,7 +2,8 @@
 #define Analysis_h 1
 
 //Define which format the output file shall have
-#include "g4root.hh"
+//#include "g4root.hh"
+#include "G4AnalysisManager.hh"
 //#include "g4csv.hh"
 //#include "g4xml.hh"
 

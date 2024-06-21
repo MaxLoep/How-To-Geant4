@@ -1,5 +1,6 @@
 #if __unix__                              // for checking if the code shall be compiled on an UNIX system
 #include <unistd.h>                       //To use getpid() to get the process ID to use as random seed on UNIX systems
+#include <sys/types.h>                    //To use getpid() to get the process ID to use as random seed on UNIX systems
 #endif
 
 #include "G4Types.hh"
@@ -121,7 +122,7 @@ int main(int argc,char** argv) {
 
   // G4VModularPhysicsList* physicsList = new QGSP_BIC;
   // G4VModularPhysicsList* physicsList = new QGSP_BIC_HP;
-  G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;
+  G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;  //system environmental variable 'G4PARTICLEHPDATA' needs to be set to path to data library e.g. TENDL
   //G4VModularPhysicsList* physicsList = new QGSP_INCLXX;
   //G4VModularPhysicsList* physicsList = new QGSP_INCLXX_HP;
   // G4VModularPhysicsList* physicsList = new QGSP_BERT;
@@ -152,7 +153,11 @@ int main(int argc,char** argv) {
   G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( true );
 
   G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
-  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
+
+  //Doppler broadening of the resonances, due to target thermal motion, is calculated on-the-fly (from T = 0 K values)
+  //Very CPU intense: for those applications that do not need it, it can be switched off by setting the environmental variable 
+  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( true );
+
   G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
   //G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7
   G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
