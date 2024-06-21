@@ -36,6 +36,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
 
   fParticleBeam->SetParticleDefinition(particle);
 
+  //Remove this
   //GPS doesn't have these three commands; you need to set them in the macro file
   //fParticleBeam->SetParticlePosition(G4ThreeVector(0,0,0));
   //fParticleBeam->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));

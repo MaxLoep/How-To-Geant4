@@ -60,7 +60,7 @@ SphereSD::~SphereSD()
     fs::create_directory(folderName + "/" + ListFolder);
 
     //Get main process ID
-    G4long pid = getpid();
+    G4long pid = _getpid();
 
     // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists. 
     while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles in SphereSD" + ".txt"))
@@ -132,7 +132,7 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
   //   = touchable->GetHistory()->GetTopTransform().TransformAxis(localDirection);
 
   // Time
-  G4double time = preStepPoint->GetGlobalTime();
+  // G4double time = preStepPoint->GetGlobalTime();
 
   // Get Analysis Manager
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();

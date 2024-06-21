@@ -49,7 +49,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 {
 
   //Get process ID
-  G4long pid = getpid();
+  G4long pid = _getpid();
   // G4cout << "\n PID is " << pid << G4endl;
 
   // create a folder for the files
@@ -85,20 +85,20 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   //new units are also added in PhysicsList.cc -> clean up!
   // add new units for dose
   // 
-  const G4double milligray = 1.e-3*gray;
-  const G4double microgray = 1.e-6*gray;
-  const G4double nanogray  = 1.e-9*gray;  
-  const G4double picogray  = 1.e-12*gray;
+  // const G4double milligray = 1.e-3*gray;
+  // const G4double microgray = 1.e-6*gray;
+  // const G4double nanogray  = 1.e-9*gray;  
+  // const G4double picogray  = 1.e-12*gray;
 
   //Introducing new Units:
   //new G4UnitDefinition("name", "symbol" , "category", value);
   // Already available catogiers are: Length, Surface, Volume, Angle, Time, Frequency, Electric Charge, Energy,
   // Mass, Volumic Mass, Power, Force, Pressure, Electric Current, Electric Potential, Magnetic Flux, Magnetic Flux Density,
   // Temperature, Amount of Substance, Activity, Dose
-  new G4UnitDefinition("milligray", "milliGy" , "Dose", milligray);
-  new G4UnitDefinition("microgray", "microGy" , "Dose", microgray);
-  new G4UnitDefinition("nanogray" , "nanoGy"  , "Dose", nanogray);
-  new G4UnitDefinition("picogray" , "picoGy"  , "Dose", picogray); 
+  // new G4UnitDefinition("milligray", "milliGy" , "Dose", milligray);
+  // new G4UnitDefinition("microgray", "microGy" , "Dose", microgray);
+  // new G4UnitDefinition("nanogray" , "nanoGy"  , "Dose", nanogray);
+  // new G4UnitDefinition("picogray" , "picoGy"  , "Dose", picogray); 
 
 
   //B1 SCORING METHOD
@@ -220,7 +220,7 @@ G4Run* RunAction::GenerateRun()
 void RunAction::BeginOfRunAction(const G4Run*)
 {  
   //Get process ID
-  G4long pid = getpid(); 
+  G4long pid = _getpid(); 
 
   // create a folder for the files
   // std::string folderName = "Root Files";

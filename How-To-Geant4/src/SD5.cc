@@ -60,7 +60,7 @@ SD5::~SD5()
     fs::create_directory(folderName + "/" + ListFolder);
 
     //Get main process ID
-    G4long pid = getpid();
+    G4long pid = _getpid();
 
     // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists. 
     while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles in SD5" + ".txt"))

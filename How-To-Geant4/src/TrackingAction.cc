@@ -54,15 +54,15 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
   
   const G4ParticleDefinition* particle = track->GetParticleDefinition();
   G4String name     = particle->GetParticleName();
-  G4double meanLife = particle->GetPDGLifeTime();
+  // G4double meanLife = particle->GetPDGLifeTime(); //initialized but enver used?
   G4double ekin     = track->GetKineticEnergy();
   fTimeEnd         = track->GetGlobalTime();
   if ((particle->GetPDGStable())&&(ekin == 0.)) fTimeEnd = DBL_MAX;
   
   // count population of ions with meanLife > 0.
-  if ((G4IonTable::IsIon(particle))&&(meanLife != 0.)) {
-    G4int id = run->GetIonId(name);
-  }
+  // if ((G4IonTable::IsIon(particle))&&(meanLife != 0.)) {
+  //   G4int id = run->GetIonId(name); //initialized but enver used?
+  // }
 
  // keep only emerging particles
  G4StepStatus status = track->GetStep()->GetPostStepPoint()->GetStepStatus();

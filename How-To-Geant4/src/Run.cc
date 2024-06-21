@@ -270,7 +270,7 @@ void Run::EndOfRun()
   fs::create_directory(folderName + "/" + ListFolder);
 
   //Get process ID
-  G4long pid = getpid();
+  G4long pid = _getpid();
 
   // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticle.txt" exists. 
   while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt"))

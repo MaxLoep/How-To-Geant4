@@ -101,20 +101,20 @@ PhysicsList::PhysicsList()
   //new units are also added in RunAction.cc -> clean up!
   //add new units
   //
-  new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);  
-  new G4UnitDefinition( "mm2/g",  "mm2/g", "Surface/Mass", mm2/g);
-  new G4UnitDefinition( "um2/mg", "um2/mg","Surface/Mass", um*um/mg); 
+  // new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);  
+  // new G4UnitDefinition( "mm2/g",  "mm2/g", "Surface/Mass", mm2/g);
+  // new G4UnitDefinition( "um2/mg", "um2/mg","Surface/Mass", um*um/mg); 
 
-  //add new units for radioActive decays
-  // 
-  const G4double minute = 60*second;
-  const G4double hour   = 60*minute;
-  const G4double day    = 24*hour;
-  const G4double year   = 365*day;
-  new G4UnitDefinition("minute", "min", "Time", minute);
-  new G4UnitDefinition("hour",   "h",   "Time", hour);
-  new G4UnitDefinition("day",    "d",   "Time", day);
-  new G4UnitDefinition("year",   "y",   "Time", year);
+  // //add new units for radioActive decays
+  // // 
+  // const G4double minute = 60*second;
+  // const G4double hour   = 60*minute;
+  // const G4double day    = 24*hour;
+  // const G4double year   = 365*day;
+  // new G4UnitDefinition("minute", "min", "Time", minute);
+  // new G4UnitDefinition("hour",   "h",   "Time", hour);
+  // new G4UnitDefinition("day",    "d",   "Time", day);
+  // new G4UnitDefinition("year",   "y",   "Time", year);
 
 //--------------------------------------------------------------------------
 
