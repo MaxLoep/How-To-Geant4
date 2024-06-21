@@ -14,11 +14,10 @@ class ActionInitialization : public G4VUserActionInitialization
   public:
     ActionInitialization(DetectorConstruction* detector);
     virtual ~ActionInitialization();
-
     virtual void BuildForMaster() const;
     virtual void Build() const;
     
-    // virtual G4VSteppingVerbose* InitializeSteppingVerbose() const;
+    // virtual G4VSteppingVerbose* InitializeSteppingVerbose() const; //old and can be removed
    
   private:
     DetectorConstruction* fDetector;

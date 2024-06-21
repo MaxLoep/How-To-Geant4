@@ -19,8 +19,6 @@ class SteppingAction : public G4UserSteppingAction
   private:
     DetectorConstruction* fDetector;
     EventAction*         fEventAction; 
-
-  private:
     G4LogicalVolume* fScoringVolume;   
 };
 

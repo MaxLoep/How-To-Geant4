@@ -28,7 +28,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   private:
     G4GeneralParticleSource*  fParticleBeam;
 
-  private:
     G4ParticleGun*             fParticleGun;
     DetectorConstruction*      fDetector;
 };

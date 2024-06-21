@@ -16,7 +16,6 @@ class Run : public G4Run
     Run(DetectorConstruction*);
    ~Run();
 
-  public:
     void SetPrimary(G4ParticleDefinition* particle, G4double energy);         
     void CountProcesses(const G4VProcess* process);
     void ParticleCount(G4String, G4double, G4double); 
@@ -44,7 +43,6 @@ class Run : public G4Run
      G4double  fTmean;
     };
      
-  private:
     // utility function
     void Merge(std::map<G4String,ParticleData>& destinationMap,
                const std::map<G4String,ParticleData>& sourceMap) const;

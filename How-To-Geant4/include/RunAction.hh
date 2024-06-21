@@ -17,7 +17,6 @@ class RunAction : public G4UserRunAction
     RunAction(DetectorConstruction*, PrimaryGeneratorAction*);
    ~RunAction();
 
-  public:
     virtual G4Run* GenerateRun();  
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
@@ -30,7 +29,6 @@ class RunAction : public G4UserRunAction
     Run*                       fRun;    
     HistoManager*              fHistoManager;
 
-  private:
     G4Accumulable<G4double> fEdep;
     G4Accumulable<G4double> fEdep2;
         

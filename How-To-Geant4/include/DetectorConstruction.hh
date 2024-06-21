@@ -72,7 +72,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4double           boxY;
    G4double           boxZ;
 
-// dummy variables
+// dummy variables that can be changed with UI-commands
    G4double           a;
    G4double           b;
    G4double           c;
@@ -86,6 +86,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        boxMaterial;
    G4Material*        dummyMat; 
 
+  // List of all Materials that get defined in Materials.cc
    G4Material*        Vacuum;
    G4Material*        Copper;
    G4Material*        Iron;

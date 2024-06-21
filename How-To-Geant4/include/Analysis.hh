@@ -1,19 +1,19 @@
 #ifndef Analysis_h
 #define Analysis_h 1
 
-//Define which format the output file shall have
-//#include "g4root.hh"
-#include "G4AnalysisManager.hh"
-//#include "g4csv.hh"
-//#include "g4xml.hh"
 
+#include "G4AnalysisManager.hh" //for being able to use .root as file format
+
+
+//i believe this comes from the 'Activation' Example and is neccessary to count produced particles? 
+const G4int kMaxHisto1 = 24;
+const G4int kMaxHisto2 = 44;
+
+// CAN BE REMOVED?
 //From Activation Example
 //#include "globals.hh"
 //#include <map>
 
-
-const G4int kMaxHisto1 = 24;
-const G4int kMaxHisto2 = 44;
 
 //#include "G4GenericAnalysisManager.hh"
 //using G4AnalysisManager = G4GenericAnalysisManager;
