@@ -7,6 +7,7 @@ class G4Step;
 class G4HCofThisEvent;
 class G4TouchableHistory;
 
+// Does every Sensitive Detector needs its own class? -> Simplify!
 class SD1 : public G4VSensitiveDetector
 {
   public:
