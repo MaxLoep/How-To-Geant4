@@ -1,5 +1,11 @@
 # How-To-Geant4
 
+v1.0.2:\
+-code clean up + make nice\
+--uses _getpid() because getpid() is deprecated (less warnings)
+--SteppingVerbose.cc/.hh got kicked out
+--code clean up and preparations for future clean up
+
 v1.0.1:\
 -code cleanup
 --moved self-written PhysicsLists "ElectromagneticPhysics.cc", "GammaNuclearPhysics.cc", "HadronElasticPhysicsHP.cc" and "NeutronHPMessenger.cc" to seperate folder\

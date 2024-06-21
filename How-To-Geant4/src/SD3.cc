@@ -150,12 +150,6 @@ G4bool SD3::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
   // analysisManager->FillH1(4, localPosition.y()/cm);
   // analysisManager->FillH1(5, time/ns);
 
-  // Store hit in two dimensional histogram - heatmap
-  // analysisManager->FillH2(id, xvalue, yvalue, G4double weight=1.0)
-  // if(particle == G4Proton::Proton())  analysisManager->FillH2(0, localPosition.x()/cm, localPosition.y()/cm);
-
-
-
   return true;
 }
 

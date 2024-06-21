@@ -4,7 +4,7 @@
 #include "EventAction.hh"
 #include "TrackingAction.hh"
 #include "SteppingAction.hh"
-#include "SteppingVerbose.hh"
+// #include "SteppingVerbose.hh"
 
 ActionInitialization::ActionInitialization(DetectorConstruction* detector)
  : G4VUserActionInitialization(),
@@ -38,7 +38,9 @@ void ActionInitialization::Build() const
   SetUserAction(steppingAction);
 }  
 
-G4VSteppingVerbose* ActionInitialization::InitializeSteppingVerbose() const
-{
-  return new SteppingVerbose();
-}  
+
+// DO WE NEED STEPPING VERBOSE? -> REMOVE!
+// G4VSteppingVerbose* ActionInitialization::InitializeSteppingVerbose() const
+// {
+//   return new SteppingVerbose();
+// }  

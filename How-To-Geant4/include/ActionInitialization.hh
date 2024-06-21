@@ -4,7 +4,7 @@
 #include "G4VUserActionInitialization.hh"
 
 class DetectorConstruction;
-class G4VSteppingVerbose;
+// class G4VSteppingVerbose;
 
 /// Action initialization class.
 ///
@@ -18,7 +18,7 @@ class ActionInitialization : public G4VUserActionInitialization
     virtual void BuildForMaster() const;
     virtual void Build() const;
     
-    virtual G4VSteppingVerbose* InitializeSteppingVerbose() const;
+    // virtual G4VSteppingVerbose* InitializeSteppingVerbose() const;
    
   private:
     DetectorConstruction* fDetector;

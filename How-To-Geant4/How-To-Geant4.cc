@@ -4,7 +4,7 @@
 #endif
 
 #include "G4Types.hh"
-#include "SteppingVerbose.hh"
+// #include "SteppingVerbose.hh"
 
 #include "DetectorConstruction.hh"        //This is where you define your Geometry and Scorers
 #include "PhysicsList.hh"                 //This is where you define what physics processes should be used, alternatively you can choose a complete physics list in this file
