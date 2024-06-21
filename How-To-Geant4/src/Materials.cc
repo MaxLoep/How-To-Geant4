@@ -32,7 +32,6 @@ void DetectorConstruction::DefineMaterials()
   Nickel      = nist->FindOrBuildMaterial("G4_Ni");
   Tungsten    = nist->FindOrBuildMaterial("G4_W");
 
-
   // NIST Compounds
   Concrete    = nist->FindOrBuildMaterial("G4_CONCRETE");
   Graphite    = nist->FindOrBuildMaterial("G4_GRAPHITE");

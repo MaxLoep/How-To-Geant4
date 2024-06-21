@@ -717,7 +717,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //This is a public variable defined in the header file to make it accessible from other files
   // fScoringVolume = lSD1;
 
-  PrintParameters();
+  // PrintParameters();
 
   // default value = 0
   if(fWritingChoice==1) // save geometry in GDML file

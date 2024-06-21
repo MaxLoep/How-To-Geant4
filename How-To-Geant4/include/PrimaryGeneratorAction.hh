@@ -2,7 +2,7 @@
 #define PrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
+// #include "G4ParticleGun.hh"
 #include "globals.hh"
 #include "G4GeneralParticleSource.hh"
 
@@ -28,7 +28,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   private:
     G4GeneralParticleSource*  fParticleBeam;
 
-    G4ParticleGun*             fParticleGun;
+    // G4ParticleGun*             fParticleGun;
     DetectorConstruction*      fDetector;
 };
 

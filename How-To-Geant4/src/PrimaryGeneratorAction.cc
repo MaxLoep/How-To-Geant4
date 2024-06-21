@@ -11,7 +11,7 @@ use GeneralParticleSource and use built-in functions to set energy and angular d
 #include "G4ParticleDefinition.hh"        //Necessary. You need this.
 #include "G4SystemOfUnits.hh"             //Necessary. You need this.
 #include "G4Event.hh"                     //Necessary. You need this.
-#include "G4ParticleGun.hh"               //Necessary if you want to use the ParticleGun
+// #include "G4ParticleGun.hh"               //Necessary if you want to use the ParticleGun
 #include "G4GeneralParticleSource.hh"     //Necessary if you want to use the GeneralParticleSource
 
 #include "DetectorConstruction.hh"

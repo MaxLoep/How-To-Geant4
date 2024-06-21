@@ -49,7 +49,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double GetWorldSizeX()   {return boxX;};
     G4double GetWorldSizeYZ()  {return boxX;};
 
-    void PrintParameters();
+    void PrintParameters(); // function that prints parameters of ONE hardcoded object - can be deleted i guess
 
   private:
 
