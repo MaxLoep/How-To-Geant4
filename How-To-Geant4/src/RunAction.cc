@@ -81,26 +81,6 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
     analysisManager->OpenFile(folderName + "/" + RootFolder + "/" + fileName);
   }
 
-  //Why are new units added HERE?!
-  //new units are also added in PhysicsList.cc -> clean up!
-  // add new units for dose
-  // 
-  // const G4double milligray = 1.e-3*gray;
-  // const G4double microgray = 1.e-6*gray;
-  // const G4double nanogray  = 1.e-9*gray;  
-  // const G4double picogray  = 1.e-12*gray;
-
-  //Introducing new Units:
-  //new G4UnitDefinition("name", "symbol" , "category", value);
-  // Already available catogiers are: Length, Surface, Volume, Angle, Time, Frequency, Electric Charge, Energy,
-  // Mass, Volumic Mass, Power, Force, Pressure, Electric Current, Electric Potential, Magnetic Flux, Magnetic Flux Density,
-  // Temperature, Amount of Substance, Activity, Dose
-  // new G4UnitDefinition("milligray", "milliGy" , "Dose", milligray);
-  // new G4UnitDefinition("microgray", "microGy" , "Dose", microgray);
-  // new G4UnitDefinition("nanogray" , "nanoGy"  , "Dose", nanogray);
-  // new G4UnitDefinition("picogray" , "picoGy"  , "Dose", picogray); 
-
-
   //B1 SCORING METHOD
   // Register accumulable to the accumulable manager
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();

@@ -35,7 +35,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
   run->CountProcesses(process);
   
 
-  // FROM OLD EXEMPLE - NOT NEEDED -> CLEAN UP!
+  // FROM OLD EXAMPLE - NOT NEEDED -> CLEAN UP!
   // energy deposit
   //
   G4double edepStep = aStep->GetTotalEnergyDeposit();
