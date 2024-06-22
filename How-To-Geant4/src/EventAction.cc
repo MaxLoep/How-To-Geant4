@@ -116,7 +116,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   //G4AnalysisManager::Instance()->FillH1(1,fTotalEnergyDeposit);
   //G4AnalysisManager::Instance()->FillH1(3,fTotalEnergyFlow);  
 
-
+  // REMOVE
   //B1 SCORING METHOD
   // accumulate statistics in run action
   //fRunAction->AddEdep(fEdep);

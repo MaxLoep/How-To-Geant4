@@ -290,6 +290,8 @@ void RunAction::EndOfRunAction(const G4Run* run)
   G4int nofEvents = run->GetNumberOfEvent();
   if (nofEvents == 0) return;
 
+
+  // CAN BE REMOVED?
   //B1 SCORING METHOD
   // Merge accumulables 
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
@@ -349,6 +351,8 @@ void RunAction::EndOfRunAction(const G4Run* run)
     << G4endl
     << " The run has finished! "
     << G4endl
+
+    // REMOVE
     //  << " Cumulated dose per run, in scoring volume : " 
     //  << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
     //  << G4endl
@@ -375,6 +379,8 @@ void RunAction::EndOfRunAction(const G4Run* run)
   if (isMaster) G4Random::showEngineStatus();
 }
 
+
+//CAN BE REMOVED?
 //B1 SCORING METHOD
 //define function AddEdep(G4double) to sum up the total energy
 void RunAction::AddEdep(G4double edep)

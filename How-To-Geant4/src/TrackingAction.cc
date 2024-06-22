@@ -54,7 +54,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
   
   const G4ParticleDefinition* particle = track->GetParticleDefinition();
   G4String name     = particle->GetParticleName();
-  // G4double meanLife = particle->GetPDGLifeTime(); //initialized but enver used?
+  // G4double meanLife = particle->GetPDGLifeTime(); //initialized but never used?
   G4double ekin     = track->GetKineticEnergy();
   fTimeEnd         = track->GetGlobalTime();
   if ((particle->GetPDGStable())&&(ekin == 0.)) fTimeEnd = DBL_MAX;
