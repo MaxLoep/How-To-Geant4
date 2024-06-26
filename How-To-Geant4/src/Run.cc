@@ -43,9 +43,7 @@ G4int Run::fgIonId = kMaxHisto1;
 
 
 
-Run::Run(DetectorConstruction* det)
-: G4Run(),
-	fDetector(det), fParticle(nullptr), fEkin(0.)
+Run::Run(DetectorConstruction* det) : G4Run(), fDetector(det), fParticle(nullptr), fEkin(0.)
 {
 	fEnergyDeposit = fEnergyDeposit2 = 0.;
 	fEnergyFlow    = fEnergyFlow2    = 0.;
@@ -63,14 +61,14 @@ void Run::Merge(std::map<G4String, ParticleData>& destinationMap,
 		G4String name = particleData.first;
 		const ParticleData& localData = particleData.second;
 		if ( destinationMap.find(name) == destinationMap.end()) {
-			destinationMap[name]
-			 = ParticleData(localData.fCount,
-											localData.fEmean,
-											localData.fEmin,
-											localData.fEmax,
-											localData.fTmean);
-		}
-		else {
+			destinationMap[name] = ParticleData(
+				localData.fCount,
+				localData.fEmean,
+				localData.fEmin,
+				localData.fEmax,
+				localData.fTmean
+			);
+		} else {
 			ParticleData& data = destinationMap[name];
 			data.fCount += localData.fCount;
 			data.fEmean += localData.fEmean;
@@ -84,15 +82,13 @@ void Run::Merge(std::map<G4String, ParticleData>& destinationMap,
 }
 
 
-void Run::SetPrimary(G4ParticleDefinition* particle, G4double energy)
-{
+void Run::SetPrimary(G4ParticleDefinition* particle, G4double energy) {
 	fParticle = particle;
 	fEkin = energy;
 }
 
 
-void Run::CountProcesses(const G4VProcess* process)
-{
+void Run::CountProcesses(const G4VProcess* process) {
 	G4String procName = process->GetProcessName();
 	std::map<G4String,G4int>::iterator it = fProcCounter.find(procName);
 	if ( it == fProcCounter.end()) {
@@ -158,15 +154,15 @@ void Run::ParticleFlux(G4String name, G4double Ekin)
 
 G4int Run::GetIonId(G4String ionName)
 {
-	 G4AutoLock lock(&ionIdMapMutex);
-			// updating the global ion map needs to be locked
+	G4AutoLock lock(&ionIdMapMutex);
+	// updating the global ion map needs to be locked
 
-	 std::map<G4String,G4int>::const_iterator it = fgIonMap.find(ionName);
-	 if ( it == fgIonMap.end()) {
-		 fgIonMap[ionName] = fgIonId;
-		 if (fgIonId < (kMaxHisto2 - 1)) fgIonId++;
-	 }
-	 return fgIonMap[ionName];
+	std::map<G4String,G4int>::const_iterator it = fgIonMap.find(ionName);
+	if ( it == fgIonMap.end()) {
+		fgIonMap[ionName] = fgIonId;
+		if (fgIonId < (kMaxHisto2 - 1)) fgIonId++;
+	}
+	return fgIonMap[ionName];
 }
 
 
@@ -207,6 +203,7 @@ void Run::Merge(const G4Run* run)
 	G4Run::Merge(run);
 }
 
+
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
 	G4int prec = 5, wid = prec + 2;
@@ -223,9 +220,9 @@ void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ost
 
 		// tabulator divided for a more handy output
 		stream << "  " << std::setw(13) << name << "\t" << std::setw(7) << count
-					 << "\t  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
-					 << "\t( "  << G4BestUnit(eMin, "Energy")
-					 << " --> " << G4BestUnit(eMax, "Energy") << ")";
+					<< "\t  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
+					<< "\t( "  << G4BestUnit(eMin, "Energy")
+					<< " --> " << G4BestUnit(eMax, "Energy") << ")";
 		if (meanLife >= 0.)
 			stream << "\thalf life = \t" << G4BestUnit(meanLife, "Time")   << G4endl;
 		else stream << "\tstable\tstable" << G4endl;
@@ -254,7 +251,6 @@ void Run::EndOfRun()
 	if (numberOfEvent == 0) { G4cout.precision(dfprec);   return;}
 
 	//frequency of processes
-	//
 	G4cout << "\n Process calls frequency :" << G4endl;
 	G4int index = 0;
 	for ( const auto& procCounter : fProcCounter ) {
@@ -267,7 +263,6 @@ void Run::EndOfRun()
 	G4cout << G4endl;
 
 	//List of generated particles to console
-	//
 	G4cout << "\n List of generated particles:" << G4endl;
 
  for ( const auto& particleData : fParticleDataMap1 ) {
@@ -280,16 +275,16 @@ void Run::EndOfRun()
 		G4double meanLife = data.fTmean;
 
 		G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count
-					 << "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
-					 << "\t( "  << G4BestUnit(eMin, "Energy")
-					 << " --> " << G4BestUnit(eMax, "Energy") << ")";
+					<< "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
+					<< "\t( "  << G4BestUnit(eMin, "Energy")
+					<< " --> " << G4BestUnit(eMax, "Energy") << ")";
 		if (meanLife >= 0.)
 			G4cout << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
 		else G4cout << "\tstable" << G4endl;
- }
+}
 
 	//List of generated particles to file
-	//
+
 	// Create an output file which increases in number if the simulation is run again
 
 	// create a folder for the files
@@ -300,8 +295,7 @@ void Run::EndOfRun()
 	G4long pid = _getpid();
 
 	// Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticle.txt" exists.
-	while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt"))
-	{
+	while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt")) {
 		pid++;
 	}
 	// Set final file name
@@ -337,9 +331,8 @@ void Run::EndOfRun()
 				 << G4BestUnit(rmsEflow,   "Energy")
 				 << G4endl;
 
- //particles flux
- //
- OutputParticleData(fParticleDataMap2, G4cout);
+//particles flux
+OutputParticleData(fParticleDataMap2, G4cout);
 	//remove all contents in fProcCounter, fCount
 	fProcCounter.clear();
 	fParticleDataMap1.clear();
