@@ -265,7 +265,7 @@ void Run::EndOfRun()
 	//List of generated particles to console
 	G4cout << "\n List of generated particles:" << G4endl;
 
- for ( const auto& particleData : fParticleDataMap1 ) {
+	for ( const auto& particleData : fParticleDataMap1 ) {
 		G4String name = particleData.first;
 		ParticleData data = particleData.second;
 		G4int count = data.fCount;
@@ -281,7 +281,7 @@ void Run::EndOfRun()
 		if (meanLife >= 0.)
 			G4cout << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
 		else G4cout << "\tstable" << G4endl;
-}
+	}
 
 	//List of generated particles to file
 
@@ -307,7 +307,6 @@ void Run::EndOfRun()
 
 	OutputParticleData(fParticleDataMap1, outFile);
 	// compute mean Energy deposited and rms
-	//
 	G4int TotNbofEvents = numberOfEvent;
 	fEnergyDeposit /= TotNbofEvents; fEnergyDeposit2 /= TotNbofEvents;
 	G4double rmsEdep = fEnergyDeposit2 - fEnergyDeposit*fEnergyDeposit;
@@ -320,7 +319,6 @@ void Run::EndOfRun()
 				 << G4endl;
 
 	// compute mean Energy flow and rms
-	//
 	fEnergyFlow /= TotNbofEvents; fEnergyFlow2 /= TotNbofEvents;
 	G4double rmsEflow = fEnergyFlow2 - fEnergyFlow*fEnergyFlow;
 	if (rmsEflow>0.) rmsEflow = std::sqrt(rmsEflow);
