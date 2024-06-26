@@ -41,6 +41,8 @@ std::map<G4String,G4int> Run::fgIonMap;
 G4int Run::fgIonId = kMaxHisto1;
 
 
+
+
 Run::Run(DetectorConstruction* det)
 : G4Run(),
   fDetector(det), fParticle(nullptr), fEkin(0.)
@@ -205,6 +207,31 @@ void Run::Merge(const G4Run* run)
   G4Run::Merge(run);
 }
 
+template <typename Ostream>
+void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
+    G4int prec = 5, wid = prec + 2;
+    stream << "\n List of generated particles:" << G4endl;
+
+   for ( const auto& particleData : particle_map ) {
+      G4String name = particleData.first;
+      ParticleData data = particleData.second;
+      G4int count = data.fCount;
+      G4double eMean = data.fEmean / count;
+      G4double eMin = data.fEmin;
+      G4double eMax = data.fEmax;
+      G4double meanLife = data.fTmean;
+
+      // tabulator divided for a more handy output
+      stream << "  " << std::setw(13) << name << "\t" << std::setw(7) << count
+             << "\t  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
+             << "\t( "  << G4BestUnit(eMin, "Energy")
+             << " --> " << G4BestUnit(eMax, "Energy") << ")";
+      if (meanLife >= 0.)
+        stream << "\thalf life = \t" << G4BestUnit(meanLife, "Time")   << G4endl;
+      else stream << "\tstable\tstable" << G4endl;
+      }
+}
+
 
 void Run::EndOfRun()
 {
@@ -284,27 +311,7 @@ void Run::EndOfRun()
   std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
   // std::ofstream outFile(fileName);
 
-  outFile << "\n List of generated particles:" << G4endl;
-
- for ( const auto& particleData : fParticleDataMap1 ) {
-    G4String name = particleData.first;
-    ParticleData data = particleData.second;
-    G4int count = data.fCount;
-    G4double eMean = data.fEmean/count;
-    G4double eMin = data.fEmin;
-    G4double eMax = data.fEmax;
-    G4double meanLife = data.fTmean;
-
-    // tabulator divided for a more handy output
-    outFile << "  " << std::setw(13) << name << "\t" << std::setw(7) << count
-           << "\t  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
-           << "\t( "  << G4BestUnit(eMin, "Energy")
-           << " --> " << G4BestUnit(eMax, "Energy") << ")";
-    if (meanLife >= 0.)
-      outFile << "\thalf life = \t" << G4BestUnit(meanLife, "Time")   << G4endl;
-    else outFile << "\tstable\tstable" << G4endl;
- }
-
+  OutputParticleData(fParticleDataMap1, outFile);
   // compute mean Energy deposited and rms
   //
   G4int TotNbofEvents = numberOfEvent;
@@ -332,25 +339,7 @@ void Run::EndOfRun()
 
  //particles flux
  //
- G4cout << "\n List of particles emerging from the world volume :" << G4endl;
-
- for ( const auto& particleData : fParticleDataMap2 ) {
-    G4String name = particleData.first;
-    ParticleData data = particleData.second;
-    G4int count = data.fCount;
-    G4double eMean = data.fEmean/count;
-    G4double eMin = data.fEmin;
-    G4double eMax = data.fEmax;
-    G4double Eflow = data.fEmean/TotNbofEvents;
-
-    G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count
-           << "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
-           << "\t( "  << G4BestUnit(eMin, "Energy")
-           << " --> " << G4BestUnit(eMax, "Energy")
-           << ") \tEflow/event = " << G4BestUnit(Eflow, "Energy") << G4endl;
- }
-
-
+ OutputParticleData(fParticleDataMap2, G4cout);
   //remove all contents in fProcCounter, fCount
   fProcCounter.clear();
   fParticleDataMap1.clear();

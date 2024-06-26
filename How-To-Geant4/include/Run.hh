@@ -1,3 +1,4 @@
+#include <fstream>
 #ifndef Run_h
 #define Run_h 1
 
@@ -16,18 +17,18 @@ class Run : public G4Run
     Run(DetectorConstruction*);
    ~Run();
 
-    void SetPrimary(G4ParticleDefinition* particle, G4double energy);         
+    void SetPrimary(G4ParticleDefinition* particle, G4double energy);
     void CountProcesses(const G4VProcess* process);
-    void ParticleCount(G4String, G4double, G4double); 
+    void ParticleCount(G4String, G4double, G4double);
     void AddEdep (G4double edep);
-    void AddEflow (G4double eflow);                   
+    void AddEflow (G4double eflow);
     void ParticleFlux(G4String, G4double);
 
     G4int GetIonId (G4String);
 
     virtual void Merge(const G4Run*);
-    void EndOfRun();     
-   
+    void EndOfRun();
+
   private:
     struct ParticleData {
      ParticleData()
@@ -42,8 +43,10 @@ class Run : public G4Run
      G4double  fEmax;
      G4double  fTmean;
     };
-     
+
     // utility function
+    template<typename Ostream>
+    void OutputParticleData(std::map<G4String,ParticleData>& particle_map, Ostream& stream);
     void Merge(std::map<G4String,ParticleData>& destinationMap,
                const std::map<G4String,ParticleData>& sourceMap) const;
 
@@ -55,12 +58,11 @@ class Run : public G4Run
     G4double              fEkin;
 
     G4double fEnergyDeposit, fEnergyDeposit2;
-    G4double fEnergyFlow,    fEnergyFlow2;            
+    G4double fEnergyFlow,    fEnergyFlow2;
     std::map<G4String,G4int>        fProcCounter;
-    std::map<G4String,ParticleData> fParticleDataMap1;                    
+    std::map<G4String,ParticleData> fParticleDataMap1;
     std::map<G4String,ParticleData> fParticleDataMap2;
 };
 
 
 #endif
-
