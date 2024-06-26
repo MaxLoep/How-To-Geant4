@@ -3,7 +3,7 @@ REWORK NEEDED!
 -remove Energy info about created isotopes (what shall this be good for anyway?!)
 */
 
-
+#include "platform.h"
 #include "Run.hh"
 #include "DetectorConstruction.hh"
 #include "PrimaryGeneratorAction.hh"
@@ -17,7 +17,7 @@ REWORK NEEDED!
 #include <filesystem>
 namespace fs = std::filesystem;
 
-// get folderName from where it is defined (RunAction.cc) - the really dirty way 
+// get folderName from where it is defined (RunAction.cc) - the really dirty way
 extern std::string folderName;
 // Standard folder name for the 'ListOfGeneratedParticles' files
 std::string ListFolder = "Lists of generated Particles";
@@ -28,14 +28,14 @@ std::string ListFolder = "Lists of generated Particles";
 // void DetectorConstruction::SetOutputFolder(G4String OutFoldName)
 // void DetectorConstruction::SetOutputFolder(std::string OutFoldName)
 // {
-// folderName = OutFoldName;             
+// folderName = OutFoldName;
 // }
 
 // mutex in a file scope
 namespace {
   //Mutex to lock updating the global ion map
   G4Mutex ionIdMapMutex = G4MUTEX_INITIALIZER;
-}  
+}
 
 std::map<G4String,G4int> Run::fgIonMap;
 G4int Run::fgIonId = kMaxHisto1;
@@ -59,17 +59,17 @@ void Run::Merge(std::map<G4String, ParticleData>& destinationMap,
 {
   for ( const auto& particleData : sourceMap ) {
     G4String name = particleData.first;
-    const ParticleData& localData = particleData.second;   
+    const ParticleData& localData = particleData.second;
     if ( destinationMap.find(name) == destinationMap.end()) {
       destinationMap[name]
-       = ParticleData(localData.fCount, 
-                      localData.fEmean, 
-                      localData.fEmin, 
+       = ParticleData(localData.fCount,
+                      localData.fEmean,
+                      localData.fEmin,
                       localData.fEmax,
                       localData.fTmean);
     }
     else {
-      ParticleData& data = destinationMap[name];   
+      ParticleData& data = destinationMap[name];
       data.fCount += localData.fCount;
       data.fEmean += localData.fEmean;
       G4double emin = localData.fEmin;
@@ -77,19 +77,19 @@ void Run::Merge(std::map<G4String, ParticleData>& destinationMap,
       G4double emax = localData.fEmax;
       if (emax > data.fEmax) data.fEmax = emax;
       data.fTmean = localData.fTmean;
-    }   
+    }
   }
 }
 
 
 void Run::SetPrimary(G4ParticleDefinition* particle, G4double energy)
-{ 
+{
   fParticle = particle;
   fEkin = energy;
 }
- 
 
-void Run::CountProcesses(const G4VProcess* process) 
+
+void Run::CountProcesses(const G4VProcess* process)
 {
   G4String procName = process->GetProcessName();
   std::map<G4String,G4int>::iterator it = fProcCounter.find(procName);
@@ -97,10 +97,10 @@ void Run::CountProcesses(const G4VProcess* process)
     fProcCounter[procName] = 1;
   }
   else {
-    fProcCounter[procName]++; 
+    fProcCounter[procName]++;
   }
 }
-                  
+
 
 void Run::ParticleCount(G4String name, G4double Ekin, G4double meanLife)
 {
@@ -118,22 +118,22 @@ void Run::ParticleCount(G4String name, G4double Ekin, G4double meanLife)
     G4double emax = data.fEmax;
     if (Ekin > emax) data.fEmax = Ekin;
     data.fTmean = meanLife;
-  }   
+  }
 }
-                 
+
 
 void Run::AddEdep(G4double edep)
-{ 
+{
   fEnergyDeposit += edep;
   fEnergyDeposit2 += edep*edep;
 }
-                 
+
 
 void Run::AddEflow(G4double eflow)
-{ 
+{
   fEnergyFlow += eflow;
   fEnergyFlow2 += eflow*eflow;
-}                  
+}
 
 void Run::ParticleFlux(G4String name, G4double Ekin)
 {
@@ -151,7 +151,7 @@ void Run::ParticleFlux(G4String name, G4double Ekin)
     G4double emax = data.fEmax;
     if (Ekin > emax) data.fEmax = Ekin;
     data.fTmean = -1*ns;
-  }   
+  }
 }
 
 G4int Run::GetIonId(G4String ionName)
@@ -171,19 +171,19 @@ G4int Run::GetIonId(G4String ionName)
 void Run::Merge(const G4Run* run)
 {
   const Run* localRun = static_cast<const Run*>(run);
-  
+
   //primary particle info
   //
   fParticle = localRun->fParticle;
   fEkin     = localRun->fEkin;
-  
+
   // accumulate sums
   //
-  fEnergyDeposit   += localRun->fEnergyDeposit;  
+  fEnergyDeposit   += localRun->fEnergyDeposit;
   fEnergyDeposit2  += localRun->fEnergyDeposit2;
   fEnergyFlow      += localRun->fEnergyFlow;
   fEnergyFlow2     += localRun->fEnergyFlow2;
-      
+
   //map: processes count
   for ( const auto& procCounter : localRun->fProcCounter ) {
     G4String procName = procCounter.first;
@@ -193,35 +193,35 @@ void Run::Merge(const G4Run* run)
     }
     else {
       fProcCounter[procName] += localCount;
-    }  
+    }
   }
-  
+
   //map: created particles count
-  Merge(fParticleDataMap1, localRun->fParticleDataMap1);    
-  
-  //map: particles flux count       
-  Merge(fParticleDataMap2, localRun->fParticleDataMap2);    
-  
-  G4Run::Merge(run); 
-} 
+  Merge(fParticleDataMap1, localRun->fParticleDataMap1);
+
+  //map: particles flux count
+  Merge(fParticleDataMap2, localRun->fParticleDataMap2);
+
+  G4Run::Merge(run);
+}
 
 
-void Run::EndOfRun() 
+void Run::EndOfRun()
 {
-  G4int prec = 5, wid = prec + 2;  
+  G4int prec = 5, wid = prec + 2;
   G4int dfprec = G4cout.precision(prec);
-  
+
   //run condition
   //
   G4Material* material = fDetector->GetAbsorMaterial();
   G4double density = material->GetDensity();
-   
-  G4String Particle = fParticle->GetParticleName();    
-  G4cout << "\n The run is " << numberOfEvent << " "<< Particle 
-         //<< " of " << G4BestUnit(fEkin,"Energy") 
-         << " through " 
+
+  G4String Particle = fParticle->GetParticleName();
+  G4cout << "\n The run is " << numberOfEvent << " "<< Particle
+         //<< " of " << G4BestUnit(fEkin,"Energy")
+         << " through "
          << G4BestUnit(fDetector->GetAbsorThickness(),"Length") << " of "
-         << material->GetName() << " (density: " 
+         << material->GetName() << " (density: "
          << G4BestUnit(density,"Volumic Mass") << ")" << G4endl;
 
   if (numberOfEvent == 0) { G4cout.precision(dfprec);   return;}
@@ -238,11 +238,11 @@ void Run::EndOfRun()
             << space;
   }
   G4cout << G4endl;
-  
-  //List of generated particles to console 
+
+  //List of generated particles to console
   //
   G4cout << "\n List of generated particles:" << G4endl;
-     
+
  for ( const auto& particleData : fParticleDataMap1 ) {
     G4String name = particleData.first;
     ParticleData data = particleData.second;
@@ -251,7 +251,7 @@ void Run::EndOfRun()
     G4double eMin = data.fEmin;
     G4double eMax = data.fEmax;
     G4double meanLife = data.fTmean;
-         
+
     G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count
            << "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
            << "\t( "  << G4BestUnit(eMin, "Energy")
@@ -260,7 +260,7 @@ void Run::EndOfRun()
       G4cout << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
     else G4cout << "\tstable" << G4endl;
  }
-   
+
   //List of generated particles to file
   //
   // Create an output file which increases in number if the simulation is run again
@@ -272,12 +272,12 @@ void Run::EndOfRun()
   //Get process ID
   G4long pid = _getpid();
 
-  // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticle.txt" exists. 
+  // Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticle.txt" exists.
   while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt"))
   {
     pid++;
   }
-  // Set final file name 
+  // Set final file name
   std::string fileName = std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt";
 
   // flush output to file
@@ -285,7 +285,7 @@ void Run::EndOfRun()
   // std::ofstream outFile(fileName);
 
   outFile << "\n List of generated particles:" << G4endl;
-     
+
  for ( const auto& particleData : fParticleDataMap1 ) {
     G4String name = particleData.first;
     ParticleData data = particleData.second;
@@ -312,28 +312,28 @@ void Run::EndOfRun()
   G4double rmsEdep = fEnergyDeposit2 - fEnergyDeposit*fEnergyDeposit;
   if (rmsEdep>0.) rmsEdep = std::sqrt(rmsEdep);
   else            rmsEdep = 0.;
-  
+
   G4cout << "\n Mean energy deposit per event = "
          << G4BestUnit(fEnergyDeposit,"Energy") << ";  rms = "
-         << G4BestUnit(rmsEdep,      "Energy") 
+         << G4BestUnit(rmsEdep,      "Energy")
          << G4endl;
-  
+
   // compute mean Energy flow and rms
   //
   fEnergyFlow /= TotNbofEvents; fEnergyFlow2 /= TotNbofEvents;
   G4double rmsEflow = fEnergyFlow2 - fEnergyFlow*fEnergyFlow;
   if (rmsEflow>0.) rmsEflow = std::sqrt(rmsEflow);
   else             rmsEflow = 0.;
-  
+
   G4cout << " Mean energy flow per event    = "
          << G4BestUnit(fEnergyFlow,"Energy") << ";  rms = "
-         << G4BestUnit(rmsEflow,   "Energy") 
+         << G4BestUnit(rmsEflow,   "Energy")
          << G4endl;
 
  //particles flux
  //
  G4cout << "\n List of particles emerging from the world volume :" << G4endl;
-     
+
  for ( const auto& particleData : fParticleDataMap2 ) {
     G4String name = particleData.first;
     ParticleData data = particleData.second;
@@ -341,23 +341,22 @@ void Run::EndOfRun()
     G4double eMean = data.fEmean/count;
     G4double eMin = data.fEmin;
     G4double eMax = data.fEmax;
-    G4double Eflow = data.fEmean/TotNbofEvents;        
-         
+    G4double Eflow = data.fEmean/TotNbofEvents;
+
     G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count
            << "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
            << "\t( "  << G4BestUnit(eMin, "Energy")
-           << " --> " << G4BestUnit(eMax, "Energy") 
+           << " --> " << G4BestUnit(eMax, "Energy")
            << ") \tEflow/event = " << G4BestUnit(Eflow, "Energy") << G4endl;
  }
 
 
-  //remove all contents in fProcCounter, fCount 
+  //remove all contents in fProcCounter, fCount
   fProcCounter.clear();
   fParticleDataMap1.clear();
   fParticleDataMap2.clear();
   fgIonMap.clear();
-                          
-  //restore default format         
-  G4cout.precision(dfprec);   
-}
 
+  //restore default format
+  G4cout.precision(dfprec);
+}

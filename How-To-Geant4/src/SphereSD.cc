@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "SensitiveDetector.hh"
 #include "Analysis.hh"
 
@@ -11,7 +12,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-// get folderName from where it is defined (RunAction.cc) - the really dirty way 
+// get folderName from where it is defined (RunAction.cc) - the really dirty way
 extern std::string folderName;
 // get folderName from where it is defined (Run.cc) - the really dirty way
 extern std::string ListFolder;
@@ -62,12 +63,12 @@ SphereSD::~SphereSD()
     //Get main process ID
     G4long pid = _getpid();
 
-    // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists. 
+    // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
     while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles in SphereSD" + ".txt"))
     {
       pid++;
     }
-    // Set final file name 
+    // Set final file name
     std::string fileName = std::to_string(pid) + "_ListOfGeneratedParticles in SphereSD" + ".txt";
 
     // flush output to file
@@ -108,11 +109,11 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
   // keep only outgoing particle
   const G4ParticleDefinition* particle = track->GetParticleDefinition();
- 
+
   // code PDG:
   // G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
   //G4String name   = track->GetDefinition()->GetParticleName();
-    
+
   //G4String name   = particle->GetParticleName();
 
   // Remember preStepPoint:
@@ -145,7 +146,7 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
     // if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(0, 3, localPosition.y()/cm);
     if(particle == G4Gamma::Gamma())analysisManager->AddNtupleRow(6);
 
-    // // Store hit in histogram 
+    // // Store hit in histogram
     // analysisManager->FillH1(0, ID);
     // analysisManager->FillH1(1, pdgCode);
     // analysisManager->FillH1(2, Ekin/MeV);
@@ -159,4 +160,3 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 void SphereSD::EndOfEvent(G4HCofThisEvent* /*hce*/)
 {}
-

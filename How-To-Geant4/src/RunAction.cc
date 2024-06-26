@@ -1,7 +1,7 @@
 /*
 Create output Root file and its structure here
 */
-
+#include "platform.h"
 #include "RunAction.hh"
 #include "Run.hh"
 #include "DetectorConstruction.hh"
@@ -37,7 +37,7 @@ std::string RootFolder = "Root Files";
 // void DetectorConstruction::SetOutputFolder(G4String OutFoldName)
 void DetectorConstruction::SetOutputFolder(std::string OutFoldName)
 {
-folderName = OutFoldName;             
+folderName = OutFoldName;
 }
 
 
@@ -69,12 +69,12 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
     //Open output file at the start of the simulation
     //
 
-    // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
+    // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh
     while(std::ifstream(folderName + "/" + RootFolder + "/" + "ID_" + std::to_string(pid) + ".root"))
     {
       pid++;
     }
-    // Set final file name 
+    // Set final file name
     std::string fileName = "ID_" + std::to_string(pid) + ".root";
 
     // Create the file
@@ -85,7 +85,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   // Register accumulable to the accumulable manager
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->RegisterAccumulable(fEdep);
-  accumulableManager->RegisterAccumulable(fEdep2); 
+  accumulableManager->RegisterAccumulable(fEdep2);
 
 
   //SENSITIVE DETECTOR
@@ -103,7 +103,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   // analysisManager->SetFileName(fFileName);
 
   // Use Ntuples or Histograms
-  // 
+  //
   // Create ntuples
   // CreateNtuple ("name", "title")
   // CreateNtupleDColumn ("name")
@@ -171,7 +171,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
   // Create directories in the root file - commented out in the original B4d example!
   // analysisManager->SetHistoDirectoryName("histograms");
   // analysisManager->SetNtupleDirectoryName("ntuple");
- 
+
 }
 
 
@@ -191,16 +191,16 @@ RunAction::~RunAction()
 
 
 G4Run* RunAction::GenerateRun()
-{ 
-  fRun = new Run(fDetector); 
+{
+  fRun = new Run(fDetector);
   return fRun;
 }
 
 
 void RunAction::BeginOfRunAction(const G4Run*)
-{  
+{
   //Get process ID
-  G4long pid = _getpid(); 
+  G4long pid = _getpid();
 
   // create a folder for the files
   // std::string folderName = "Root Files";
@@ -224,12 +224,12 @@ void RunAction::BeginOfRunAction(const G4Run*)
     // Create an output file which increases in number if the simulation is run again
     //
 
-    // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh 
+    // Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh
     while(std::ifstream(folderName + "/" + RootFolder + "/" + "ID_" + std::to_string(pid) + ".root"))
     {
       pid++;
     }
-    // Set final file name 
+    // Set final file name
     std::string fileName = "ID_" + std::to_string(pid) + ".root";
 
     // Create the file
@@ -257,16 +257,16 @@ void RunAction::BeginOfRunAction(const G4Run*)
   //From example B4d
   //inform the runManager to save random number seed
   //G4RunManager::GetRunManager()->SetRandomNumberStore(true);
-  
+
   // // Get analysis manager
   // auto analysisManager = G4AnalysisManager::Instance();
 
   // show Rndm status
   if (isMaster) G4Random::showEngineStatus();
-  
+
   // keep run condition
-  if (fPrimary) { 
-    G4ParticleDefinition* particle 
+  if (fPrimary) {
+    G4ParticleDefinition* particle
       = fPrimary->GetParticleGun()->GetParticleDefinition();
     G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
     fRun->SetPrimary(particle, energy);
@@ -293,16 +293,16 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
   // CAN BE REMOVED?
   //B1 SCORING METHOD
-  // Merge accumulables 
+  // Merge accumulables
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Merge();
 
   // Compute dose = total energy deposit in a run and its variance
   G4double edep  = fEdep.GetValue();
   G4double edep2 = fEdep2.GetValue();
-  
+
   G4double rms = edep2 - edep*edep/nofEvents;
-  if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;  
+  if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;
 
   const DetectorConstruction* detectorConstruction
    = static_cast<const DetectorConstruction*>
@@ -332,7 +332,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
     // "proton of 100 MeV"
   }
 
-        
+
   // Print End of Run messages
   //  from example B1
   if (IsMaster()) {
@@ -345,15 +345,15 @@ void RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      << "--------------------End of Local Run------------------------";
   }
-  
-  
+
+
   G4cout
     << G4endl
     << " The run has finished! "
     << G4endl
 
     // REMOVE
-    //  << " Cumulated dose per run, in scoring volume : " 
+    //  << " Cumulated dose per run, in scoring volume : "
     //  << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
     //  << G4endl
     //  << G4BestUnit(edep,"Energy") << " rms = " << G4BestUnit(rms,"Energy")
@@ -364,10 +364,10 @@ void RunAction::EndOfRunAction(const G4Run* run)
    ;
 
 
-  if (isMaster) fRun->EndOfRun();    
-  
+  if (isMaster) fRun->EndOfRun();
+
   /*
-  //save histograms      
+  //save histograms
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
   if ( analysisManager->IsActive() ) {
     analysisManager->Write();
@@ -388,4 +388,3 @@ void RunAction::AddEdep(G4double edep)
   fEdep  += edep;
   fEdep2 += edep*edep;
 }
-

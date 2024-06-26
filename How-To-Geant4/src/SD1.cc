@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "SensitiveDetector.hh"
 #include "Analysis.hh"
 
@@ -11,7 +12,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-// get folderName from where it is defined (RunAction.cc) - the really dirty way 
+// get folderName from where it is defined (RunAction.cc) - the really dirty way
 extern std::string folderName;
 // get folderName from where it is defined (Run.cc) - the really dirty way
 extern std::string ListFolder;
@@ -62,12 +63,12 @@ SD1::~SD1()
     //Get main process ID
     G4long pid = _getpid();
 
-    // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists. 
+    // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
     while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles in SD1" + ".txt"))
     {
       pid++;
     }
-    // Set final file name 
+    // Set final file name
     std::string fileName = std::to_string(pid) + "_ListOfGeneratedParticles in SD1" + ".txt";
 
     // flush output to file
@@ -108,7 +109,7 @@ G4bool SD1::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
   // keep only outgoing particle
   const G4ParticleDefinition* particle = track->GetParticleDefinition();
- 
+
   // code PDG:
   // G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
 
@@ -141,7 +142,7 @@ G4bool SD1::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
   if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(1, 2, time/ns);
   if(particle == G4Proton::Proton())  analysisManager->AddNtupleRow(1);
 
-  // Store hit in one dimensional histogram 
+  // Store hit in one dimensional histogram
   // analysisManager->FillH1(id, value, G4double weight=1.0)
   // analysisManager->FillH1(0, ID);
   // analysisManager->FillH1(1, pdgCode);
