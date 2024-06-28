@@ -43,9 +43,10 @@ folderName = OutFoldName;
 
 RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	: G4UserRunAction(),
-		fDetector(det), fPrimary(prim), fRun(0), //fHistoManager(0),
-	fEdep(0.),
-	fEdep2(0.)
+		fDetector(det), fPrimary(prim), fRun(0)
+	//,fHistoManager(0),
+	// fEdep(0.),
+	// fEdep2(0.)
 {
 
 	//Get process ID
@@ -83,9 +84,9 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 
 	//B1 SCORING METHOD
 	// Register accumulable to the accumulable manager
-	G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-	accumulableManager->RegisterAccumulable(fEdep);
-	accumulableManager->RegisterAccumulable(fEdep2);
+	// G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
+	// accumulableManager->RegisterAccumulable(fEdep);
+	// accumulableManager->RegisterAccumulable(fEdep2);
 
 
 	//SENSITIVE DETECTOR
@@ -294,15 +295,15 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	// CAN BE REMOVED?
 	//B1 SCORING METHOD
 	// Merge accumulables
-	G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-	accumulableManager->Merge();
+	// G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
+	// accumulableManager->Merge();
 
-	// Compute dose = total energy deposit in a run and its variance
-	G4double edep  = fEdep.GetValue();
-	G4double edep2 = fEdep2.GetValue();
+	// // Compute dose = total energy deposit in a run and its variance
+	// G4double edep  = fEdep.GetValue();
+	// G4double edep2 = fEdep2.GetValue();
 
-	G4double rms = edep2 - edep*edep/nofEvents;
-	if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;
+	// G4double rms = edep2 - edep*edep/nofEvents;
+	// if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;
 
 	const DetectorConstruction* detectorConstruction
 	 = static_cast<const DetectorConstruction*>
@@ -383,8 +384,8 @@ void RunAction::EndOfRunAction(const G4Run* run)
 //CAN BE REMOVED?
 //B1 SCORING METHOD
 //define function AddEdep(G4double) to sum up the total energy
-void RunAction::AddEdep(G4double edep)
-{
-	fEdep  += edep;
-	fEdep2 += edep*edep;
-}
+// void RunAction::AddEdep(G4double edep)
+// {
+// 	fEdep  += edep;
+// 	fEdep2 += edep*edep;
+// }

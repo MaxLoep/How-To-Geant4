@@ -26,7 +26,7 @@ Primitive Scorer data are saved here
 
 EventAction::EventAction()
 :G4UserEventAction(),
- fTotalEnergyDeposit(0.), fTotalEnergyFlow(0.),
+//  fTotalEnergyDeposit(0.), fTotalEnergyFlow(0.),
  fAbsoEdepHCID(-1)
 //  ,fRunAction(runAction),
 //   fEdep(0.),
@@ -77,8 +77,8 @@ G4double EventAction::GetSum(G4THitsMap<G4double>* hitsMap) const
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
-	fTotalEnergyDeposit = 0.;
-	fTotalEnergyFlow = 0.; 
+	// fTotalEnergyDeposit = 0.;
+	// fTotalEnergyFlow = 0.; 
 
 /*
 	//variable initialisation per event 
@@ -94,24 +94,24 @@ void EventAction::BeginOfEventAction(const G4Event*)
 }
 
 
-void EventAction::AddEdep(G4double Edep)
-{
-	fTotalEnergyDeposit += Edep;
-}
+// void EventAction::AddEdep(G4double Edep)
+// {
+// 	fTotalEnergyDeposit += Edep;
+// }
 
 
-void EventAction::AddEflow(G4double Eflow)
-{
-	fTotalEnergyFlow += Eflow;
-}
+// void EventAction::AddEflow(G4double Eflow)
+// {
+// 	fTotalEnergyFlow += Eflow;
+// }
 
 
 void EventAction::EndOfEventAction(const G4Event* event)
 {
 	Run* run = static_cast<Run*>(G4RunManager::GetRunManager()->GetNonConstCurrentRun());
 						 
-	run->AddEdep (fTotalEnergyDeposit);             
-	run->AddEflow(fTotalEnergyFlow);
+	// run->AddEdep (fTotalEnergyDeposit);             
+	// run->AddEflow(fTotalEnergyFlow);
 							 
 	//G4AnalysisManager::Instance()->FillH1(1,fTotalEnergyDeposit);
 	//G4AnalysisManager::Instance()->FillH1(3,fTotalEnergyFlow);  

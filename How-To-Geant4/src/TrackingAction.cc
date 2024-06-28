@@ -68,7 +68,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
  G4StepStatus status = track->GetStep()->GetPostStepPoint()->GetStepStatus();
  if (status != fWorldBoundary) return; 
 
- fEventAction->AddEflow(ekin);
+//  fEventAction->AddEflow(ekin);
  run->ParticleFlux(name,ekin);
 
 }

@@ -20,8 +20,8 @@ class Run : public G4Run
     void SetPrimary(G4ParticleDefinition* particle, G4double energy);
     void CountProcesses(const G4VProcess* process);
     void ParticleCount(G4String, G4double, G4double);
-    void AddEdep (G4double edep);
-    void AddEflow (G4double eflow);
+    // void AddEdep (G4double edep);
+    // void AddEflow (G4double eflow);
     void ParticleFlux(G4String, G4double);
 
     G4int GetIonId (G4String);
