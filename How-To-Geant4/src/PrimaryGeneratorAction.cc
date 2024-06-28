@@ -22,25 +22,25 @@ use GeneralParticleSource and use built-in functions to set energy and angular d
 //
 PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
 : G4VUserPrimaryGeneratorAction(),
-  fParticleBeam(0),fDetector(det)
+	fParticleBeam(0),fDetector(det)
 {
-  fParticleBeam  = new G4GeneralParticleSource();
+	fParticleBeam  = new G4GeneralParticleSource();
 
-  // default particle kinematic
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4String particleName;
-  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="gamma");
+	// default particle kinematic
+	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+	G4String particleName;
+	G4ParticleDefinition* particle = particleTable->FindParticle(particleName="gamma");
 
-  fParticleBeam->SetParticleDefinition(particle);
-  
+	fParticleBeam->SetParticleDefinition(particle);
+	
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
-  delete fParticleBeam;
+	delete fParticleBeam;
 }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  fParticleBeam->GeneratePrimaryVertex(anEvent);
+	fParticleBeam->GeneratePrimaryVertex(anEvent);
 }
