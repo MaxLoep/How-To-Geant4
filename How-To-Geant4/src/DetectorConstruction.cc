@@ -108,14 +108,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		// LOAD GDML FILE 
 		// default value = 0
 		// you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
-		if(fLoadingChoice==1 && fOnlyLoadChoice==1) 
+		if(fLoadingChoice==1 && fOnlyLoadChoice==1)	//Load only a GDML file
 		{
 			// print for DEBUGGING 
 			G4cout << "\n ----READING GDML!---- " << G4endl;
 
 			LoadGDML(fLoadFile); // load a Geometry from GDML file
 		}
-		else if(fLoadingChoice==1 && fOnlyLoadChoice==0)
+		else if(fLoadingChoice==1 && fOnlyLoadChoice==0)	//Load a GDML file and construct other volumes in this file
 		{
 			// print for DEBUGGING 
 			G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
@@ -123,7 +123,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			LoadGDML(fLoadFile);                  // load a Geometry from GDML file
 			fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in this file
 		}
-		else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )
+		else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )	//dont load a GDML file but construct volumes in this file
 		{
 			// print for DEBUGGING 
 			G4cout << "\n ----You did not load any GDML file---- " << G4endl;
@@ -131,6 +131,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 			fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
 		}
+		//Why did i do this else-case? Isnt it identically to the case before?
 		else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
 		{
 			// print for DEBUGGING 
@@ -143,6 +144,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		return fWorldPhysVol;
 	}
 
+	// Define a Geometry in this file
 	G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	{
 			// print for DEBUGGING 
@@ -163,7 +165,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		3.: Place it in your simulation
 		*/ 
 
-		if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to bes constructed
+		if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to be constructed
 		{
 			// If no GDML file is loaded, a World volume needs to be created - otherwise it should be in the GDML file
 			G4Box* solidWorld =    
@@ -200,310 +202,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 		// print for DEBUGGING 
 		G4cout << lWorld->GetName() << " is the world volume" << G4endl;
-#pragma endregion
-
-// 
-//Import Mobile Faraday Cup and place it in surrounding CupBox in BoxBox
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#pragma region   
-	// 
-	// surounding BoxBox for the box surrounding the Mobile Faraday Cup
-	// 
-	//   G4Box* solidBoxBox =    
-	//   new G4Box("sBoxBox",                       //its name
-	//      (150.*mm+b)/2, (120.*mm+b)/2, (298.*mm+b/2)/2 );     //its size - b-size shielding in x- and y-direction but only b/2 in z-direction because not shielding in front
-			
-	// G4LogicalVolume* logicBoxBox =                         
-	//   new G4LogicalVolume(solidBoxBox,          //its solid
-	//                       Vacuum,           //its material
-	//                       "lBoxBox");            //its name
-																	 
-	// G4VPhysicalVolume* physBoxBox = 
-	//   new G4PVPlacement(0,                     //no rotation
-	//                     G4ThreeVector(0, 0,(298.*mm+b/2)/2),       //at (0,0,0)
-	//                     logicBoxBox,            //its logical volume
-	//                     "pBoxBox",               //its name
-	//                     lWorld,                     //its mother  volume
-	//                     false,                 //no boolean operation
-	//                     0,                     //copy number
-	//                     true);                 //overlaps checking
-
-	// //Make BoxBox-volume invisible
-	// auto logicBoxBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b , transparency)
-	// logicBoxBoxVisAtt->SetVisibility(true);
-	// logicBoxBox->SetVisAttributes(logicBoxBoxVisAtt);
-
-	// // 
-	// // surounding Box for Mobile Faraday Cup
-	// // 
-	//   G4Box* solidCupBox =    
-	//   new G4Box("sCupBox",                       //its name
-	//      150.*mm/2, 120.*mm/2, 298.*mm/2);     //its size
-			
-	// G4LogicalVolume* logicCupBox =                         
-	//   new G4LogicalVolume(solidCupBox,          //its solid
-	//                       Vacuum,           //its material
-	//                       "lCupBox");            //its name
-																	 
-	// G4VPhysicalVolume* physCupBox = 
-	//   new G4PVPlacement(0,                     //no rotation
-	//                     G4ThreeVector(0, 0, -b/4),       //at (0,0,0)  - move -b/4 in z-direction for no shielding in front but b-size shielding in the back
-	//                     logicCupBox,            //its logical volume
-	//                     "pCupBox",               //its name
-	//                     logicBoxBox,                     //its mother  volume
-	//                     false,                 //no boolean operation
-	//                     0,                     //copy number
-	//                     true);                 //overlaps checking
-
-	// //Make CupBox-volume invisible
-	// auto logicCupBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b , transparency)
-	// logicCupBoxVisAtt->SetVisibility(true);
-	// logicCupBox->SetVisAttributes(logicCupBoxVisAtt);
-
-
-	// ////////////////////
-	// // CADMesh :: OBJ // - ASSEMBLIES
-	// ////////////////////
-	// //import .obj-file containing an assembly
-	// auto FaradayCup_mesh = CADMesh::TessellatedMesh::FromOBJ("../FaradayCupMobile.obj");
-	// FaradayCup_mesh->SetScale(1);
-
-	// //Volumen 1
-	// auto logicDumpTarget = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("DumpTarget"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lDumpTarget",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicDumpTarget,              //its logical volume
-	//                    "pDumpTarget",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicDumpTargetVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicDumpTargetVisAtt->SetVisibility(true);
-	// logicDumpTarget->SetVisAttributes(logicDumpTargetVisAtt);
-
-	// //Volumen 2
-	// auto logicDumpCube = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("DumpCube"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lDumpCube",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicDumpCube,              //its logical volume
-	//                    "pDumpCube",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicDumpCubeVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicDumpCubeVisAtt->SetVisibility(true);
-	// logicDumpCube->SetVisAttributes(logicDumpCubeVisAtt);
-
-	// //Volumen 3
-	// auto logicRingInside = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("RingInside"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lRingInside",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicRingInside,              //its logical volume
-	//                    "pRingInside",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicRingInsideVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicRingInsideVisAtt->SetVisibility(true);
-	// logicRingInside->SetVisAttributes(logicRingInsideVisAtt);
-
-	// //Volumen 4
-	// auto logicFourWayCross = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("FourWayCross"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lFourWayCross",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicFourWayCross,              //its logical volume
-	//                    "pFourWayCross",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicFourWayCrossVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicFourWayCrossVisAtt->SetVisibility(true);
-	// logicFourWayCross->SetVisAttributes(logicFourWayCrossVisAtt);
-
-	// //Volumen 5
-	// auto logicCylinderkathode = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("Cylinderkathode"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lCylinderkathode",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicCylinderkathode,              //its logical volume
-	//                    "pCylinderkathode",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicCylinderkathodeVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicCylinderkathodeVisAtt->SetVisibility(true);
-	// logicCylinderkathode->SetVisAttributes(logicCylinderkathodeVisAtt);
-
-	// //Volumen 6
-	// auto logicBlindflansch1 = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("Blindflansch1"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lBlindflansch1",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicBlindflansch1,              //its logical volume
-	//                    "pBlindflansch1",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicBlindflansch1VisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicBlindflansch1VisAtt->SetVisibility(true);
-	// logicBlindflansch1->SetVisAttributes(logicBlindflansch1VisAtt);
-
-	// //Volumen 7
-	// auto logicBlindflansch2 = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("Blindflansch2"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lBlindflansch2",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicBlindflansch2,              //its logical volume
-	//                    "pBlindflansch2",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicBlindflansch2VisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicBlindflansch2VisAtt->SetVisibility(true);
-	// logicBlindflansch2->SetVisAttributes(logicBlindflansch2VisAtt);
-
-	// //Volumen 8
-	// auto logicLenardWindow = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("LenardWindow"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lLenardWindow",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicLenardWindow,              //its logical volume
-	//                    "pLenardWindow",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicLenardWindowVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicLenardWindowVisAtt->SetVisibility(true);
-	// logicLenardWindow->SetVisAttributes(logicLenardWindowVisAtt);
-
-	// //Volumen 9
-	// auto logicFoil = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("Foil"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lFoilCup",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicFoil,              //its logical volume
-	//                    "pFoil",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicFoilVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicFoilVisAtt->SetVisibility(true);
-	// logicFoil->SetVisAttributes(logicFoilVisAtt);
-
-	// //Volumen 10
-	// auto logicRingOutside = 
-	//   new G4LogicalVolume( FaradayCup_mesh->GetSolid("RingOutside"), //its solid - this is an assembly so you have to specify which part you want to load. Parts are named in the .obj-file and lines containing part names start with "o"
-	//                                        Vacuum,                 //its material         
-	//                                        "lRingOutside",         //its name
-	//                                        0, 0, 0
-	// );
-
-	// new G4PVPlacement( 0,                                 //no rotation
-	//                    G4ThreeVector(0,0,-16.*mm),   //position
-	//                    logicRingOutside,              //its logical volume
-	//                    "pRingOutside",                 //its name
-	//                    logicCupBox,                        //its mother volume
-	//                    false,                             //boolean operation?
-	//                    0,                                 //copy number
-	//                    true);                             //overlaps checking?
-
-	// auto logicRingOutsideVisAtt = new G4VisAttributes(G4Color(132,135,137, 1)); //(r, g, b , transparency)
-	// logicRingOutsideVisAtt->SetVisibility(true);
-	// logicRingOutside->SetVisAttributes(logicRingOutsideVisAtt);
-
-	// //     
-	// // Experimental Hall Floor
-	// // 
-	// G4Box* sFloor =    
-	//   new G4Box("sFloor",                        //its name
-	//       14.*m/2, 1.*m/2, 14.*m /2);                   //its size: half x, half y, half z
-			
-	// G4LogicalVolume* lFloor =                         
-	//   new G4LogicalVolume(sFloor,                //its solid
-	//                       Vacuum,           //its material
-	//                       "lFloor");              //its name
-		
-	//   new G4PVPlacement(0,                     //no rotation
-	//             G4ThreeVector(0,-1.33*m - 50.*cm,0),     //position
-	//             lFloor,                          //its logical volume
-	//             "pFloor",                         //its name
-	//             lWorld,                    //its mother  volume
-	//             false,                         //boolean operation?
-	//             0,                             //copy number
-	//             true);                         //overlaps checking?
-
-	// //Make (in-)visible and give it a color
-	// auto lFloorVisAtt = new G4VisAttributes(G4Color(133/255,138/255,126/255, 0.8)); //(r, g, b , transparency)
-	// lFloorVisAtt->SetVisibility(true);
-	// lFloor->SetVisAttributes(lFloorVisAtt);
-
 #pragma endregion
 
 // 

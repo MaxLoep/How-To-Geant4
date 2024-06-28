@@ -1,3 +1,11 @@
+/*
+TO-DO:
+Declared materials load their (crosssection-)data at the start of a run wether they are actually used in the 
+simulation or not. This will slow down the start of a simulation.
+->Can this be prevented?
+*/
+
+
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
 #include "G4Material.hh"
@@ -39,7 +47,7 @@ void DetectorConstruction::DefineMaterials()
 	Water       = nist->FindOrBuildMaterial("G4_WATER");
 
 	// Self-defined Materials
-	//Define borated PE (Roechling- Polystone M nuclear with 5% Boron)
+	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
 	BoratedPE   = new G4Material("BoratedPE",   //name
 																1.03*g/cm3,   //density
 																3);           //number of elements
