@@ -1,8 +1,10 @@
 /*
 TO-DO:
 Declared materials load their (crosssection-)data at the start of a run wether they are actually used in the 
-simulation or not. This will slow down the start of a simulation.
+simulation or not. This will blow up the needed RAM and slow down the start of a simulation.
 ->Can this be prevented?
+-> stupid solution: comment out the matirials you dont need and re-compile
+-> smooth solution: auto check which matirals are used in simulation and only declare them as needed
 */
 
 
