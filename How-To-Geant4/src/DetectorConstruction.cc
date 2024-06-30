@@ -10,7 +10,7 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4RunManager.hh"              //Necessary. You need this.
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
-#include "G4Material.hh"
+#include "G4Material.hh"				
 
 #include "G4Box.hh"                     //for cuboid
 #include "G4Sphere.hh"                  //for sphere
@@ -408,6 +408,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lSphere->SetVisAttributes(lSphereVisAtt);
 	#pragma endregion
 
+	//FROM EXAMPLE B1 - CAN BE REMOVED
 	//B1 SCORING METHOD
 	//You need also Code for this one to work in:
 	//SteppingAction.cc,  RunAction.cc, EventAction.cc          
@@ -500,6 +501,8 @@ void DetectorConstruction::change_e(G4double value)
 	G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
 }
 
+//This stuff gets moved to GDML.cc
+//------------------------------------------------------------------------------------------------------------------
 // SetGDMLLoadFile - Function for changing the name of the File that gets loaded via Macro Command
 void DetectorConstruction::SetLoadGDMLFile( const G4String& File )
 {
@@ -572,7 +575,7 @@ void DetectorConstruction::SaveGDML( const G4String& File )
 	// G4int maxlevel=3;
 	// fParser.SetMaxExportLevel(maxlevel);
 }
-
+//---------------------------------------------------------------------------------------------------------------
 
 //
 //Assign Detectors and Scorers to Volume
