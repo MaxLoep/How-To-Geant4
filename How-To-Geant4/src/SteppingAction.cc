@@ -33,13 +33,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 	Run* run = static_cast<Run*>(
 				G4RunManager::GetRunManager()->GetNonConstCurrentRun());
 	run->CountProcesses(process);
-	
-	// REMOVE
-	// FROM OLD EXAMPLE - NOT NEEDED -> CLEAN UP!
-	// energy deposit
-	//
-	// G4double edepStep = aStep->GetTotalEnergyDeposit();
-	// if (edepStep <= 0.) return; 
-	// fEventAction->AddEdep(edepStep);   
+	 
 }
 

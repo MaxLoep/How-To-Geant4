@@ -408,14 +408,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lSphere->SetVisAttributes(lSphereVisAtt);
 	#pragma endregion
 
-	//FROM EXAMPLE B1 - CAN BE REMOVED
-	//B1 SCORING METHOD
-	//You need also Code for this one to work in:
-	//SteppingAction.cc,  RunAction.cc, EventAction.cc          
-	// Set logical Box volume as scoring volume (must be a logical volume)
-	//This is a public variable defined in the header file to make it accessible from other files
-	// fScoringVolume = lSD1;
-
 	// PrintParameters();
 
 	// default value = 0

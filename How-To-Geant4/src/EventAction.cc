@@ -77,8 +77,6 @@ G4double EventAction::GetSum(G4THitsMap<G4double>* hitsMap) const
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
-	// fTotalEnergyDeposit = 0.;
-	// fTotalEnergyFlow = 0.; 
 
 /*
 	//variable initialisation per event 
@@ -94,33 +92,10 @@ void EventAction::BeginOfEventAction(const G4Event*)
 }
 
 
-// void EventAction::AddEdep(G4double Edep)
-// {
-// 	fTotalEnergyDeposit += Edep;
-// }
-
-
-// void EventAction::AddEflow(G4double Eflow)
-// {
-// 	fTotalEnergyFlow += Eflow;
-// }
-
-
 void EventAction::EndOfEventAction(const G4Event* event)
 {
 	Run* run = static_cast<Run*>(G4RunManager::GetRunManager()->GetNonConstCurrentRun());
-						 
-	// run->AddEdep (fTotalEnergyDeposit);             
-	// run->AddEflow(fTotalEnergyFlow);
-							 
-	//G4AnalysisManager::Instance()->FillH1(1,fTotalEnergyDeposit);
-	//G4AnalysisManager::Instance()->FillH1(3,fTotalEnergyFlow);  
-
-	// REMOVE
-	//B1 SCORING METHOD
-	// accumulate statistics in run action
-	//fRunAction->AddEdep(fEdep);
-
+						
 	// PRIMITVE SCORERS
 	// from example B4d
 	// Get hist collections IDs

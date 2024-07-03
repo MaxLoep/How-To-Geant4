@@ -4,11 +4,8 @@
 #include "G4VUserActionInitialization.hh"
 
 class DetectorConstruction;
-// class G4VSteppingVerbose;
 
-/// Action initialization class.
-///
-
+// Action initialization class
 class ActionInitialization : public G4VUserActionInitialization
 {
   public:

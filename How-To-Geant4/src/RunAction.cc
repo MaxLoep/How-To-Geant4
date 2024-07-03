@@ -44,9 +44,6 @@ folderName = OutFoldName;
 RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	: G4UserRunAction(),
 		fDetector(det), fPrimary(prim), fRun(0)
-	//,fHistoManager(0),
-	// fEdep(0.),
-	// fEdep2(0.)
 {
 
 	//Get process ID
@@ -81,12 +78,6 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 		// Create the file
 		analysisManager->OpenFile(folderName + "/" + RootFolder + "/" + fileName);
 	}
-
-	//B1 SCORING METHOD
-	// Register accumulable to the accumulable manager
-	// G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-	// accumulableManager->RegisterAccumulable(fEdep);
-	// accumulableManager->RegisterAccumulable(fEdep2);
 
 
 	//SENSITIVE DETECTOR
@@ -291,20 +282,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	G4int nofEvents = run->GetNumberOfEvent();
 	if (nofEvents == 0) return;
 
-
-	// CAN BE REMOVED?
-	//B1 SCORING METHOD
-	// Merge accumulables
-	// G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-	// accumulableManager->Merge();
-
-	// // Compute dose = total energy deposit in a run and its variance
-	// G4double edep  = fEdep.GetValue();
-	// G4double edep2 = fEdep2.GetValue();
-
-	// G4double rms = edep2 - edep*edep/nofEvents;
-	// if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;
-
 	const DetectorConstruction* detectorConstruction
 	 = static_cast<const DetectorConstruction*>
 		 (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
@@ -351,18 +328,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	G4cout
 		<< G4endl
 		<< " The run has finished! "
-		<< G4endl
-
-		// REMOVE
-		//  << " Cumulated dose per run, in scoring volume : "
-		//  << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
-		//  << G4endl
-		//  << G4BestUnit(edep,"Energy") << " rms = " << G4BestUnit(rms,"Energy")
-		//  << G4endl
-		//  << "------------------------------------------------------------"
-		//  << G4endl
-		//  << G4endl
-	 ;
+		<< G4endl;
 
 
 	if (isMaster) fRun->EndOfRun();
@@ -380,12 +346,3 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	if (isMaster) G4Random::showEngineStatus();
 }
 
-
-//CAN BE REMOVED?
-//B1 SCORING METHOD
-//define function AddEdep(G4double) to sum up the total energy
-// void RunAction::AddEdep(G4double edep)
-// {
-// 	fEdep  += edep;
-// 	fEdep2 += edep*edep;
-// }

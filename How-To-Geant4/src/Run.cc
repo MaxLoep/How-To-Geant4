@@ -45,8 +45,7 @@ G4int Run::fgIonId = kMaxHisto1;
 // old code from example -> can be removed
 Run::Run(DetectorConstruction* det) : G4Run(), fDetector(det), fParticle(nullptr), fEkin(0.)
 {
-	// fEnergyDeposit = fEnergyDeposit2 = 0.;
-	// fEnergyFlow    = fEnergyFlow2    = 0.;
+	//this is empty - can this be nicer?
 }
 
 
@@ -119,19 +118,6 @@ void Run::ParticleCount(G4String name, G4double Ekin, G4double meanLife)
 	}
 }
 
-// old code from example -> can be removed
-// void Run::AddEdep(G4double edep)
-// {
-	// fEnergyDeposit += edep;
-	// fEnergyDeposit2 += edep*edep;
-// }
-
-
-// void Run::AddEflow(G4double eflow)
-// {
-// 	fEnergyFlow += eflow;
-// 	fEnergyFlow2 += eflow*eflow;
-// }
 
 void Run::ParticleFlux(G4String name, G4double Ekin)
 {
@@ -175,13 +161,6 @@ void Run::Merge(const G4Run* run)
 	fParticle = localRun->fParticle;
 	fEkin     = localRun->fEkin;
 
-	// old code from example -> can be removed
-	// accumulate sums
-	//
-	// fEnergyDeposit   += localRun->fEnergyDeposit;
-	// fEnergyDeposit2  += localRun->fEnergyDeposit2;
-	// fEnergyFlow      += localRun->fEnergyFlow;
-	// fEnergyFlow2     += localRun->fEnergyFlow2;
 
 	//map: processes count
 	for ( const auto& procCounter : localRun->fProcCounter ) {
@@ -308,30 +287,6 @@ void Run::EndOfRun()
 
 	OutputParticleData(fParticleDataMap1, outFile);
 
-
-	// Copied from old example - can be removed
-	// // compute mean Energy deposited and rms
-	// G4int TotNbofEvents = numberOfEvent;
-	// fEnergyDeposit /= TotNbofEvents; fEnergyDeposit2 /= TotNbofEvents;
-	// G4double rmsEdep = fEnergyDeposit2 - fEnergyDeposit*fEnergyDeposit;
-	// if (rmsEdep>0.) rmsEdep = std::sqrt(rmsEdep);
-	// else            rmsEdep = 0.;
-
-	// G4cout << "\n Mean energy deposit per event = "
-	// 			 << G4BestUnit(fEnergyDeposit,"Energy") << ";  rms = "
-	// 			 << G4BestUnit(rmsEdep,      "Energy")
-	// 			 << G4endl;
-
-	// // compute mean Energy flow and rms
-	// fEnergyFlow /= TotNbofEvents; fEnergyFlow2 /= TotNbofEvents;
-	// G4double rmsEflow = fEnergyFlow2 - fEnergyFlow*fEnergyFlow;
-	// if (rmsEflow>0.) rmsEflow = std::sqrt(rmsEflow);
-	// else             rmsEflow = 0.;
-
-	// G4cout << " Mean energy flow per event    = "
-	// 			 << G4BestUnit(fEnergyFlow,"Energy") << ";  rms = "
-	// 			 << G4BestUnit(rmsEflow,   "Energy")
-	// 			 << G4endl;
 
 //particles flux
 OutputParticleData(fParticleDataMap2, G4cout);
