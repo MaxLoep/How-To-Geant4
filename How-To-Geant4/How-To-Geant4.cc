@@ -1,10 +1,6 @@
-#if __unix__                              // for checking if the code shall be compiled on an UNIX system
-#include <unistd.h>                       //To use getpid() to get the process ID to use as random seed on UNIX systems
-#include <sys/types.h>                    //To use getpid() to get the process ID to use as random seed on UNIX systems
-#endif
-
+#include "platform.h"
 #include "G4Types.hh"
-#include "SteppingVerbose.hh"
+// #include "SteppingVerbose.hh"
 
 #include "DetectorConstruction.hh"        //This is where you define your Geometry and Scorers
 #include "PhysicsList.hh"                 //This is where you define what physics processes should be used, alternatively you can choose a complete physics list in this file
@@ -78,10 +74,10 @@ int main(int argc,char** argv) {
   // G4Random::setTheEngine(new CLHEP::TripleRand);       -not working!
 
   // set a initial random seed based on process id
-  G4long pid = getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
+  G4long pid = _getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
   G4long seed = pid;
   G4Random::setTheSeed(seed);
-  
+
   #if G4VERSION_NUMBER>=1070
     // Construct the default run manager in Geant4 Version > 10.7.0
     // Auto detect if singlethreaded mode or multithreaded mode is used
@@ -106,7 +102,7 @@ int main(int argc,char** argv) {
   DetectorConstruction* det= new DetectorConstruction;
   runManager->SetUserInitialization(det);
 
-  // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 default Physics Lists 
+  // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 default Physics Lists
   // runManager->SetUserInitialization(new PhysicsList);
 
   // G4VModularPhysicsList* physicsList = new QBBC;
@@ -138,16 +134,16 @@ int main(int argc,char** argv) {
 
   // Replaced HP (high-precision) environmental variables with C++ calls
   //
-  //SkipMissingIsotopes: It sets to zero the cross section of the isotopes which are not present in the neutron library. If GEANT4 doesn’t find an isotope, 
-  //then it looks for the natural composition data of that element. Only if the element is not found then the cross section is set to zero. 
+  //SkipMissingIsotopes: It sets to zero the cross section of the isotopes which are not present in the neutron library. If GEANT4 doesn’t find an isotope,
+  //then it looks for the natural composition data of that element. Only if the element is not found then the cross section is set to zero.
   //On the contrary, if this variable is not defined, GEANT4 looks then for the neutron data of another isotope close in Z and A, which will
   //have completely different nuclear properties and lead to incorrect results (highly recommended).
   G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( true );
 
-  //DoNotAdjustFinalState: If this variable is not defined, a GEANT4 model that attempts to satisfy the energy and momentum conservation in some nuclear 
+  //DoNotAdjustFinalState: If this variable is not defined, a GEANT4 model that attempts to satisfy the energy and momentum conservation in some nuclear
   //reactions, by generating artificial gamma rays. By setting such a variable one avoids the correction and leads to the result obtained with the
-  //ENDF-6 libraries. Even though energy and momentum conservation are desirable, the ENDF-6 libraries do not provide the necessary correlations 
-  //between secondary particles for satisfying them in all cases. On the contrary, ENDF-6 libraries intrinsically violate energy and momentum 
+  //ENDF-6 libraries. Even though energy and momentum conservation are desirable, the ENDF-6 libraries do not provide the necessary correlations
+  //between secondary particles for satisfying them in all cases. On the contrary, ENDF-6 libraries intrinsically violate energy and momentum
   //conservation for several processes and have been built for preserving the overall average quantities such as average energy releases, average number of
   //secondaries. . . (highly recommended).
   G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( true );
@@ -155,7 +151,7 @@ int main(int argc,char** argv) {
   G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
 
   //Doppler broadening of the resonances, due to target thermal motion, is calculated on-the-fly (from T = 0 K values)
-  //Very CPU intense: for those applications that do not need it, it can be switched off by setting the environmental variable 
+  //Very CPU intense: for those applications that do not need it, it can be switched off by setting the environmental variable
   G4ParticleHPManager::GetInstance()->SetNeglectDoppler( true );
 
   G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
@@ -185,13 +181,13 @@ int main(int argc,char** argv) {
 
   // Process macro or start UI session
   // A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../vis.mac will be executed
-  if ( ! ui ) { 
+  if ( ! ui ) {
     // batch mode
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command+fileName);
   }
-  else { 
+  else {
     // interactive mode
     UImanager->ApplyCommand("/control/execute ../vis.mac");
     ui->SessionStart();
@@ -200,10 +196,9 @@ int main(int argc,char** argv) {
 
   // Job termination
   // Free the store: user actions, physics_list and detector_description are
-  // owned and deleted by the run manager, so they should not be deleted 
+  // owned and deleted by the run manager, so they should not be deleted
   // in the main() program !
-  
+
   delete visManager;
   delete runManager;
 }
-

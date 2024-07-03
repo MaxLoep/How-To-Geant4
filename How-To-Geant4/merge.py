@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-#python .\merge.py '.\build\Output\List of generated Particles\*_ListOfGeneratedParticles.txt'
 
 from sys import argv
 import glob
 import platform
 from typing import Tuple
+import re
 
 factors = {
     'meV': 1e-3, # ? does this come up?
@@ -14,6 +14,9 @@ factors = {
     'GeV': 1e9,
     'TeV': 1e12, # don't think our lil cyclotron is gonna produce these
 }
+
+
+valid_line = re.compile(r'\s*[\S]+\s*\t\s*\d+\s*\t\s*Emean\s+=\s+\d+.?\d*\s+\w?eV\s*\t\s*[(]\s*\d+.?\d*\s+\w?eV\s+-->\s+\d+.?\d*\s+\w?eV\s*[)]\s*\t\s*(half life\s+=\s*\t\s*\d+.?\d*\s+\w+|stable\s*\t\s*stable)')
 
 class particle_data:
     def __init__(self, line: str = ''):
@@ -155,8 +158,14 @@ def to_dict(file: str) -> dict:
 
         res = {}
         for line in lines[2:]:
-            pd = particle_data(line)
-            res[pd.name] = pd
+            if valid_line.match(line):
+                try:
+                    pd = particle_data(line)
+                    res[pd.name] = pd
+                except:
+                    print("a line produced an error. from: " + file)
+            else:
+                print("discarded a line in file: " + file)
         return res
 
 
@@ -174,7 +183,7 @@ def main():
     if "--ignore-stable" in argv:
         ignore_stable = True
 
-    files = argv
+    files = argv[1:]
     if output_file in files:
         files.remove(output_file)
     if "-o" in files:
@@ -184,7 +193,7 @@ def main():
 
     # catch the case of windows
     if platform.system() == "Windows":
-        files = glob.glob(files[1])
+        files = glob.glob(files[0])
 
     master_dict = {}
 
@@ -192,7 +201,10 @@ def main():
         file_content = to_dict(file)
         for particle in file_content:
             if particle in master_dict:
-                master_dict[particle] += file_content[particle]
+                try:
+                    master_dict[particle] += file_content[particle]
+                except:
+                    print("skipped merge")
             else:
                 master_dict[particle] = file_content[particle]
 

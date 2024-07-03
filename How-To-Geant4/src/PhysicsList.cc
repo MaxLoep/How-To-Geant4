@@ -93,133 +93,133 @@ PhysicsList::PhysicsList()
 //  fElectromagnetic(nullptr),  //self-written physicsLists
  fDecay(nullptr), fRadioactiveDecay(nullptr), fStopping(nullptr)
 {
-  G4int verb = 0;
-  SetVerboseLevel(verb);
+	G4int verb = 0;
+	SetVerboseLevel(verb);
 
+	// REMOVE 
+	//Why are new units added HERE?!
+	//new units are also added in RunAction.cc -> clean up!
+	//add new units
+	//
+	// new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);  
+	// new G4UnitDefinition( "mm2/g",  "mm2/g", "Surface/Mass", mm2/g);
+	// new G4UnitDefinition( "um2/mg", "um2/mg","Surface/Mass", um*um/mg); 
 
-  //Why are new units added HERE?!
-  //new units are also added in RunAction.cc -> clean up!
-  //add new units
-  //
-  new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);  
-  new G4UnitDefinition( "mm2/g",  "mm2/g", "Surface/Mass", mm2/g);
-  new G4UnitDefinition( "um2/mg", "um2/mg","Surface/Mass", um*um/mg); 
-
-  //add new units for radioActive decays
-  // 
-  const G4double minute = 60*second;
-  const G4double hour   = 60*minute;
-  const G4double day    = 24*hour;
-  const G4double year   = 365*day;
-  new G4UnitDefinition("minute", "min", "Time", minute);
-  new G4UnitDefinition("hour",   "h",   "Time", hour);
-  new G4UnitDefinition("day",    "d",   "Time", day);
-  new G4UnitDefinition("year",   "y",   "Time", year);
+	// //add new units for radioActive decays
+	// // 
+	// const G4double minute = 60*second;
+	// const G4double hour   = 60*minute;
+	// const G4double day    = 24*hour;
+	// const G4double year   = 365*day;
+	// new G4UnitDefinition("minute", "min", "Time", minute);
+	// new G4UnitDefinition("hour",   "h",   "Time", hour);
+	// new G4UnitDefinition("day",    "d",   "Time", day);
+	// new G4UnitDefinition("year",   "y",   "Time", year);
 
 //--------------------------------------------------------------------------
 
-  // The Fuck is this? Looks like a more compact version of the code below
-  // -> delete this? rewrite the stuff below in THIS style?
+	// The Fuck is this? Looks like a more compact version of the code below
+	// -> delete this? rewrite the stuff below in THIS style?
 
-  // Hadron Elastic scattering
+	// Hadron Elastic scattering
  // RegisterPhysics( new HadronElasticPhysicsHP(verb) );
-  
-  // Hadron Inelastic Physics
+	
+	// Hadron Inelastic Physics
  // RegisterPhysics( new G4HadronPhysicsFTFP_BERT_HP(verb));
-  ////RegisterPhysics( new G4HadronPhysicsQGSP_BIC_HP(verb));
-  ////RegisterPhysics( new G4HadronInelasticQBBC(verb));        
-  ////RegisterPhysics( new G4HadronPhysicsINCLXX(verb));
+	////RegisterPhysics( new G4HadronPhysicsQGSP_BIC_HP(verb));
+	////RegisterPhysics( new G4HadronInelasticQBBC(verb));        
+	////RegisterPhysics( new G4HadronPhysicsINCLXX(verb));
 
-  // Ion Elastic scattering
-  //RegisterPhysics( new G4IonElasticPhysics(verb));
+	// Ion Elastic scattering
+	//RegisterPhysics( new G4IonElasticPhysics(verb));
 
-  // Ion Inelastic Physics
-  //RegisterPhysics( new G4IonPhysicsXS(verb));
-  ////RegisterPhysics( new G4IonINCLXXPhysics(verb));
-  
-  // stopping Particles
-  //RegisterPhysics( new G4StoppingPhysics(verb));
-      
-  // Gamma-Nuclear Physics
-  //RegisterPhysics( new GammaNuclearPhysics("gamma"));
+	// Ion Inelastic Physics
+	//RegisterPhysics( new G4IonPhysicsXS(verb));
+	////RegisterPhysics( new G4IonINCLXXPhysics(verb));
+	
+	// stopping Particles
+	//RegisterPhysics( new G4StoppingPhysics(verb));
+			
+	// Gamma-Nuclear Physics
+	//RegisterPhysics( new GammaNuclearPhysics("gamma"));
 
-  // EM physics
-  //RegisterPhysics(new ElectromagneticPhysics());
-  ////RegisterPhysics(new G4EmStandardPhysics(verb));
-  
-  // Decay
-  //RegisterPhysics(new G4DecayPhysics());
+	// EM physics
+	//RegisterPhysics(new ElectromagneticPhysics());
+	////RegisterPhysics(new G4EmStandardPhysics(verb));
+	
+	// Decay
+	//RegisterPhysics(new G4DecayPhysics());
 
-  // Radioactive decay
-  //RegisterPhysics(new G4RadioactiveDecayPhysics());
+	// Radioactive decay
+	//RegisterPhysics(new G4RadioactiveDecayPhysics());
 
 //--------------------------------------------------------------------------
 
-  // Hadron Elastic scattering
-  // fHadronElastic = new G4HadronElasticPhysics(verb);
-  fHadronElastic = new G4HadronElasticPhysicsHP(verb);
-  //fHadronElastic = new G4HadronElasticPhysicsXS(verb);
-  //fHadronElastic = new G4HadronElasticPhysicsPHP(verb);
-  //fHadronElastic = new G4HadronElasticPhysicsLEND(verb);
+	// Hadron Elastic scattering
+	// fHadronElastic = new G4HadronElasticPhysics(verb);
+	fHadronElastic = new G4HadronElasticPhysicsHP(verb);
+	//fHadronElastic = new G4HadronElasticPhysicsXS(verb);
+	//fHadronElastic = new G4HadronElasticPhysicsPHP(verb);
+	//fHadronElastic = new G4HadronElasticPhysicsLEND(verb);
 
-  //fHadronElastic = new HadronElasticPhysicsHP(verb); //selfwritten in include-folder
-  RegisterPhysics(fHadronElastic);
-  
-  // Hadron Inelastic Physics
-  //fHadronInelastic = new G4HadronPhysicsFTF_BIC(verb);
-  //fHadronInelastic = new G4HadronPhysicsQGS_BIC(verb);
-  //fHadronInelastic = new G4HadronPhysicsShielding(verb);
-  //fHadronInelastic = new G4HadronPhysicsShieldingLEND(verb);
-  //fHadronInelastic = new G4HadronPhysicsFTFP_BERT(verb);
-  fHadronInelastic = new G4HadronPhysicsFTFP_BERT_HP(verb);
-  //fHadronInelastic = new G4HadronPhysicsFTFP_BERT_ATL(verb);
-  //fHadronInelastic = new G4HadronPhysicsFTFP_BERT_TRV(verb);
-  //fHadronInelastic = new G4HadronPhysicsQGSP_BIC(verb);
-  //fHadronInelastic = new G4HadronPhysicsQGSP_BIC_HP(verb);
-  //fHadronInelastic = new G4HadronPhysicsQGSP_BIC_AllHP(verb);
-  //fHadronInelastic = new G4HadronPhysicsQGSP_BERT(verb);
-  //fHadronInelastic = new G4HadronPhysicsQGSP_BERT_HP(verb);
-  //fHadronInelastic = new G4HadronPhysicsQGSP_FTFP_BERT(verb);
-  //fHadronInelastic = new G4HadronPhysicsFTFQGSP_BERT(verb);
+	//fHadronElastic = new HadronElasticPhysicsHP(verb); //selfwritten in include-folder
+	RegisterPhysics(fHadronElastic);
+	
+	// Hadron Inelastic Physics
+	//fHadronInelastic = new G4HadronPhysicsFTF_BIC(verb);
+	//fHadronInelastic = new G4HadronPhysicsQGS_BIC(verb);
+	//fHadronInelastic = new G4HadronPhysicsShielding(verb);
+	//fHadronInelastic = new G4HadronPhysicsShieldingLEND(verb);
+	//fHadronInelastic = new G4HadronPhysicsFTFP_BERT(verb);
+	fHadronInelastic = new G4HadronPhysicsFTFP_BERT_HP(verb);
+	//fHadronInelastic = new G4HadronPhysicsFTFP_BERT_ATL(verb);
+	//fHadronInelastic = new G4HadronPhysicsFTFP_BERT_TRV(verb);
+	//fHadronInelastic = new G4HadronPhysicsQGSP_BIC(verb);
+	//fHadronInelastic = new G4HadronPhysicsQGSP_BIC_HP(verb);
+	//fHadronInelastic = new G4HadronPhysicsQGSP_BIC_AllHP(verb);
+	//fHadronInelastic = new G4HadronPhysicsQGSP_BERT(verb);
+	//fHadronInelastic = new G4HadronPhysicsQGSP_BERT_HP(verb);
+	//fHadronInelastic = new G4HadronPhysicsQGSP_FTFP_BERT(verb);
+	//fHadronInelastic = new G4HadronPhysicsFTFQGSP_BERT(verb);
 
-  //fHadronInelastic = new G4HadronInelasticQBBC(verb);
-  //fHadronInelastic = new G4HadronPhysicsINCLXX(verb);
-  RegisterPhysics(fHadronInelastic);
+	//fHadronInelastic = new G4HadronInelasticQBBC(verb);
+	//fHadronInelastic = new G4HadronPhysicsINCLXX(verb);
+	RegisterPhysics(fHadronInelastic);
 
-  // Ion Elastic Physics
-  fIonElastic = new G4IonElasticPhysics(verb);
-  RegisterPhysics(fIonElastic);
+	// Ion Elastic Physics
+	fIonElastic = new G4IonElasticPhysics(verb);
+	RegisterPhysics(fIonElastic);
 
-  // Ion Inelastic Physics
-  //fIonInelastic = new G4IonPhysics(verb);
-  fIonInelastic = new G4IonPhysicsXS(verb);
-  //fIonInelastic = new G4IonPhysicsPHP(verb);
-  //fIonInelastic = new G4IonINCLXXPhysics(verb);
-  //fIonInelastic = new G4IonQMDPhysics(verb);
-  //fIonInelastic = new G4IonBinaryCascadePhysics(verb);
-  
-  RegisterPhysics(fIonInelastic);
+	// Ion Inelastic Physics
+	//fIonInelastic = new G4IonPhysics(verb);
+	fIonInelastic = new G4IonPhysicsXS(verb);
+	//fIonInelastic = new G4IonPhysicsPHP(verb);
+	//fIonInelastic = new G4IonINCLXXPhysics(verb);
+	//fIonInelastic = new G4IonQMDPhysics(verb);
+	//fIonInelastic = new G4IonBinaryCascadePhysics(verb);
+	
+	RegisterPhysics(fIonInelastic);
 
-  // stopping Particles
-  fStopping = new G4StoppingPhysics(verb);
-  RegisterPhysics(fStopping);
+	// stopping Particles
+	fStopping = new G4StoppingPhysics(verb);
+	RegisterPhysics(fStopping);
 
-  // Gamma-Nuclear Physics
-  // fGammaNuclear = new GammaNuclearPhysics("gamma"); //selfwritten in include-folder
-  // RegisterPhysics(fGammaNuclear);
+	// Gamma-Nuclear Physics
+	// fGammaNuclear = new GammaNuclearPhysics("gamma"); //selfwritten in include-folder
+	// RegisterPhysics(fGammaNuclear);
 
-  // EM physics
-  // fElectromagnetic = new ElectromagneticPhysics(); //selfwritten in include-folder
-  //fElectromagnetic = new G4EmStandardPhysics(verb);
-  // RegisterPhysics(fElectromagnetic);
+	// EM physics
+	// fElectromagnetic = new ElectromagneticPhysics(); //selfwritten in include-folder
+	//fElectromagnetic = new G4EmStandardPhysics(verb);
+	// RegisterPhysics(fElectromagnetic);
 
-  // Decay
-  fDecay = new G4DecayPhysics(verb);
-  RegisterPhysics(fDecay);
+	// Decay
+	fDecay = new G4DecayPhysics(verb);
+	RegisterPhysics(fDecay);
 
-  // Radioactive decay
-  fRadioactiveDecay = new G4RadioactiveDecayPhysics(verb);
-  //RegisterPhysics(fRadioactiveDecay);
+	// Radioactive decay
+	fRadioactiveDecay = new G4RadioactiveDecayPhysics(verb);
+	//RegisterPhysics(fRadioactiveDecay);
 }
 
 
@@ -229,27 +229,27 @@ PhysicsList::~PhysicsList()
 
 void PhysicsList::ConstructProcess()
 {
-  // Transportation first (mandatory)
-  //
-  AddTransportation();
+	// Transportation first (mandatory)
+	//
+	AddTransportation();
 
-  // Physics constructors
-  //
-  fHadronElastic->ConstructProcess();
-  fHadronInelastic->ConstructProcess();
-  fIonElastic->ConstructProcess();
-  fIonInelastic->ConstructProcess();
-  // fGammaNuclear->ConstructProcess();     //self-written physics list
-  // fElectromagnetic->ConstructProcess();  //self-written physics list
-  fDecay->ConstructProcess();
-  //fRadioactiveDecay->ConstructProcess();
-  fStopping->ConstructProcess();
+	// Physics constructors
+	//
+	fHadronElastic->ConstructProcess();
+	fHadronInelastic->ConstructProcess();
+	fIonElastic->ConstructProcess();
+	fIonInelastic->ConstructProcess();
+	// fGammaNuclear->ConstructProcess();     //self-written physics list
+	// fElectromagnetic->ConstructProcess();  //self-written physics list
+	fDecay->ConstructProcess();
+	//fRadioactiveDecay->ConstructProcess();
+	fStopping->ConstructProcess();
 
 // still relevant in Geant4v11.0.3? 
 // -> check NeutronSource-Example (this should come from there)
 
-  // example of GetHadronicModel (due to bug in QGSP_BIC_AllHP)
-  //
+	// example of GetHadronicModel (due to bug in QGSP_BIC_AllHP)
+	//
 //  G4ProcessManager* pManager = G4Neutron::Neutron()->GetProcessManager();
 //  G4HadronicProcess* process
 //       = dynamic_cast<G4HadronicProcess*>(pManager->GetProcess("nCapture"));
@@ -260,8 +260,8 @@ void PhysicsList::ConstructProcess()
 
 void PhysicsList::SetCuts()
 {
-  SetCutValue(0*mm, "proton");
-  SetCutValue(10*km, "e-");
-  SetCutValue(10*km, "e+");
-  SetCutValue(10*km, "gamma");      
+	SetCutValue(0*mm, "proton");
+	SetCutValue(10*km, "e-");
+	SetCutValue(10*km, "e+");
+	SetCutValue(10*km, "gamma");      
 }

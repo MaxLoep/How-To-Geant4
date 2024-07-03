@@ -7,6 +7,22 @@ class G4Step;
 class G4HCofThisEvent;
 class G4TouchableHistory;
 
+// Does every Sensitive Detector needs its own class? -> Simplify!
+class SD : public G4VSensitiveDetector
+{
+  public:
+    SD(const G4String& name);
+    virtual ~SD();
+
+    virtual void   Initialize(G4HCofThisEvent* hce);
+    virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
+    virtual void   EndOfEvent(G4HCofThisEvent* hce);
+
+    G4int oldTrackId;
+    G4int currentTrackId;
+    std::thread::id thread_id;  //does this needs to be here? can it be defined in SDX.cc? what is nicer coding?
+};
+
 class SD1 : public G4VSensitiveDetector
 {
   public:

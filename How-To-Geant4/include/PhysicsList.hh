@@ -11,7 +11,6 @@ public:
   PhysicsList();
  ~PhysicsList();
 
-public:
   virtual void ConstructProcess();
   virtual void SetCuts();
 

@@ -4,6 +4,7 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 #include "G4GDMLParser.hh"
+#include "G4NistManager.hh"             //for getting material definitions from the NIST database
 
 
 class G4VPhysicalVolume;
@@ -18,8 +19,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     DetectorConstruction();
    ~DetectorConstruction();
-
-  public:
 
     virtual G4VPhysicalVolume* Construct();
     virtual void ConstructSDandField();
@@ -44,16 +43,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void change_d   (G4double);
     void change_e   (G4double);
 
-  public:  
+    G4double GetAbsorThickness()    {return boxX;};
+    G4double GetAbsorSizeYZ()       {return boxX;};
+    G4Material* GetAbsorMaterial()  {return boxMaterial;};
 
-   G4double GetAbsorThickness()    {return boxX;};
-   G4double GetAbsorSizeYZ()       {return boxX;};
-   G4Material* GetAbsorMaterial()  {return boxMaterial;};
+    G4double GetWorldSizeX()   {return boxX;};
+    G4double GetWorldSizeYZ()  {return boxX;};
 
-   G4double GetWorldSizeX()   {return boxX;};
-   G4double GetWorldSizeYZ()  {return boxX;};
-
-   void PrintParameters();
+    void PrintParameters(); // function that prints parameters of ONE hardcoded object - can be deleted i guess
 
   private:
 
@@ -68,9 +65,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4bool fOnlyLoadChoice; // variable to control if only a GDML file should be loaded without building additional geometries via Geant4/DetectorConstruction
 
   // Define Variables for Materials and geometries you want to change per macro-file HERE:
-
-  
-
   //world size 
   G4double world_sizeXYZ;
 
@@ -79,7 +73,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4double           boxY;
    G4double           boxZ;
 
-// dummy variables
+// dummy variables that can be changed with UI-commands
    G4double           a;
    G4double           b;
    G4double           c;
@@ -93,15 +87,35 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        boxMaterial;
    G4Material*        dummyMat; 
 
-   G4Material*        Vacuum;
-   G4Material*        Copper;
-   G4Material*        Iron;
-   G4Material*        Titanium;
-   G4Material*        Aluminum;
+  #include <functional>
+ 
+  G4NistManager* nist;
+
+  
+    // List of all Materials that get defined in Materials.cc
+    // NIST Materials
+    std::function<G4Material*()> Vacuum;
+    std::function<G4Material*()> Hydrogen;
+    std::function<G4Material*()> Boron;
+    std::function<G4Material*()> Carbon;
+    std::function<G4Material*()> Aluminum;
+    std::function<G4Material*()> Titanium;
+    std::function<G4Material*()> Iron;
+    std::function<G4Material*()> Nickel;
+    std::function<G4Material*()> Copper;
+    std::function<G4Material*()> Tungsten;
+
+    // NIST pre-defined Compounds
+    std::function<G4Material*()> Concrete;
+    std::function<G4Material*()> Graphite;
+    std::function<G4Material*()> Steel;
+    std::function<G4Material*()> Water;
+    
+    //Self-definded Materials
+    G4Material* BoratedPE;
+    G4Material* Densimet180;
 
    DetectorMessenger* fDetectorMessenger;
-
-  private:
 
    void               DefineMaterials();
    G4VPhysicalVolume* ConstructVolumes(); 

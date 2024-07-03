@@ -1,5 +1,21 @@
 # How-To-Geant4
 
+v1.1.1:\
+-introduced new file 'GDML.cc' where all GDML related stuff will be defined in future\
+-New syntax to assign materials: material variables get assigned when materials are actually used in the simulation; this saves some RAM because material data does not need to be loaded when the simulation starts\
+-removed B2 Example code which calculates the 'mean depositied energy' of the primaries\
+-moved some code concerning the 'GeneratedParticle'-Stuff around\
+-code clean up
+
+v1.1.0:\
+-introduced new file 'Materials.cc' where all materials will be defined in future
+
+v1.0.2:\
+-code clean up + make nice\
+--uses _getpid() because getpid() is deprecated (less warnings)\
+--SteppingVerbose.cc/.hh got kicked out\
+--code clean up and preparations for future clean up
+
 v1.0.1:\
 -code cleanup
 --moved self-written PhysicsLists "ElectromagneticPhysics.cc", "GammaNuclearPhysics.cc", "HadronElasticPhysicsHP.cc" and "NeutronHPMessenger.cc" to seperate folder\
