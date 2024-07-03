@@ -23,7 +23,8 @@ void DetectorConstruction::DefineMaterials()
 	//see https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html for a list of available materials
 	//
 	// Get nist material manager
-	G4NistManager* nist = G4NistManager::Instance();
+	// G4NistManager* nist = G4NistManager::Instance();
+	nist = G4NistManager::Instance();
 
 	// define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
 	// world_mat    = nist->FindOrBuildMaterial("G4_AIR");
@@ -32,42 +33,42 @@ void DetectorConstruction::DefineMaterials()
 
 	// NIST Materials
 	Vacuum      = [&](){return nist->FindOrBuildMaterial("G4_Galactic");};
-	Hydrogen    = nist->FindOrBuildMaterial("G4_H");
-	Boron       = nist->FindOrBuildMaterial("G4_B");
-	Carbon      = nist->FindOrBuildMaterial("G4_C");
-	Aluminum    = nist->FindOrBuildMaterial("G4_Al");
-	Titanium    = nist->FindOrBuildMaterial("G4_Ti");
-	Iron        = nist->FindOrBuildMaterial("G4_Fe");
-	Copper      = nist->FindOrBuildMaterial("G4_Cu");
-	Nickel      = nist->FindOrBuildMaterial("G4_Ni");
-	Tungsten    = nist->FindOrBuildMaterial("G4_W");
+	Hydrogen    = [&](){return nist->FindOrBuildMaterial("G4_H");};
+	Boron       = [&](){return nist->FindOrBuildMaterial("G4_B");};
+	Carbon      = [&](){return nist->FindOrBuildMaterial("G4_C");};
+	Aluminum    = [&](){return nist->FindOrBuildMaterial("G4_Al");};
+	Titanium    = [&](){return nist->FindOrBuildMaterial("G4_Ti");};
+	Iron        = [&](){return nist->FindOrBuildMaterial("G4_Fe");};
+	Copper      = [&](){return nist->FindOrBuildMaterial("G4_Cu");};
+	Nickel      = [&](){return nist->FindOrBuildMaterial("G4_Ni");};
+	Tungsten    = [&](){return nist->FindOrBuildMaterial("G4_W");};
 
 	// NIST Compounds
 	Concrete    = [&](){return nist->FindOrBuildMaterial("G4_CONCRETE");};
-	Graphite    = nist->FindOrBuildMaterial("G4_GRAPHITE");
-	Steel       = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-	Water       = nist->FindOrBuildMaterial("G4_WATER");
+	Graphite    = [&](){return nist->FindOrBuildMaterial("G4_GRAPHITE");};
+	Steel       = [&](){return nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
+	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
-	// Self-defined Materials
-	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
-	BoratedPE   = new G4Material("BoratedPE",   //name
-																1.03*g/cm3,   //density
-																3);           //number of elements
+	// // Self-defined Materials
+	// //Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
+	// BoratedPE   = new G4Material("BoratedPE",   //name
+	// 															1.03*g/cm3,   //density
+	// 															3);           //number of elements
 
-	//Add Elements to Material
-	BoratedPE->AddMaterial(Hydrogen, 14.*perCent);
-	BoratedPE->AddMaterial(Carbon, 81.*perCent);
-	BoratedPE->AddMaterial(Boron, 5.*perCent);
+	// //Add Elements to Material
+	// BoratedPE->AddMaterial(Hydrogen, 14.*perCent);
+	// BoratedPE->AddMaterial(Carbon, 81.*perCent);
+	// BoratedPE->AddMaterial(Boron, 5.*perCent);
 
-	//Define Densimet180 (Manufacturer: Plansee)
-	Densimet180 = new G4Material("Densimet180", //name
-																18.0*g/cm3,   //density
-																3);           //number of elements
+	// //Define Densimet180 (Manufacturer: Plansee)
+	// Densimet180 = new G4Material("Densimet180", //name
+	// 															18.0*g/cm3,   //density
+	// 															3);           //number of elements
 
-	//Add Elements to Material
-	Densimet180->AddMaterial(Tungsten, 95.*perCent);
-	Densimet180->AddMaterial(Iron, 1.6*perCent);
-	Densimet180->AddMaterial(Nickel, 3.4*perCent);
+	// //Add Elements to Material
+	// Densimet180->AddMaterial(Tungsten, 95.*perCent);
+	// Densimet180->AddMaterial(Iron, 1.6*perCent);
+	// Densimet180->AddMaterial(Nickel, 3.4*perCent);
 
 
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");

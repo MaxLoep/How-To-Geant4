@@ -77,7 +77,7 @@ DetectorConstruction::DetectorConstruction()
 	DefineMaterials(); // see Materials.cc for defined Materials
 	// SetAbsorMaterial("G4_Co");
 	//Print all defined materials to console
-	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
 	// create commands for interactive definition of the geometry
 	fDetectorMessenger = new DetectorMessenger(this);
@@ -220,7 +220,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		new G4LogicalVolume(sBox,                //its solid
 												// boxMaterial,           //its material
 												// Vacuum,
-												Aluminum,
+												Aluminum(),
 												"lBox");              //its name
 	
 	//G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
@@ -250,7 +250,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD1 =                         
 		new G4LogicalVolume(sSD1,                //its solid
-												Aluminum,           //its material
+												Aluminum(),           //its material
 												"lSD1");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -277,7 +277,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD2 =                         
 		new G4LogicalVolume(sSD2,                //its solid
-												Titanium,           //its material
+												Titanium(),           //its material
 												"lSD2");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -304,7 +304,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD3 =                         
 		new G4LogicalVolume(sSD3,                //its solid
-												Copper,           //its material
+												Copper(),           //its material
 												"lSD3");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -331,7 +331,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD4 =                         
 		new G4LogicalVolume(sSD4,                //its solid
-												Nickel,           //its material
+												Nickel(),           //its material
 												"lSD4");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -359,8 +359,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD5 =                         
 		new G4LogicalVolume(sSD5,                //its solid
-												// Vacuum,           //its material
-												Iron,
+												Vacuum(),           //its material
+												// Concrete(),
 												"lSD5");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -389,6 +389,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 						
 	G4LogicalVolume* lSphere =
 		new G4LogicalVolume(sSphere,              //shape
+												// Concrete(),
 												Vacuum(),             //material
 												"lSphere");            //name
 
@@ -397,7 +398,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 							lSphere,                        //logical volume
 							"pSphere",                       //name
 							lWorld,
-							// lWorld,                     //mother volume
+							// lWorld,                      //mother volume
 							false,                          //boolean operation?
 							0,                              //copy number
 							true);                          //overlaps checking?
@@ -407,6 +408,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lSphereVisAtt->SetVisibility(true);
 	lSphere->SetVisAttributes(lSphereVisAtt);
 	#pragma endregion
+
+	//Print all defined materials to console
+	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
 	// PrintParameters();
 

@@ -4,6 +4,7 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 #include "G4GDMLParser.hh"
+#include "G4NistManager.hh"             //for getting material definitions from the NIST database
 
 
 class G4VPhysicalVolume;
@@ -87,24 +88,28 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        dummyMat; 
 
   #include <functional>
+ 
+  G4NistManager* nist;
+
+  
     // List of all Materials that get defined in Materials.cc
     // NIST Materials
     std::function<G4Material*()> Vacuum;
-    G4Material* Hydrogen;
-    G4Material* Boron;
-    G4Material* Carbon;
-    G4Material* Aluminum;
-    G4Material* Titanium;
-    G4Material* Iron;
-    G4Material* Nickel;
-    G4Material* Copper;
-    G4Material* Tungsten;
+    std::function<G4Material*()> Hydrogen;
+    std::function<G4Material*()> Boron;
+    std::function<G4Material*()> Carbon;
+    std::function<G4Material*()> Aluminum;
+    std::function<G4Material*()> Titanium;
+    std::function<G4Material*()> Iron;
+    std::function<G4Material*()> Nickel;
+    std::function<G4Material*()> Copper;
+    std::function<G4Material*()> Tungsten;
 
     // NIST pre-defined Compounds
     std::function<G4Material*()> Concrete;
-    G4Material* Graphite;
-    G4Material* Steel;
-    G4Material* Water;
+    std::function<G4Material*()> Graphite;
+    std::function<G4Material*()> Steel;
+    std::function<G4Material*()> Water;
     
     //Self-definded Materials
     G4Material* BoratedPE;
