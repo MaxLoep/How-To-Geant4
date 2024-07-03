@@ -389,7 +389,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 						
 	G4LogicalVolume* lSphere =
 		new G4LogicalVolume(sSphere,              //shape
-												Vacuum,             //material
+												Vacuum(),             //material
 												"lSphere");            //name
 
 	new G4PVPlacement(0,                        //no rotation

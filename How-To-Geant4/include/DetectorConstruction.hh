@@ -86,9 +86,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        boxMaterial;
    G4Material*        dummyMat; 
 
+  #include <functional>
     // List of all Materials that get defined in Materials.cc
     // NIST Materials
-    G4Material* Vacuum;
+    std::function<G4Material*()> Vacuum;
     G4Material* Hydrogen;
     G4Material* Boron;
     G4Material* Carbon;
@@ -100,7 +101,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4Material* Tungsten;
 
     // NIST pre-defined Compounds
-    G4Material* Concrete;
+    std::function<G4Material*()> Concrete;
     G4Material* Graphite;
     G4Material* Steel;
     G4Material* Water;

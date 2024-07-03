@@ -31,7 +31,7 @@ void DetectorConstruction::DefineMaterials()
 	boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
 
 	// NIST Materials
-	Vacuum      = nist->FindOrBuildMaterial("G4_Galactic");
+	Vacuum      = [&](){return nist->FindOrBuildMaterial("G4_Galactic");};
 	Hydrogen    = nist->FindOrBuildMaterial("G4_H");
 	Boron       = nist->FindOrBuildMaterial("G4_B");
 	Carbon      = nist->FindOrBuildMaterial("G4_C");
@@ -43,7 +43,7 @@ void DetectorConstruction::DefineMaterials()
 	Tungsten    = nist->FindOrBuildMaterial("G4_W");
 
 	// NIST Compounds
-	Concrete    = nist->FindOrBuildMaterial("G4_CONCRETE");
+	Concrete    = [&](){return nist->FindOrBuildMaterial("G4_CONCRETE");};
 	Graphite    = nist->FindOrBuildMaterial("G4_GRAPHITE");
 	Steel       = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 	Water       = nist->FindOrBuildMaterial("G4_WATER");
