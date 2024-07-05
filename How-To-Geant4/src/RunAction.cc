@@ -144,6 +144,8 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	// Create ntuple for Sensitive Detector SphereSD - ID 6
 	analysisManager->CreateNtuple("SphereSD", "Sensitive Detector");
 	analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
+	analysisManager->CreateNtupleDColumn("Theta");    // column id = 1
+	analysisManager->CreateNtupleDColumn("Phi");    // column id = 2
 	analysisManager->FinishNtuple();
 
 

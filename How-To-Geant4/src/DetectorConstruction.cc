@@ -175,7 +175,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			// G4LogicalVolume* lWorld =  
 			lWorld =                       
 				new G4LogicalVolume(solidWorld,          //its solid
-														world_mat,           //its material
+														Vacuum(),
+														// world_mat,           //its material
 														"lWorld");            //its name
 																			
 			// G4VPhysicalVolume* fWorldPhysVol = 
@@ -219,8 +220,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4LogicalVolume* lBox =                         
 		new G4LogicalVolume(sBox,                //its solid
 												// boxMaterial,           //its material
-												// Vacuum,
-												Aluminum(),
+												Vacuum(),
+												// Aluminum(),
 												"lBox");              //its name
 	
 	//G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
@@ -250,7 +251,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD1 =                         
 		new G4LogicalVolume(sSD1,                //its solid
-												Aluminum(),           //its material
+												Vacuum(),
+												// Aluminum(),           //its material
 												"lSD1");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -277,7 +279,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD2 =                         
 		new G4LogicalVolume(sSD2,                //its solid
-												Titanium(),           //its material
+												Vacuum(),
+												// Titanium(),           //its material
 												"lSD2");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -304,7 +307,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD3 =                         
 		new G4LogicalVolume(sSD3,                //its solid
-												Copper(),           //its material
+												Vacuum(),
+												// Copper(),           //its material
 												"lSD3");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -331,7 +335,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			
 	G4LogicalVolume* lSD4 =                         
 		new G4LogicalVolume(sSD4,                //its solid
-												Nickel(),           //its material
+												Vacuum(),
+												// Nickel(),           //its material
 												"lSD4");              //its name
 		
 		new G4PVPlacement(0,                     //no rotation
@@ -383,7 +388,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//
 	G4Sphere* sSphere =
 		new G4Sphere("sSphere",                    //name
-							2.*cm, 2.1*cm,                  //inner radius, outer radius
+							20.*cm, 20.01*cm,                  //inner radius, outer radius
 							0., twopi,                      //min phi, max phi
 							0., pi);                        //min rho, max rho
 						
@@ -407,6 +412,38 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	auto lSphereVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
 	lSphereVisAtt->SetVisibility(true);
 	lSphere->SetVisAttributes(lSphereVisAtt);
+	#pragma endregion
+
+	//How to create cylinders
+	#pragma region
+	//
+	// C-target
+	//
+	G4Tubs* solidCylinder = 
+		new G4Tubs("Cylinder",                     //name
+				0, 50.*mm,                      //inner radius, outer radius
+				2.4*mm/2,                              //z half length
+				0., twopi);                       //min phi, max phi
+
+	G4LogicalVolume* logicCylinder = 
+		new G4LogicalVolume(solidCylinder,        //shape
+						Graphite(),             //material
+						"Cylinder");           //name
+
+	new G4PVPlacement(0,                        //no rotation
+				G4ThreeVector(0,0,0),      //position
+				logicCylinder,                  //logical volume
+				"Cylinder",                     //name
+				lWorld,                     //mother  volume
+				false,                          //boolean operation?
+				0,                              //copy number
+				true);                          //overlaps checking?
+
+	//Make (in-)visible and give it a color
+	auto logicCylinderVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+	logicCylinderVisAtt->SetVisibility(true);
+	logicCylinder->SetVisAttributes(logicCylinderVisAtt);
+
 	#pragma endregion
 
 	//Print all defined materials to console
