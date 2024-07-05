@@ -627,25 +627,25 @@ void DetectorConstruction::ConstructSDandField()
 
 
 	//Declare a Sensitive Detector
-	auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-	SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
+	// SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
-	auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-	SetSensitiveDetector("lSD2", sd2);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
+	// SetSensitiveDetector("lSD2", sd2);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
-	auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-	SetSensitiveDetector("lSD3", sd3);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
+	// SetSensitiveDetector("lSD3", sd3);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
-	auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-	SetSensitiveDetector("lSD4", sd4);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
+	// SetSensitiveDetector("lSD4", sd4);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
-	auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-	SetSensitiveDetector("lSD5", sd5);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
+	// SetSensitiveDetector("lSD5", sd5);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
 	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager

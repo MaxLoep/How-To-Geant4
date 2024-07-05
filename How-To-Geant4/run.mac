@@ -57,10 +57,10 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
-#/custom/ana/setOutFolder Test
+/custom/ana/setOutFolder C-Target
 
 #Start a run and print progress in console
 /run/printProgress 10000
-/run/beamOn 1000000
+/run/beamOn 100000000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
