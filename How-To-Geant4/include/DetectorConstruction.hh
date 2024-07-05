@@ -5,6 +5,7 @@
 #include "globals.hh"
 #include "G4GDMLParser.hh"
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
+#include <functional>
 
 
 class G4VPhysicalVolume;
@@ -87,7 +88,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        boxMaterial;
    G4Material*        dummyMat; 
 
-  #include <functional>
+
  
   G4NistManager* nist;
 
