@@ -421,7 +421,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//
 	G4Tubs* solidCylinder = 
 		new G4Tubs("Cylinder",                     //name
-				0, 50.*mm,                      //inner radius, outer radius
+				0, 1.*mm,                      //inner radius, outer radius
 				2.4*mm/2,                              //z half length
 				0., twopi);                       //min phi, max phi
 
