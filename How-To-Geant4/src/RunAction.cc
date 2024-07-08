@@ -110,7 +110,8 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	analysisManager->CreateNtuple("SD1", "Sensitive Detector");
 	analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
 	analysisManager->CreateNtupleDColumn("Xpos");    // column id = 1
-	analysisManager->CreateNtupleDColumn("time");    // column id = 2
+	analysisManager->CreateNtupleDColumn("Ypos");    // column id = 2
+	analysisManager->CreateNtupleDColumn("time");    // column id = 3
 	analysisManager->FinishNtuple();
 
 	// Create ntuple for Sensitive Detector SD2 - ID 2
