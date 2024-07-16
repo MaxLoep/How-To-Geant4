@@ -1,4 +1,4 @@
-#include "platform.h"
+#include "platform.hh"
 #include "SensitiveDetector.hh"
 #include "Analysis.hh"
 

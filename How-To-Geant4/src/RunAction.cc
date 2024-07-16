@@ -1,7 +1,9 @@
 /*
 Create output Root file and its structure here
 */
-#include "platform.h"
+#include "platform.hh"
+#include "seed.hh"
+
 #include "RunAction.hh"
 #include "Run.hh"
 #include "DetectorConstruction.hh"
@@ -22,6 +24,11 @@ Create output Root file and its structure here
 #include "G4LogicalVolume.hh"
 #include <filesystem>
 namespace fs = std::filesystem;
+
+#include <stdio.h>      /* printf, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
+
 
 //Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
 G4bool SaveEachRunInSeparateFile = true;
@@ -225,7 +232,17 @@ void RunAction::BeginOfRunAction(const G4Run*)
 			pid++;
 		}
 		// Set final file name
-		std::string fileName = "ID_" + std::to_string(pid) + ".root";
+		// std::string fileName = "ID_" + std::to_string(pid) + ".root";
+
+		// std::srand(time(NULL));
+		int random = std::rand();
+		std::string fileName = "ID_" + std::to_string(random) + ".root";
+		G4cout
+			<< G4endl
+			<< " The random Seed in RunAction is:"
+			<< random
+			<< G4endl;
+
 
 		// Create the file
 		// analysisManager->OpenFile("Folder2/" + fileName);
@@ -347,5 +364,15 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
 	// show Rndm status
 	if (isMaster) G4Random::showEngineStatus();
+
 }
 
+
+	// code snippet to test for random seed
+	// G4long TheSeed = G4Random::getTheSeed();
+
+	// G4cout
+	// 	<< G4endl
+	// 	<< " The random Seed in RunAction is:"
+	// 	<< TheSeed
+	// 	<< G4endl;
