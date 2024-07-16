@@ -235,7 +235,8 @@ void RunAction::BeginOfRunAction(const G4Run*)
 		// std::string fileName = "ID_" + std::to_string(pid) + ".root";
 
 		// std::srand(time(NULL));
-		int random = std::rand();
+		// int random = std::rand();
+		int random = G4Random::getTheSeed();
 		std::string fileName = "ID_" + std::to_string(random) + ".root";
 		G4cout
 			<< G4endl
