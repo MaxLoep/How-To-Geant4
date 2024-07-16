@@ -81,6 +81,9 @@ int main(int argc,char** argv) {
   // G4long pid = _getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
   // G4long seed = pid;
   // G4Random::setTheSeed(seed);
+  srand(time(NULL));
+  int seed=std::rand();
+  G4Random::setTheSeed(seed);
 
   // long TheSeed = time(NULL);
   // G4Random::setTheSeed(TheSeed);
