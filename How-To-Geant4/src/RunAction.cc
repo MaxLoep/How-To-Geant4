@@ -259,8 +259,13 @@ void RunAction::BeginOfRunAction(const G4Run*)
 	// Create seed array
 	G4long seed[2];
 
-	seed[0] = (G4long) pid;
-	seed[1] = (G4long) pid;
+	// seed[0] = (G4long) pid;
+	// seed[1] = (G4long) pid;
+	
+	int random = G4Random::getTheSeed();
+	seed[0] = (G4long) random;
+	seed[1] = (G4long) random;
+
 	G4Random::setTheSeeds(seed);
 
 	// reset accumulables to their initial values
