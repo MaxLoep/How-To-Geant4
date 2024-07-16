@@ -78,9 +78,9 @@ int main(int argc,char** argv) {
   // G4Random::setTheEngine(new CLHEP::TripleRand);       -not working!
 
   // set a initial random seed based on process id
-  G4long pid = _getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
-  G4long seed = pid;
-  G4Random::setTheSeed(seed);
+  // G4long pid = _getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
+  // G4long seed = pid;
+  // G4Random::setTheSeed(seed);
 
   // long TheSeed = time(NULL);
   // G4Random::setTheSeed(TheSeed);
