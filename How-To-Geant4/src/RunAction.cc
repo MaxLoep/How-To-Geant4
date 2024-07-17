@@ -2,7 +2,6 @@
 Create output Root file and its structure here
 */
 #include "platform.hh"
-#include "seed.hh"
 
 #include "RunAction.hh"
 #include "Run.hh"
@@ -27,6 +26,7 @@ namespace fs = std::filesystem;
 
 
 //Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
+// REMOVE - what was i thinking in the first place to save runs into one file?
 G4bool SaveEachRunInSeparateFile = true;
 
 // Standard output folder name
@@ -49,6 +49,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 		fDetector(det), fPrimary(prim), fRun(0)
 {
 
+	// REMOVE because process-ID is no longer needed
 	//Get process ID
 	// G4long pid = _getpid();
 	// G4cout << "\n PID is " << pid << G4endl;
@@ -57,12 +58,14 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	// std::string folderName = "Root Files";
 	// std::filesystem::create_directory(folderName);
 	// std::filesystem::create_directory(folderName + "/" + RootFolder);
+
 	fs::create_directory(folderName);
 	fs::create_directory(folderName + "/" + RootFolder);
 
 	// Get analysis manager
 	auto analysisManager = G4AnalysisManager::Instance();
 
+	// REMOVE if-clause - not needed anymore; what was i thinking in the first place to save runs into one file?
 	// //use this code to accumulate runs into one output file
 	// if(SaveEachRunInSeparateFile == false)
 	// {
@@ -211,6 +214,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
 	//G4RunManager::GetRunManager()->ReinitializeGeometry();
 
 	//use this code to create one file per run
+	// REMOVE if-clause - not needed anymore; what was i thinking in the first place to save runs into one file?
 	if(SaveEachRunInSeparateFile == true)
 	{
 		//
@@ -298,6 +302,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
 void RunAction::EndOfRunAction(const G4Run* run)
 {
 	//use this code to create one file per run
+	// REMOVE if-clause - not needed anymore; what was i thinking in the first place to save runs into one file?
 	if(SaveEachRunInSeparateFile == true)
 	{
 		//
@@ -341,7 +346,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
 
 	// Print End of Run messages
-	//  from example B1
 	if (IsMaster()) {
 		G4cout
 		 << G4endl
@@ -363,6 +367,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	if (isMaster) fRun->EndOfRun();
 
 	/*
+	// Where does this come from? REMOVE
 	//save histograms
 	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 	if ( analysisManager->IsActive() ) {
@@ -375,13 +380,3 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	if (isMaster) G4Random::showEngineStatus();
 
 }
-
-
-	// code snippet to test for random seed
-	// G4long TheSeed = G4Random::getTheSeed();
-
-	// G4cout
-	// 	<< G4endl
-	// 	<< " The random Seed in RunAction is:"
-	// 	<< TheSeed
-	// 	<< G4endl;

@@ -1,5 +1,4 @@
 #include "platform.hh"
-#include "seed.hh"
 
 #include "G4Types.hh"
 // #include "SteppingVerbose.hh"
