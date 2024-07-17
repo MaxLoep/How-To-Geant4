@@ -85,18 +85,23 @@ int main(int argc,char** argv) {
   // int seed=std::rand();
   std::timespec ts;
   std::timespec_get(&ts, TIME_UTC);
-  int seed=ts.tv_nsec;
-  G4Random::setTheSeed(seed);
-
-  // long TheSeed = time(NULL);
-  // G4Random::setTheSeed(TheSeed);
-  // TheSeed = G4Random::getTheSeed();
+  int time=ts.tv_sec;
+  int time_ns=ts.tv_nsec;
+  G4Random::setTheSeed(time_ns);
   
-  // G4cout
-	// 	<< G4endl
-	// 	<< " The random Seed in main() is:"
-  //   << TheSeed
-	//   << G4endl;
+  G4cout
+		<< G4endl
+		<< " The random Seed in main() is:" << G4endl
+    << time << G4endl
+    << time_ns << G4endl
+	  << G4endl;
+	
+	// Create seed array
+	G4long seed[2];
+  // Use epoch time and nanosecond clock time as seeds
+  seed[0] = (G4long) time;
+	seed[1] = (G4long) time_ns;
+  G4Random::setTheSeeds(seed);
 
   #if G4VERSION_NUMBER>=1070
     // Construct the default run manager in Geant4 Version > 10.7.0

@@ -236,12 +236,14 @@ void RunAction::BeginOfRunAction(const G4Run*)
 
 		// std::srand(time(NULL));
 		// int random = std::rand();
-		int random = G4Random::getTheSeed();
-		std::string fileName = "ID_" + std::to_string(random) + ".root";
+		G4long time 	= G4Random::getTheSeeds()[0];
+		G4long time_ns 	= G4Random::getTheSeeds()[1];
+		std::string fileName = std::to_string(time) + "_" + std::to_string(time_ns) + ".root";
 		G4cout
 			<< G4endl
-			<< " The random Seed in RunAction is:"
-			<< random
+			<< " The random Seed in RunAction is:" << G4endl
+			<< time << G4endl
+			<< time_ns
 			<< G4endl;
 
 
