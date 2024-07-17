@@ -28,7 +28,7 @@ vim textfile.mac                            #open textfile in vim
 -> Esc -> :x                                #save&quit
 
 3.3) copy files from BUDDY directory to home directory
-scp FileToCopy.txt s6maloep@desktop.physik.uni-bonn.de:/home/s6maloep/physik
+scp FileToCopy.txt username@desktop.physik.uni-bonn.de:/home/username/physik
 
 3.4) create tarball to copy to move to cluster
 tar -czvf Output.tar.gz FolderToTar/        #create tar-file
