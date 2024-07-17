@@ -3,7 +3,7 @@ REWORK NEEDED!
 -remove Energy info about created isotopes (what shall this be good for anyway?!)
 */
 
-#include "platform.h"
+#include "platform.hh"
 #include "Run.hh"
 #include "DetectorConstruction.hh"
 #include "PrimaryGeneratorAction.hh"

@@ -1,4 +1,6 @@
-#include "platform.h"
+#include "platform.hh"
+#include "seed.hh"
+
 #include "G4Types.hh"
 // #include "SteppingVerbose.hh"
 
@@ -46,6 +48,8 @@
 #include "QGSP_FTFP_BERT.hh"              //works!
 #include "Shielding.hh"                   //works!
 
+// long TheSeed = time(NULL);
+// long TheSeed = G4Random::getTheSeed();
 
 int main(int argc,char** argv) {
 
@@ -58,7 +62,7 @@ int main(int argc,char** argv) {
   // choose the Random engine
   // G4Random::setTheEngine(new CLHEP::DualRand);             //works!
   // G4Random::setTheEngine(new CLHEP::HepJamesRandom);       //works!
-  G4Random::setTheEngine(new CLHEP::MixMaxRng);            //works! Default?
+  G4Random::setTheEngine(new CLHEP::MixMaxRng);            //works! Default and recommended!
   // G4Random::setTheEngine(new CLHEP::MTwistEngine);         //works! Default?
   // G4Random::setTheEngine(new CLHEP::RanecuEngine);         //works! uses Tables. obsolete?
   // G4Random::setTheEngine(new CLHEP::Ranlux64Engine);       //works!
@@ -74,9 +78,30 @@ int main(int argc,char** argv) {
   // G4Random::setTheEngine(new CLHEP::TripleRand);       -not working!
 
   // set a initial random seed based on process id
-  G4long pid = _getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
-  G4long seed = pid;
-  G4Random::setTheSeed(seed);
+  // G4long pid = _getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
+  // G4long seed = pid;
+  // G4Random::setTheSeed(seed);
+  // srand(time(NULL));
+  // int seed=std::rand();
+  std::timespec ts;
+  std::timespec_get(&ts, TIME_UTC);
+  int time=ts.tv_sec;
+  int time_ns=ts.tv_nsec;
+  G4Random::setTheSeed(time_ns);
+  
+  G4cout
+		<< G4endl
+		<< " The random Seed in main() is:" << G4endl
+    << time << G4endl
+    << time_ns << G4endl
+	  << G4endl;
+	
+	// Create seed array
+	G4long seed[2];
+  // Use epoch time and nanosecond clock time as seeds
+  seed[0] = (G4long) time;
+	seed[1] = (G4long) time_ns;
+  G4Random::setTheSeeds(seed);
 
   #if G4VERSION_NUMBER>=1070
     // Construct the default run manager in Geant4 Version > 10.7.0

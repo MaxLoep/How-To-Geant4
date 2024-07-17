@@ -22,12 +22,13 @@
 #Commands to use with the General Particle Source (GPS)
 #/gps/particle proton     #beam particle
 #/gps/particle deuteron     #beam particle
-/gps/particle neutron     #beam particle
+/gps/particle alpha     #beam particle
 /gps/position 0 0 -1 cm      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
 #/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
-/gps/ene/mono 26. MeV   #sets energy for monoenergetic sources
+#/gps/ene/mono 26. MeV   #sets energy for monoenergetic sources
+/gps/ene/mono 52. MeV   #sets energy for monoenergetic sources
 #/gps/pos/type Point 
 
 #/gps/pos/shape Circle    #the beam geometry is a circle
@@ -57,10 +58,10 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
-#/custom/ana/setOutFolder C-Target_D26
+/custom/ana/setOutFolder C-Target_A52
 
 #Start a run and print progress in console
 /run/printProgress 10000
-/run/beamOn 100000
+/run/beamOn 10000000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
