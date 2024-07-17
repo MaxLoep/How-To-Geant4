@@ -20,16 +20,7 @@ namespace fs = std::filesystem;
 // get folderName from where it is defined (RunAction.cc) - the really dirty way
 extern std::string folderName;
 // Standard folder name for the 'ListOfGeneratedParticles' files
-std::string ListFolder = "Lists of generated Particles";
-
-//
-//Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
-//
-// void DetectorConstruction::SetOutputFolder(G4String OutFoldName)
-// void DetectorConstruction::SetOutputFolder(std::string OutFoldName)
-// {
-// folderName = OutFoldName;
-// }
+std::string ListFolder = "Lists_of_generated_Particles";
 
 // mutex in a file scope
 namespace {
@@ -44,9 +35,7 @@ G4int Run::fgIonId = kMaxHisto1;
 
 // old code from example -> can be removed
 Run::Run(DetectorConstruction* det) : G4Run(), fDetector(det), fParticle(nullptr), fEkin(0.)
-{
-	//this is empty - can this be nicer?
-}
+{ }
 
 
 Run::~Run()
@@ -215,18 +204,12 @@ void Run::EndOfRun()
 	G4int prec = 5, wid = prec + 2;
 	G4int dfprec = G4cout.precision(prec);
 
-	//run condition
-	//
-	G4Material* material = fDetector->GetAbsorMaterial();
-	G4double density = material->GetDensity();
-
 	G4String Particle = fParticle->GetParticleName();
-	G4cout << "\n The run is " << numberOfEvent << " "<< Particle
-				 //<< " of " << G4BestUnit(fEkin,"Energy")
-				 << " through "
-				 << G4BestUnit(fDetector->GetAbsorThickness(),"Length") << " of "
-				 << material->GetName() << " (density: "
-				 << G4BestUnit(density,"Volumic Mass") << ")" << G4endl;
+	G4cout << "\n The run consisted of " << numberOfEvent << " "<< Particle
+				<<"s" 
+				// << " of " << G4BestUnit(fEkin,"Energy")
+				<<" as primary particles" 
+				<< G4endl;
 
 	if (numberOfEvent == 0) { G4cout.precision(dfprec);   return;}
 

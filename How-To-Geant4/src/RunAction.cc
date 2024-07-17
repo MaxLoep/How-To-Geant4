@@ -16,7 +16,6 @@ Create output Root file and its structure here
 #include "Randomize.hh"
 #include <iomanip>
 
-
 #include "G4RunManager.hh"
 #include "G4AccumulableManager.hh"
 #include "G4LogicalVolumeStore.hh"
@@ -24,83 +23,36 @@ Create output Root file and its structure here
 #include <filesystem>
 namespace fs = std::filesystem;
 
-
-//Set a 'false' to accumulate runs into one output file or set to 'true' to create one output file per run
-// REMOVE - what was i thinking in the first place to save runs into one file?
-G4bool SaveEachRunInSeparateFile = true;
-
 // Standard output folder name
 std::string folderName = "Output";
-// Standardd folder name for the root files
-std::string RootFolder = "Root Files";
+// Standard folder name for the root files
+std::string RootFolder = "Root_Files";
 
 //
 //Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
 //
-// void DetectorConstruction::SetOutputFolder(G4String OutFoldName)
 void DetectorConstruction::SetOutputFolder(std::string OutFoldName)
 {
 folderName = OutFoldName;
 }
-
 
 RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	: G4UserRunAction(),
 		fDetector(det), fPrimary(prim), fRun(0)
 {
 
-	// REMOVE because process-ID is no longer needed
-	//Get process ID
-	// G4long pid = _getpid();
-	// G4cout << "\n PID is " << pid << G4endl;
-
-	// create a folder for the files
-	// std::string folderName = "Root Files";
-	// std::filesystem::create_directory(folderName);
-	// std::filesystem::create_directory(folderName + "/" + RootFolder);
-
 	fs::create_directory(folderName);
 	fs::create_directory(folderName + "/" + RootFolder);
 
-	// Get analysis manager
+	// Create analysis manager
 	auto analysisManager = G4AnalysisManager::Instance();
 
-	// REMOVE if-clause - not needed anymore; what was i thinking in the first place to save runs into one file?
-	// //use this code to accumulate runs into one output file
-	// if(SaveEachRunInSeparateFile == false)
-	// {
-	// 	//
-	// 	//Open output file at the start of the simulation
-	// 	//
-
-	// 	// Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh
-	// 	while(std::ifstream(folderName + "/" + RootFolder + "/" + "ID_" + std::to_string(pid) + ".root"))
-	// 	{
-	// 		pid++;
-	// 	}
-	// 	// Set final file name
-	// 	std::string fileName = "ID_" + std::to_string(pid) + ".root";
-
-	// 	// Create the file
-	// 	analysisManager->OpenFile(folderName + "/" + RootFolder + "/" + fileName);
-	// }
-
-
-	//SENSITIVE DETECTOR
-	// From example B4d and extended/physicslist/genericPL
-
-	// Create analysis manager
-	// The choice of analysis technology is done via selectin of a namespace in Analysis.hh
-	//auto analysisManager = G4AnalysisManager::Instance();
 	G4cout << "Using " << analysisManager->GetType() << G4endl;
 	//analysisManager->SetVerboseLevel(1);
 	analysisManager->SetNtupleMerging(true);
-		 // Note: merging ntuples is available only with Root output
+	// Note: merging ntuples is available only with Root output
 
-	// Set default fileName
-	// analysisManager->SetFileName(fFileName);
-
-	// Use Ntuples or Histograms
+	// How to: Use Ntuples or Histograms
 	//
 	// Create ntuples
 	// CreateNtuple ("name", "title")
@@ -155,7 +107,6 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	analysisManager->CreateNtupleDColumn("Phi");    // column id = 2
 	analysisManager->FinishNtuple();
 
-
 	// Creating one dimensional histograms
 	// CreateH1 ("name", "title", nbins, xmin, xmax, unitName="none", fcnName="none")
 	// analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
@@ -172,24 +123,10 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	// Create directories in the root file - commented out in the original B4d example!
 	// analysisManager->SetHistoDirectoryName("histograms");
 	// analysisManager->SetNtupleDirectoryName("ntuple");
-
 }
-
 
 RunAction::~RunAction()
-{
- //delete fHistoManager;
-
-	// //use this code to accumulate runs into one output file
-	// if(SaveEachRunInSeparateFile == false)
-	// {
-	// 	//close file at end of simulation
-	// 	auto analysisManager = G4AnalysisManager::Instance();
-	// 	analysisManager->Write();
-	// 	analysisManager->CloseFile();
-	// }
-}
-
+{ }
 
 G4Run* RunAction::GenerateRun()
 {
@@ -197,94 +134,31 @@ G4Run* RunAction::GenerateRun()
 	return fRun;
 }
 
-
 void RunAction::BeginOfRunAction(const G4Run*)
 {
-	//Get process ID
-	// G4long pid = _getpid();
-
 	// create a folder for the files
-	// std::string folderName = "Root Files";
-	// std::filesystem::create_directory(folderName);
-	// std::filesystem::create_directory(folderName + "/" + RootFolder);
 	fs::create_directory(folderName);
 	fs::create_directory(folderName + "/" + RootFolder);
 
-	//G4RunManager::GetRunManager()->GeometryHasBeenModified();
-	//G4RunManager::GetRunManager()->ReinitializeGeometry();
+	// Get analysis manager
+	auto analysisManager = G4AnalysisManager::Instance();
 
-	//use this code to create one file per run
-	// REMOVE if-clause - not needed anymore; what was i thinking in the first place to save runs into one file?
-	if(SaveEachRunInSeparateFile == true)
-	{
-		//
-		//Create a new File with each Run
-		//
-		// Get analysis manager
-		auto analysisManager = G4AnalysisManager::Instance();
+	// get epoch time and system clock nanosecond value that were used as seeds to create file name
+	G4long time 	= G4Random::getTheSeeds()[0];
+	G4long time_ns 	= G4Random::getTheSeeds()[1];
+	// set file name
+	std::string fileName = std::to_string(time) + "_" + std::to_string(time_ns) + ".root";
 
-		// Create an output file which increases in number if the simulation is run again
-		//
+	// Create the file
+	// analysisManager->OpenFile("Folder2/" + fileName);
+	analysisManager->OpenFile(folderName + "/" + RootFolder + "/" + fileName);
 
-		// Check if "pid.root" is already existing; if yes, check if "pid+1.root" exists. Output format as root-file is choosen in Analysis.hh
-		// while(std::ifstream(folderName + "/" + RootFolder + "/" + "ID_" + std::to_string(pid) + ".root"))
-		// {
-		// 	pid++;
-		// }
-		// Set final file name
-		// std::string fileName = "ID_" + std::to_string(pid) + ".root";
-
-		// std::srand(time(NULL));
-		// int random = std::rand();
-
-		// get epoch time and system clock nanosecond value that were used as seeds to create file name
-		G4long time 	= G4Random::getTheSeeds()[0];
-		G4long time_ns 	= G4Random::getTheSeeds()[1];
-		// set file name
-		std::string fileName = std::to_string(time) + "_" + std::to_string(time_ns) + ".root";
-
-		// for debugging - can be removed later
-		G4cout
-			<< G4endl
-			<< " The random Seed in RunAction is:" << G4endl
-			<< time << G4endl
-			<< time_ns
-			<< G4endl;
-
-
-		// Create the file
-		// analysisManager->OpenFile("Folder2/" + fileName);
-		analysisManager->OpenFile(folderName + "/" + RootFolder + "/" + fileName);
-	}
-
-	//
-	//change Random Seed
-	//
 	// inform the runManager to save random number seed
 	G4RunManager::GetRunManager()->SetRandomNumberStore(false);
-
-	// Create seed array
-	// G4long seed[2];
-
-	// seed[0] = (G4long) pid;
-	// seed[1] = (G4long) pid;
-	
-	// int random = G4Random::getTheSeed();
-	// seed[0] = (G4long) random;
-	// seed[1] = (G4long) random;
-
-	// G4Random::setTheSeeds(seed);
 
 	// reset accumulables to their initial values
 	G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
 	accumulableManager->Reset();
-
-	//From example B4d
-	//inform the runManager to save random number seed
-	//G4RunManager::GetRunManager()->SetRandomNumberStore(true);
-
-	// // Get analysis manager
-	// auto analysisManager = G4AnalysisManager::Instance();
 
 	// show Rndm status
 	if (isMaster) G4Random::showEngineStatus();
@@ -298,20 +172,12 @@ void RunAction::BeginOfRunAction(const G4Run*)
 	}
 }
 
-
 void RunAction::EndOfRunAction(const G4Run* run)
 {
-	//use this code to create one file per run
-	// REMOVE if-clause - not needed anymore; what was i thinking in the first place to save runs into one file?
-	if(SaveEachRunInSeparateFile == true)
-	{
-		//
-		//Close the file at the end of a run
-		//
-		auto analysisManager = G4AnalysisManager::Instance();
-		analysisManager->Write();
-		analysisManager->CloseFile();
-	}
+	//Close the file at the end of a run
+	auto analysisManager = G4AnalysisManager::Instance();
+	analysisManager->Write();
+	analysisManager->CloseFile();
 
 	G4int nofEvents = run->GetNumberOfEvent();
 	if (nofEvents == 0) return;
@@ -319,9 +185,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	const DetectorConstruction* detectorConstruction
 	 = static_cast<const DetectorConstruction*>
 		 (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-	//G4double mass = detectorConstruction->GetScoringVolume()->GetMass();
-	//G4double dose = edep/mass;
-	//G4double rmsDose = rms/mass;
 
 	// Run conditions
 	//  note: There is no primary generator action object for "master"
@@ -330,7 +193,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	 = static_cast<const PrimaryGeneratorAction*>
 		 (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
 	G4String runCondition;
-
 
 	//GPS
 		if (generatorAction)
@@ -344,7 +206,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 		// "proton of 100 MeV"
 	}
 
-
 	// Print End of Run messages
 	if (IsMaster()) {
 		G4cout
@@ -356,7 +217,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 		 << G4endl
 		 << "--------------------End of Local Run------------------------";
 	}
-
 
 	G4cout
 		<< G4endl
@@ -378,5 +238,4 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
 	// show Rndm status
 	if (isMaster) G4Random::showEngineStatus();
-
 }

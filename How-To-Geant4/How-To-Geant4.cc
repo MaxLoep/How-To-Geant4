@@ -76,18 +76,16 @@ int main(int argc,char** argv) {
   // G4Random::setTheEngine(new CLHEP::RandEngine);       -not working!
   // G4Random::setTheEngine(new CLHEP::TripleRand);       -not working!
 
-  // set a initial random seed based on process id
-  // G4long pid = _getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
-  // G4long seed = pid;
-  // G4Random::setTheSeed(seed);
-  // srand(time(NULL));
-  // int seed=std::rand();
+  // set a initial random seed based on epoch time and system clock
   std::timespec ts;
   std::timespec_get(&ts, TIME_UTC);
-  int time=ts.tv_sec;
-  int time_ns=ts.tv_nsec;
+  // get epoch time and system clock nanosecond value
+  int time    = ts.tv_sec;
+  int time_ns = ts.tv_nsec;
+  // set a initial random seed
   G4Random::setTheSeed(time_ns);
   
+  // for debbuging REMOVE later
   G4cout
 		<< G4endl
 		<< " The random Seed in main() is:" << G4endl

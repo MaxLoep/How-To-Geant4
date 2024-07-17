@@ -49,5 +49,4 @@ class EventAction : public G4UserEventAction
 
 };
 
-
 #endif

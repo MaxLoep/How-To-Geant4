@@ -1,11 +1,10 @@
 /*
 do stuff every track
 */
-
-#include "TrackingAction.hh"
-
 #include "Run.hh"
 #include "EventAction.hh"
+#include "TrackingAction.hh"
+
 #include "Analysis.hh"
 
 #include "G4RunManager.hh"
@@ -13,10 +12,8 @@ do stuff every track
 #include "G4StepStatus.hh"
 #include "G4ParticleTypes.hh"
 #include "G4IonTable.hh"
-
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
-
 
 TrackingAction::TrackingAction(EventAction* event)
 :G4UserTrackingAction(), fEventAction(event)
@@ -24,10 +21,8 @@ TrackingAction::TrackingAction(EventAction* event)
 	 fTimeBirth = fTimeEnd = 0.;
 }
 
-
 TrackingAction::~TrackingAction()
 { }
-
 
 void TrackingAction::PreUserTrackingAction(const G4Track* track)
 {
@@ -43,7 +38,6 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
 	//count secondary particles
 	if (track->GetTrackID() > 1)  run->ParticleCount(name,ekin,meanLife);
 }
-
 
 void TrackingAction::PostUserTrackingAction(const G4Track* track)
 {
@@ -61,15 +55,13 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
 	
 	// count population of ions with meanLife > 0.
 	// if ((G4IonTable::IsIon(particle))&&(meanLife != 0.)) {
-	//   G4int id = run->GetIonId(name); //initialized but enver used?
+	//   G4int id = run->GetIonId(name); //initialized but never used?
 	// }
 
- // keep only emerging particles
- G4StepStatus status = track->GetStep()->GetPostStepPoint()->GetStepStatus();
- if (status != fWorldBoundary) return; 
+	// keep only emerging particles
+	G4StepStatus status = track->GetStep()->GetPostStepPoint()->GetStepStatus();
+	if (status != fWorldBoundary) return; 
 
-//  fEventAction->AddEflow(ekin);
- run->ParticleFlux(name,ekin);
-
+	//  fEventAction->AddEflow(ekin);
+	run->ParticleFlux(name,ekin);
 }
-

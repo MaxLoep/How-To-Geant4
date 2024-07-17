@@ -10,7 +10,6 @@
 class DetectorConstruction;
 class G4ParticleDefinition;
 
-
 class Run : public G4Run
 {
   public:
@@ -61,6 +60,5 @@ class Run : public G4Run
     std::map<G4String,ParticleData> fParticleDataMap1;
     std::map<G4String,ParticleData> fParticleDataMap2;
 };
-
 
 #endif
