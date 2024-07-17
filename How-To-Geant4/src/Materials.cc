@@ -1,10 +1,6 @@
 /*
 TO-DO:
-Declared materials load their (crosssection-)data at the start of a run wether they are actually used in the 
-simulation or not. This will blow up the needed RAM and slow down the start of a simulation.
-->Can this be prevented?
--> stupid solution: comment out the matirials you dont need and re-compile
--> smooth solution: auto check which matirals are used in simulation and only declare them as needed
+-implement Self-defined materials in a way like NIST materials (only get loaded when actually used)
 */
 
 
@@ -22,8 +18,7 @@ void DetectorConstruction::DefineMaterials()
 	//How to define Materials using the NIST database
 	//see https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html for a list of available materials
 	//
-	// Get nist material manager
-	// G4NistManager* nist = G4NistManager::Instance();
+	// Initiate the NIST Material Manager
 	nist = G4NistManager::Instance();
 
 	// define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database

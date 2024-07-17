@@ -89,7 +89,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
    G4Material*        dummyMat; 
 
 
- 
+  // NIST Material Manager
   G4NistManager* nist;
 
   
