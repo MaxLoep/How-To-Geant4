@@ -47,8 +47,8 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 
 DetectorConstruction::DetectorConstruction()
 :G4VUserDetectorConstruction(),
- fAbsorMaterial(nullptr), fLAbsor(nullptr), world_mat(nullptr), fDetectorMessenger(nullptr),
- fScoringVolume(0)
+//  fAbsorMaterial(nullptr), fLAbsor(nullptr),fScoringVolume(0),
+ world_mat(nullptr), fDetectorMessenger(nullptr) 
 {
 	// for reading and writing GDML
 	fLoadFile  ="test.gdml";
@@ -73,8 +73,9 @@ DetectorConstruction::DetectorConstruction()
 	d = 1.*cm;  // unused
 	e = 1.*cm;  // unused
 
-	// materials
+	// Define Materials
 	DefineMaterials(); // see Materials.cc for defined Materials
+
 	// SetAbsorMaterial("G4_Co");
 	//Print all defined materials to console
 	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
@@ -427,7 +428,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4LogicalVolume* logicCylinder = 
 		new G4LogicalVolume(solidCylinder,        //shape
-						Graphite(),             //material
+						// Graphite(),             //material
+						dummyMat,
 						"Cylinder");           //name
 
 	new G4PVPlacement(0,                        //no rotation
@@ -449,6 +451,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//Print all defined materials to console
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
+	// REMOVE - this ony prints a custom text message
 	// PrintParameters();
 
 	// default value = 0
@@ -461,6 +464,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	return fWorldPhysVol;
 	}
 
+// REMOVE
+// from an old example
+// not neccessary anymore
 void DetectorConstruction::PrintParameters()
 {
 	G4cout << "\n The Absorber is " << G4BestUnit(boxX,"Length")
@@ -475,18 +481,20 @@ void DetectorConstruction::PrintParameters()
 void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
 {
 	// search the material by its name
-	G4Material* pttoMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);   
+	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);   
 	
-	if (pttoMaterial) { 
-		dummyMat = pttoMaterial;
+	if (NewMaterial) { 
+		dummyMat = NewMaterial;
 		G4RunManager::GetRunManager()->ReinitializeGeometry();
 		G4cout << "\n The dummyMat is now "
 					 << dummyMat->GetName() 
-					 << "\n \n" << dummyMat << G4endl;
+					 << G4endl;
+					//  no need to print the new material here as it is already done when Geometry is reinitialized
+					//  << "\n \n" << dummyMat << G4endl;
 
-		if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
-		G4RunManager::GetRunManager()->PhysicsHasBeenModified();
-		G4cout << "\n Weird if-case happened..." << G4endl;
+		// if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
+		// G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+		// G4cout << "\n Weird if-case happened..." << G4endl;
 	} else {
 		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
 					 << materialChoice << " not found" << G4endl;

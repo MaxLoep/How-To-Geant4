@@ -1,18 +1,3 @@
-# To be run preferably in batch, without graphics:
-# ./How-To-Geant4 run.mac
-#
-
-#Silence hadronic process summary (works in Geant4 v10.7.1)
-#/control/verbose 0
-#/run/verbose 0
-#/process/had/verbose 0
-#/process/verbose 0
-#/process/em/verbose 0
-
-#/custom/GDML/loadFile Test0.gdml
-#/custom/GDML/LoadOnly true
-#/custom/GDML/writeFile Test0.gdml
-
 #Set number of worker threads and initialize run
 /run/numberOfThreads 4
 /run/initialize
@@ -20,14 +5,12 @@
 #BEAM
 #------------------------------------------------------------------------
 #Commands to use with the General Particle Source (GPS)
+
 /gps/particle proton     #beam particle
-#/gps/particle deuteron     #beam particle
-#/gps/particle neutron     #beam particle
 /gps/position 0 0 -1 cm      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
 /gps/ene/mono 13. MeV   #sets energy for monoenergetic sources
-#/gps/ene/mono 26. MeV   #sets energy for monoenergetic sources
 #/gps/pos/type Point 
 
 #/gps/pos/shape Circle    #the beam geometry is a circle
@@ -39,28 +22,17 @@
 #/gps/pos/type Beam
 #------------------------------------------------------------------------
 
-#DECAYING SOURCE
-#------------------------------------------------------------------------
-#Commands to use with the General Particle Source (GPS) for radioactive ion source
-#/gps/particle ion
-#Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
-#/gps/ion 11 24 0 0
-#/gps/energy 0. eV
-
-#limit the decay chain to surpress following decays
-#/grdm/nucleusLimits 210 210 82 82
-
 #custom commands to change things
 #/custom/geo/change_a 15 cm
 #/custom/geo/change_b 15 cm
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-#/custom/geo/setMat G4_AIR
+/custom/geo/setMat G4_GRAPHITE
 /custom/ana/setOutFolder C-Target_P13
 
 #Start a run and print progress in console
 /run/printProgress 10000
-/run/beamOn 10000000
+/run/beamOn 10000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

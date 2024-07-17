@@ -29,7 +29,7 @@ void DetectorConstruction::DefineMaterials()
 	// define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
 	// world_mat    = nist->FindOrBuildMaterial("G4_AIR");
 	world_mat   = nist->FindOrBuildMaterial("G4_Galactic");
-	boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
+	// boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
 
 	// NIST Materials
 	Vacuum      = [&](){return nist->FindOrBuildMaterial("G4_Galactic");};
@@ -49,11 +49,13 @@ void DetectorConstruction::DefineMaterials()
 	Steel       = [&](){return nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
-	// // Self-defined Materials
-	// //Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
+
+
+	// Self-defined Materials
+	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
 	// BoratedPE   = new G4Material("BoratedPE",   //name
 	// 															1.03*g/cm3,   //density
-	// 															3);           //number of elements
+	// 															3);           //number of elements														
 
 	// //Add Elements to Material
 	// BoratedPE->AddMaterial(Hydrogen, 14.*perCent);
@@ -72,6 +74,8 @@ void DetectorConstruction::DefineMaterials()
 
 
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
+
+	// Initialize dummyMat as Vacuum
 	dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
 	//Print all defined materials to console

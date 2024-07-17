@@ -86,12 +86,12 @@ int main(int argc,char** argv) {
   G4Random::setTheSeed(time_ns);
   
   // for debbuging REMOVE later
-  G4cout
-		<< G4endl
-		<< " The random Seed in main() is:" << G4endl
-    << time << G4endl
-    << time_ns << G4endl
-	  << G4endl;
+  // G4cout
+	// 	<< G4endl
+	// 	<< " The random Seed in main() is:" << G4endl
+  //   << time << G4endl
+  //   << time_ns << G4endl
+	//   << G4endl;
 	
 	// Create seed array
 	G4long seed[2];
