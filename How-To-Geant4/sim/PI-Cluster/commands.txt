@@ -1,0 +1,37 @@
+How to run a Simulation on the PI-Cluster:
+
+1) ssh login into: username@desktop.physik.uni-bonn.de
+2) submit a .jdl-file to put something on the Cluster
+
+3.1) commands:
+condor_q                                    #see your jobs on the cluster
+condor_q -nobatch -analyse                  #see details about your idle/hold jobs
+condor_tail -f job-ID                       #flush job output to console
+condor_status -submitters                   #see all users and running jobs on the cluster
+condor_submit xyz.jdl                       #submit a job defined in the .jdl-file to the cluster
+condor_submit --interactive debian12.jdl    #start an interactive debian12-session (defined in debian12.jdl)
+condor_ssh_to_jo JOB-ID                     #open ssh to an already existing interactive session
+cd /cephfs/user/username                    #change directory to your BUDDY directory; this should be where your files/simulations are saved
+rm -r Directory/*                           #clean directory
+ls -lh                                      #list content and its size
+ls | wc -l                                  #count things in current directory
+scp Filname username@desktop.physik.uni-bonn.de:/home/username/physik/              #copy Filname to desktop machine
+
+
+
+3.2) commands in interactive Debian12-session
+bquota                                      #see your disk space in your BUDDY directory: /cephfs/user/username
+source ./source_G4.sh                       #source Geant4 and CERNRoot
+hadd -f output.root Input*.root             #merge .root-files together
+vim textfile.mac                            #open textfile in vim
+-> Esc -> :wq                               #quit
+-> Esc -> :x                                #save&quit
+
+3.3) copy files from BUDDY directory to home directory
+scp FileToCopy.txt s6maloep@desktop.physik.uni-bonn.de:/home/s6maloep/physik
+
+3.4) create tarball to copy to move to cluster
+tar -czvf Output.tar.gz FolderToTar/        #create tar-file
+
+#tar with multiple excludes
+tar --exclude='How-To-Geant4/.git' --exclude='How-To-Geant4/src/geometries' --exclude='How-To-Geant4/How-To-Geant4/build/C-Target*' --exclude='How-To-Geant4/How-To-Geant4/build/GaussianBeam' -czvf Test.tar.gz How-To-Geant4/
