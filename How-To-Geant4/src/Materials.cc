@@ -40,7 +40,7 @@ void DetectorConstruction::DefineMaterials()
 
 	// NIST Compounds
 	Concrete    = [&](){return nist->FindOrBuildMaterial("G4_CONCRETE");};
-	Graphite    = [&](){return nist->FindOrBuildMaterial("G4_GRAPHITE");};
+	Graphite    = [&](){return nist->FindOrBuildMaterial("G4_GRAPHITE_POROUS");};	// G4_Graphite has the molecular density, which can not be realized in a solid target
 	Steel       = [&](){return nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
