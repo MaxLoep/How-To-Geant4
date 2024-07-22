@@ -176,7 +176,7 @@ void Run::Merge(const G4Run* run)
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
 	G4int prec = 5, wid = prec + 2;
-	stream << "\n List of generated particles:" << G4endl;
+	stream << "\n List of particles leaving the world volume:" << G4endl;
 
 	 for ( const auto& particleData : particle_map ) {
 		G4String name = particleData.first;
@@ -225,7 +225,7 @@ void Run::EndOfRun()
 	}
 	G4cout << G4endl;
 
-	//List of generated particles to console
+	//List of generated particles: to console
 	G4cout << "\n List of generated particles:" << G4endl;
 
 	for ( const auto& particleData : fParticleDataMap1 ) {
@@ -271,8 +271,8 @@ void Run::EndOfRun()
 	OutputParticleData(fParticleDataMap1, outFile);
 
 
-//particles flux
-OutputParticleData(fParticleDataMap2, G4cout);
+	//particles flux
+	OutputParticleData(fParticleDataMap2, G4cout);
 	//remove all contents in fProcCounter, fCount
 	fProcCounter.clear();
 	fParticleDataMap1.clear();

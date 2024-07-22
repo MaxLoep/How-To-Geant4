@@ -428,8 +428,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4LogicalVolume* logicCylinder = 
 		new G4LogicalVolume(solidCylinder,        //shape
-						Graphite(),             //material
-						// dummyMat,
+						// Graphite(),             //material
+						// Vacuum(),
+						dummyMat,
 						"Cylinder");           //name
 
 	new G4PVPlacement(0,                        //no rotation
