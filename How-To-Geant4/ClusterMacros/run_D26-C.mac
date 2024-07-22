@@ -29,7 +29,7 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 /custom/geo/setMat G4_GRAPHITE_POROUS
-/custom/ana/setOutFolder C-Target_D26
+#/custom/ana/setOutFolder C-Target_D26
 
 #Start a run and print progress in console
 /run/printProgress 10000
