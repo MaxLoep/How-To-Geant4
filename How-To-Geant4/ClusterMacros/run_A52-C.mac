@@ -28,7 +28,7 @@
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-/custom/geo/setMat G4_GRAPHITE
+/custom/geo/setMat G4_GRAPHITE_POROUS
 /custom/ana/setOutFolder C-Target_A52
 
 #Start a run and print progress in console
