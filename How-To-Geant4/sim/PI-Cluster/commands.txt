@@ -34,4 +34,4 @@ scp FileToCopy.txt username@desktop.physik.uni-bonn.de:/home/username/physik
 tar -czvf Output.tar.gz FolderToTar/        #create tar-file
 
 #tar with multiple excludes
-tar --exclude='How-To-Geant4/.git' --exclude='How-To-Geant4/src/geometries' --exclude='How-To-Geant4/How-To-Geant4/build/C-Target*' --exclude='How-To-Geant4/How-To-Geant4/build/GaussianBeam' -czvf How-To-Geant4.tar.gz How-To-Geant4/
+tar --exclude='How-To-Geant4/.git' --exclude='How-To-Geant4/src/geometries' --exclude='How-To-Geant4/How-To-Geant4/build/GaussianBeam' -czvf How-To-Geant4.tar.gz How-To-Geant4/
