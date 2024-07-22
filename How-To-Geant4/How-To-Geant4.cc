@@ -174,7 +174,7 @@ int main(int argc,char** argv) {
 
   //Doppler broadening of the resonances, due to target thermal motion, is calculated on-the-fly (from T = 0 K values)
   //Very CPU intense: for those applications that do not need it, it can be switched off by setting the environmental variable
-  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( true );
+  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
 
   G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
   //G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7
