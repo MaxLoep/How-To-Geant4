@@ -147,7 +147,7 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 		if(particle == G4Neutron::Neutron())	analysisManager->AddNtupleRow(6);
 
 		// // Store hit in histogram
-		// analysisManager->FillH1(0, ID);
+		analysisManager->FillH1(0, localPosition.phi()/degree);
 		// analysisManager->FillH1(1, pdgCode);
 		// analysisManager->FillH1(2, Ekin/MeV);
 		// analysisManager->FillH1(3, localPosition.x()/cm);

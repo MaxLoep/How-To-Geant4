@@ -109,7 +109,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 
 	// Creating one dimensional histograms
 	// CreateH1 ("name", "title", nbins, xmin, xmax, unitName="none", fcnName="none")
-	// analysisManager->CreateH1("ID","Particle ID", 100, 0., 100.);             // column id = 0
+	analysisManager->CreateH1("Phi","Phi", 100, -180, 180.);             // column id = 0
 	// analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
 	// analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
 	// analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3

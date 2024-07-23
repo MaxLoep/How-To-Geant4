@@ -8,6 +8,9 @@
 /run/numberOfThreads 4
 /run/initialize
 
+#Deactivate Radioactive Decay
+/process/inactivate RadioactiveDecay
+
 #Commands to use with the General Particle Source (GPS) for radioactive ion source
 /gps/particle ion
 
