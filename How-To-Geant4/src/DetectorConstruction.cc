@@ -636,9 +636,9 @@ void DetectorConstruction::ConstructSDandField()
 
 
 	//Declare a Sensitive Detector
-	auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-	SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
+	// SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
 	// auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
