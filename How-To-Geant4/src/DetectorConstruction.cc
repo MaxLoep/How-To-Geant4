@@ -678,12 +678,12 @@ void DetectorConstruction::ConstructSDandField()
 	// G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
 
   // //Proton filter
-//   G4SDParticleFilter* protonFilter =
-//   new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+  G4SDParticleFilter* protonFilter =
+  new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
 
   // //Deuteron filter
-  G4SDParticleFilter* deuteronFilter =
-  new G4SDParticleFilter(fltName="deuteronFilter", particleName="deuteron");
+//   G4SDParticleFilter* deuteronFilter =
+//   new G4SDParticleFilter(fltName="deuteronFilter", particleName="deuteron");
 
   // //Alpha filter
 //   G4SDParticleFilter* alphaFilter =
@@ -720,8 +720,8 @@ void DetectorConstruction::ConstructSDandField()
 
 	// //Score TrackLength (of protons)
 	primitive = new G4PSTrackLength("TrackLength");
-	// primitive ->SetFilter(protonFilter);
-	primitive ->SetFilter(deuteronFilter);
+	primitive ->SetFilter(protonFilter);
+	// primitive ->SetFilter(deuteronFilter);
 	// primitive ->SetFilter(alphaFilter);
 	// primitive ->SetFilter(neutronFilter);
 

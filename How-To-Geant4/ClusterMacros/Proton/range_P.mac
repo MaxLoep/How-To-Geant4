@@ -14,7 +14,9 @@
 /run/initialize
 
 #Deactivate Radioactive Decay
-/process/inactivate RadioactiveDecay
+#limit the decay chain to surpress following decays
+#/process/had/rdm/nucleusLimits [Amin] [Amax] [Zmin] [Zmax]
+/process/had/rdm/nucleusLimits 999 999 999 999
 
 #BEAM
 #------------------------------------------------------------------------
