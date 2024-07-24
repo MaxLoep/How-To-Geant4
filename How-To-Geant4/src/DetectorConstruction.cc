@@ -221,7 +221,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4LogicalVolume* lBox =                         
 		new G4LogicalVolume(sBox,                //its solid
 												// boxMaterial,           //its material
-												Vacuum(),
+												dummyMat,
 												// Aluminum(),
 												"lBox");              //its name
 	
@@ -420,32 +420,32 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//
 	// C-target
 	//
-	G4Tubs* solidCylinder = 
-		new G4Tubs("Cylinder",                     //name
-				0, 1.5*mm,                      //inner radius, outer radius
-				3.1*mm/2,                              //z half length
-				0., twopi);                       //min phi, max phi
+	// G4Tubs* solidCylinder = 
+	// 	new G4Tubs("Cylinder",                     //name
+	// 			0, 1.5*mm,                      //inner radius, outer radius
+	// 			3.1*mm/2,                              //z half length
+	// 			0., twopi);                       //min phi, max phi
 
-	G4LogicalVolume* logicCylinder = 
-		new G4LogicalVolume(solidCylinder,        //shape
-						// Graphite(),             //material
-						// Vacuum(),
-						dummyMat,
-						"Cylinder");           //name
+	// G4LogicalVolume* logicCylinder = 
+	// 	new G4LogicalVolume(solidCylinder,        //shape
+	// 					// Graphite(),             //material
+	// 					// Vacuum(),
+	// 					dummyMat,
+	// 					"Cylinder");           //name
 
-	new G4PVPlacement(0,                        //no rotation
-				G4ThreeVector(0,0,0),      //position
-				logicCylinder,                  //logical volume
-				"Cylinder",                     //name
-				lWorld,                     //mother  volume
-				false,                          //boolean operation?
-				0,                              //copy number
-				true);                          //overlaps checking?
+	// new G4PVPlacement(0,                        //no rotation
+	// 			G4ThreeVector(0,0,0),      //position
+	// 			logicCylinder,                  //logical volume
+	// 			"Cylinder",                     //name
+	// 			lWorld,                     //mother  volume
+	// 			false,                          //boolean operation?
+	// 			0,                              //copy number
+	// 			true);                          //overlaps checking?
 
-	//Make (in-)visible and give it a color
-	auto logicCylinderVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
-	logicCylinderVisAtt->SetVisibility(true);
-	logicCylinder->SetVisAttributes(logicCylinderVisAtt);
+	// //Make (in-)visible and give it a color
+	// auto logicCylinderVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+	// logicCylinderVisAtt->SetVisibility(true);
+	// logicCylinder->SetVisAttributes(logicCylinderVisAtt);
 
 	#pragma endregion
 
@@ -656,9 +656,9 @@ void DetectorConstruction::ConstructSDandField()
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
 	// SetSensitiveDetector("lSD5", sd5);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
-	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-	SetSensitiveDetector("lSphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to logical Volume 'Sphere'
+	// auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
+	// SetSensitiveDetector("lSphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to logical Volume 'Sphere'
 
 
 	// // 
@@ -677,13 +677,21 @@ void DetectorConstruction::ConstructSDandField()
 	// auto charged = new G4SDChargedFilter("chargedFilter");
 	// G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
 
-	// //Proton filter
-	G4SDParticleFilter* protonFilter =
-	new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+  // //Proton filter
+//   G4SDParticleFilter* protonFilter =
+//   new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
 
-	//Neutron filter
-	// G4SDParticleFilter* neutronFilter =
-	// new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
+  // //Deuteron filter
+  G4SDParticleFilter* deuteronFilter =
+  new G4SDParticleFilter(fltName="deuteronFilter", particleName="deuteron");
+
+  // //Alpha filter
+//   G4SDParticleFilter* alphaFilter =
+//   new G4SDParticleFilter(fltName="alphaFilter", particleName="alpha");
+
+  // // Neutron filter
+//   G4SDParticleFilter* neutronFilter =
+//   new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
 	
 	// //Electron filter
 	// G4SDParticleFilter* electronFilter =
@@ -712,7 +720,10 @@ void DetectorConstruction::ConstructSDandField()
 
 	// //Score TrackLength (of protons)
 	primitive = new G4PSTrackLength("TrackLength");
-	primitive ->SetFilter(protonFilter);
+	// primitive ->SetFilter(protonFilter);
+	primitive ->SetFilter(deuteronFilter);
+	// primitive ->SetFilter(alphaFilter);
+	// primitive ->SetFilter(neutronFilter);
 
 	// //Register Filters to Scorer
 	boxPS->RegisterPrimitive(primitive);  
