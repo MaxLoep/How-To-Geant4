@@ -58,7 +58,7 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
-#/custom/geo/setMat G4_Be
+#/custom/geo/setMat G4_Li
 #/custom/geo/setMat G4_GRAPHITE
 #/custom/ana/setOutFolder Test
 
@@ -66,53 +66,53 @@
 
 #set particle/material
 /gps/particle deuteron
-/custom/geo/setMat G4_Be
+/custom/geo/setMat G4_Li
 
 #1st energy
 /gps/ene/mono 28. MeV
-/custom/ana/setOutFolder Output/D_G4_Be_28MeV_range
+/custom/ana/setOutFolder Output/D_G4_Li_28MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #2nd energy
 /gps/ene/mono 27. MeV
-/custom/ana/setOutFolder Output/D_G4_Be_27MeV_range
+/custom/ana/setOutFolder Output/D_G4_Li_27MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #3rd energy
 /gps/ene/mono 26. MeV
-/custom/ana/setOutFolder Output/D_G4_Be_26MeV_range
+/custom/ana/setOutFolder Output/D_G4_Li_26MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #4th energy
 /gps/ene/mono 25. MeV
-/custom/ana/setOutFolder Output/D_G4_Be_25MeV_range
+/custom/ana/setOutFolder Output/D_G4_Li_25MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #5th energy
 /gps/ene/mono 24. MeV
-/custom/ana/setOutFolder Output/D_G4_Be_24MeV_range
+/custom/ana/setOutFolder Output/D_G4_Li_24MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #6th energy
 /gps/ene/mono 23. MeV
-/custom/ana/setOutFolder Output/D_G4_Be_23MeV_range
+/custom/ana/setOutFolder Output/D_G4_Li_23MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #7th energy
 /gps/ene/mono 22. MeV
-/custom/ana/setOutFolder Output/D_G4_Be_22MeV_range
+/custom/ana/setOutFolder Output/D_G4_Li_22MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #8th energy
 /gps/ene/mono 21. MeV
-/custom/ana/setOutFolder Output/D_G4_Be_21MeV_range
+/custom/ana/setOutFolder Output/D_G4_Li_21MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
