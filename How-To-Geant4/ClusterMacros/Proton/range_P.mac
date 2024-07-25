@@ -58,15 +58,15 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
-#/custom/geo/setMat G4_Be
-#/custom/geo/setMat G4_Be
+#/custom/geo/setMat G4_Li
+#/custom/geo/setMat G4_Li
 #/custom/ana/setOutFolder Output/Test
 
 #Start a run and print progress in console
 
 #set particle/material
 /gps/particle proton
-/custom/geo/setMat G4_Be
+/custom/geo/setMat G4_Li
 #REMEMBER TO CHANGE PRIMITIVE SCORER TO PROTON-TRACKING IN DETECTORCONSTRUCTION.CC!!!
 
 #remember to change 'particleFilter' for Primitive Scorer in 'DetectorConstruction.cc'
@@ -74,49 +74,49 @@
 
 #1st energy
 /gps/ene/mono 14. MeV
-/custom/ana/setOutFolder Output/P_G4_Be_14MeV_range
+/custom/ana/setOutFolder Output/P_G4_Li_14MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #2nd energy
 /gps/ene/mono 13. MeV
-/custom/ana/setOutFolder Output/P_G4_Be_13MeV_range
+/custom/ana/setOutFolder Output/P_G4_Li_13MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #3rd energy
 /gps/ene/mono 12. MeV
-/custom/ana/setOutFolder Output/P_G4_Be_12MeV_range
+/custom/ana/setOutFolder Output/P_G4_Li_12MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #4th energy
 /gps/ene/mono 11. MeV
-/custom/ana/setOutFolder Output/P_G4_Be_11MeV_range
+/custom/ana/setOutFolder Output/P_G4_Li_11MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #5th energy
 /gps/ene/mono 10. MeV
-/custom/ana/setOutFolder Output/P_G4_Be_10MeV_range
+/custom/ana/setOutFolder Output/P_G4_Li_10MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #6th energy
 /gps/ene/mono 9. MeV
-/custom/ana/setOutFolder Output/P_G4_Be_09MeV_range
+/custom/ana/setOutFolder Output/P_G4_Li_09MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #7th energy
 /gps/ene/mono 8. MeV
-/custom/ana/setOutFolder Output/P_G4_Be_08MeV_range
+/custom/ana/setOutFolder Output/P_G4_Li_08MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #8th energy
 /gps/ene/mono 7. MeV
-/custom/ana/setOutFolder Output/P_G4_Be_07MeV_range
+/custom/ana/setOutFolder Output/P_G4_Li_07MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
