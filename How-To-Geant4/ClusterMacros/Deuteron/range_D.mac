@@ -58,7 +58,7 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
-#/custom/geo/setMat G4_Al
+#/custom/geo/setMat G4_GRAPHITE_POROUS
 #/custom/geo/setMat G4_GRAPHITE
 #/custom/ana/setOutFolder Test
 
@@ -66,53 +66,53 @@
 
 #set particle/material
 /gps/particle deuteron
-/custom/geo/setMat G4_Al
+/custom/geo/setMat G4_GRAPHITE_POROUS
 
 #1st energy
 /gps/ene/mono 28. MeV
-/custom/ana/setOutFolder Output/D_G4_Al_28MeV_range
+/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_28MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #2nd energy
 /gps/ene/mono 27. MeV
-/custom/ana/setOutFolder Output/D_G4_Al_27MeV_range
+/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_27MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #3rd energy
 /gps/ene/mono 26. MeV
-/custom/ana/setOutFolder Output/D_G4_Al_26MeV_range
+/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_26MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #4th energy
 /gps/ene/mono 25. MeV
-/custom/ana/setOutFolder Output/D_G4_Al_25MeV_range
+/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_25MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #5th energy
 /gps/ene/mono 24. MeV
-/custom/ana/setOutFolder Output/D_G4_Al_24MeV_range
+/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_24MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #6th energy
 /gps/ene/mono 23. MeV
-/custom/ana/setOutFolder Output/D_G4_Al_23MeV_range
+/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_23MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #7th energy
 /gps/ene/mono 22. MeV
-/custom/ana/setOutFolder Output/D_G4_Al_22MeV_range
+/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_22MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #8th energy
 /gps/ene/mono 21. MeV
-/custom/ana/setOutFolder Output/D_G4_Al_21MeV_range
+/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_21MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
