@@ -58,15 +58,15 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
-#/custom/geo/setMat G4_Li
-#/custom/geo/setMat G4_Li
+#/custom/geo/setMat G4_Be
+#/custom/geo/setMat G4_Be
 #/custom/ana/setOutFolder Output/Test
 
 #Start a run and print progress in console
 
 #set particle/material
 /gps/particle alpha
-/custom/geo/setMat G4_Li
+/custom/geo/setMat G4_Be
 #REMEMBER TO CHANGE PRIMITIVE SCORER TO ALPHA-TRACKING IN DETECTORCONSTRUCTION.CC!!!
 
 #remember to change 'particleFilter' for Primitive Scorer in 'DetectorConstruction.cc'
@@ -74,49 +74,49 @@
 
 #1st energy
 /gps/ene/mono 56. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Li_56MeV_range
+/custom/ana/setOutFolder Output/Alpha_G4_Be_56MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #2nd energy
 /gps/ene/mono 55. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Li_55MeV_range
+/custom/ana/setOutFolder Output/Alpha_G4_Be_55MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #3rd energy
 /gps/ene/mono 54. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Li_54MeV_range
+/custom/ana/setOutFolder Output/Alpha_G4_Be_54MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #4th energy
 /gps/ene/mono 53. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Li_53MeV_range
+/custom/ana/setOutFolder Output/Alpha_G4_Be_53MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #5th energy
 /gps/ene/mono 52. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Li_52MeV_range
+/custom/ana/setOutFolder Output/Alpha_G4_Be_52MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #6th energy
 /gps/ene/mono 51. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Li_51MeV_range
+/custom/ana/setOutFolder Output/Alpha_G4_Be_51MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #7th energy
 /gps/ene/mono 50. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Li_50MeV_range
+/custom/ana/setOutFolder Output/Alpha_G4_Be_50MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #8th energy
 /gps/ene/mono 49. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Li_49MeV_range
+/custom/ana/setOutFolder Output/Alpha_G4_Be_49MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
