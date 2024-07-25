@@ -166,7 +166,7 @@ void Run::Merge(const G4Run* run)
 	//map: created particles count
 	Merge(fParticleDataMap1, localRun->fParticleDataMap1);
 
-	//map: particles flux count
+	//map: particles leaving World volume
 	Merge(fParticleDataMap2, localRun->fParticleDataMap2);
 
 	G4Run::Merge(run);
@@ -268,10 +268,11 @@ void Run::EndOfRun()
 	std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
 	// std::ofstream outFile(fileName);
 
+	// List of generated Particles in TOTAL to file
 	OutputParticleData(fParticleDataMap1, outFile);
 
 
-	//particles flux
+	// List of generated Particles leaving the World volume to console
 	OutputParticleData(fParticleDataMap2, G4cout);
 	//remove all contents in fProcCounter, fCount
 	fProcCounter.clear();
