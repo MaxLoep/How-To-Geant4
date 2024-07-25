@@ -76,48 +76,48 @@
 /gps/ene/mono 14. MeV
 /custom/ana/setOutFolder Output/P_G4_Fe_14MeV_range
 /run/printProgress 250000
-/run/beamOn 10000
+/run/beamOn 10000000
 
 #2nd energy
 /gps/ene/mono 13. MeV
 /custom/ana/setOutFolder Output/P_G4_Fe_13MeV_range
 /run/printProgress 250000
-/run/beamOn 10000
+/run/beamOn 10000000
 
 #3rd energy
 /gps/ene/mono 12. MeV
 /custom/ana/setOutFolder Output/P_G4_Fe_12MeV_range
 /run/printProgress 250000
-/run/beamOn 10000
+/run/beamOn 10000000
 
 #4th energy
 /gps/ene/mono 11. MeV
 /custom/ana/setOutFolder Output/P_G4_Fe_11MeV_range
 /run/printProgress 250000
-/run/beamOn 10000
+/run/beamOn 10000000
 
 #5th energy
 /gps/ene/mono 10. MeV
 /custom/ana/setOutFolder Output/P_G4_Fe_10MeV_range
 /run/printProgress 250000
-/run/beamOn 10000
+/run/beamOn 10000000
 
 #6th energy
 /gps/ene/mono 9. MeV
 /custom/ana/setOutFolder Output/P_G4_Fe_09MeV_range
 /run/printProgress 250000
-/run/beamOn 10000
+/run/beamOn 10000000
 
 #7th energy
 /gps/ene/mono 8. MeV
 /custom/ana/setOutFolder Output/P_G4_Fe_08MeV_range
 /run/printProgress 250000
-/run/beamOn 10000
+/run/beamOn 10000000
 
 #8th energy
 /gps/ene/mono 7. MeV
 /custom/ana/setOutFolder Output/P_G4_Fe_07MeV_range
 /run/printProgress 250000
-/run/beamOn 10000
+/run/beamOn 10000000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
