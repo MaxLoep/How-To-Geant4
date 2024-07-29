@@ -52,10 +52,10 @@ void DetectorConstruction::DefineMaterials()
 	// 															1.03*g/cm3,   //density
 	// 															3);           //number of elements														
 
-	// //Add Elements to Material
-	// BoratedPE->AddMaterial(Hydrogen, 14.*perCent);
-	// BoratedPE->AddMaterial(Carbon, 81.*perCent);
-	// BoratedPE->AddMaterial(Boron, 5.*perCent);
+	//Add Elements to Material
+	// BoratedPE->AddMaterial(Hydrogen(), 14.*perCent);
+	// BoratedPE->AddMaterial(Carbon(), 81.*perCent);
+	// BoratedPE->AddMaterial(Boron(), 5.*perCent);
 
 	// //Define Densimet180 (Manufacturer: Plansee)
 	// Densimet180 = new G4Material("Densimet180", //name
