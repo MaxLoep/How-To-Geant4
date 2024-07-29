@@ -69,7 +69,7 @@ void DetectorConstruction::DefineMaterials()
 		};
 
 		G4Material* make() {
-			if (this->mat_ptr) return this->mat_ptr;
+			if (this->made) return this->mat_ptr;
 
 			auto material = new G4Material(
 				this->name,
@@ -81,25 +81,25 @@ void DetectorConstruction::DefineMaterials()
 				material->AddMaterial(mat(), amount);
 			}
 			this->mat_ptr = material;
+			this->made = true;
 			return this->mat_ptr;
 		};
 
+		G4Material* operator () () {
+			return this->make();
+		}
+
 		private:
 		G4Material* mat_ptr;
+		bool made = false;
 	};
 
-	std::vector<CustomMat> known_materials = {
-		#include "custom_materials.h"
-	};
 
-	std::function<G4Material*(string)> find_or_build_custom = [&](string name){
-		for (auto custom_mat :  known_materials) {
-			if (custom_mat.name == name) return custom_mat.make();
-		}
-		return known_materials[0].make();
-	};
-
-	BoratedPE = [&](){ return find_or_build_custom("BoratedPE");};
+	BoratedPE = CustomMat("BoratedPE", 1.03*g/cm3, {
+				{Hydrogen, 14.*perCent},
+				{Carbon, 81.*perCent},
+				{Boron, 5.*perCent}
+	});
 	// Self-defined Materials
 	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
 	// BoratedPE   = new G4Material("B
