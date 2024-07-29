@@ -54,8 +54,6 @@ void DetectorConstruction::DefineMaterials()
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
 
-	typedef std::function<G4Material*()> MaterialMaker;
-
 	struct CustomMat{
 		string name;
 		double density;
@@ -101,7 +99,7 @@ void DetectorConstruction::DefineMaterials()
 		return known_materials[0].make();
 	};
 
-	BoratedPE = find_or_build_custom("BoratedPE");
+	BoratedPE = [&](){ return find_or_build_custom("BoratedPE");};
 	// Self-defined Materials
 	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
 	// BoratedPE   = new G4Material("B
