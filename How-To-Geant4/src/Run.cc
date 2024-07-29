@@ -202,13 +202,11 @@ void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ost
 
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
-	stream
-		<< "[metadata]\n"
-		<< "data = None\n"
-		<< "\n";
-
 	for ( const auto& particleData : particle_map ) {
 		G4String name = particleData.first;
+		std::replace( name.begin(), name.end(), '[', '_');
+		name.erase(std::remove(name.begin(), name.end(), ']'), name.end());
+		std::replace( name.begin(), name.end(), '.', '_');
 		ParticleData data = particleData.second;
 		G4int count = data.fCount;
 		G4double meanLife = data.fTmean;
@@ -216,8 +214,10 @@ void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ost
 			<< "[" << name << "]\n"
 			<< "count = " << count << "\n"
 			<< "stable = " << ((meanLife >= 0.) ? "false" : "true") << "\n"
-			<< "half_life = " << ((meanLife >= 0.) ? meanLife * second : NAN) << "\n"
-			<< "\n";
+			<< "half_life = " << ((meanLife >= 0.) ? meanLife * 1e-9: NAN) << "\n";
+		if (meanLife >= 0.)
+			stream << "human_readable_half_life = \""  << G4BestUnit(meanLife, "Time") << "\"\n";
+		stream << "\n";
 	}
 }
 
