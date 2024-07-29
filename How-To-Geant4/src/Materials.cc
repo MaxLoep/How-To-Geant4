@@ -10,6 +10,15 @@ TO-DO:
 #include "G4SystemOfUnits.hh"           //for units
 #include "G4UnitsTable.hh"              //for units
 
+#include <functional>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <vector>
+using std::string;
+
+
+
 //Define materials and compositions you want to use in the simulation
 void DetectorConstruction::DefineMaterials()
 {
@@ -45,12 +54,61 @@ void DetectorConstruction::DefineMaterials()
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
 
+	typedef std::function<G4Material*()> MaterialMaker;
 
+	struct CustomMat{
+		string name;
+		double density;
+		std::vector<std::tuple<MaterialMaker, double>> parts;
+		CustomMat(
+			string name = "",
+			double density = 0.0,
+			std::vector<std::tuple<MaterialMaker, double>> parts = {}
+		) {
+			this -> name = name;
+			this -> density = density;
+			this -> parts = parts;
+		};
+
+		G4Material* make() {
+			if (this->mat_ptr) return this->mat_ptr;
+
+			auto material = new G4Material(
+				this->name,
+				this->density,
+				this->parts.size()
+			);
+			for (auto part : this->parts){
+				auto [mat, amount] = part;
+				material->AddMaterial(mat(), amount);
+			}
+			this->mat_ptr = material;
+			return this->mat_ptr;
+		};
+
+		private:
+		G4Material* mat_ptr;
+	};
+
+	std::vector<CustomMat> known_materials = {
+		#include "custom_materials.h"
+	};
+
+	std::function<G4Material*(string)> find_or_build_custom = [&](string name){
+		for (auto custom_mat :  known_materials) {
+			if (custom_mat.name == name) return custom_mat.make();
+		}
+		return known_materials[0].make();
+	};
+
+	BoratedPE = find_or_build_custom("BoratedPE");
 	// Self-defined Materials
 	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
-	// BoratedPE   = new G4Material("BoratedPE",   //name
+	// BoratedPE   = new G4Material("B
+	//
+	// return *material;oratedPE",   //name
 	// 															1.03*g/cm3,   //density
-	// 															3);           //number of elements														
+	// 															3);           //number of elements
 
 	//Add Elements to Material
 	// BoratedPE->AddMaterial(Hydrogen(), 14.*perCent);
