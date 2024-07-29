@@ -14,6 +14,7 @@ REWORK NEEDED!
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 
+#include <cmath>
 #include <filesystem>
 namespace fs = std::filesystem;
 
@@ -172,7 +173,7 @@ void Run::Merge(const G4Run* run)
 	G4Run::Merge(run);
 }
 
-
+/*
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
 	G4int prec = 5, wid = prec + 2;
@@ -193,11 +194,32 @@ void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ost
 					<< "\t( "  << G4BestUnit(eMin, "Energy")
 					<< " --> " << G4BestUnit(eMax, "Energy") << ")";
 		if (meanLife >= 0.)
-			stream << "\thalf life = \t" << G4BestUnit(meanLife, "Time")   << G4endl;
+			stream << "\thalf life = \t" << G4BestUnit(meanLife, "Time")  c << G4endl;
 		else stream << "\tstable\tstable" << G4endl;
 	}
 }
+*/
 
+template <typename Ostream>
+void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
+	stream
+		<< "[metadata]\n"
+		<< "data = None\n"
+		<< "\n";
+
+	for ( const auto& particleData : particle_map ) {
+		G4String name = particleData.first;
+		ParticleData data = particleData.second;
+		G4int count = data.fCount;
+		G4double meanLife = data.fTmean;
+		stream
+			<< "[" << name << "]\n"
+			<< "count = " << count << "\n"
+			<< "stable = " << ((meanLife >= 0.) ? "false" : "true") << "\n"
+			<< "half_life = " << ((meanLife >= 0.) ? meanLife * second : NAN) << "\n"
+			<< "\n";
+	}
+}
 
 void Run::EndOfRun()
 {
@@ -206,9 +228,9 @@ void Run::EndOfRun()
 
 	G4String Particle = fParticle->GetParticleName();
 	G4cout << "\n The run consisted of " << numberOfEvent << " "<< Particle
-				<<"s" 
+				<<"s"
 				// << " of " << G4BestUnit(fEkin,"Energy")
-				<<" as primary particles" 
+				<<" as primary particles"
 				<< G4endl;
 
 	if (numberOfEvent == 0) { G4cout.precision(dfprec);   return;}
