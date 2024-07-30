@@ -115,7 +115,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     //Self-definded Materials
     MaterialMaker BoratedPE;
-    G4Material* Densimet180;
+    MaterialMaker Densimet180;
 
    DetectorMessenger* fDetectorMessenger;
 

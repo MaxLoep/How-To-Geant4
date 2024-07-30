@@ -54,6 +54,7 @@ void DetectorConstruction::DefineMaterials()
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
 
+	// structure to easily define Custom Materials later on
 	struct CustomMat{
 		string name;
 		double density;
@@ -94,35 +95,20 @@ void DetectorConstruction::DefineMaterials()
 		bool made = false;
 	};
 
-
+	// Self-defined Materials
+	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
 	BoratedPE = CustomMat("BoratedPE", 1.03*g/cm3, {
 				{Hydrogen, 14.*perCent},
 				{Carbon, 81.*perCent},
 				{Boron, 5.*perCent}
 	});
-	// Self-defined Materials
-	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
-	// BoratedPE   = new G4Material("B
-	//
-	// return *material;oratedPE",   //name
-	// 															1.03*g/cm3,   //density
-	// 															3);           //number of elements
 
-	//Add Elements to Material
-	// BoratedPE->AddMaterial(Hydrogen(), 14.*perCent);
-	// BoratedPE->AddMaterial(Carbon(), 81.*perCent);
-	// BoratedPE->AddMaterial(Boron(), 5.*perCent);
-
-	// //Define Densimet180 (Manufacturer: Plansee)
-	// Densimet180 = new G4Material("Densimet180", //name
-	// 															18.0*g/cm3,   //density
-	// 															3);           //number of elements
-
-	// //Add Elements to Material
-	// Densimet180->AddMaterial(Tungsten, 95.*perCent);
-	// Densimet180->AddMaterial(Iron, 1.6*perCent);
-	// Densimet180->AddMaterial(Nickel, 3.4*perCent);
-
+	//Define Densimet180 (Manufacturer: Plansee)
+	Densimet180 = CustomMat("Densimet180", 18.0*g/cm3, {
+				{Tungsten, 95.*perCent},
+				{Iron, 1.6*perCent},
+				{Nickel, 3.4*perCent}
+	});
 
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
 
