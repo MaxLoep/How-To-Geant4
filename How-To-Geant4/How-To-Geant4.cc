@@ -1,5 +1,4 @@
 #include "platform.hh"
-#include "seed.hh"
 
 #include "G4Types.hh"
 // #include "SteppingVerbose.hh"
@@ -77,24 +76,22 @@ int main(int argc,char** argv) {
   // G4Random::setTheEngine(new CLHEP::RandEngine);       -not working!
   // G4Random::setTheEngine(new CLHEP::TripleRand);       -not working!
 
-  // set a initial random seed based on process id
-  // G4long pid = _getpid(); //make this a global variable because the process ID is used to name output files in Run.cc, RunAction.cc and SDX.cc
-  // G4long seed = pid;
-  // G4Random::setTheSeed(seed);
-  // srand(time(NULL));
-  // int seed=std::rand();
+  // set a initial random seed based on epoch time and system clock
   std::timespec ts;
   std::timespec_get(&ts, TIME_UTC);
-  int time=ts.tv_sec;
-  int time_ns=ts.tv_nsec;
+  // get epoch time and system clock nanosecond value
+  int time    = ts.tv_sec;
+  int time_ns = ts.tv_nsec;
+  // set a initial random seed
   G4Random::setTheSeed(time_ns);
   
-  G4cout
-		<< G4endl
-		<< " The random Seed in main() is:" << G4endl
-    << time << G4endl
-    << time_ns << G4endl
-	  << G4endl;
+  // for debbuging REMOVE later
+  // G4cout
+	// 	<< G4endl
+	// 	<< " The random Seed in main() is:" << G4endl
+  //   << time << G4endl
+  //   << time_ns << G4endl
+	//   << G4endl;
 	
 	// Create seed array
 	G4long seed[2];
@@ -177,7 +174,7 @@ int main(int argc,char** argv) {
 
   //Doppler broadening of the resonances, due to target thermal motion, is calculated on-the-fly (from T = 0 K values)
   //Very CPU intense: for those applications that do not need it, it can be switched off by setting the environmental variable
-  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( true );
+  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
 
   G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
   //G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7

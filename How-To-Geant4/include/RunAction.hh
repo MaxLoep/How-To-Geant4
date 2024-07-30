@@ -10,7 +10,6 @@ class Run;
 class PrimaryGeneratorAction;
 class HistoManager;
 
-
 class RunAction : public G4UserRunAction
 {
   public:
@@ -28,6 +27,5 @@ class RunAction : public G4UserRunAction
     HistoManager*              fHistoManager;
         
 };
-
 
 #endif

@@ -1,10 +1,6 @@
 /*
 TO-DO:
-Declared materials load their (crosssection-)data at the start of a run wether they are actually used in the 
-simulation or not. This will blow up the needed RAM and slow down the start of a simulation.
-->Can this be prevented?
--> stupid solution: comment out the matirials you dont need and re-compile
--> smooth solution: auto check which matirals are used in simulation and only declare them as needed
+-implement Self-defined materials in a way like NIST materials (only get loaded when actually used)
 */
 
 
@@ -14,6 +10,15 @@ simulation or not. This will blow up the needed RAM and slow down the start of a
 #include "G4SystemOfUnits.hh"           //for units
 #include "G4UnitsTable.hh"              //for units
 
+#include <functional>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <vector>
+using std::string;
+
+
+
 //Define materials and compositions you want to use in the simulation
 void DetectorConstruction::DefineMaterials()
 {
@@ -22,14 +27,13 @@ void DetectorConstruction::DefineMaterials()
 	//How to define Materials using the NIST database
 	//see https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html for a list of available materials
 	//
-	// Get nist material manager
-	// G4NistManager* nist = G4NistManager::Instance();
+	// Initiate the NIST Material Manager
 	nist = G4NistManager::Instance();
 
 	// define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
 	// world_mat    = nist->FindOrBuildMaterial("G4_AIR");
 	world_mat   = nist->FindOrBuildMaterial("G4_Galactic");
-	boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
+	// boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
 
 	// NIST Materials
 	Vacuum      = [&](){return nist->FindOrBuildMaterial("G4_Galactic");};
@@ -45,33 +49,70 @@ void DetectorConstruction::DefineMaterials()
 
 	// NIST Compounds
 	Concrete    = [&](){return nist->FindOrBuildMaterial("G4_CONCRETE");};
-	Graphite    = [&](){return nist->FindOrBuildMaterial("G4_GRAPHITE");};
+	Graphite    = [&](){return nist->FindOrBuildMaterial("G4_GRAPHITE_POROUS");};	// G4_Graphite has the molecular density of 2.2g/cm3, which can not be realized in a solid target
 	Steel       = [&](){return nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
-	// // Self-defined Materials
-	// //Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
-	// BoratedPE   = new G4Material("BoratedPE",   //name
-	// 															1.03*g/cm3,   //density
-	// 															3);           //number of elements
 
-	// //Add Elements to Material
-	// BoratedPE->AddMaterial(Hydrogen, 14.*perCent);
-	// BoratedPE->AddMaterial(Carbon, 81.*perCent);
-	// BoratedPE->AddMaterial(Boron, 5.*perCent);
+	// structure to easily define Custom Materials later on
+	struct CustomMat{
+		string name;
+		double density;
+		std::vector<std::tuple<MaterialMaker, double>> parts;
+		CustomMat(
+			string name = "",
+			double density = 0.0,
+			std::vector<std::tuple<MaterialMaker, double>> parts = {}
+		) {
+			this -> name = name;
+			this -> density = density;
+			this -> parts = parts;
+		};
 
-	// //Define Densimet180 (Manufacturer: Plansee)
-	// Densimet180 = new G4Material("Densimet180", //name
-	// 															18.0*g/cm3,   //density
-	// 															3);           //number of elements
+		G4Material* make() {
+			if (this->made) return this->mat_ptr;
 
-	// //Add Elements to Material
-	// Densimet180->AddMaterial(Tungsten, 95.*perCent);
-	// Densimet180->AddMaterial(Iron, 1.6*perCent);
-	// Densimet180->AddMaterial(Nickel, 3.4*perCent);
+			auto material = new G4Material(
+				this->name,
+				this->density,
+				this->parts.size()
+			);
+			for (auto part : this->parts){
+				auto [mat, amount] = part;
+				material->AddMaterial(mat(), amount);
+			}
+			this->mat_ptr = material;
+			this->made = true;
+			return this->mat_ptr;
+		};
 
+		G4Material* operator () () {
+			return this->make();
+		}
+
+		private:
+		G4Material* mat_ptr;
+		bool made = false;
+	};
+
+	// Self-defined Materials
+	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
+	BoratedPE = CustomMat("BoratedPE", 1.03*g/cm3, {
+				{Hydrogen, 14.*perCent},
+				{Carbon, 81.*perCent},
+				{Boron, 5.*perCent}
+	});
+
+	//Define Densimet180 (Manufacturer: Plansee)
+	Densimet180 = CustomMat("Densimet180", 18.0*g/cm3, {
+				{Tungsten, 95.*perCent},
+				{Iron, 1.6*perCent},
+				{Nickel, 3.4*perCent}
+	});
 
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
+
+	// Initialize dummyMat as Vacuum
 	dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
 	//Print all defined materials to console

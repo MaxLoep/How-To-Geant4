@@ -60,6 +60,7 @@ SD1::~SD1()
 		fs::create_directory(folderName);
 		fs::create_directory(folderName + "/" + ListFolder);
 
+		// REMOVE / REWORK because filname is now based on time not on process-ID
 		//Get main process ID
 		G4long pid = _getpid();
 

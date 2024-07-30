@@ -8,6 +8,9 @@
 /run/numberOfThreads 4
 /run/initialize
 
+#Deactivate Radioactive Decay
+#/process/inactivate RadioactiveDecay
+
 #Commands to use with the General Particle Source (GPS) for radioactive ion source
 /gps/particle ion
 
@@ -26,7 +29,8 @@
 #/gps/pos/halfz 1 cm
 
 #limit the decay chain to surpress following decays
-#/grdm/nucleusLimits 210 210 82 82
+#/process/had/rdm/nucleusLimits [Amin] [Amax] [Zmin] [Zmax]
+#/process/had/rdm/nucleusLimits 999 999 999 999
 
 #Start a run and print progress in console
 /run/printProgress 1000

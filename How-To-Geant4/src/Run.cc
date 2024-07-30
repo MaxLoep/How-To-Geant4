@@ -20,16 +20,7 @@ namespace fs = std::filesystem;
 // get folderName from where it is defined (RunAction.cc) - the really dirty way
 extern std::string folderName;
 // Standard folder name for the 'ListOfGeneratedParticles' files
-std::string ListFolder = "Lists of generated Particles";
-
-//
-//Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
-//
-// void DetectorConstruction::SetOutputFolder(G4String OutFoldName)
-// void DetectorConstruction::SetOutputFolder(std::string OutFoldName)
-// {
-// folderName = OutFoldName;
-// }
+std::string ListFolder = "Lists_of_generated_Particles";
 
 // mutex in a file scope
 namespace {
@@ -44,9 +35,7 @@ G4int Run::fgIonId = kMaxHisto1;
 
 // old code from example -> can be removed
 Run::Run(DetectorConstruction* det) : G4Run(), fDetector(det), fParticle(nullptr), fEkin(0.)
-{
-	//this is empty - can this be nicer?
-}
+{ }
 
 
 Run::~Run()
@@ -177,7 +166,7 @@ void Run::Merge(const G4Run* run)
 	//map: created particles count
 	Merge(fParticleDataMap1, localRun->fParticleDataMap1);
 
-	//map: particles flux count
+	//map: particles leaving World volume
 	Merge(fParticleDataMap2, localRun->fParticleDataMap2);
 
 	G4Run::Merge(run);
@@ -187,7 +176,7 @@ void Run::Merge(const G4Run* run)
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
 	G4int prec = 5, wid = prec + 2;
-	stream << "\n List of generated particles:" << G4endl;
+	stream << "\n List of particles leaving the world volume:" << G4endl;
 
 	 for ( const auto& particleData : particle_map ) {
 		G4String name = particleData.first;
@@ -215,18 +204,12 @@ void Run::EndOfRun()
 	G4int prec = 5, wid = prec + 2;
 	G4int dfprec = G4cout.precision(prec);
 
-	//run condition
-	//
-	G4Material* material = fDetector->GetAbsorMaterial();
-	G4double density = material->GetDensity();
-
 	G4String Particle = fParticle->GetParticleName();
-	G4cout << "\n The run is " << numberOfEvent << " "<< Particle
-				 //<< " of " << G4BestUnit(fEkin,"Energy")
-				 << " through "
-				 << G4BestUnit(fDetector->GetAbsorThickness(),"Length") << " of "
-				 << material->GetName() << " (density: "
-				 << G4BestUnit(density,"Volumic Mass") << ")" << G4endl;
+	G4cout << "\n The run consisted of " << numberOfEvent << " "<< Particle
+				<<"s" 
+				// << " of " << G4BestUnit(fEkin,"Energy")
+				<<" as primary particles" 
+				<< G4endl;
 
 	if (numberOfEvent == 0) { G4cout.precision(dfprec);   return;}
 
@@ -242,7 +225,7 @@ void Run::EndOfRun()
 	}
 	G4cout << G4endl;
 
-	//List of generated particles to console
+	//List of generated particles: to console
 	G4cout << "\n List of generated particles:" << G4endl;
 
 	for ( const auto& particleData : fParticleDataMap1 ) {
@@ -285,11 +268,12 @@ void Run::EndOfRun()
 	std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
 	// std::ofstream outFile(fileName);
 
+	// List of generated Particles in TOTAL to file
 	OutputParticleData(fParticleDataMap1, outFile);
 
 
-//particles flux
-OutputParticleData(fParticleDataMap2, G4cout);
+	// List of generated Particles leaving the World volume to console
+	OutputParticleData(fParticleDataMap2, G4cout);
 	//remove all contents in fProcCounter, fCount
 	fProcCounter.clear();
 	fParticleDataMap1.clear();

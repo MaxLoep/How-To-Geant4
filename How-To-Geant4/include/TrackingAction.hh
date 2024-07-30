@@ -6,7 +6,6 @@
 
 class EventAction;
 
-
 class TrackingAction : public G4UserTrackingAction {
 
   public:  
@@ -21,6 +20,5 @@ class TrackingAction : public G4UserTrackingAction {
 
     G4double fTimeBirth,  fTimeEnd;
 };
-
 
 #endif

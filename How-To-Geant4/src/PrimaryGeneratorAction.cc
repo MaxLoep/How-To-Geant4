@@ -1,6 +1,5 @@
 /*
 Define the way you create primaries:
-Either use ParticleGun and need to create energy and angular distributions here and yourself or
 use GeneralParticleSource and use built-in functions to set energy and angular distribution in the macro file
 */
 
@@ -26,12 +25,13 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
 {
 	fParticleBeam  = new G4GeneralParticleSource();
 
+	// REMOVE is this turns out to be unneccessary
 	// default particle kinematic
-	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-	G4String particleName;
-	G4ParticleDefinition* particle = particleTable->FindParticle(particleName="gamma");
+	// G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+	// G4String particleName;
+	// G4ParticleDefinition* particle = particleTable->FindParticle(particleName="gamma");
 
-	fParticleBeam->SetParticleDefinition(particle);
+	// fParticleBeam->SetParticleDefinition(particle);
 	
 }
 

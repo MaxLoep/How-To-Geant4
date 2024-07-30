@@ -27,12 +27,9 @@ SteppingAction::~SteppingAction()
 void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
 	// count processes
-	// 
 	const G4StepPoint* endPoint = aStep->GetPostStepPoint();
 	const G4VProcess* process   = endPoint->GetProcessDefinedStep();
 	Run* run = static_cast<Run*>(
 				G4RunManager::GetRunManager()->GetNonConstCurrentRun());
 	run->CountProcesses(process);
-	 
 }
-

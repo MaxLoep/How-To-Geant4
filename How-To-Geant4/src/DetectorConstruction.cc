@@ -10,7 +10,7 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 #include "G4RunManager.hh"              //Necessary. You need this.
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
-#include "G4Material.hh"				
+#include "G4Material.hh"
 
 #include "G4Box.hh"                     //for cuboid
 #include "G4Sphere.hh"                  //for sphere
@@ -47,8 +47,8 @@ Remember to include the header-files in your simulation, e.g. if you want to pla
 
 DetectorConstruction::DetectorConstruction()
 :G4VUserDetectorConstruction(),
- fAbsorMaterial(nullptr), fLAbsor(nullptr), world_mat(nullptr), fDetectorMessenger(nullptr),
- fScoringVolume(0)
+//  fAbsorMaterial(nullptr), fLAbsor(nullptr),fScoringVolume(0),
+ world_mat(nullptr), fDetectorMessenger(nullptr)
 {
 	// for reading and writing GDML
 	fLoadFile  ="test.gdml";
@@ -73,8 +73,9 @@ DetectorConstruction::DetectorConstruction()
 	d = 1.*cm;  // unused
 	e = 1.*cm;  // unused
 
-	// materials
+	// Define Materials
 	DefineMaterials(); // see Materials.cc for defined Materials
+
 	// SetAbsorMaterial("G4_Co");
 	//Print all defined materials to console
 	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
@@ -97,7 +98,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #pragma region
 	G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
-	{ 
+	{
 
 		// Cleanup old geometry - needed if you want to change parameters via macro commands
 		G4GeometryManager::GetInstance()->OpenGeometry();
@@ -105,19 +106,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		G4LogicalVolumeStore::GetInstance()->Clean();
 		G4SolidStore::GetInstance()->Clean();
 
-		// LOAD GDML FILE 
+		// LOAD GDML FILE
 		// default value = 0
 		// you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
 		if(fLoadingChoice==1 && fOnlyLoadChoice==1)	//Load only a GDML file
 		{
-			// print for DEBUGGING 
+			// print for DEBUGGING
 			G4cout << "\n ----READING GDML!---- " << G4endl;
 
 			LoadGDML(fLoadFile); // load a Geometry from GDML file
 		}
 		else if(fLoadingChoice==1 && fOnlyLoadChoice==0)	//Load a GDML file and construct other volumes in this file
 		{
-			// print for DEBUGGING 
+			// print for DEBUGGING
 			G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
 
 			LoadGDML(fLoadFile);                  // load a Geometry from GDML file
@@ -125,7 +126,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		}
 		else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )	//dont load a GDML file but construct volumes in this file
 		{
-			// print for DEBUGGING 
+			// print for DEBUGGING
 			G4cout << "\n ----You did not load any GDML file---- " << G4endl;
 			G4cout << "\n ----CONSTRUCTING VOLUMES instead!---- " << G4endl;
 
@@ -134,11 +135,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		//Why did i do this else-case? Isnt it identically to the case before?
 		else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
 		{
-			// print for DEBUGGING 
+			// print for DEBUGGING
 			G4cout << "\n ----CONSTRUCTING VOLUMES!---- " << G4endl;
 
 			fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
-		} 
+		}
 
 		// always return the root volume
 		return fWorldPhysVol;
@@ -147,7 +148,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	// Define a Geometry in this file
 	G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	{
-			// print for DEBUGGING 
+			// print for DEBUGGING
 			G4cout << "\n ----ONLYLOAD is---- " << fOnlyLoadChoice <<  G4endl;
 
 		// Cleanup old geometry - this already hapened in ConstructVolumesGDML
@@ -163,24 +164,24 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
 		2.: Make it a Logical Volume by assigning a material to it
 		3.: Place it in your simulation
-		*/ 
+		*/
 
 		if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to be constructed
 		{
 			// If no GDML file is loaded, a World volume needs to be created - otherwise it should be in the GDML file
-			G4Box* solidWorld =    
+			G4Box* solidWorld =
 				new G4Box("sWorld",                       //its name
 					0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     //its size
-					
-			// G4LogicalVolume* lWorld =  
-			lWorld =                       
+
+			// G4LogicalVolume* lWorld =
+			lWorld =
 				new G4LogicalVolume(solidWorld,          //its solid
 														Vacuum(),
 														// world_mat,           //its material
 														"lWorld");            //its name
-																			
-			// G4VPhysicalVolume* fWorldPhysVol = 
-			fWorldPhysVol = 
+
+			// G4VPhysicalVolume* fWorldPhysVol =
+			fWorldPhysVol =
 				new G4PVPlacement(0,                     //no rotation
 													G4ThreeVector(),       //at (0,0,0)
 													lWorld,            //its logical volume
@@ -201,30 +202,30 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			lWorld = fWorldPhysVol->GetLogicalVolume();
 		}
 
-		// print for DEBUGGING 
+		// print for DEBUGGING
 		G4cout << lWorld->GetName() << " is the world volume" << G4endl;
 #pragma endregion
 
-// 
+//
 //Import Standard Geometry (1 box, 1 sphere and 5 SDs)
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#pragma region  
+#pragma region
 	// create a box to be used as Primitive Scorer (PS) and place it in the world volume
-	//  
+	//
 	// Box
-	// 
-	G4Box* sBox =    
+	//
+	G4Box* sBox =
 		new G4Box("sBox",                        //its name
 				boxX/2, boxY/2, boxZ/2);                   //its size: half x, half y, half z
-			
-	G4LogicalVolume* lBox =                         
+
+	G4LogicalVolume* lBox =
 		new G4LogicalVolume(sBox,                //its solid
 												// boxMaterial,           //its material
-												Vacuum(),
+												dummyMat,
 												// Aluminum(),
 												"lBox");              //its name
-	
-	//G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused   
+
+	//G4VPhysicalVolume* physBox=              //you can declare a varibale for placement but it will create a warning if unused
 		new G4PVPlacement(0,                     //no rotation
 							G4ThreeVector(0,0,80.*cm),     //position
 							lBox,                          //its logical volume
@@ -242,19 +243,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lBox->SetVisAttributes(lBoxVisAtt);
 
 	//create 5 flat boxes to use as Sensitive Detector (SD)
-	//     
+	//
 	// SD1
-	// 
-	G4Box* sSD1 =    
+	//
+	G4Box* sSD1 =
 		new G4Box("sSD1",                        //its name
 				a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
-			
-	G4LogicalVolume* lSD1 =                         
+
+	G4LogicalVolume* lSD1 =
 		new G4LogicalVolume(sSD1,                //its solid
-												Vacuum(),
+												//Vacuum(),
+												BoratedPE(),
 												// Aluminum(),           //its material
 												"lSD1");              //its name
-		
+
 		new G4PVPlacement(0,                     //no rotation
 							G4ThreeVector(0,0,10.*cm),     //position
 							lSD1,                          //its logical volume
@@ -270,19 +272,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lSD1VisAtt->SetVisibility(true);
 	lSD1->SetVisAttributes(lSD1VisAtt);
 
-	//     
+	//
 	// SD2
-	// 
-	G4Box* sSD2 =    
+	//
+	G4Box* sSD2 =
 		new G4Box("sSD2",                        //its name
 				a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
-			
-	G4LogicalVolume* lSD2 =                         
+
+	G4LogicalVolume* lSD2 =
 		new G4LogicalVolume(sSD2,                //its solid
 												Vacuum(),
 												// Titanium(),           //its material
 												"lSD2");              //its name
-		
+
 		new G4PVPlacement(0,                     //no rotation
 							G4ThreeVector(0,0,20.*cm),     //position
 							lSD2,                          //its logical volume
@@ -298,19 +300,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lSD2VisAtt->SetVisibility(true);
 	lSD2->SetVisAttributes(lSD2VisAtt);
 
-	//     
+	//
 	// SD3
-	// 
-	G4Box* sSD3 =    
+	//
+	G4Box* sSD3 =
 		new G4Box("sSD3",                        //its name
 				a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
-			
-	G4LogicalVolume* lSD3 =                         
+
+	G4LogicalVolume* lSD3 =
 		new G4LogicalVolume(sSD3,                //its solid
 												Vacuum(),
 												// Copper(),           //its material
 												"lSD3");              //its name
-		
+
 		new G4PVPlacement(0,                     //no rotation
 							G4ThreeVector(0,0,30.*cm),     //position
 							lSD3,                          //its logical volume
@@ -326,19 +328,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lSD3VisAtt->SetVisibility(true);
 	lSD3->SetVisAttributes(lSD3VisAtt);
 
-	//     
+	//
 	// SD4
-	// 
-	G4Box* sSD4 =    
+	//
+	G4Box* sSD4 =
 		new G4Box("sSD4",                        //its name
 				a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
-			
-	G4LogicalVolume* lSD4 =                         
+
+	G4LogicalVolume* lSD4 =
 		new G4LogicalVolume(sSD4,                //its solid
 												Vacuum(),
 												// Nickel(),           //its material
 												"lSD4");              //its name
-		
+
 		new G4PVPlacement(0,                     //no rotation
 							G4ThreeVector(0,0,40.*cm),     //position
 							lSD4,                          //its logical volume
@@ -354,20 +356,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lSD4VisAtt->SetVisibility(true);
 	lSD4->SetVisAttributes(lSD4VisAtt);
 
-	//     
+	//
 	// SD5
-	// 
-	G4Box* sSD5 =    
+	//
+	G4Box* sSD5 =
 		new G4Box("sSD5",                        //its name
 				a/2, a/2, 0.02*mm /2);                   //its size: half x, half y, half z
 				// a/2, a/2, 2.*cm /2);                   //its size: half x, half y, half z
-			
-	G4LogicalVolume* lSD5 =                         
+
+	G4LogicalVolume* lSD5 =
 		new G4LogicalVolume(sSD5,                //its solid
 												Vacuum(),           //its material
 												// Concrete(),
 												"lSD5");              //its name
-		
+
 		new G4PVPlacement(0,                     //no rotation
 							G4ThreeVector(0,0,50.*cm),     //position
 							lSD5,                          //its logical volume
@@ -391,7 +393,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 							20.*cm, 20.01*cm,                  //inner radius, outer radius
 							0., twopi,                      //min phi, max phi
 							0., pi);                        //min rho, max rho
-						
+
 	G4LogicalVolume* lSphere =
 		new G4LogicalVolume(sSphere,              //shape
 												// Concrete(),
@@ -419,36 +421,39 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//
 	// C-target
 	//
-	G4Tubs* solidCylinder = 
-		new G4Tubs("Cylinder",                     //name
-				0, 1.*mm,                      //inner radius, outer radius
-				2.4*mm/2,                              //z half length
-				0., twopi);                       //min phi, max phi
+	// G4Tubs* solidCylinder =
+	// 	new G4Tubs("Cylinder",                     //name
+	// 			0, 1.5*mm,                      //inner radius, outer radius
+	// 			3.1*mm/2,                              //z half length
+	// 			0., twopi);                       //min phi, max phi
 
-	G4LogicalVolume* logicCylinder = 
-		new G4LogicalVolume(solidCylinder,        //shape
-						Graphite(),             //material
-						"Cylinder");           //name
+	// G4LogicalVolume* logicCylinder =
+	// 	new G4LogicalVolume(solidCylinder,        //shape
+	// 					// Graphite(),             //material
+	// 					// Vacuum(),
+	// 					dummyMat,
+	// 					"Cylinder");           //name
 
-	new G4PVPlacement(0,                        //no rotation
-				G4ThreeVector(0,0,0),      //position
-				logicCylinder,                  //logical volume
-				"Cylinder",                     //name
-				lWorld,                     //mother  volume
-				false,                          //boolean operation?
-				0,                              //copy number
-				true);                          //overlaps checking?
+	// new G4PVPlacement(0,                        //no rotation
+	// 			G4ThreeVector(0,0,0),      //position
+	// 			logicCylinder,                  //logical volume
+	// 			"Cylinder",                     //name
+	// 			lWorld,                     //mother  volume
+	// 			false,                          //boolean operation?
+	// 			0,                              //copy number
+	// 			true);                          //overlaps checking?
 
-	//Make (in-)visible and give it a color
-	auto logicCylinderVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
-	logicCylinderVisAtt->SetVisibility(true);
-	logicCylinder->SetVisAttributes(logicCylinderVisAtt);
+	// //Make (in-)visible and give it a color
+	// auto logicCylinderVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+	// logicCylinderVisAtt->SetVisibility(true);
+	// logicCylinder->SetVisAttributes(logicCylinderVisAtt);
 
 	#pragma endregion
 
 	//Print all defined materials to console
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
+	// REMOVE - this ony prints a custom text message
 	// PrintParameters();
 
 	// default value = 0
@@ -461,10 +466,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	return fWorldPhysVol;
 	}
 
+// REMOVE
+// from an old example
+// not neccessary anymore
 void DetectorConstruction::PrintParameters()
 {
 	G4cout << "\n The Absorber is " << G4BestUnit(boxX,"Length")
-				 << " of " << boxMaterial->GetName() 
+				 << " of " << boxMaterial->GetName()
 				 << "\n \n" << boxMaterial << G4endl;
 }
 
@@ -475,22 +483,24 @@ void DetectorConstruction::PrintParameters()
 void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
 {
 	// search the material by its name
-	G4Material* pttoMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);   
-	
-	if (pttoMaterial) { 
-		dummyMat = pttoMaterial;
+	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
+
+	if (NewMaterial) {
+		dummyMat = NewMaterial;
 		G4RunManager::GetRunManager()->ReinitializeGeometry();
 		G4cout << "\n The dummyMat is now "
-					 << dummyMat->GetName() 
-					 << "\n \n" << dummyMat << G4endl;
+					 << dummyMat->GetName()
+					 << G4endl;
+					//  no need to print the new material here as it is already done when Geometry is reinitialized
+					//  << "\n \n" << dummyMat << G4endl;
 
-		if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
-		G4RunManager::GetRunManager()->PhysicsHasBeenModified();
-		G4cout << "\n Weird if-case happened..." << G4endl;
+		// if(fLAbsor) { fLAbsor->SetMaterial(fAbsorMaterial); }
+		// G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+		// G4cout << "\n Weird if-case happened..." << G4endl;
 	} else {
 		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
 					 << materialChoice << " not found" << G4endl;
-	}              
+	}
 }
 
 // Change Parameters via Macro file with these
@@ -572,25 +582,25 @@ void DetectorConstruction::LoadGDML( const G4String& File )
 	// Flag to "false" disables check with the Schema when reading GDML file.
 	// See the GDML Documentation for more information.
 	// fParser.Read(fLoadFile,false);
-		 
+
 	// Prints the material information
 	// G4cout << *(G4Material::GetMaterialTable() ) << G4endl;
-				 
-	// Giving World Physical Volume from GDML Parser 
-	fWorldPhysVol = fParser.GetWorldVolume(); 
+
+	// Giving World Physical Volume from GDML Parser
+	fWorldPhysVol = fParser.GetWorldVolume();
 }
 
 // SaveGDML - function that saves the geometry into a GDML file
 void DetectorConstruction::SaveGDML( const G4String& File )
 {
 	// **** LOOK HERE*** FOR WRITING GDML FILES
-	// If everything is constructed, then you can save the Geometry in a GDML file 
+	// If everything is constructed, then you can save the Geometry in a GDML file
 
 	// OPTION: TO ADD MODULE AT DEPTH LEVEL ...
 	// Can be a integer or a pointer to the top Physical Volume:
 	// G4int depth=1;
 	// fParser.AddModule(depth);
-			
+
 	// OPTION: SETTING ADDITION OF POINTER TO NAME TO FALSE
 	// By default, written names in GDML consist of the given name with
 	// appended the pointer reference to it, in order to make it unique.
@@ -602,7 +612,7 @@ void DetectorConstruction::SaveGDML( const G4String& File )
 	// Writing Geometry to GDML File
 	fParser.Write(fWriteFile, fWorldPhysVol, false);
 	// fParser.Write(fWriteFile, fWorldPhysVol);
-			
+
 	// OPTION: SET MAXIMUM LEVEL TO EXPORT (REDUCED TREE)...
 	// Can be a integer greater than zero:
 	// G4int maxlevel=3;
@@ -627,9 +637,9 @@ void DetectorConstruction::ConstructSDandField()
 
 
 	//Declare a Sensitive Detector
-	auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-	SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
+	// SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
 	// auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
@@ -647,12 +657,12 @@ void DetectorConstruction::ConstructSDandField()
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
 	// SetSensitiveDetector("lSD5", sd5);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
 
-	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-	SetSensitiveDetector("lSphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to logical Volume 'Sphere'
+	// auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
+	// G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
+	// SetSensitiveDetector("lSphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to logical Volume 'Sphere'
 
 
-	// // 
+	// //
 	// //PRIMITIVE SCORERS
 	// //You need also Code for this one to work in:
 	// //RunAction.cc, EventAction.cc
@@ -668,20 +678,28 @@ void DetectorConstruction::ConstructSDandField()
 	// auto charged = new G4SDChargedFilter("chargedFilter");
 	// G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
 
-	// //Proton filter
-	G4SDParticleFilter* protonFilter =
-	new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+  // //Proton filter
+//   G4SDParticleFilter* protonFilter =
+//   new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
 
-	//Neutron filter
-	// G4SDParticleFilter* neutronFilter =
-	// new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
-	
+  // //Deuteron filter
+//   G4SDParticleFilter* deuteronFilter =
+//   new G4SDParticleFilter(fltName="deuteronFilter", particleName="deuteron");
+
+  // //Alpha filter
+  G4SDParticleFilter* alphaFilter =
+  new G4SDParticleFilter(fltName="alphaFilter", particleName="alpha");
+
+  // // Neutron filter
+//   G4SDParticleFilter* neutronFilter =
+//   new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
+
 	// //Electron filter
 	// G4SDParticleFilter* electronFilter =
 	// new G4SDParticleFilter(fltName="electronFilter");
 	// electronFilter->add(particleName="e+");   // accept electrons.
 	// electronFilter->add(particleName="e-");   // accept positrons.
-	
+
 	// //Gamma filter
 	// G4SDParticleFilter* gammaFilter =
 	// new G4SDParticleFilter("gammaFilter", "gamma");
@@ -692,7 +710,7 @@ void DetectorConstruction::ConstructSDandField()
 	// protonEnergy->add("proton");
 	// protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
 
-	// //Declare a volume as a MultiFunctionalDetector scorer 
+	// //Declare a volume as a MultiFunctionalDetector scorer
 	auto boxPS = new G4MultiFunctionalDetector("Scorer");
 	G4SDManager::GetSDMpointer()->AddNewDetector(boxPS);
 
@@ -703,10 +721,13 @@ void DetectorConstruction::ConstructSDandField()
 
 	// //Score TrackLength (of protons)
 	primitive = new G4PSTrackLength("TrackLength");
-	primitive ->SetFilter(protonFilter);
+	// primitive ->SetFilter(protonFilter);
+	// primitive ->SetFilter(deuteronFilter);
+	primitive ->SetFilter(alphaFilter);
+	// primitive ->SetFilter(neutronFilter);
 
 	// //Register Filters to Scorer
-	boxPS->RegisterPrimitive(primitive);  
+	boxPS->RegisterPrimitive(primitive);
 
 	//Apply Scorer to Volume
 	SetSensitiveDetector("lBox",boxPS);
