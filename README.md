@@ -1,5 +1,9 @@
 # How-To-Geant4
 
+v1.3.0:\
+-Materials: The way self defined composites are defined changed so that they will be loaded only when used (like materials) - Thanks Loni!\
+-Macros: Added directory for Macros for faster use on cluster; might be removed, because they are to specific for a 'How-To'
+
 v1.2.1:\
 -no more white spaces in folder name\
 -code clean up

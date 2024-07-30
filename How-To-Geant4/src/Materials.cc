@@ -10,6 +10,15 @@ TO-DO:
 #include "G4SystemOfUnits.hh"           //for units
 #include "G4UnitsTable.hh"              //for units
 
+#include <functional>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <vector>
+using std::string;
+
+
+
 //Define materials and compositions you want to use in the simulation
 void DetectorConstruction::DefineMaterials()
 {
@@ -45,28 +54,61 @@ void DetectorConstruction::DefineMaterials()
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
 
+	// structure to easily define Custom Materials later on
+	struct CustomMat{
+		string name;
+		double density;
+		std::vector<std::tuple<MaterialMaker, double>> parts;
+		CustomMat(
+			string name = "",
+			double density = 0.0,
+			std::vector<std::tuple<MaterialMaker, double>> parts = {}
+		) {
+			this -> name = name;
+			this -> density = density;
+			this -> parts = parts;
+		};
+
+		G4Material* make() {
+			if (this->made) return this->mat_ptr;
+
+			auto material = new G4Material(
+				this->name,
+				this->density,
+				this->parts.size()
+			);
+			for (auto part : this->parts){
+				auto [mat, amount] = part;
+				material->AddMaterial(mat(), amount);
+			}
+			this->mat_ptr = material;
+			this->made = true;
+			return this->mat_ptr;
+		};
+
+		G4Material* operator () () {
+			return this->make();
+		}
+
+		private:
+		G4Material* mat_ptr;
+		bool made = false;
+	};
 
 	// Self-defined Materials
 	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
-	// BoratedPE   = new G4Material("BoratedPE",   //name
-	// 															1.03*g/cm3,   //density
-	// 															3);           //number of elements														
+	BoratedPE = CustomMat("BoratedPE", 1.03*g/cm3, {
+				{Hydrogen, 14.*perCent},
+				{Carbon, 81.*perCent},
+				{Boron, 5.*perCent}
+	});
 
-	//Add Elements to Material
-	// BoratedPE->AddMaterial(Hydrogen(), 14.*perCent);
-	// BoratedPE->AddMaterial(Carbon(), 81.*perCent);
-	// BoratedPE->AddMaterial(Boron(), 5.*perCent);
-
-	// //Define Densimet180 (Manufacturer: Plansee)
-	// Densimet180 = new G4Material("Densimet180", //name
-	// 															18.0*g/cm3,   //density
-	// 															3);           //number of elements
-
-	// //Add Elements to Material
-	// Densimet180->AddMaterial(Tungsten, 95.*perCent);
-	// Densimet180->AddMaterial(Iron, 1.6*perCent);
-	// Densimet180->AddMaterial(Nickel, 3.4*perCent);
-
+	//Define Densimet180 (Manufacturer: Plansee)
+	Densimet180 = CustomMat("Densimet180", 18.0*g/cm3, {
+				{Tungsten, 95.*perCent},
+				{Iron, 1.6*perCent},
+				{Nickel, 3.4*perCent}
+	});
 
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
 
