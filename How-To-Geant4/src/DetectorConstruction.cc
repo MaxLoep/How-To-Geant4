@@ -252,8 +252,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4LogicalVolume* lSD1 =
 		new G4LogicalVolume(sSD1,                //its solid
-												//Vacuum(),
-												BoratedPE(),
+												Vacuum(),
+												// BoratedPE(),
 												// Aluminum(),           //its material
 												"lSD1");              //its name
 
@@ -396,7 +396,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4LogicalVolume* lSphere =
 		new G4LogicalVolume(sSphere,              //shape
-												// Concrete(),
+												// dummyMat,
 												Vacuum(),             //material
 												"lSphere");            //name
 
