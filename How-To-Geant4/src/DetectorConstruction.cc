@@ -178,6 +178,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 				new G4LogicalVolume(solidWorld,          //its solid
 														Vacuum(),
 														// world_mat,           //its material
+														// BoratedPE(),
 														"lWorld");            //its name
 
 			// G4VPhysicalVolume* fWorldPhysVol =
@@ -252,9 +253,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4LogicalVolume* lSD1 =
 		new G4LogicalVolume(sSD1,                //its solid
-												// Vacuum(),
+												Vacuum(),
 												// BoratedPE(),
-												Aluminum(),           //its material
+												// Aluminum(),           //its material
 												"lSD1");              //its name
 
 		new G4PVPlacement(0,                     //no rotation
@@ -396,7 +397,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4LogicalVolume* lSphere =
 		new G4LogicalVolume(sSphere,              //shape
-												// Concrete(),
+												// dummyMat,
 												Vacuum(),             //material
 												"lSphere");            //name
 
