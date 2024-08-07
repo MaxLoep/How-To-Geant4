@@ -178,6 +178,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 				new G4LogicalVolume(solidWorld,          //its solid
 														Vacuum(),
 														// world_mat,           //its material
+														// BoratedPE(),
 														"lWorld");            //its name
 
 			// G4VPhysicalVolume* fWorldPhysVol =

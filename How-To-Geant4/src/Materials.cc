@@ -1,6 +1,6 @@
 /*
 TO-DO:
--implement Self-defined materials in a way like NIST materials (only get loaded when actually used)
+-nothing right now
 */
 
 
@@ -97,18 +97,22 @@ void DetectorConstruction::DefineMaterials()
 
 	// Self-defined Materials
 	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
-	BoratedPE = CustomMat("BoratedPE", 1.03*g/cm3, {
+	BoratedPE = CustomMat("BoratedPE",	// name
+				1.03*g/cm3,				//density
+				{// components
 				{Hydrogen, 14.*perCent},
 				{Carbon, 81.*perCent},
 				{Boron, 5.*perCent}
-	});
+				});
 
 	//Define Densimet180 (Manufacturer: Plansee)
-	Densimet180 = CustomMat("Densimet180", 18.0*g/cm3, {
+	Densimet180 = CustomMat("Densimet180",	//name
+				18.0*g/cm3,					//density
+				{// components
 				{Tungsten, 95.*perCent},
 				{Iron, 1.6*perCent},
 				{Nickel, 3.4*perCent}
-	});
+				});
 
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
 
