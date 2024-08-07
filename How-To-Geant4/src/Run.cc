@@ -223,7 +223,7 @@ void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ost
 
 void Run::EndOfRun()
 {
-	G4int prec = 5, wid = prec + 2;
+	G4int prec = 5; //, wid = prec + 2;
 	G4int dfprec = G4cout.precision(prec);
 
 	G4String Particle = fParticle->GetParticleName();
@@ -254,15 +254,15 @@ void Run::EndOfRun()
 		G4String name = particleData.first;
 		ParticleData data = particleData.second;
 		G4int count = data.fCount;
-		G4double eMean = data.fEmean/count;
-		G4double eMin = data.fEmin;
-		G4double eMax = data.fEmax;
+		// G4double eMean = data.fEmean/count;
+		// G4double eMin = data.fEmin;
+		// G4double eMax = data.fEmax;
 		G4double meanLife = data.fTmean;
 
-		G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count
-					<< "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
-					<< "\t( "  << G4BestUnit(eMin, "Energy")
-					<< " --> " << G4BestUnit(eMax, "Energy") << ")";
+		G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count;
+					// << "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
+					// << "\t( "  << G4BestUnit(eMin, "Energy")
+					// << " --> " << G4BestUnit(eMax, "Energy") << ")";
 		if (meanLife >= 0.)
 			G4cout << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
 		else G4cout << "\tstable" << G4endl;
