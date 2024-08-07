@@ -32,11 +32,11 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
 	G4ParticleDefinition* particle = track->GetDefinition();
 	G4String name     = particle->GetParticleName();
 	G4double meanLife = particle->GetPDGLifeTime() / 1.443; // mean life time divided by 1.443 equals half-life
-	G4double ekin     = track->GetKineticEnergy();
+	// G4double ekin     = track->GetKineticEnergy();
 	fTimeBirth       = track->GetGlobalTime();
 
 	//count secondary particles
-	if (track->GetTrackID() > 1)  run->ParticleCount(name,ekin,meanLife);
+	if (track->GetTrackID() > 1)  run->ParticleCount(name,meanLife);
 }
 
 void TrackingAction::PostUserTrackingAction(const G4Track* track)
@@ -63,5 +63,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
 	if (status != fWorldBoundary) return; 
 
 	//  fEventAction->AddEflow(ekin);
-	run->ParticleFlux(name,ekin);
+
+	//count particles leaving the world volume
+	run->ParticleFlux(name);
 }

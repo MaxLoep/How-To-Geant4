@@ -52,19 +52,19 @@ void Run::Merge(std::map<G4String, ParticleData>& destinationMap,
 		if ( destinationMap.find(name) == destinationMap.end()) {
 			destinationMap[name] = ParticleData(
 				localData.fCount,
-				localData.fEmean,
-				localData.fEmin,
-				localData.fEmax,
+				// localData.fEmean,
+				// localData.fEmin,
+				// localData.fEmax,
 				localData.fTmean
 			);
 		} else {
 			ParticleData& data = destinationMap[name];
 			data.fCount += localData.fCount;
-			data.fEmean += localData.fEmean;
-			G4double emin = localData.fEmin;
-			if (emin < data.fEmin) data.fEmin = emin;
-			G4double emax = localData.fEmax;
-			if (emax > data.fEmax) data.fEmax = emax;
+			// data.fEmean += localData.fEmean;
+			// G4double emin = localData.fEmin;
+			// if (emin < data.fEmin) data.fEmin = emin;
+			// G4double emax = localData.fEmax;
+			// if (emax > data.fEmax) data.fEmax = emax;
 			data.fTmean = localData.fTmean;
 		}
 	}
@@ -89,41 +89,41 @@ void Run::CountProcesses(const G4VProcess* process) {
 }
 
 
-void Run::ParticleCount(G4String name, G4double Ekin, G4double meanLife)
+void Run::ParticleCount(G4String name, G4double meanLife)
 {
 	std::map<G4String, ParticleData>::iterator it = fParticleDataMap1.find(name);
 	if ( it == fParticleDataMap1.end()) {
-		fParticleDataMap1[name] = ParticleData(1, Ekin, Ekin, Ekin, meanLife);
+		fParticleDataMap1[name] = ParticleData(1, meanLife);
 	}
 	else {
 		ParticleData& data = it->second;
 		data.fCount++;
-		data.fEmean += Ekin;
-		//update min max
-		G4double emin = data.fEmin;
-		if (Ekin < emin) data.fEmin = Ekin;
-		G4double emax = data.fEmax;
-		if (Ekin > emax) data.fEmax = Ekin;
+		// data.fEmean += Ekin;
+		// //update min max
+		// G4double emin = data.fEmin;
+		// if (Ekin < emin) data.fEmin = Ekin;
+		// G4double emax = data.fEmax;
+		// if (Ekin > emax) data.fEmax = Ekin;
 		data.fTmean = meanLife;
 	}
 }
 
 
-void Run::ParticleFlux(G4String name, G4double Ekin)
+void Run::ParticleFlux(G4String name)
 {
 	std::map<G4String, ParticleData>::iterator it = fParticleDataMap2.find(name);
 	if ( it == fParticleDataMap2.end()) {
-		fParticleDataMap2[name] = ParticleData(1, Ekin, Ekin, Ekin, -1*ns);
+		fParticleDataMap2[name] = ParticleData(1, -1*ns);
 	}
 	else {
 		ParticleData& data = it->second;
 		data.fCount++;
-		data.fEmean += Ekin;
+		// data.fEmean += Ekin;
 		//update min max
-		G4double emin = data.fEmin;
-		if (Ekin < emin) data.fEmin = Ekin;
-		G4double emax = data.fEmax;
-		if (Ekin > emax) data.fEmax = Ekin;
+		// G4double emin = data.fEmin;
+		// if (Ekin < emin) data.fEmin = Ekin;
+		// G4double emax = data.fEmax;
+		// if (Ekin > emax) data.fEmax = Ekin;
 		data.fTmean = -1*ns;
 	}
 }

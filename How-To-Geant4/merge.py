@@ -5,6 +5,7 @@ import glob
 import platform
 from typing import Tuple
 import re
+from typing_extensions import Union
 
 factors = {
     'meV': 1e-3, # ? does this come up?
@@ -16,7 +17,7 @@ factors = {
 }
 
 
-valid_line = re.compile(r'\s*[\S]+\s*\t\s*\d+\s*\t\s*Emean\s+=\s+\d+.?\d*\s+\w?eV\s*\t\s*[(]\s*\d+.?\d*\s+\w?eV\s+-->\s+\d+.?\d*\s+\w?eV\s*[)]\s*\t\s*(half life\s+=\s*\t\s*\d+.?\d*\s+\w+|stable\s*\t\s*stable)')
+valid_line = re.compile(r'\s*[\S]+\s*\t\s*\d+\s*\t\s*Emean\s+=\s+\d+.?\d*\s+\w?eV\s*\t\s*[(]\s*\d+[.]?\d*\s*\w?eV\s*-->\s*\d+[.]?\d*\s*\w?eV\s*[)]\s*\t\s*(half life\s+=\s*\t\s*\d+[.]?\d*\s+\w+|stable\s*\t\s*stable)')
 
 class particle_data:
     def __init__(self, line: str = ''):
@@ -48,14 +49,17 @@ class particle_data:
 
 
     def __str__(self) -> str:
-        return '\t'.join([
-            self.name,
-            str(self.count),
-            'Emean = ' + str(self.emean) + ' ' + str(self.emean_unit),
-            self.mystery_bracket,
-            self.stable,
-            self.decay_time
-        ])
+        res = ""
+        res += "[" + self.name.strip() + "]\n"
+        res += "count = " + str(self.count) + "\n"
+        res += "stable = " + str(self.stable == "stable") + "\n"
+        if not (self.stable == "stable"):
+            res += "half_life = " + str(time_to_seconds(self.decay_time)) + "\n"
+            res += "human_readable_half_life = " + self.decay_time + "\n"
+        else:
+            res += "half_life = nan\n"
+        res += "\n"
+        return res
 
 
     def __eq__(self, other) -> bool:
@@ -80,6 +84,31 @@ class particle_data:
         res.decay_time = self.decay_time
         return res
 
+
+def time_to_seconds(time: str) -> float:
+    unit = time.split()[1]
+    value = float(time.split()[0])
+
+    if unit == "s":
+        return value
+    elif unit == "min":
+        return 60 * value
+    elif unit == "h":
+        return (60 ** 2) * value
+    elif unit == "d":
+        return 24 * 60 * 60 * value
+    elif unit == "y":
+        return 31536000 * value
+    elif unit == "ms":
+        return 1e-3 * value
+    elif unit == "us":
+        return 1e-6 * value
+    elif unit == "ns":
+        return 1e-9 * value
+    elif unit == "ps":
+        return 1e-12 * value
+
+    return -0.5
 
 def unit_aware_min(values):
     smallest = (0.0, "eV")
