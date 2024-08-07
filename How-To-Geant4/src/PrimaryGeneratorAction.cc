@@ -24,15 +24,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
 	fParticleBeam(0),fDetector(det)
 {
 	fParticleBeam  = new G4GeneralParticleSource();
-
-	// REMOVE is this turns out to be unneccessary
-	// default particle kinematic
-	// G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-	// G4String particleName;
-	// G4ParticleDefinition* particle = particleTable->FindParticle(particleName="gamma");
-
-	// fParticleBeam->SetParticleDefinition(particle);
-	
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()

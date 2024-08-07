@@ -24,7 +24,8 @@ extern std::string folderName;
 std::string ListFolder = "Lists_of_generated_Particles";
 
 // mutex in a file scope
-namespace {
+namespace 
+{
 	//Mutex to lock updating the global ion map
 	G4Mutex ionIdMapMutex = G4MUTEX_INITIALIZER;
 }
@@ -32,16 +33,12 @@ namespace {
 std::map<G4String,G4int> Run::fgIonMap;
 G4int Run::fgIonId = kMaxHisto1;
 
-
-
 // old code from example -> can be removed
 Run::Run(DetectorConstruction* det) : G4Run(), fDetector(det), fParticle(nullptr), fEkin(0.)
 { }
 
-
 Run::~Run()
 { }
-
 
 void Run::Merge(std::map<G4String, ParticleData>& destinationMap,
 								const std::map<G4String, ParticleData>& sourceMap) const
@@ -52,32 +49,23 @@ void Run::Merge(std::map<G4String, ParticleData>& destinationMap,
 		if ( destinationMap.find(name) == destinationMap.end()) {
 			destinationMap[name] = ParticleData(
 				localData.fCount,
-				// localData.fEmean,
-				// localData.fEmin,
-				// localData.fEmax,
 				localData.fTmean
 			);
 		} else {
 			ParticleData& data = destinationMap[name];
 			data.fCount += localData.fCount;
-			// data.fEmean += localData.fEmean;
-			// G4double emin = localData.fEmin;
-			// if (emin < data.fEmin) data.fEmin = emin;
-			// G4double emax = localData.fEmax;
-			// if (emax > data.fEmax) data.fEmax = emax;
 			data.fTmean = localData.fTmean;
 		}
 	}
 }
-
 
 void Run::SetPrimary(G4ParticleDefinition* particle, G4double energy) {
 	fParticle = particle;
 	fEkin = energy;
 }
 
-
-void Run::CountProcesses(const G4VProcess* process) {
+void Run::CountProcesses(const G4VProcess* process) 
+{
 	G4String procName = process->GetProcessName();
 	std::map<G4String,G4int>::iterator it = fProcCounter.find(procName);
 	if ( it == fProcCounter.end()) {
@@ -88,7 +76,6 @@ void Run::CountProcesses(const G4VProcess* process) {
 	}
 }
 
-
 void Run::ParticleCount(G4String name, G4double meanLife)
 {
 	std::map<G4String, ParticleData>::iterator it = fParticleDataMap1.find(name);
@@ -98,16 +85,9 @@ void Run::ParticleCount(G4String name, G4double meanLife)
 	else {
 		ParticleData& data = it->second;
 		data.fCount++;
-		// data.fEmean += Ekin;
-		// //update min max
-		// G4double emin = data.fEmin;
-		// if (Ekin < emin) data.fEmin = Ekin;
-		// G4double emax = data.fEmax;
-		// if (Ekin > emax) data.fEmax = Ekin;
 		data.fTmean = meanLife;
 	}
 }
-
 
 void Run::ParticleFlux(G4String name)
 {
@@ -118,12 +98,6 @@ void Run::ParticleFlux(G4String name)
 	else {
 		ParticleData& data = it->second;
 		data.fCount++;
-		// data.fEmean += Ekin;
-		//update min max
-		// G4double emin = data.fEmin;
-		// if (Ekin < emin) data.fEmin = Ekin;
-		// G4double emax = data.fEmax;
-		// if (Ekin > emax) data.fEmax = Ekin;
 		data.fTmean = -1*ns;
 	}
 }
@@ -147,10 +121,8 @@ void Run::Merge(const G4Run* run)
 	const Run* localRun = static_cast<const Run*>(run);
 
 	//primary particle info
-	//
 	fParticle = localRun->fParticle;
 	fEkin     = localRun->fEkin;
-
 
 	//map: processes count
 	for ( const auto& procCounter : localRun->fProcCounter ) {
@@ -201,7 +173,8 @@ void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ost
 */
 
 template <typename Ostream>
-void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
+void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) 
+{
 	for ( const auto& particleData : particle_map ) {
 		G4String name = particleData.first;
 		std::replace( name.begin(), name.end(), '[', '_');
@@ -254,24 +227,16 @@ void Run::EndOfRun()
 		G4String name = particleData.first;
 		ParticleData data = particleData.second;
 		G4int count = data.fCount;
-		// G4double eMean = data.fEmean/count;
-		// G4double eMin = data.fEmin;
-		// G4double eMax = data.fEmax;
 		G4double meanLife = data.fTmean;
 
 		G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count;
-					// << "  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
-					// << "\t( "  << G4BestUnit(eMin, "Energy")
-					// << " --> " << G4BestUnit(eMax, "Energy") << ")";
 		if (meanLife >= 0.)
 			G4cout << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
 		else G4cout << "\tstable" << G4endl;
 	}
 
 	//List of generated particles to file
-
 	// Create an output file which increases in number if the simulation is run again
-
 	// create a folder for the files
 	fs::create_directory(folderName);
 	fs::create_directory(folderName + "/" + ListFolder);

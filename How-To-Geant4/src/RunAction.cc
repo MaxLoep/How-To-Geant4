@@ -226,16 +226,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
 	if (isMaster) fRun->EndOfRun();
 
-	/*
-	// Where does this come from? REMOVE
-	//save histograms
-	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-	if ( analysisManager->IsActive() ) {
-		analysisManager->Write();
-		analysisManager->CloseFile();
-	}
-	*/
-
 	// show Rndm status
 	if (isMaster) G4Random::showEngineStatus();
 }
