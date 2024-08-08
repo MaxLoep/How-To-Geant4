@@ -61,20 +61,12 @@ int main(int argc,char** argv) {
   // choose the Random engine
   // G4Random::setTheEngine(new CLHEP::DualRand);             //works!
   // G4Random::setTheEngine(new CLHEP::HepJamesRandom);       //works!
-  G4Random::setTheEngine(new CLHEP::MixMaxRng);            //works! Default and recommended!
+  G4Random::setTheEngine(new CLHEP::MixMaxRng);               //works! Default and recommended!
   // G4Random::setTheEngine(new CLHEP::MTwistEngine);         //works! Default?
   // G4Random::setTheEngine(new CLHEP::RanecuEngine);         //works! uses Tables. obsolete?
   // G4Random::setTheEngine(new CLHEP::Ranlux64Engine);       //works!
   // G4Random::setTheEngine(new CLHEP::RanluxEngine);         //works!
   // G4Random::setTheEngine(new CLHEP::RanshiEngine);         //works!
-
-  // error C2039: 'the following': is not a member of 'CLHEP' -> can this be deleteted?
-  // G4Random::setTheEngine(new CLHEP::DRand48Engine);    -not working!
-  // G4Random::setTheEngine(new CLHEP::Hurd160Engine);    -not working!
-  // G4Random::setTheEngine(new CLHEP::Hurd288Engine);    -not working!
-  // G4Random::setTheEngine(new CLHEP::NonRandomEngine);  -not working!
-  // G4Random::setTheEngine(new CLHEP::RandEngine);       -not working!
-  // G4Random::setTheEngine(new CLHEP::TripleRand);       -not working!
 
   // set a initial random seed based on epoch time and system clock
   std::timespec ts;
@@ -84,14 +76,6 @@ int main(int argc,char** argv) {
   int time_ns = ts.tv_nsec;
   // set a initial random seed
   G4Random::setTheSeed(time_ns);
-  
-  // for debbuging REMOVE later
-  // G4cout
-	// 	<< G4endl
-	// 	<< " The random Seed in main() is:" << G4endl
-  //   << time << G4endl
-  //   << time_ns << G4endl
-	//   << G4endl;
 	
 	// Create seed array
 	G4long seed[2];

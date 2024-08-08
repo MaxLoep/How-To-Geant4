@@ -1,6 +1,7 @@
 /*
 REWORK NEEDED!
--remove Energy info about created isotopes (what shall this be good for anyway?!)
+TO-DO'S:
+- nothing right now
 */
 
 #include "platform.hh"
@@ -33,7 +34,7 @@ namespace
 std::map<G4String,G4int> Run::fgIonMap;
 G4int Run::fgIonId = kMaxHisto1;
 
-// old code from example -> can be removed
+// old code from example -> can be removed?
 Run::Run(DetectorConstruction* det) : G4Run(), fDetector(det), fParticle(nullptr), fEkin(0.)
 { }
 
@@ -64,6 +65,7 @@ void Run::SetPrimary(G4ParticleDefinition* particle, G4double energy) {
 	fEkin = energy;
 }
 
+// Function to count processes and fill the map fProcCounter
 void Run::CountProcesses(const G4VProcess* process) 
 {
 	G4String procName = process->GetProcessName();
@@ -76,6 +78,7 @@ void Run::CountProcesses(const G4VProcess* process)
 	}
 }
 
+// Function to count particles and fill the map fParticleDataMap1
 void Run::ParticleCount(G4String name, G4double meanLife)
 {
 	std::map<G4String, ParticleData>::iterator it = fParticleDataMap1.find(name);
@@ -89,6 +92,7 @@ void Run::ParticleCount(G4String name, G4double meanLife)
 	}
 }
 
+// Function to count particles leaving the world volumeand fill the map fParticleDataMap2
 void Run::ParticleFlux(G4String name)
 {
 	std::map<G4String, ParticleData>::iterator it = fParticleDataMap2.find(name);
@@ -102,6 +106,7 @@ void Run::ParticleFlux(G4String name)
 	}
 }
 
+// WHAT DOES THIS DO? SEEMS TO COUNT IONS OR SOMETHING... 
 G4int Run::GetIonId(G4String ionName)
 {
 	G4AutoLock lock(&ionIdMapMutex);
@@ -115,7 +120,6 @@ G4int Run::GetIonId(G4String ionName)
 	return fgIonMap[ionName];
 }
 
-
 void Run::Merge(const G4Run* run)
 {
 	const Run* localRun = static_cast<const Run*>(run);
@@ -124,7 +128,7 @@ void Run::Merge(const G4Run* run)
 	fParticle = localRun->fParticle;
 	fEkin     = localRun->fEkin;
 
-	//map: processes count
+	//merge map for processe count
 	for ( const auto& procCounter : localRun->fProcCounter ) {
 		G4String procName = procCounter.first;
 		G4int localCount = procCounter.second;
@@ -136,41 +140,14 @@ void Run::Merge(const G4Run* run)
 		}
 	}
 
-	//map: created particles count
+	// merge map for count for created particles
 	Merge(fParticleDataMap1, localRun->fParticleDataMap1);
 
-	//map: particles leaving World volume
+	// merge map for count for particles leaving World volume
 	Merge(fParticleDataMap2, localRun->fParticleDataMap2);
 
 	G4Run::Merge(run);
 }
-
-/*
-template <typename Ostream>
-void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
-	G4int prec = 5, wid = prec + 2;
-	stream << "\n List of particles leaving the world volume:" << G4endl;
-
-	 for ( const auto& particleData : particle_map ) {
-		G4String name = particleData.first;
-		ParticleData data = particleData.second;
-		G4int count = data.fCount;
-		G4double eMean = data.fEmean / count;
-		G4double eMin = data.fEmin;
-		G4double eMax = data.fEmax;
-		G4double meanLife = data.fTmean;
-
-		// tabulator divided for a more handy output
-		stream << "  " << std::setw(13) << name << "\t" << std::setw(7) << count
-					<< "\t  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
-					<< "\t( "  << G4BestUnit(eMin, "Energy")
-					<< " --> " << G4BestUnit(eMax, "Energy") << ")";
-		if (meanLife >= 0.)
-			stream << "\thalf life = \t" << G4BestUnit(meanLife, "Time")  c << G4endl;
-		else stream << "\tstable\tstable" << G4endl;
-	}
-}
-*/
 
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) 
@@ -199,16 +176,18 @@ void Run::EndOfRun()
 	G4int prec = 5; //, wid = prec + 2;
 	G4int dfprec = G4cout.precision(prec);
 
+	// generate a string to console what the primary particles of the run were, like:
+	// 'The run consisted of X PARTICLENAME as primary particles'
 	G4String Particle = fParticle->GetParticleName();
-	G4cout << "\n The run consisted of " << numberOfEvent << " "<< Particle
-				<<"s"
-				// << " of " << G4BestUnit(fEkin,"Energy")
-				<<" as primary particles"
-				<< G4endl;
+	G4cout  << "\n The run consisted of " << numberOfEvent << " "<< Particle
+			<<"s"
+			// << " of " << G4BestUnit(fEkin,"Energy")
+			<<" as primary particles"
+			<< G4endl;
 
 	if (numberOfEvent == 0) { G4cout.precision(dfprec);   return;}
 
-	//frequency of processes
+	//print the frequency of processes to console
 	G4cout << "\n Process calls frequency :" << G4endl;
 	G4int index = 0;
 	for ( const auto& procCounter : fProcCounter ) {
@@ -220,10 +199,10 @@ void Run::EndOfRun()
 	}
 	G4cout << G4endl;
 
-	//List of generated particles: to console
+	//List of generated particles: to console (the old style)
 	G4cout << "\n List of generated particles:" << G4endl;
-
-	for ( const auto& particleData : fParticleDataMap1 ) {
+	for ( const auto& particleData : fParticleDataMap1 )
+	{
 		G4String name = particleData.first;
 		ParticleData data = particleData.second;
 		G4int count = data.fCount;
@@ -235,32 +214,26 @@ void Run::EndOfRun()
 		else G4cout << "\tstable" << G4endl;
 	}
 
-	//List of generated particles to file
-	// Create an output file which increases in number if the simulation is run again
+	//List of generated Particles (LogP) to file
 	// create a folder for the files
 	fs::create_directory(folderName);
 	fs::create_directory(folderName + "/" + ListFolder);
 
-	//Get process ID
-	G4long pid = _getpid();
-
-	// Check if "ListOfGeneratedParticles_pid.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticle.txt" exists.
-	while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt")) {
-		pid++;
-	}
-	// Set final file name
-	std::string fileName = std::to_string(pid) + "_ListOfGeneratedParticles" + ".txt";
+	// get epoch time and system clock nanosecond value that were used as seeds in main() to create file name
+	G4long time 	= G4Random::getTheSeeds()[0];
+	G4long time_ns 	= G4Random::getTheSeeds()[1];
+	// set file name
+	std::string fileName = std::to_string(time) + "_" + std::to_string(time_ns) + "_LogP" + ".txt";
 
 	// flush output to file
 	std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
-	// std::ofstream outFile(fileName);
 
 	// List of generated Particles in TOTAL to file
 	OutputParticleData(fParticleDataMap1, outFile);
 
-
 	// List of generated Particles leaving the World volume to console
 	OutputParticleData(fParticleDataMap2, G4cout);
+	
 	//remove all contents in fProcCounter, fCount
 	fProcCounter.clear();
 	fParticleDataMap1.clear();

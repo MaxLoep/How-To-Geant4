@@ -42,6 +42,8 @@ class Run : public G4Run
     void Merge(std::map<G4String,ParticleData>& destinationMap,
                const std::map<G4String,ParticleData>& sourceMap) const;
 
+
+    // WHAT IS fgIonMap AND WHAT DOES IT DO?
     static std::map<G4String,G4int> fgIonMap;
     static G4int fgIonId;
 
