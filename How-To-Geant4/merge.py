@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# ./merger.py [OPTIONS] [files to merge] z.B.: ./merger.py -o output.txt files/*
+# optionen: -o [file] : gibt output datei an --ignore-stable : ignoriert stabile Teilchen (noch nicht implementiert)
 
 from sys import argv
 import glob
@@ -239,7 +241,7 @@ def main():
 
     with open(output_file, 'w') as out_handle:
         out_handle.writelines([str(master_dict[pd]) for pd in master_dict])
-    #print(master_dict)
+    # print(master_dict)
 
 
 if __name__ == "__main__":
