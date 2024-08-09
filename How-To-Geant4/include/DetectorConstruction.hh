@@ -113,7 +113,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     MaterialMaker Steel;
     MaterialMaker Water;
 
-    //Self-definded Materials
+    // Self-definded Materials
     MaterialMaker BoratedPE;
     MaterialMaker Densimet180;
 
