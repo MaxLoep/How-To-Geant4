@@ -17,6 +17,7 @@ TO-DO'S:
 
 #include <cmath>
 #include <filesystem>
+#include <regex>
 namespace fs = std::filesystem;
 
 // get folderName from where it is defined (RunAction.cc) - the really dirty way
@@ -149,12 +150,17 @@ void Run::Merge(const G4Run* run)
 	G4Run::Merge(run);
 }
 
+
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) 
 {
 	for ( const auto& particleData : particle_map ) {
 		G4String name = particleData.first;
 		std::replace( name.begin(), name.end(), '[', '_');
+
+		name = std::regex_replace(name, std::regex("[+]"), "_plus");
+		name = std::regex_replace(name, std::regex("[-]"), "_minus");
+
 		name.erase(std::remove(name.begin(), name.end(), ']'), name.end());
 		std::replace( name.begin(), name.end(), '.', '_');
 		ParticleData data = particleData.second;
