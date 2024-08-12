@@ -56,8 +56,14 @@ class Run : public G4Run
 
     G4double fEnergyDeposit, fEnergyDeposit2;
     G4double fEnergyFlow,    fEnergyFlow2;
+
+    // map to count processes
     std::map<G4String,G4int>        fProcCounter;
+
+    // map to count generated Particles in TOTAL
     std::map<G4String,ParticleData> fParticleDataMap1;
+
+    // map to count generated Particles leaving the World volume
     std::map<G4String,ParticleData> fParticleDataMap2;
 };
 

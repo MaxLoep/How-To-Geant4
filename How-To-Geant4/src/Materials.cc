@@ -1,6 +1,6 @@
 /*
 TO-DO:
--implement Self-defined materials in a way like NIST materials (only get loaded when actually used)
+-nothing right now
 */
 
 
@@ -54,6 +54,7 @@ void DetectorConstruction::DefineMaterials()
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
 
+	// structure to easily define Custom Materials later on
 	struct CustomMat{
 		string name;
 		double density;
@@ -94,40 +95,30 @@ void DetectorConstruction::DefineMaterials()
 		bool made = false;
 	};
 
-
-	BoratedPE = CustomMat("BoratedPE", 1.03*g/cm3, {
+	// Self-defined Materials
+	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
+	BoratedPE = CustomMat("BoratedPE",	// name
+				1.03*g/cm3,				//density
+				{// components
 				{Hydrogen, 14.*perCent},
 				{Carbon, 81.*perCent},
 				{Boron, 5.*perCent}
-	});
-	// Self-defined Materials
-	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
-	// BoratedPE   = new G4Material("B
-	//
-	// return *material;oratedPE",   //name
-	// 															1.03*g/cm3,   //density
-	// 															3);           //number of elements
+				});
 
-	//Add Elements to Material
-	// BoratedPE->AddMaterial(Hydrogen(), 14.*perCent);
-	// BoratedPE->AddMaterial(Carbon(), 81.*perCent);
-	// BoratedPE->AddMaterial(Boron(), 5.*perCent);
-
-	// //Define Densimet180 (Manufacturer: Plansee)
-	// Densimet180 = new G4Material("Densimet180", //name
-	// 															18.0*g/cm3,   //density
-	// 															3);           //number of elements
-
-	// //Add Elements to Material
-	// Densimet180->AddMaterial(Tungsten, 95.*perCent);
-	// Densimet180->AddMaterial(Iron, 1.6*perCent);
-	// Densimet180->AddMaterial(Nickel, 3.4*perCent);
-
+	//Define Densimet180 (Manufacturer: Plansee)
+	Densimet180 = CustomMat("Densimet180",	//name
+				18.0*g/cm3,					//density
+				{// components
+				{Tungsten, 95.*perCent},
+				{Iron, 1.6*perCent},
+				{Nickel, 3.4*perCent}
+				});
 
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
 
 	// Initialize dummyMat as Vacuum
 	dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
+	// dummyMat     = nist->FindOrBuildMaterial("G4_Li");
 
 	//Print all defined materials to console
 	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
