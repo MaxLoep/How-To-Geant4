@@ -9,9 +9,9 @@
 #/process/verbose 0
 #/process/em/verbose 0
 
-#/custom/GDML/loadFile Test3.gdml
+#/custom/GDML/loadFile Test0.gdml
 #/custom/GDML/LoadOnly true
-#/custom/GDML/writeFile Test3.gdml
+#/custom/GDML/writeFile Test0.gdml
 
 #Set number of worker threads and initialize run
 /run/numberOfThreads 4
@@ -60,7 +60,7 @@
 #/custom/ana/setOutFolder Neutron_GaussBeam
 
 #Start a run and print progress in console
-/run/printProgress 10000
-/run/beamOn 100000
+/run/printProgress 1000
+/run/beamOn 10000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
