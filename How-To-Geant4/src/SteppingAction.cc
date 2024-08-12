@@ -14,15 +14,12 @@ do stuff every step
 #include "G4Event.hh"
 #include "G4LogicalVolume.hh"
 
-
 SteppingAction::SteppingAction(DetectorConstruction* det, EventAction* event)
 : G4UserSteppingAction(), fDetector(det), fEventAction(event)
 { }
 
-
 SteppingAction::~SteppingAction()
 { }
-
 
 void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {

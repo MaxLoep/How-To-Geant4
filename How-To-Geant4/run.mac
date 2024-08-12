@@ -9,9 +9,9 @@
 #/process/verbose 0
 #/process/em/verbose 0
 
-#/custom/GDML/loadFile Test0.gdml
+#/custom/GDML/loadFile Test3.gdml
 #/custom/GDML/LoadOnly true
-#/custom/GDML/writeFile Test0.gdml
+#/custom/GDML/writeFile Test3.gdml
 
 #Set number of worker threads and initialize run
 /run/numberOfThreads 4
