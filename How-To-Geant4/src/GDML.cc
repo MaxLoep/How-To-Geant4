@@ -84,53 +84,57 @@ void DetectorConstruction::SetOnlyLoadGDML( G4bool value )
 	fOnlyLoadChoice = value;
 }
 
-// GDML-Stuff
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#pragma region
-	G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
+// ConstructVolumesGDML - Function that gets ALWAYS executed in 'DetectorConstriction.cc' 
+// 1. - clean up old geometry; must be done for changing dimensions,materials,etc. via macrofile
+// 2. - check if a GDML-file should be loaded and check following cases:
+// 2.a- only load a GDML-file: LoadGDML()
+// 2.b- load a GDML-file and add geometry via 'DetectorConstruction.cc': LoadGDML() + ConstructVolumes()
+// 2.c- don't load a GDML-file but construct geometry in 'DetectorConstruction.cc': ConstructVolumes()
+// 2.d- error handling: but construct geometry in 'DetectorConstruction.cc': ConstructVolumes()
+// 3. - always return the root volume: return fWorldPhysVol
+G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
+{
+	// Cleanup old geometry - needed if you want to change parameters via macro commands
+	G4GeometryManager::GetInstance()->OpenGeometry();
+	G4PhysicalVolumeStore::GetInstance()->Clean();
+	G4LogicalVolumeStore::GetInstance()->Clean();
+	G4SolidStore::GetInstance()->Clean();
+
+	// LOAD GDML FILE
+	// default value = 0
+	// you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
+	if(fLoadingChoice==1 && fOnlyLoadChoice==1)	//Load only a GDML file
 	{
+		// print for DEBUGGING
+		G4cout << "\n ----READING GDML!---- " << G4endl;
 
-		// Cleanup old geometry - needed if you want to change parameters via macro commands
-		G4GeometryManager::GetInstance()->OpenGeometry();
-		G4PhysicalVolumeStore::GetInstance()->Clean();
-		G4LogicalVolumeStore::GetInstance()->Clean();
-		G4SolidStore::GetInstance()->Clean();
-
-		// LOAD GDML FILE
-		// default value = 0
-		// you need to set it to 1 by using the macro command 'SetLoadGDMLFile' to read a GDML file
-		if(fLoadingChoice==1 && fOnlyLoadChoice==1)	//Load only a GDML file
-		{
-			// print for DEBUGGING
-			G4cout << "\n ----READING GDML!---- " << G4endl;
-
-			LoadGDML(fLoadFile); // load a Geometry from GDML file
-		}
-		else if(fLoadingChoice==1 && fOnlyLoadChoice==0)	//Load a GDML file and construct other volumes in this file
-		{
-			// print for DEBUGGING
-			G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
-
-			LoadGDML(fLoadFile);                  // load a Geometry from GDML file
-			fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in this file
-		}
-		else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )	//dont load a GDML file but construct volumes in this file
-		{
-			// print for DEBUGGING
-			G4cout << "\n ----You did not load any GDML file---- " << G4endl;
-			G4cout << "\n ----CONSTRUCTING VOLUMES instead!---- " << G4endl;
-
-			fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
-		}
-		//Why did i do this else-case? Isn't it identically to the case before?
-		else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
-		{
-			// print for DEBUGGING
-			G4cout << "\n ----CONSTRUCTING VOLUMES!---- " << G4endl;
-
-			fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
-		}
-
-		// always return the root volume
-		return fWorldPhysVol;
+		LoadGDML(fLoadFile); // load a Geometry from GDML file
 	}
+	else if(fLoadingChoice==1 && fOnlyLoadChoice==0)	//Load a GDML file and construct other volumes in this file
+	{
+		// print for DEBUGGING
+		G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
+
+		LoadGDML(fLoadFile);                  // load a Geometry from GDML file
+		fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in this file
+	}
+	else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )	//dont load a GDML file but construct volumes in this file
+	{
+		// print for DEBUGGING
+		G4cout << "\n ----You did not load any GDML file---- " << G4endl;
+		G4cout << "\n ----CONSTRUCTING VOLUMES instead!---- " << G4endl;
+
+		fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
+	}
+	//Why did i do this else-case? Isn't it identically to the case before?
+	else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"
+	{
+		// print for DEBUGGING
+		G4cout << "\n ----CONSTRUCTING VOLUMES!---- " << G4endl;
+
+		fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
+	}
+
+	// always return the root volume
+	return fWorldPhysVol;
+}
