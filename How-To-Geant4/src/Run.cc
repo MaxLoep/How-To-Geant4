@@ -173,32 +173,6 @@ void Run::Merge(const G4Run* run)
 	G4Run::Merge(run);
 }
 
-/*
-template <typename Ostream>
-void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
-	G4int prec = 5, wid = prec + 2;
-	stream << "\n List of particles leaving the world volume:" << G4endl;
-
-	 for ( const auto& particleData : particle_map ) {
-		G4String name = particleData.first;
-		ParticleData data = particleData.second;
-		G4int count = data.fCount;
-		G4double eMean = data.fEmean / count;
-		G4double eMin = data.fEmin;
-		G4double eMax = data.fEmax;
-		G4double meanLife = data.fTmean;
-
-		// tabulator divided for a more handy output
-		stream << "  " << std::setw(13) << name << "\t" << std::setw(7) << count
-					<< "\t  Emean = " << std::setw(wid) << G4BestUnit(eMean, "Energy")
-					<< "\t( "  << G4BestUnit(eMin, "Energy")
-					<< " --> " << G4BestUnit(eMax, "Energy") << ")";
-		if (meanLife >= 0.)
-			stream << "\thalf life = \t" << G4BestUnit(meanLife, "Time")  c << G4endl;
-		else stream << "\tstable\tstable" << G4endl;
-	}
-}
-*/
 
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) {
