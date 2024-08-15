@@ -154,6 +154,16 @@ void Run::Merge(const G4Run* run)
 template <typename Ostream>
 void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) 
 {
+	// type and number of primary particles used in this run
+	G4String Particle = fParticle->GetParticleName();
+	stream
+		<< "[" << "Primaries_" << Particle  << "]\n"
+		<< "count = " << numberOfEvent << "\n"
+		<< "stable = " << "true" << "\n"
+		<< "half_life = " <<  NAN << "\n";
+		stream << "\n";
+
+	// iterate over particle map and generate output of isotopes, count, half_life
 	for ( const auto& particleData : particle_map ) {
 		G4String name = particleData.first;
 		std::replace( name.begin(), name.end(), '[', '_');
