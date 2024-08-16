@@ -22,8 +22,8 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
  fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), fGDMLDir(nullptr), 
  fOutFoldCmd(nullptr),
  fMaterCmd(nullptr),
- fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr),
- fTheLoadCommand(0),fTheWriteCommand(0), fTheOnlyLoadCommand(0)
+ fTheLoadCommand(0),fTheWriteCommand(0), fTheOnlyLoadCommand(0),
+ fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr)
 {
 	//Create a directory for your custom commands
 	fTestemDir = new G4UIdirectory("/custom/");
