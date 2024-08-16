@@ -69,7 +69,7 @@
 #REMEMBER TO CHANGE PRIMITIVE SCORER TO PROTON-TRACKING IN DETECTORCONSTRUCTION.CC!!!
 
 #remember to change 'particleFilter' for Primitive Scorer in 'DetectorConstruction.cc'
-#better naming scheme: Material_particle_energy or Particle_material_energy ?
+#better naming scheme: Particle_material_energy
 
 #1st energy
 /gps/ene/mono 14. MeV

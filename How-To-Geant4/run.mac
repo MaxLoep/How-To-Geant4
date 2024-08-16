@@ -26,8 +26,8 @@
 /gps/position 0 0 -1 cm      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
-#/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
-/gps/ene/mono 26. MeV   #sets energy for monoenergetic sources
+/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
+#/gps/ene/mono 26. MeV   #sets energy for monoenergetic sources
 #/gps/pos/type Point 
 
 /gps/pos/shape Circle    #the beam geometry is a circle
@@ -56,7 +56,7 @@
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-#/custom/geo/setMat G4_Galactic
+#/custom/geo/setMat G4_Al
 #/custom/ana/setOutFolder Neutron_GaussBeam
 
 #Start a run and print progress in console
