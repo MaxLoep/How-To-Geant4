@@ -58,65 +58,61 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
-#/custom/geo/setMat G4_W
-#/custom/geo/setMat G4_W
-#/custom/ana/setOutFolder Output/Test
+#/custom/geo/setMat G4_Fe
+#/custom/geo/setMat G4_GRAPHITE
+#/custom/ana/setOutFolder Test
 
 #Start a run and print progress in console
 
 #set particle/material
-/gps/particle proton
-/custom/geo/setMat G4_W
-#REMEMBER TO CHANGE PRIMITIVE SCORER TO PROTON-TRACKING IN DETECTORCONSTRUCTION.CC!!!
-
-#remember to change 'particleFilter' for Primitive Scorer in 'DetectorConstruction.cc'
-#better naming scheme: Material_particle_energy or Particle_material_energy ?
+/gps/particle deuteron
+/custom/geo/setMat G4_Fe
 
 #1st energy
-/gps/ene/mono 14. MeV
-/custom/ana/setOutFolder Output/P_G4_W_14MeV_range
+/gps/ene/mono 28. MeV
+/custom/ana/setOutFolder Output/D_G4_Fe_28MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #2nd energy
-/gps/ene/mono 13. MeV
-/custom/ana/setOutFolder Output/P_G4_W_13MeV_range
+/gps/ene/mono 27. MeV
+/custom/ana/setOutFolder Output/D_G4_Fe_27MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #3rd energy
-/gps/ene/mono 12. MeV
-/custom/ana/setOutFolder Output/P_G4_W_12MeV_range
+/gps/ene/mono 26. MeV
+/custom/ana/setOutFolder Output/D_G4_Fe_26MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #4th energy
-/gps/ene/mono 11. MeV
-/custom/ana/setOutFolder Output/P_G4_W_11MeV_range
+/gps/ene/mono 25. MeV
+/custom/ana/setOutFolder Output/D_G4_Fe_25MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #5th energy
-/gps/ene/mono 10. MeV
-/custom/ana/setOutFolder Output/P_G4_W_10MeV_range
+/gps/ene/mono 24. MeV
+/custom/ana/setOutFolder Output/D_G4_Fe_24MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #6th energy
-/gps/ene/mono 9. MeV
-/custom/ana/setOutFolder Output/P_G4_W_09MeV_range
+/gps/ene/mono 23. MeV
+/custom/ana/setOutFolder Output/D_G4_Fe_23MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #7th energy
-/gps/ene/mono 8. MeV
-/custom/ana/setOutFolder Output/P_G4_W_08MeV_range
+/gps/ene/mono 22. MeV
+/custom/ana/setOutFolder Output/D_G4_Fe_22MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #8th energy
-/gps/ene/mono 7. MeV
-/custom/ana/setOutFolder Output/P_G4_W_07MeV_range
+/gps/ene/mono 21. MeV
+/custom/ana/setOutFolder Output/D_G4_Fe_21MeV_range
 /run/printProgress 250000
 /run/beamOn 10000000
 
