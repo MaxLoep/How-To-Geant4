@@ -33,7 +33,7 @@
 
 /custom/geo/change_e 1.575 mm
 /custom/geo/setMat G4_GRAPHITE_POROUS
-/custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_26MeV_tny
+/custom/ana/setOutFolder Output/P_G4_GRAPHITE_POROUS_13MeV_tny
 /gps/particle proton
 /gps/ene/mono 13. MeV
 
