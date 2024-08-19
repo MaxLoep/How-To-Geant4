@@ -101,15 +101,20 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	analysisManager->FinishNtuple();
 
 	// Create ntuple for Sensitive Detector SphereSD - ID 6
-	analysisManager->CreateNtuple("SphereSD", "Sensitive Detector");
-	analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
-	analysisManager->CreateNtupleDColumn("Theta");    // column id = 1
-	analysisManager->CreateNtupleDColumn("Phi");    // column id = 2
+	analysisManager->CreateNtuple("N_SphereSD", "Sensitive Detector");
+	analysisManager->CreateNtupleDColumn("N_Ekin");    // column id = 0
+	analysisManager->CreateNtupleDColumn("N_Theta");    // column id = 1
+	analysisManager->FinishNtuple();
+
+	// Create ntuple for Sensitive Detector SphereSD - ID 7
+	analysisManager->CreateNtuple("G_SphereSD", "Sensitive Detector");
+	analysisManager->CreateNtupleDColumn("G_Ekin");    // column id = 0
+	analysisManager->CreateNtupleDColumn("G_Theta");    // column id = 1
 	analysisManager->FinishNtuple();
 
 	// Creating one dimensional histograms
 	// CreateH1 ("name", "title", nbins, xmin, xmax, unitName="none", fcnName="none")
-	analysisManager->CreateH1("Phi","Phi", 100, -180, 180.);             // column id = 0
+	analysisManager->CreateH1("N_Phi","N_Phi", 100, -180, 180.);             // column id = 0
 	// analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
 	// analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
 	// analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3
