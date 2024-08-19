@@ -28,8 +28,14 @@
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-/custom/geo/setMat G4_Be
+#/custom/geo/setMat G4_Cu
 #/custom/ana/setOutFolder C-Target_D26
+
+/custom/geo/change_e 0.95 mm
+/custom/geo/setMat G4_Cu
+/custom/ana/setOutFolder Output/D_G4_Cu_26MeV_tny
+/gps/particle deuteron 
+/gps/ene/mono 26. MeV
 
 #Start a run and print progress in console
 /run/printProgress 10000

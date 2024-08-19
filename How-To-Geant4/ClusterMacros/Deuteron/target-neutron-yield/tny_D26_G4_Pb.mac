@@ -6,11 +6,11 @@
 #------------------------------------------------------------------------
 #Commands to use with the General Particle Source (GPS)
 
-/gps/particle proton     #beam particle
+/gps/particle deuteron     #beam particle
 /gps/position 0 0 -1 cm      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
-/gps/ene/mono 13. MeV   #sets energy for monoenergetic sources
+/gps/ene/mono 26. MeV   #sets energy for monoenergetic sources
 #/gps/pos/type Point 
 
 #/gps/pos/shape Circle    #the beam geometry is a circle
@@ -28,8 +28,14 @@
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-/custom/geo/setMat G4_Be
-#/custom/ana/setOutFolder C-Target_P13
+#/custom/geo/setMat G4_Pb
+#/custom/ana/setOutFolder C-Target_D26
+
+/custom/geo/change_e 1.16 mm
+/custom/geo/setMat G4_Pb
+/custom/ana/setOutFolder Output/D_G4_Pb_26MeV_tny
+/gps/particle deuteron 
+/gps/ene/mono 26. MeV
 
 #Start a run and print progress in console
 /run/printProgress 10000
