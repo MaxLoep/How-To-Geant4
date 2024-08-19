@@ -35,7 +35,7 @@ gps/ene/mono 13. MeV   #sets energy for monoenergetic sources
 /custom/geo/setMat G4_GRAPHITE_POROUS
 /custom/ana/setOutFolder Output/D_G4_GRAPHITE_POROUS_26MeV_tny
 /gps/particle proton
-gps/ene/mono 13. MeV
+/gps/ene/mono 13. MeV
 
 #Start a run and print progress in console
 /run/printProgress 10000

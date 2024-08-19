@@ -35,7 +35,7 @@ gps/ene/mono 52. MeV   #sets energy for monoenergetic sources
 /custom/geo/setMat G4_Al
 /custom/ana/setOutFolder Output/D_G4_Al_26MeV_tny
 /gps/particle alpha
-gps/ene/mono 52. MeV
+/gps/ene/mono 52. MeV
 
 #Start a run and print progress in console
 /run/printProgress 10000
