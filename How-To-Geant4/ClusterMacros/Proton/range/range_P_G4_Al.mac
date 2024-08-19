@@ -73,49 +73,49 @@
 
 #1st energy
 /gps/ene/mono 14. MeV
-/custom/ana/setOutFolder Output/P_G4_Al_14MeV_range
+/custom/ana/setOutFolder Output/range_P_14MeV_G4_Al
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #2nd energy
 /gps/ene/mono 13. MeV
-/custom/ana/setOutFolder Output/P_G4_Al_13MeV_range
+/custom/ana/setOutFolder Output/range_P_13MeV_G4_Al
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #3rd energy
 /gps/ene/mono 12. MeV
-/custom/ana/setOutFolder Output/P_G4_Al_12MeV_range
+/custom/ana/setOutFolder Output/range_P_12MeV_G4_Al
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #4th energy
 /gps/ene/mono 11. MeV
-/custom/ana/setOutFolder Output/P_G4_Al_11MeV_range
+/custom/ana/setOutFolder Output/range_P_11MeV_G4_Al
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #5th energy
 /gps/ene/mono 10. MeV
-/custom/ana/setOutFolder Output/P_G4_Al_10MeV_range
+/custom/ana/setOutFolder Output/range_P_10MeV_G4_Al
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #6th energy
 /gps/ene/mono 9. MeV
-/custom/ana/setOutFolder Output/P_G4_Al_09MeV_range
+/custom/ana/setOutFolder Output/range_P_09MeV_G4_Al
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #7th energy
 /gps/ene/mono 8. MeV
-/custom/ana/setOutFolder Output/P_G4_Al_08MeV_range
+/custom/ana/setOutFolder Output/range_P_08MeV_G4_Al
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #8th energy
 /gps/ene/mono 7. MeV
-/custom/ana/setOutFolder Output/P_G4_Al_07MeV_range
+/custom/ana/setOutFolder Output/range_P_07MeV_G4_Al
 /run/printProgress 250000
 /run/beamOn 10000000
 

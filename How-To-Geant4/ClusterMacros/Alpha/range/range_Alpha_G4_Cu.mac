@@ -73,49 +73,49 @@
 
 #1st energy
 /gps/ene/mono 56. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_56MeV_range
+/custom/ana/setOutFolder Output/range_A_56MeV_G4_Cu
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #2nd energy
 /gps/ene/mono 55. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_55MeV_range
+/custom/ana/setOutFolder Output/range_A_55MeV_G4_Cu
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #3rd energy
 /gps/ene/mono 54. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_54MeV_range
+/custom/ana/setOutFolder Output/range_A_54MeV_G4_Cu
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #4th energy
 /gps/ene/mono 53. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_53MeV_range
+/custom/ana/setOutFolder Output/range_A_53MeV_G4_Cu
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #5th energy
 /gps/ene/mono 52. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_52MeV_range
+/custom/ana/setOutFolder Output/range_A_52MeV_G4_Cu
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #6th energy
 /gps/ene/mono 51. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_51MeV_range
+/custom/ana/setOutFolder Output/range_A_51MeV_G4_Cu
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #7th energy
 /gps/ene/mono 50. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_50MeV_range
+/custom/ana/setOutFolder Output/range_A_50MeV_G4_Cu
 /run/printProgress 250000
 /run/beamOn 10000000
 
 #8th energy
 /gps/ene/mono 49. MeV
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_49MeV_range
+/custom/ana/setOutFolder Output/range_A_49MeV_G4_Cu
 /run/printProgress 250000
 /run/beamOn 10000000
 

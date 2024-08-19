@@ -55,6 +55,8 @@ DetectorConstruction::DetectorConstruction()
 	fLoadingChoice = 0;
 	fOnlyLoadChoice = false;
 
+	Case = "TNY";
+
 	// World Size
 	world_sizeXYZ = 20.*m;
 
@@ -139,6 +141,24 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	// print for DEBUGGING
 	G4cout << lWorld->GetName() << " is the world volume" << G4endl;
 
+	// Case-Selection that does something
+	if (Case ==  "Range")
+	{
+		G4cout << " Case Range choosen" << G4endl;
+	}
+	else if (Case ==  "TNY")
+	{
+			G4cout << " Case TNY choosen" << G4endl;
+	}
+	else if (Case ==  "Collimator")
+	{	
+		G4cout << " Case Collimator choosen" << G4endl;
+	}
+	else
+	{
+			G4cout << " Loading Default Case. Declared Case may be invalid" << G4endl;
+	}
+
 	//Import Standard Geometry (1 box, 1 sphere and 5 SDs)
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// create a box to be used as Primitive Scorer (PS) and place it in the world volume
@@ -178,6 +198,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
 	G4LogicalVolume* lSD1 =
 		new G4LogicalVolume(sSD1,                				//its solid
+												// Aluminum(),		//its material
 												Vacuum(),		//its material
 												"lSD1");        //its name
 
@@ -378,6 +399,13 @@ void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
 }
 
 // Change Parameters via Macro file with these
+// Change a
+void DetectorConstruction::SwitchCase(G4String value)
+{
+	Case = value;
+	G4RunManager::GetRunManager()->ReinitializeGeometry();
+	G4cout  << "\n Case is now " << Case << G4endl;
+}
 // Change a
 void DetectorConstruction::change_a(G4double value)
 {

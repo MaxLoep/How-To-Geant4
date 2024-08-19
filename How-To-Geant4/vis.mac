@@ -16,6 +16,7 @@
 #/custom/GDML/LoadOnly true
 #/custom/GDML/writeFile Test0.gdml
 #
+/run/numberOfThreads 8
 /run/initialize
 #
 # Use these open statements to open selected visualization

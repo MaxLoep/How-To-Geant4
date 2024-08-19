@@ -33,7 +33,7 @@
 
 /custom/geo/change_e 5.25 mm
 /custom/geo/setMat G4_Li
-/custom/ana/setOutFolder Output/P_G4_Li_13MeV_tny
+/custom/ana/setOutFolder Output/tny_P_13MeV_G4_Li
 /gps/particle proton
 /gps/ene/mono 13. MeV
 

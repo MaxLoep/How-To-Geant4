@@ -33,7 +33,7 @@
 
 /custom/geo/change_e 0.48 mm
 /custom/geo/setMat G4_Cu
-/custom/ana/setOutFolder Output/Alpha_G4_Cu_52MeV_tny
+/custom/ana/setOutFolder Output/tny_A_52MeV_G4_Cu
 /gps/particle alpha
 /gps/ene/mono 52. MeV
 
