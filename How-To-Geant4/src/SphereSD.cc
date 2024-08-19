@@ -144,9 +144,9 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 		if(particle == G4Neutron::Neutron())	analysisManager->FillNtupleDColumn(6, 1, localPosition.theta()/degree);
 		if(particle == G4Neutron::Neutron())	analysisManager->AddNtupleRow(6);
 
-		if(particle == G4Gamma::Gamma())	analysisManager->FillNtupleDColumn(7, 0, Ekin/MeV);
-		if(particle == G4Gamma::Gamma())	analysisManager->FillNtupleDColumn(7, 1, localPosition.theta()/degree);
-		if(particle == G4Gamma::Gamma())	analysisManager->AddNtupleRow(7);
+		// if(particle == G4Gamma::Gamma())	analysisManager->FillNtupleDColumn(7, 0, Ekin/MeV);
+		// if(particle == G4Gamma::Gamma())	analysisManager->FillNtupleDColumn(7, 1, localPosition.theta()/degree);
+		// if(particle == G4Gamma::Gamma())	analysisManager->AddNtupleRow(7);
 
 		// // Store hit in histogram
 		if(particle == G4Neutron::Neutron())	analysisManager->FillH1(0, localPosition.phi()/degree);
