@@ -9,8 +9,15 @@ import platform
 from typing import Tuple
 import re
 
+
+def some(v):
+    return not isinstance(v, type(None))
+
+
 class particle_data:
     def __init__(self, particle : dict, name : str):
+        self.is_primary = "Primaries_" in name
+        self.abundance = None
         self.name = name
         self.count = particle['count']
         self.stable = particle['stable']
@@ -26,6 +33,8 @@ class particle_data:
         res += "half_life = " + str(self.half_life) + "\n"
         if not self.stable:
             res += "human_readable_half_life = " + self.hrhl + "\n"
+        if some(self.abundance):
+            res += "abundance = " + str(self.abundance) + "\n"
         res += "\n"
         return res
 
@@ -53,6 +62,22 @@ def to_dict(file: str) -> dict:
             res[name] = particle_data(dict[name], name)
     return res
 
+
+def add_abundance_info(data: dict) -> dict:
+    primary = list(filter(lambda x: x.is_primary, data))
+    secondaries = list(filter(lambda x: not x.is_primary, data))
+    if len(primary) > 1:
+        print("more then one kind of primary particle was encountered")
+        print("aborting!")
+        return data
+    else:
+        primary = primary[0]
+
+    pcount = primary.count
+    for particle in secondaries:
+        particle.abundance = particle.count / pcount
+
+    return {}
 
 
 def main():
@@ -93,6 +118,8 @@ def main():
                     print("skipped merge")
             else:
                 master_dict[particle] = file_content[particle]
+
+    master_dict = add_abundance_info(master_dict)
 
     with open(output_file, 'w') as out_handle:
         out_handle.writelines([str(master_dict[pd]) for pd in master_dict])
