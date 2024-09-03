@@ -178,7 +178,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
 	G4LogicalVolume* lSD1 =
 		new G4LogicalVolume(sSD1,                				//its solid
-												Vacuum(),		//its material
+												Aluminum(),		//its material
 												"lSD1");        //its name
 
 		new G4PVPlacement(0,                     				//no rotation

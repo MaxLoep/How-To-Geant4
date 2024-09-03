@@ -19,7 +19,7 @@ class particle_data:
         self.is_primary = "Primaries_" in name
         self.abundance = None
         self.name = name
-        self.count = particle['count']
+        self.pcount = particle['count']
         self.stable = particle['stable']
         self.half_life = particle['half_life']
         if not self.stable:
@@ -28,7 +28,7 @@ class particle_data:
     def __str__(self):
         res = ""
         res += "[" + self.name + "]\n"
-        res += "count = " + str(self.count) + "\n"
+        res += "count = " + str(self.pcount) + "\n"
         res += "stable = " + str(self.stable) + "\n"
         res += "half_life = " + str(self.half_life) + "\n"
         if not self.stable:
@@ -41,7 +41,7 @@ class particle_data:
 
     def __eq__(self, other):
         return self.name == other.name \
-            and self.count == other.count \
+            and self.pcount == other.count \
             and self.half_life == other.half_life
 
 
@@ -49,7 +49,7 @@ class particle_data:
         if self.name != other.name:
             print("adding failure")
         res = self
-        res.count += other.count
+        res.pcount += other.count
         return res
 
 
@@ -64,20 +64,27 @@ def to_dict(file: str) -> dict:
 
 
 def add_abundance_info(data: dict) -> dict:
-    primary = list(filter(lambda x: x.is_primary, data))
-    secondaries = list(filter(lambda x: not x.is_primary, data))
+    primary = list(filter(lambda x: data[x].is_primary, data))
+
+    secondaries = {}
+    for particle in data:
+        if not data[particle].is_primary:
+            secondaries[particle] = data[particle]
+
     if len(primary) > 1:
         print("more then one kind of primary particle was encountered")
-        print("aborting!")
+        print("merging without abundance calculations!")
         return data
     else:
-        primary = primary[0]
+        primary = data[primary[0]]
 
-    pcount = primary.count
+    pcount = primary.pcount
     for particle in secondaries:
-        particle.abundance = particle.count / pcount
+        secondaries[particle].abundance = secondaries[particle].pcount / pcount
 
-    return {}
+    res = secondaries
+    res[primary.name] = primary
+    return res
 
 
 def main():
