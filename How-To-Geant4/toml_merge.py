@@ -9,10 +9,17 @@ import platform
 from typing import Tuple
 import re
 
+
+def some(v):
+    return not isinstance(v, type(None))
+
+
 class particle_data:
     def __init__(self, particle : dict, name : str):
+        self.is_primary = "Primaries_" in name
+        self.abundance = None
         self.name = name
-        self.count = particle['count']
+        self.pcount = particle['count']
         self.stable = particle['stable']
         self.half_life = particle['half_life']
         if not self.stable:
@@ -21,18 +28,20 @@ class particle_data:
     def __str__(self):
         res = ""
         res += "[" + self.name + "]\n"
-        res += "count = " + str(self.count) + "\n"
+        res += "count = " + str(self.pcount) + "\n"
         res += "stable = " + str(self.stable) + "\n"
         res += "half_life = " + str(self.half_life) + "\n"
         if not self.stable:
             res += "human_readable_half_life = " + self.hrhl + "\n"
+        if some(self.abundance):
+            res += "abundance = " + str(self.abundance) + "\n"
         res += "\n"
         return res
 
 
     def __eq__(self, other):
         return self.name == other.name \
-            and self.count == other.count \
+            and self.pcount == other.count \
             and self.half_life == other.half_life
 
 
@@ -40,7 +49,7 @@ class particle_data:
         if self.name != other.name:
             print("adding failure")
         res = self
-        res.count += other.count
+        res.pcount += other.count
         return res
 
 
@@ -53,6 +62,29 @@ def to_dict(file: str) -> dict:
             res[name] = particle_data(dict[name], name)
     return res
 
+
+def add_abundance_info(data: dict) -> dict:
+    primary = list(filter(lambda x: data[x].is_primary, data))
+
+    secondaries = {}
+    for particle in data:
+        if not data[particle].is_primary:
+            secondaries[particle] = data[particle]
+
+    if len(primary) > 1:
+        print("more then one kind of primary particle was encountered")
+        print("merging without abundance calculations!")
+        return data
+    else:
+        primary = data[primary[0]]
+
+    pcount = primary.pcount
+    for particle in secondaries:
+        secondaries[particle].abundance = secondaries[particle].pcount / pcount
+
+    res = secondaries
+    res[primary.name] = primary
+    return res
 
 
 def main():
@@ -93,6 +125,8 @@ def main():
                     print("skipped merge")
             else:
                 master_dict[particle] = file_content[particle]
+
+    master_dict = add_abundance_info(master_dict)
 
     with open(output_file, 'w') as out_handle:
         out_handle.writelines([str(master_dict[pd]) for pd in master_dict])

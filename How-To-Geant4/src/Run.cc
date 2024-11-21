@@ -26,7 +26,7 @@ extern std::string folderName;
 std::string ListFolder = "Lists_of_generated_Particles";
 
 // mutex in a file scope
-namespace 
+namespace
 {
 	//Mutex to lock updating the global ion map
 	G4Mutex ionIdMapMutex = G4MUTEX_INITIALIZER;
@@ -67,7 +67,7 @@ void Run::SetPrimary(G4ParticleDefinition* particle, G4double energy) {
 }
 
 // Function to count processes and fill the map fProcCounter
-void Run::CountProcesses(const G4VProcess* process) 
+void Run::CountProcesses(const G4VProcess* process)
 {
 	G4String procName = process->GetProcessName();
 	std::map<G4String,G4int>::iterator it = fProcCounter.find(procName);
@@ -107,7 +107,7 @@ void Run::ParticleFlux(G4String name)
 	}
 }
 
-// WHAT DOES THIS DO? SEEMS TO COUNT IONS OR SOMETHING... 
+// WHAT DOES THIS DO? SEEMS TO COUNT IONS OR SOMETHING...
 G4int Run::GetIonId(G4String ionName)
 {
 	G4AutoLock lock(&ionIdMapMutex);
@@ -152,12 +152,14 @@ void Run::Merge(const G4Run* run)
 
 
 template <typename Ostream>
-void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream) 
+void Run::OutputParticleData(std::map<G4String, ParticleData>& particle_map, Ostream& stream)
 {
 	// type and number of primary particles used in this run
-	G4String Particle = fParticle->GetParticleName();
+	G4String primary_particle = fParticle->GetParticleName();
+	primary_particle = std::regex_replace(primary_particle, std::regex("[+]"), "_plus");
+	primary_particle = std::regex_replace(primary_particle, std::regex("[-]"), "_minus");
 	stream
-		<< "[" << "Primaries_" << Particle  << "]\n"
+		<< "[" << "Primaries_" << primary_particle  << "]\n"
 		<< "count = " << numberOfEvent << "\n"
 		<< "stable = " << "true" << "\n"
 		<< "half_life = " <<  NAN << "\n";
@@ -249,7 +251,7 @@ void Run::EndOfRun()
 
 	// List of generated Particles leaving the World volume to console
 	OutputParticleData(fParticleDataMap2, G4cout);
-	
+
 	//remove all contents in fProcCounter, fCount
 	fProcCounter.clear();
 	fParticleDataMap1.clear();
