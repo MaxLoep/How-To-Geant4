@@ -37,6 +37,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void LoadGDML( const G4String& File );         // function for loading a GDML file
     void SaveGDML( const G4String& File );         // function for saving to a GDML file
 
+    void SwitchCase( G4String );        // function for switching the Case
+
 
     void change_a   (G4double);
     void change_b   (G4double);
@@ -64,6 +66,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4int fWritingChoice;  // variable to control if GDML should be written
     G4int fLoadingChoice;  // variable to control if GDML should be loaded
     G4bool fOnlyLoadChoice; // variable to control if only a GDML file should be loaded without building additional geometries via Geant4/DetectorConstruction
+
+    // Case for Switch-Statement
+    G4String Case;          // name of the Simulation-Case that should be loaded
 
     // Define Variables for Materials and geometries you want to change per macro-file HERE:
     //world size
