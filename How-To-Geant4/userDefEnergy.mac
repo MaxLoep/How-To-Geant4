@@ -1,0 +1,31 @@
+/gps/ene/type User
+/gps/hist/type energy
+/gps/hist/point 0. 0.
+/gps/hist/point 1.0 1.
+/gps/hist/point 2.0 2.
+/gps/hist/point 3.0 3.
+/gps/hist/point 4.0 2.
+/gps/hist/point 5.0 1.
+/gps/hist/point 6.0 1.
+/gps/hist/point 7.0 2.
+/gps/hist/point 8.0 3.
+/gps/hist/point 9.0 4.
+/gps/hist/point 10. 5.
+
+#/gps/hist/point MeV-Value intensity?
+
+#to outsource spectrum to another file:
+#/control/execute spectrum.mac
+
+#From the Docs:
+#There is also the option for the user to define a histogram in energy (“User”) ... that can be fit with various simple functions.
+#The data for histograms or point spectra must be provided in ascending bin (abscissa) order.
+#The point-wise spectrum may be differential (as with a binned histogram).
+#The maximum energy of an integral spectrum is defined by the last-but-one data point, because GPS converts to a differential spectrum internally.
+#The histogram is loaded, one bin at a time, by using the /gps/hist/point command, 
+#followed by its two arguments the upper boundary of the bin and the weight (or area) of the bin.
+#Currently histograms are limited to 1024 bins.
+#The first value of each user input data pair is treated as the upper edge of the histogram bin and the second value is the bin content. 
+#The exception is the very first data pair the user input whose first value is the treated as the lower edge of the first bin of the histogram,
+# and the second value is not used. 
+This rule applies to all distribution histograms, as well as histograms for biasing.
