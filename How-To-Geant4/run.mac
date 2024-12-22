@@ -21,13 +21,14 @@
 #------------------------------------------------------------------------
 #Commands to use with the General Particle Source (GPS)
 #/gps/particle proton     #beam particle
-#/gps/particle deuteron     #beam particle
-/gps/particle neutron     #beam particle
+/gps/particle deuteron     #beam particle
+#/gps/particle neutron     #beam particle
 /gps/position 0 0 -1 cm      #GPS position
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
-/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
-#/gps/ene/mono 26. MeV   #sets energy for monoenergetic sources
+#/gps/ene/mono 1.5 MeV   #sets energy for monoenergetic sources
+#/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
+/gps/ene/mono 26. MeV   #sets energy for monoenergetic sources
 #/gps/pos/type Point
 
 /gps/pos/shape Circle    #the beam geometry is a circle
@@ -56,7 +57,7 @@
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-#/custom/geo/setMat G4_Al
+/custom/geo/setMat G4_Be
 #/custom/ana/setOutFolder Output/tny_D_26MeV_G4_Al
 
 #Start a run and print progress in console
