@@ -144,7 +144,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	// print for DEBUGGING
 	G4cout << lWorld->GetName() << " is the world volume" << G4endl;
 
-	#include "DetectorGeometries.cc"
+	#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
 
 	//Import Standard Geometry (1 box, 1 sphere and 5 SDs)
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
