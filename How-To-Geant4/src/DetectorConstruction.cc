@@ -3,6 +3,7 @@ WHAT DOES THIS DO?
 */
 #define DEBUG
 #define Collimator
+#define BoxPs
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
 #include "DetectorMessenger.hh"         //Header file for own macro commands
@@ -70,8 +71,9 @@ DetectorConstruction::DetectorConstruction()
 	a = 20.*m; // used for x- and y-width of Sensitive Detectors
 	b = 10.*cm; // unused
 	c = 1.*cm;  // unused
-	d = 1.*cm;  // unused
+	d = 0.*degree;  // unused
 	e = 1.*cm;  // unused
+	f = 0.*cm;      // position of the target
 
 	// Define Materials
 	DefineMaterials(); // see 'Materials.cc' for defined Materials
@@ -327,7 +329,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	G4Tubs* solidCylinder =
 		new G4Tubs("Cylinder",                     				//name
 				0, 1.5*mm,                      				//inner radius, outer radius
-				e/2,                              			//z half length
+				c/2,                              			//z half length
 				0., twopi);                       				//min phi, max phi
 
 	G4LogicalVolume* logicCylinder =
@@ -424,6 +426,14 @@ void DetectorConstruction::change_e(G4double value)
 	G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
 }
 
+// Change f
+void DetectorConstruction::change_f(G4double value)
+{
+  f = value;
+  G4RunManager::GetRunManager()->ReinitializeGeometry();
+  G4cout  << "\n f is now " << G4BestUnit(f,"Length") << G4endl;
+}
+
 // Assign Detectors and Scorers to Volume
 void DetectorConstruction::ConstructSDandField()
 {
@@ -511,6 +521,7 @@ void DetectorConstruction::ConstructSDandField()
 	// protonEnergy->add("proton");
 	// protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
 
+	#ifdef BoxPS
 	// Declare a volume as a MultiFunctionalDetector scorer
 	auto boxPS = new G4MultiFunctionalDetector("Scorer");
 	G4SDManager::GetSDMpointer()->AddNewDetector(boxPS);
@@ -532,6 +543,8 @@ void DetectorConstruction::ConstructSDandField()
 
 	// Apply Scorer to Volume
 	SetSensitiveDetector("lBox",boxPS);
+
+	#endif
 
 	//
 	// Score Deposited Energy

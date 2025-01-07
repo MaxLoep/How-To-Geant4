@@ -42,6 +42,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void change_c   (G4double);
     void change_d   (G4double);
     void change_e   (G4double);
+    void change_f   (G4double);
 
     G4double GetAbsorThickness()    {return boxX;};
     G4double GetAbsorSizeYZ()       {return boxX;};
@@ -79,6 +80,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double           c;
     G4double           d;
     G4double           e;
+    G4double           f;
 
     G4Material*        fAbsorMaterial;
     G4LogicalVolume*   fLAbsor;

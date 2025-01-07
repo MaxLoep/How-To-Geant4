@@ -23,7 +23,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
  fOutFoldCmd(nullptr),
  fMaterCmd(nullptr),
  fTheLoadCommand(0),fTheWriteCommand(0), fTheOnlyLoadCommand(0),
- fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr)
+ fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr), fchange_fCmd(nullptr)
 {
 	//Create a directory for your custom commands
 	fTestemDir = new G4UIdirectory("/custom/");
@@ -75,7 +75,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 	fTheOnlyLoadCommand ->SetDefaultValue( false );
 	fTheOnlyLoadCommand ->AvailableForStates(G4State_PreInit);
 
-	// Change parameters a,b,c,d,e with Macro commands
+	// Change parameters a,b,c,d,e,f with Macro commands
 	// Change a
 	fchange_aCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_a",this);
 	fchange_aCmd->SetGuidance("Change the value of the variable 'a'");
@@ -115,6 +115,14 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 	fchange_eCmd->SetRange("e>0.");
 	fchange_eCmd->SetUnitCategory("Length");
 	fchange_eCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	// Change f
+	fchange_fCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_f",this);
+	fchange_fCmd->SetGuidance("Change the value of the variable 'f'");
+	fchange_fCmd->SetParameterName("f",false);
+	fchange_fCmd->SetRange("f>0.");
+	fchange_fCmd->SetUnitCategory("Length");
+	fchange_fCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 
