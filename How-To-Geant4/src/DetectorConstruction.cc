@@ -2,7 +2,7 @@
 WHAT DOES THIS DO?
 */
 #define DEBUG
-#define Collimator
+// #define Collimator
 #define BoxPs
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
