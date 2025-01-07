@@ -2,6 +2,7 @@
 WHAT DOES THIS DO?
 */
 #define DEBUG
+#define Collimator
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
 #include "DetectorMessenger.hh"         //Header file for own macro commands
@@ -20,6 +21,8 @@ WHAT DOES THIS DO?
 
 #include "G4VisAttributes.hh"           //for Visualization
 #include "G4Color.hh"                   //for Visualization
+#include "G4SubtractionSolid.hh"        //for the boolean subtraction operation
+#include "G4UnionSolid.hh"              //for the boolean combination operation
 
 //Primitive Scorer from example B4d
 #include "G4SDManager.hh"
