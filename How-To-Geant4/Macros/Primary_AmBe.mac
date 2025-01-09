@@ -1,6 +1,5 @@
-#to outsource spectrum to another file:
-#/control/execute spectrum.mac
-
+#AMBE NEUTRON SOURCE
+#------------------------------------------------------------------------
 #From the Docs:
 #There is also the option for the user to define a histogram in energy (“User”) ... that can be fit with various simple functions.
 #The data for histograms or point spectra must be provided in ascending bin (abscissa) order.
