@@ -1,10 +1,94 @@
 // if-defing different scenarios
 #ifdef DEBUG
-// print for DEBUGGING
-G4cout << "---------------------------------------------------" << G4endl;
-G4cout << "This is a DEBUG message" << G4endl;
-G4cout << "---------------------------------------------------" << G4endl;
 #endif
+
+
+#ifdef Range
+// create a box to be used as Tracklength Primitive Scorer (PS) and place it in the world volume
+//
+// Box
+G4Box* sBox =
+  new G4Box("sBox",                  			//its name
+      20.*cm/2, 20.*cm/2, 20.*cm/2);      //its size: half x, half y, half z
+
+G4LogicalVolume* lBox =
+  new G4LogicalVolume(sBox,               //its solid
+                      Vacuum(),		        //its material
+                      "lBox");            //its name
+
+//G4VPhysicalVolume* physBox=             //you can declare a varibale for placement but it will create a warning if unused
+  new G4PVPlacement(0,               			//no rotation
+            G4ThreeVector(0,0,80.*cm),  	//position
+            lBox,                      		//its logical volume
+            "pBox",                     	//its name
+            lWorld,							        	//its mother  volume
+            false,                     		//any boolean operation?
+            0,                         		//copy number
+            true);                     		//overlaps checking?
+
+//Make (in-)visible and give it a color
+//lBox->SetVisAttributes (G4VisAttributes::GetInvisible());
+auto lBoxVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+lBoxVisAtt->SetVisibility(true);
+lBox->SetVisAttributes(lBoxVisAtt);
+#endif
+
+
+#ifdef TNY
+// Sphere - SD to detect gammas
+G4Sphere* sSphere =
+  new G4Sphere("sSphere",                    				//name
+            20.*cm, 20.01*cm,                  	//inner radius, outer radius
+            0., twopi,                      	//min phi, max phi
+            0., pi);                        	//min rho, max rho
+
+G4LogicalVolume* lSphere =
+  new G4LogicalVolume(sSphere,              				//shape
+                      Vacuum(),		//material
+                      "lSphere");		//name
+
+new G4PVPlacement(0,                        				//no rotation
+            G4ThreeVector(0,0,0),           	//position
+            lSphere,                        	//logical volume
+            "pSphere",                       	//name
+            lWorld,								//mother volume
+            false,                          	//any boolean operation?
+            0,                              	//copy number
+            true);                          	//overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lSphereVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+lSphereVisAtt->SetVisibility(true);
+lSphere->SetVisAttributes(lSphereVisAtt);
+
+// Target cylinder - change thickness with parameter e
+G4Tubs* solidCylinder =
+  new G4Tubs("Cylinder",                     				//name
+      0, 1.5*mm,                      				//inner radius, outer radius
+      1.*cm/2,                              			//z half length
+      0., twopi);                       				//min phi, max phi
+
+G4LogicalVolume* logicCylinder =
+  new G4LogicalVolume(solidCylinder,        				//shape
+          // Vacuum(),
+          dummyMat,
+          "Cylinder");           					//name
+
+new G4PVPlacement(0,                        				//no rotation
+      G4ThreeVector(0,0,0),      						//position
+      logicCylinder,                  				//logical volume
+      "Cylinder",                     				//name
+      lWorld,                     					//mother  volume
+      false,                          				//any boolean operation?
+      0,                              				//copy number
+      true);                          				//overlaps checking?
+
+// Make (in-)visible and give it a color
+auto logicCylinderVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+logicCylinderVisAtt->SetVisibility(true);
+logicCylinder->SetVisAttributes(logicCylinderVisAtt);
+#endif
+
 
 #ifdef Collimator
 // 

@@ -44,12 +44,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void change_e   (G4double);
     void change_f   (G4double);
 
-    G4double GetAbsorThickness()    {return boxX;};
-    G4double GetAbsorSizeYZ()       {return boxX;};
     G4Material* GetAbsorMaterial()  {return boxMaterial;};
-
-    G4double GetWorldSizeX()   {return boxX;};
-    G4double GetWorldSizeYZ()  {return boxX;};
 
     void PrintParameters(); // function that prints parameters of ONE hardcoded object - can be deleted i guess
 
@@ -68,11 +63,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     // Define Variables for Materials and geometries you want to change per macro-file HERE:
     //world size
     G4double world_sizeXYZ;
-
-    // for the box
-    G4double           boxX;
-    G4double           boxY;
-    G4double           boxZ;
 
     // dummy variables that can be changed with UI-commands
     G4double           a;

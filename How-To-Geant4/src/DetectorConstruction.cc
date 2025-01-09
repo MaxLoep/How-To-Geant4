@@ -3,7 +3,8 @@ WHAT DOES THIS DO?
 */
 #define DEBUG
 // #define Collimator
-#define BoxPs
+// #define Range
+// #define TNY
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
 #include "DetectorMessenger.hh"         //Header file for own macro commands
@@ -38,12 +39,6 @@ WHAT DOES THIS DO?
 #include "G4SDParticleFilter.hh"
 #include "G4SDChargedFilter.hh"
 
-// these got moved to 'GDML.cc'
-// #include "G4GeometryManager.hh"
-// #include "G4PhysicalVolumeStore.hh"
-// #include "G4LogicalVolumeStore.hh"
-// #include "G4SolidStore.hh"
-
 #include "SensitiveDetector.hh"         // the SensitiveDetector file
 #include "CADMesh.hh"                   // for importing CAD-files (.stl, .obj, ...). Read all about it at: https://github.com/christopherpoole/CADMesh
 #include "G4GDMLParser.hh"              // for importing/exporting GDML-files
@@ -61,11 +56,6 @@ DetectorConstruction::DetectorConstruction()
 
 	// World Size
 	world_sizeXYZ = 20.*m;
-
-	//set box parameters
-	boxX  = 20. *cm;
-	boxY  = 20. *cm;
-	boxZ  = 20. *cm;
 
 	// set dummy variables
 	a = 20.*m; // used for x- and y-width of Sensitive Detectors
@@ -146,35 +136,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
 	#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
 
-	//Import Standard Geometry (1 box, 1 sphere and 5 SDs)
+	//Import Standard Geometry (1 sphere and 5 SDs)
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	// create a box to be used as Primitive Scorer (PS) and place it in the world volume
-	//
-	// Box
-	G4Box* sBox =
-		new G4Box("sBox",                        				//its name
-				boxX/2, boxY/2, boxZ/2);                   		//its size: half x, half y, half z
-
-	G4LogicalVolume* lBox =
-		new G4LogicalVolume(sBox,                				//its solid
-												Vacuum(),		//its material
-												"lBox");        //its name
-
-	//G4VPhysicalVolume* physBox=              					//you can declare a varibale for placement but it will create a warning if unused
-		new G4PVPlacement(0,                     				//no rotation
-							G4ThreeVector(0,0,80.*cm),     		//position
-							lBox,                          		//its logical volume
-							"pBox",                         	//its name
-							lWorld,								//its mother  volume
-							false,                         		//any boolean operation?
-							0,                             		//copy number
-							true);                         		//overlaps checking?
-
-	//Make (in-)visible and give it a color
-	//lBox->SetVisAttributes (G4VisAttributes::GetInvisible());
-	auto lBoxVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
-	lBoxVisAtt->SetVisibility(true);
-	lBox->SetVisAttributes(lBoxVisAtt);
 
 	//create 5 flat boxes to use as Sensitive Detector (SD)
 	//
@@ -299,59 +262,6 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	lSD5VisAtt->SetVisibility(true);
 	lSD5->SetVisAttributes(lSD5VisAtt);
 
-	// Sphere - SD to detect gammas
-	G4Sphere* sSphere =
-		new G4Sphere("sSphere",                    				//name
-							20.*cm, 20.01*cm,                  	//inner radius, outer radius
-							0., twopi,                      	//min phi, max phi
-							0., pi);                        	//min rho, max rho
-
-	G4LogicalVolume* lSphere =
-		new G4LogicalVolume(sSphere,              				//shape
-												Vacuum(),		//material
-												"lSphere");		//name
-
-	new G4PVPlacement(0,                        				//no rotation
-							G4ThreeVector(0,0,0),           	//position
-							lSphere,                        	//logical volume
-							"pSphere",                       	//name
-							lWorld,								//mother volume
-							false,                          	//any boolean operation?
-							0,                              	//copy number
-							true);                          	//overlaps checking?
-
-	//Make (in-)visible and give it a color
-	auto lSphereVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
-	lSphereVisAtt->SetVisibility(true);
-	lSphere->SetVisAttributes(lSphereVisAtt);
-
-	// Target cylinder - change thickness with parameter e
-	G4Tubs* solidCylinder =
-		new G4Tubs("Cylinder",                     				//name
-				0, 1.5*mm,                      				//inner radius, outer radius
-				c/2,                              			//z half length
-				0., twopi);                       				//min phi, max phi
-
-	G4LogicalVolume* logicCylinder =
-		new G4LogicalVolume(solidCylinder,        				//shape
-						Vacuum(),
-						// dummyMat,
-						"Cylinder");           					//name
-
-	new G4PVPlacement(0,                        				//no rotation
-				G4ThreeVector(0,0,0),      						//position
-				logicCylinder,                  				//logical volume
-				"Cylinder",                     				//name
-				lWorld,                     					//mother  volume
-				false,                          				//any boolean operation?
-				0,                              				//copy number
-				true);                          				//overlaps checking?
-
-	// Make (in-)visible and give it a color
-	auto logicCylinderVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
-	logicCylinderVisAtt->SetVisibility(true);
-	logicCylinder->SetVisAttributes(logicCylinderVisAtt);
-
 	//Print all defined materials to console
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
@@ -470,8 +380,9 @@ void DetectorConstruction::ConstructSDandField()
 
 	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
+	#ifdef TNY
 	SetSensitiveDetector("lSphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to logical Volume 'Sphere'
-
+	#endif
 
 	// PRIMITIVE SCORERS
 	// You need also Code for this one to work in:
@@ -541,7 +452,7 @@ void DetectorConstruction::ConstructSDandField()
 	// Register Filters to Scorer
 	boxPS->RegisterPrimitive(primitive);
 
-	#ifdef BoxPs
+	#ifdef Range
 	// Apply Scorer to Volume
 	SetSensitiveDetector("lBox",boxPS);
 
