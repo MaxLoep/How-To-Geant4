@@ -12,13 +12,16 @@
 #The first value of each user input data pair is treated as the upper edge of the histogram bin and the second value is the bin content. 
 #The exception is the very first data pair the user input whose first value is the treated as the lower edge of the first bin of the histogram,
 # and the second value is not used. 
-This rule applies to all distribution histograms, as well as histograms for biasing.
+#This rule applies to all distribution histograms, as well as histograms for biasing.
 
 
 #AmBe energy Spectrum for small sources according to ISO 8529-1-2021
+/gps/particle neutron        #beam particle
+/gps/position 0 0 -1 cm     #GPS position
+/gps/direction 0 0 1        #oriented along the Z axis
+/gps/pos/type Point
 /gps/ene/type User
 /gps/hist/type energy
-#/gps/hist/point MeV-Value intensity
 /gps/hist/point 0. 0.
 /gps/hist/point 4.223E-9	0.000E+0
 /gps/hist/point 1.334E-8	2.509E-7
@@ -90,3 +93,4 @@ This rule applies to all distribution histograms, as well as histograms for bias
 /gps/hist/point 1.069E+1	1.927E-3
 /gps/hist/point 1.089E+1	5.609E-4
 /gps/hist/point 1.100E+1	0.000E+0
+

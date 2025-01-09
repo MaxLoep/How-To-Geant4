@@ -1,0 +1,18 @@
+#BEAM
+#------------------------------------------------------------------------
+#Commands to use with the General Particle Source (GPS)
+/gps/particle alpha         #beam particle
+/gps/position 0 0 -1 cm     #GPS position
+/gps/direction 0 0 1        #oriented along the Z axis
+/gps/ene/type Mono          #monoenergetic:   I=E
+/gps/ene/mono 52. MeV       #sets energy for monoenergetic sources
+/gps/pos/type Point
+
+#/gps/pos/shape Circle       #the beam geometry is a circle
+#/gps/pos/radius 0. mm
+
+#HISKP Cyclotron FWHM is approx 4mm. FWHM = 2.3548*sigma -> sigma = 1.79mm
+#/gps/pos/sigma_r 1.79 mm
+#/gps/pos/sigma_r 4. mm
+#/gps/pos/type Beam
+#------------------------------------------------------------------------

@@ -521,7 +521,7 @@ void DetectorConstruction::ConstructSDandField()
 	// protonEnergy->add("proton");
 	// protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
 
-	#ifdef BoxPS
+	
 	// Declare a volume as a MultiFunctionalDetector scorer
 	auto boxPS = new G4MultiFunctionalDetector("Scorer");
 	G4SDManager::GetSDMpointer()->AddNewDetector(boxPS);
@@ -541,6 +541,7 @@ void DetectorConstruction::ConstructSDandField()
 	// Register Filters to Scorer
 	boxPS->RegisterPrimitive(primitive);
 
+	#ifdef BoxPs
 	// Apply Scorer to Volume
 	SetSensitiveDetector("lBox",boxPS);
 

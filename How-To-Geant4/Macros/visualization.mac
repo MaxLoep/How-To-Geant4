@@ -1,15 +1,6 @@
 # Macro file for the initialization of an interactive session
 #This gets executed automatically if the main file is executed without an argument (= another macro file)
 #
-# Set some default verbose - done in How-To-Geant4.cc now
-#/control/verbose 2
-#/control/saveHistory
-#/run/verbose 2
-#/control/verbose 0
-#/process/verbose 0
-#/process/had/verbose 0
-#/control/saveHistory
-#/run/verbose 0
 
 #
 #/custom/GDML/loadFile Test0.gdml

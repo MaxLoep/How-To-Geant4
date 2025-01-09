@@ -186,7 +186,7 @@ int main(int argc,char** argv) {
   UImanager->ApplyCommand(G4String("/stepping/verbose 0"));
 
   // Process macro or start UI session
-  // A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../vis.mac will be executed
+  // A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../visualization.mac will be executed
   if ( ! ui ) {
     // batch mode
     G4String command = "/control/execute ";
@@ -195,7 +195,7 @@ int main(int argc,char** argv) {
   }
   else {
     // interactive mode
-    UImanager->ApplyCommand("/control/execute ../vis.mac");
+    UImanager->ApplyCommand("/control/execute ../Macros/visualization.mac");
     ui->SessionStart();
     delete ui;
   }
