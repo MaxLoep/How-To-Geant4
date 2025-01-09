@@ -93,3 +93,16 @@
 /gps/hist/point 1.089E+1	5.609E-4
 /gps/hist/point 1.100E+1	0.000E+0
 
+#/gps/source/list
+
+
+#AMBE GAMMA SOURCE
+#------------------------------------------------------------------------
+#TO-DO: Add a second source with GPS that emits the gamma spectrum of AmBe
+#/gps/number 2
+#/gps/source/add 1
+#/gps/particle gamma        #beam particle
+#/gps/position 0 0 -1 cm     #GPS position
+#/gps/direction 0 0 1        #oriented along the Z axis
+
+#/gps/source/list
