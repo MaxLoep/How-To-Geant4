@@ -26,7 +26,7 @@ import os
 
 
 #Path to file
-# path = "build\\Output\\Root Files\\28d-C-MobileCup-00PE.root"
+path = "How-To-Geant4\\build\\Output\\Root_Files\\1736431312_288691500.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
 # path = "build\\Output\\Root Files\\ID_14964.root"
@@ -36,7 +36,7 @@ import os
 # path = "C26-5d_4_2_3_0.root"
 # path = "C26-5d_4_2_4_0.root"
 # path = "C26-5d_4_2_5_0.root"
-path = "C26-5d_4_2_4_0_INCLXX_HP.root"
+# path = "C26-5d_4_2_4_0_INCLXX_HP.root"
 
 #Function to plot a TH1D Histogram from a root file with matplotlib
 #UNNICE PLOT - no axis label, generic title, generic axis range
