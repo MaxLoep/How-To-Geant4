@@ -1,3 +1,10 @@
+// SOLIDS, GEOMETRIES, PLACEMENT, ETC.
+// How to create solids
+// It's basically a process with 3 steps:
+// 1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
+// 2.: Make it a Logical Volume by assigning a material to it
+// 3.: Place it in your simulation
+
 // if-defing different scenarios
 #ifdef DEBUG
 G4cout << "-------------------------------------------------------------------------" << G4endl;

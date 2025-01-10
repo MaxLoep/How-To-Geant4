@@ -57,12 +57,12 @@ fDetectorMessenger(nullptr)
 	// World Size
 	world_sizeXYZ = 20.*m;
 
-	// set dummy variables
-	a = 20.*m; // used for x- and y-width of Sensitive Detectors
-	b = 10.*cm; // unused
-	c = 1.*cm;  // unused
+	// set initial values of dummy variables
+	a = 20.*m; 		// used for x- and y-width of Sensitive Detectors
+	b = 10.*cm; 	// unused
+	c = 1.*cm;  	// unused
 	d = 0.*degree;  // unused
-	e = 1.*cm;  // unused
+	e = 1.*cm;  	// unused
 	f = 0.*cm;      // position of the target
 
 	// Define Materials
@@ -87,13 +87,6 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 {
 	// print for DEBUGGING
 	G4cout << "\n ----ONLYLOAD is---- " << fOnlyLoadChoice <<  G4endl;
-
-	// SOLIDS, GEOMETRIES, PLACEMENT, ETC.
-	// How to create solids
-	// It's basically a process with 3 steps:
-	// 1.: Create a Geometry e.g. a Box, Cylinder, Sphere or even a Box minus a Cylinder (-> see boolean operation)
-	// 2.: Make it a Logical Volume by assigning a material to it
-	// 3.: Place it in your simulation
 
 	if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to be constructed
 	{
@@ -139,8 +132,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	//Print all defined materials to console
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
-	// default value = 0
-	if(fWritingChoice==1) // save geometry in GDML file
+	// save geometry in GDML file
+	if(fWritingChoice==1) // default value = 0
 		{
 			SaveGDML( fWriteFile );
 		}
