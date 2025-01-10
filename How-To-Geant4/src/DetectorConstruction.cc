@@ -1,8 +1,8 @@
 /*
 WHAT DOES THIS DO?
 */
-#define DEBUG
-// #define Collimator
+// #define DEBUG
+#define Collimator
 // #define Range
 // #define TNY
 
@@ -264,7 +264,7 @@ void DetectorConstruction::ConstructSDandField()
 
 	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-	#if defined TNY || defined Collimator
+	#if defined TNY //|| defined Collimator
 	SetSensitiveDetector("lSphere", sphereSD);                  //Apply Sensitive Detector 'SphereSD' to logical Volume 'lSphere'
 	#endif
 
