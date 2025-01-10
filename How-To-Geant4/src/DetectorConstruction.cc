@@ -45,7 +45,7 @@ WHAT DOES THIS DO?
 
 DetectorConstruction::DetectorConstruction()
 :G4VUserDetectorConstruction(),
- world_mat(nullptr), fDetectorMessenger(nullptr)
+fDetectorMessenger(nullptr)
 {
 	// for reading and writing GDML
 	fLoadFile  ="test.gdml";
@@ -106,7 +106,6 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 		lWorld =
 			new G4LogicalVolume(solidWorld,          						//its solid
 													Vacuum(),				//its material
-													// world_mat,           //its material
 													"lWorld");            	//its name
 
 		// G4VPhysicalVolume* fWorldPhysVol =

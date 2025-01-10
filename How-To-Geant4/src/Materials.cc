@@ -30,26 +30,29 @@ void DetectorConstruction::DefineMaterials()
 	// Initiate the NIST Material Manager
 	nist = G4NistManager::Instance();
 
-	// define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
-	// world_mat    = nist->FindOrBuildMaterial("G4_AIR");
-	world_mat   = nist->FindOrBuildMaterial("G4_Galactic");
-	// boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
-
 	// NIST Materials
 	Vacuum      = [&](){return nist->FindOrBuildMaterial("G4_Galactic");};
 	Hydrogen    = [&](){return nist->FindOrBuildMaterial("G4_H");};
+	Lithium		= [&](){return nist->FindOrBuildMaterial("G4_Li");};
 	Boron       = [&](){return nist->FindOrBuildMaterial("G4_B");};
 	Carbon      = [&](){return nist->FindOrBuildMaterial("G4_C");};
+	Silicon		= [&](){return nist->FindOrBuildMaterial("G4_Si");};
 	Aluminum    = [&](){return nist->FindOrBuildMaterial("G4_Al");};
+	Scandium	= [&](){return nist->FindOrBuildMaterial("G4_Sc");};
 	Titanium    = [&](){return nist->FindOrBuildMaterial("G4_Ti");};
+	Vanadium	= [&](){return nist->FindOrBuildMaterial("G4_V");};
 	Iron        = [&](){return nist->FindOrBuildMaterial("G4_Fe");};
-	Copper      = [&](){return nist->FindOrBuildMaterial("G4_Cu");};
 	Nickel      = [&](){return nist->FindOrBuildMaterial("G4_Ni");};
+	Copper      = [&](){return nist->FindOrBuildMaterial("G4_Cu");};
+	Cadmium		= [&](){return nist->FindOrBuildMaterial("G4_Cd");};
 	Tungsten    = [&](){return nist->FindOrBuildMaterial("G4_W");};
+	Gold		= [&](){return nist->FindOrBuildMaterial("G4_Au");};
 
 	// NIST Compounds
+	Air			= [&](){return nist->FindOrBuildMaterial("G4_AIR");};
 	Concrete    = [&](){return nist->FindOrBuildMaterial("G4_CONCRETE");};
 	Graphite    = [&](){return nist->FindOrBuildMaterial("G4_GRAPHITE_POROUS");};	// G4_Graphite has the molecular density of 2.2g/cm3, which can not be realized in a solid target
+	Polyethylene= [&](){return nist->FindOrBuildMaterial("G4_POLYETHYLENE");};
 	Steel       = [&](){return nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
@@ -118,8 +121,7 @@ void DetectorConstruction::DefineMaterials()
 
 	// Initialize dummyMat as Vacuum
 	dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
-	// dummyMat     = nist->FindOrBuildMaterial("G4_Li");
 
-	//Print all defined materials to console
+	//Print all defined materials to console - this is currently done in 'DetectorConstruction.cc'
 	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }

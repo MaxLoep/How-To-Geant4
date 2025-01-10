@@ -75,7 +75,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4Material*        fAbsorMaterial;
     G4LogicalVolume*   fLAbsor;
 
-    G4Material*        world_mat;
     G4Material*        boxMaterial;
     G4Material*        dummyMat;
 
@@ -89,18 +88,26 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     // NIST Materials
     MaterialMaker Vacuum;
     MaterialMaker Hydrogen;
+    MaterialMaker Lithium;
     MaterialMaker Boron;
     MaterialMaker Carbon;
     MaterialMaker Aluminum;
+    MaterialMaker Silicon;
+    MaterialMaker Scandium;
     MaterialMaker Titanium;
+    MaterialMaker Vanadium;
     MaterialMaker Iron;
     MaterialMaker Nickel;
     MaterialMaker Copper;
+    MaterialMaker Cadmium;
     MaterialMaker Tungsten;
+    MaterialMaker Gold;
 
     // NIST pre-defined Compounds
+    MaterialMaker Air;
     MaterialMaker Concrete;
     MaterialMaker Graphite;
+    MaterialMaker Polyethylene;
     MaterialMaker Steel;
     MaterialMaker Water;
 
