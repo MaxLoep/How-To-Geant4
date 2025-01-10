@@ -3,7 +3,7 @@
 #endif
 
 
-#ifdef Range
+#ifdef Range  //Geometry for Range-Analysis
 // create a box to be used as Tracklength Primitive Scorer (PS) and place it in the world volume
 //
 // Box
@@ -34,7 +34,7 @@ lBox->SetVisAttributes(lBoxVisAtt);
 #endif
 
 
-#ifdef TNY
+#ifdef TNY  //Geometry for Target-Neutron-Yield Analysis
 // Sphere - SD to detect gammas
 G4Sphere* sSphere =
   new G4Sphere("sSphere",                    				//name
@@ -90,7 +90,7 @@ logicCylinder->SetVisAttributes(logicCylinderVisAtt);
 #endif
 
 
-#ifdef Collimator
+#ifdef Collimator   //Geometry for the Neutron Collimator
 // 
 //Copper Colimator with double conical Tungsten Inlet
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------

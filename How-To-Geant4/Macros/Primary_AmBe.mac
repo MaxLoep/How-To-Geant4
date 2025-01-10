@@ -99,8 +99,9 @@
 #AMBE GAMMA SOURCE
 #------------------------------------------------------------------------
 #TO-DO: Add a second source with GPS that emits the gamma spectrum of AmBe
-#/gps/number 2
+#/gps/number 2          #does it matter if gps/number or /gps/source/add is called first?
 #/gps/source/add 1
+#/gps/number 2
 #/gps/particle gamma        #beam particle
 #/gps/position 0 0 -1 cm     #GPS position
 #/gps/direction 0 0 1        #oriented along the Z axis

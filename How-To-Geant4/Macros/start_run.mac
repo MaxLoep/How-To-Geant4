@@ -22,6 +22,7 @@
 #execute the macro file which defines the primary particle
 #/control/execute ../Macros/Primary_Alpha.mac        #52 MeV Alpha Beam, point source
 #/control/execute ../Macros/Primary_Deuteron.mac     #26 MeV Deuteron Beam, point source
+#/control/execute ../Macros/Primary_Neutron.mac      #13 MeV Neutron Beam, point source
 #/control/execute ../Macros/Primary_Proton.mac       #13 MeV Proton Beam, point source
 /control/execute ../Macros/Primary_AmBe.mac         #AmBe Neutron Source, point source
 #/control/execute ../Macros/Primary_Radionuclide.mac #Radionuclide Source, point source

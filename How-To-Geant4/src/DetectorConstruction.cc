@@ -1,9 +1,9 @@
 /*
 WHAT DOES THIS DO?
 */
-#define DEBUG
+// #define DEBUG
 // #define Collimator
-// #define Range
+#define Range
 // #define TNY
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
@@ -278,7 +278,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 //
 //Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
 //
-void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)
+void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)	//change "dummyMat" via macro file command
 {
 	// search the material by its name
 	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
@@ -360,28 +360,28 @@ void DetectorConstruction::ConstructSDandField()
 	// Declare a Sensitive Detector
 	// auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD1", sd1);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// SetSensitiveDetector("lSD1", sd1);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 
 	// auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD2", sd2);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// SetSensitiveDetector("lSD2", sd2);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 
 	// auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD3", sd3);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// SetSensitiveDetector("lSD3", sd3);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 
 	// auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD4", sd4);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// SetSensitiveDetector("lSD4", sd4);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 
 	// auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
 	// G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD5", sd5);                   //Apply Sensitive Detector 'sdX' to logical Volume 'SDX'
+	// SetSensitiveDetector("lSD5", sd5);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 
 	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
 	#ifdef TNY
-	SetSensitiveDetector("lSphere", sphereSD);                   //Apply Sensitive Detector 'SphereSD' to logical Volume 'Sphere'
+	SetSensitiveDetector("lSphere", sphereSD);                  //Apply Sensitive Detector 'SphereSD' to logical Volume 'lSphere'
 	#endif
 
 	// PRIMITIVE SCORERS
@@ -415,50 +415,32 @@ void DetectorConstruction::ConstructSDandField()
 	// G4SDParticleFilter* neutronFilter =
 	// new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
 
-	// REMOVE: do we need filtr for electron/positron?
-	// Electron filter
-	// G4SDParticleFilter* electronFilter =
-	// new G4SDParticleFilter(fltName="electronFilter");
-	// electronFilter->add(particleName="e+");   // accept electrons.
-	// electronFilter->add(particleName="e-");   // accept positrons.
-
 	// Gamma filter
 	// G4SDParticleFilter* gammaFilter =
 	// new G4SDParticleFilter("gammaFilter", "gamma");
 
-	// Proton energy filter (Protons in energy range)
-	// G4SDParticleWithEnergyFilter* protonEnergy=
-	// new G4SDParticleWithEnergyFilter(fltName="protonEnergy");
-	// protonEnergy->add("proton");
-	// protonEnergy->SetKineticEnergy(200*MeV, 300*MeV); //Only particles with an energy between these values are counted as long as they are between these values
 
-	
-	// Declare a volume as a MultiFunctionalDetector scorer
-	auto boxPS = new G4MultiFunctionalDetector("Scorer");
-	G4SDManager::GetSDMpointer()->AddNewDetector(boxPS);
+	// Create a MultiFunctionalDetector (MFD) and name it "Scorer"
+	auto MFD_Scorer = new G4MultiFunctionalDetector("Scorer");
+	G4SDManager::GetSDMpointer()->AddNewDetector(MFD_Scorer );
 
 	// Declare what quantity should be scored and apply filters
-	//
-	// Score Deposited Energy (of protons)
-	G4VPrimitiveScorer* primitive;
+	G4VPrimitiveScorer* PS_TrackLength;						//create a scorer called "PS_TrackLength"
+	PS_TrackLength = new G4PSTrackLength("TrackLength");	//give "PS_TrackLength" the ability to track G4PSTrackLength and save in data "TrackLength" 
+	PS_TrackLength ->SetFilter(protonFilter);				//apply a filter; score only protons
+	// PS_TrackLength ->SetFilter(deuteronFilter);			//apply a filter; score only deuterons
+	// PS_TrackLength ->SetFilter(alphaFilter);				//apply a filter; score only alphas
+	// PS_TrackLength ->SetFilter(neutronFilter);			//apply a filter; score only neutrons
 
-	// Score TrackLength (of protons)
-	primitive = new G4PSTrackLength("TrackLength");
-	primitive ->SetFilter(protonFilter);
-	// primitive ->SetFilter(deuteronFilter);
-	// primitive ->SetFilter(alphaFilter);
-	// primitive ->SetFilter(neutronFilter);
-
-	// Register Filters to Scorer
-	boxPS->RegisterPrimitive(primitive);
+	// Register Scorer to MultiFunctionalDetector
+	MFD_Scorer ->RegisterPrimitive(PS_TrackLength);
 
 	#ifdef Range
-	// Apply Scorer to Volume
-	SetSensitiveDetector("lBox",boxPS);
-
+	// Apply MFD to Volume
+	SetSensitiveDetector("lBox",MFD_Scorer );
 	#endif
 
 	//
-	// Score Deposited Energy
-	// primitive = new G4PSEnergyDeposit("Edep");
+	// other Scorers
+	// PS_EnergyDeposit = new G4PSEnergyDeposit("Edep");
 }
