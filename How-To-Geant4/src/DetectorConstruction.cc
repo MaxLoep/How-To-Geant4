@@ -1,9 +1,9 @@
 /*
 WHAT DOES THIS DO?
 */
-// #define DEBUG
+#define DEBUG
 // #define Collimator
-#define Range
+// #define Range
 // #define TNY
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
@@ -133,133 +133,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	// print for DEBUGGING
 	G4cout << lWorld->GetName() << " is the world volume" << G4endl;
 
+	// Different Geometries are constructed depending on defined pre-processor variables at top
 	#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
-
-	//Import Standard Geometry (1 sphere and 5 SDs)
-	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-	//create 5 flat boxes to use as Sensitive Detector (SD)
-	//
-	// SD1
-	G4Box* sSD1 =
-		new G4Box("sSD1",                        				//its name
-				a/2, a/2, 0.02*mm /2);                   		//its size: half x, half y, half z
-
-	G4LogicalVolume* lSD1 =
-		new G4LogicalVolume(sSD1,                				//its solid
-												// Aluminum(),		//its material
-												Vacuum(),		//its material
-												"lSD1");        //its name
-
-		new G4PVPlacement(0,                     				//no rotation
-							G4ThreeVector(0,0,10.*cm),     		//position
-							lSD1,                          		//its logical volume
-							"pSD1",                         	//its name
-							lWorld,								//its mother  volume
-							false,                         		//any boolean operation?
-							0,                             		//copy number
-							true);                         		//overlaps checking?
-
-	//Make (in-)visible and give it a color
-	auto lSD1VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
-	lSD1VisAtt->SetVisibility(true);
-	lSD1->SetVisAttributes(lSD1VisAtt);
-
-	// SD2
-	G4Box* sSD2 =
-		new G4Box("sSD2",                        				//its name
-				a/2, a/2, 0.02*mm /2);                   		//its size: half x, half y, half z
-
-	G4LogicalVolume* lSD2 =
-		new G4LogicalVolume(sSD2,                				//its solid
-												Vacuum(),		//its material
-												"lSD2");		//its name
-
-		new G4PVPlacement(0,                     				//no rotation
-							G4ThreeVector(0,0,20.*cm),     		//position
-							lSD2,                          		//its logical volume
-							"pSD2",                         	//its name
-							lWorld,								//its mother  volume
-							false,                         		//any boolean operation?
-							0,                             		//copy number
-							true);                         		//overlaps checking?
-
-	//Make (in-)visible and give it a color
-	auto lSD2VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
-	lSD2VisAtt->SetVisibility(true);
-	lSD2->SetVisAttributes(lSD2VisAtt);
-
-	// SD3
-	G4Box* sSD3 =
-		new G4Box("sSD3",                        				//its name
-				a/2, a/2, 0.02*mm /2);                   		//its size: half x, half y, half z
-
-	G4LogicalVolume* lSD3 =
-		new G4LogicalVolume(sSD3,                				//its solid
-												Vacuum(),		//its material
-												"lSD3");		//its name
-
-		new G4PVPlacement(0,                     				//no rotation
-							G4ThreeVector(0,0,30.*cm),     		//position
-							lSD3,                          		//its logical volume
-							"pSD3",                         	//its name
-							lWorld,								//its mother  volume
-							false,                         		//any boolean operation?
-							0,                             		//copy number
-							true);                         		//overlaps checking?
-
-	//Make (in-)visible and give it a color
-	auto lSD3VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
-	lSD3VisAtt->SetVisibility(true);
-	lSD3->SetVisAttributes(lSD3VisAtt);
-
-	// SD4
-	G4Box* sSD4 =
-		new G4Box("sSD4",                        				//its name
-				a/2, a/2, 0.02*mm /2);                   		//its size: half x, half y, half z
-
-	G4LogicalVolume* lSD4 =
-		new G4LogicalVolume(sSD4,                				//its solid
-												Vacuum(),		//its material
-												"lSD4");		//its name
-
-		new G4PVPlacement(0,                     				//no rotation
-							G4ThreeVector(0,0,40.*cm),     		//position
-							lSD4,                          		//its logical volume
-							"pSD4",                         	//its name
-							lWorld,								//its mother  volume
-							false,                         		//any boolean operation?
-							0,                             		//copy number
-							true);                         		//overlaps checking?
-
-	//Make (in-)visible and give it a color
-	auto lSD4VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
-	lSD4VisAtt->SetVisibility(true);
-	lSD4->SetVisAttributes(lSD4VisAtt);
-
-	// SD5
-	G4Box* sSD5 =
-		new G4Box("sSD5",                        				//its name
-				a/2, a/2, 0.02*mm /2);                   		//its size: half x, half y, half z
-
-	G4LogicalVolume* lSD5 =
-		new G4LogicalVolume(sSD5,                				//its solid
-												Vacuum(),		//its material
-												"lSD5");		//its name
-
-		new G4PVPlacement(0,                     				//no rotation
-							G4ThreeVector(0,0,50.*cm),     		//position
-							lSD5,                          		//its logical volume
-							"pSD5",                         	//its name
-							lWorld,								//its mother  volume
-							false,                         		//any boolean operation?
-							0,                             		//copy number
-							true);                         		//overlaps checking?
-
-	//Make (in-)visible and give it a color
-	auto lSD5VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
-	lSD5VisAtt->SetVisibility(true);
-	lSD5->SetVisAttributes(lSD5VisAtt);
 
 	//Print all defined materials to console
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
@@ -357,29 +232,39 @@ void DetectorConstruction::ConstructSDandField()
 
 
 	// Declare a Sensitive Detector
-	// auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
-	// G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD1", sd1);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
+	G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
+	if defined DEBUG
+	SetSensitiveDetector("lSD1", sd1);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	#endif
 
-	// auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
-	// G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD2", sd2);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
+	G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
+	if defined DEBUG
+	SetSensitiveDetector("lSD2", sd2);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	#endif
 
-	// auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
-	// G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD3", sd3);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
+	G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
+	if defined DEBUG
+	SetSensitiveDetector("lSD3", sd3);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	#endif
 
-	// auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
-	// G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD4", sd4);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
+	G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
+	if defined DEBUG
+	SetSensitiveDetector("lSD4", sd4);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	#endif
 
-	// auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
-	// G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-	// SetSensitiveDetector("lSD5", sd5);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
+	G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
+	if defined DEBUG
+	SetSensitiveDetector("lSD5", sd5);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	#endif
 
 	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-	#ifdef TNY
+	#if defined TNY || defined Collimator
 	SetSensitiveDetector("lSphere", sphereSD);                  //Apply Sensitive Detector 'SphereSD' to logical Volume 'lSphere'
 	#endif
 
