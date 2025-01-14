@@ -1,5 +1,11 @@
 # How-To-Geant4
 
+v1.5.0:\
+-added different geometry-cases (DEBUG, Collimator, TNY, Range) via #ifdef's that get created/set up if compiled with\
+the according variable defined in 'GeometryConstruction.cc'
+-new structure of macro files; macro files now in folder 'Macros' and got structured better
+--added primary particle macro files for Proton-, Deuteron- and Alpha -Beam and for AmBe-Neutron source
+
 v1.4.0:\
 -Changed output of generated Particles - Thanks Loni!\
 --Energy information got removed (No one needs Emin,Emax and Emean; use a Sensitive Detector if you want to know these)\
