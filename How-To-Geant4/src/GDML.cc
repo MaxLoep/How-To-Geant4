@@ -116,7 +116,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
 		G4cout << "\n ----READING GDML AND CONSTRUCTING VOLUMES!---- " << G4endl;
 
 		LoadGDML(fLoadFile);                  // load a Geometry from GDML file
-		fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in this file
+		fWorldPhysVol = ConstructVolumes();   // construct volumes as defined in DetectorGeometries.cc
 	}
 	else if( fLoadingChoice!=1 && fOnlyLoadChoice==1 )	//dont load a GDML file but construct volumes in this file
 	{
@@ -124,7 +124,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumesGDML()
 		G4cout << "\n ----You did not load any GDML file---- " << G4endl;
 		G4cout << "\n ----CONSTRUCTING VOLUMES instead!---- " << G4endl;
 
-		fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in this file
+		fWorldPhysVol = ConstructVolumes(); // construct volumes as defined in DetectorGeometries.cc
 	}
 	//Why did i do this else-case? Isn't it identically to the case before?
 	else // if no GDML file is loaded, geometries will be build as defined as in "ConstructVolumes()"

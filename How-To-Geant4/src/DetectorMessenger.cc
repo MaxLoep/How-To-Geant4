@@ -142,12 +142,13 @@ DetectorMessenger::~DetectorMessenger()
 	delete fTheWriteCommand;
 	delete fTheOnlyLoadCommand;
 
-	// Change to parameters a,b,c,d,e 
+	// Change to parameters a,b,c,d,e,f
 	delete fchange_aCmd;
 	delete fchange_bCmd;
 	delete fchange_cCmd;
 	delete fchange_dCmd;
 	delete fchange_eCmd;
+	delete fchange_fCmd;
 }
 
 void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
@@ -187,4 +188,7 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 
 	if( command == fchange_eCmd )
 	 { fDetector->change_e(fchange_eCmd->GetNewDoubleValue(newValue));} 
+
+	if( command == fchange_fCmd )
+	 { fDetector->change_f(fchange_fCmd->GetNewDoubleValue(newValue));} 
 }

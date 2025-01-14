@@ -57,6 +57,7 @@ fDetectorMessenger(nullptr)
 	// World Size
 	world_sizeXYZ = 20.*m;
 
+	#ifndef Collimator
 	// set initial values of dummy variables
 	a = 20.*m; 		// used for x- and y-width of Sensitive Detectors
 	b = 10.*cm; 	// unused
@@ -64,6 +65,17 @@ fDetectorMessenger(nullptr)
 	d = 0.*degree;  // unused
 	e = 1.*cm;  	// unused
 	f = 0.*cm;      // position of the target
+	#endif
+
+	#ifdef Collimator
+	// set dummy variables
+	a = 20.*cm;     //thickness of shielding
+	b = 4.*cm;      //Entrance_Diameter of the tungsten colli; MAX 6.14cm
+	c = 2.*cm;      //inner diameter (choke) of the tungsten colli; MAX 6.14cm
+	d = 4.*cm;      //Exit_Diameter of the tungsten colli; MAX 6.4cm
+	e = 0.*degree;  //rotation of the collimator
+	f = 0.*cm;      // position of the target; MAX 4.0cm - NEED TO CHECK!
+	#endif
 
 	// Define Materials
 	DefineMaterials(); // see 'Materials.cc' for defined Materials
@@ -183,6 +195,7 @@ void DetectorConstruction::change_b(G4double value)
 void DetectorConstruction::change_c(G4double value)
 {
 	c = value;
+	// G4RunManager::GetRunManager()->GeometryHasBeenModified();
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 	G4cout  << "\n c is now " << G4BestUnit(c,"Length") << G4endl;
 }

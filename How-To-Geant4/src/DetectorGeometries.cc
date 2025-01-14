@@ -239,13 +239,7 @@ G4cout << "---------------------------------------------------------------------
 // 
 // Parameters
 // 
-// set dummy variables
-a = 20.*cm;     //thickness of shielding
-b = 4.*cm;      //Entrance_Diameter of the tungsten colli; MAX 6.14cm
-c = 2.*cm;      //inner diameter (choke) of the tungsten colli; MAX 6.14cm
-d = 4.*cm;      //Exit_Diameter of the tungsten colli; MAX 6.4cm
-e = 0.*degree;  //rotation of the collimator
-f = 0.*cm;      // position of the target; MAX 4.0cm - NEED TO CHECK!
+
 G4double TargetDia = 40.*mm;
 G4double TargetLen = 3.*mm;
 
@@ -269,11 +263,11 @@ BoxRotation->rotateZ(0*deg);
 
 G4Box* sFullRotationBox =    
 new G4Box("sFullRotationBox",                       //its name
-	2.*m /2, 2.*m /2, 224.1*cm);                      //its size: half x, half y, half z - x and y just big and z long enough to fit everything
+	2.*m /2, 2.*m /2, 248.1*cm/2);                      //its size: half x, half y, half z - x and y just big and z long enough to fit everything
 
 G4Box* sHalfRotationBox =    
 new G4Box("sHalfRotationBox",                       //its name
-	2.01*m /2, 2.01*m /2, 224.1*cm/2);                //its size: half x, half y, half z  
+	2.01*m /2, 2.01*m /2, 248.1*cm/4);                //its size: half x, half y, half z  
 
 
 // 
@@ -284,7 +278,7 @@ new G4SubtractionSolid("Rotation Box",              //its name
 				sFullRotationBox,                           //Solid A
 				sHalfRotationBox,                           //Solid B
 				0,                                          //Rotation of B relative to A
-				G4ThreeVector(0,0,-224.11*cm/2));           //Translation of B relative to A = minus Half length of sHalfRotationBox
+				G4ThreeVector(0,0,-248.11*cm/4));           //Translation of B relative to A = minus Half length of sHalfRotationBox
 
 G4LogicalVolume* lRotationBox =                         
 new G4LogicalVolume(sRotationBox,                   //its solid
@@ -304,7 +298,7 @@ new G4PVPlacement(BoxRotation,                      //no rotation
 //lRotationBox->SetVisAttributes (G4VisAttributes::GetInvisible());
 auto lRotationBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b , transparency)
 // lRotationBoxVisAtt->SetVisibility(true);
-lRotationBoxVisAtt->SetVisibility(false);
+lRotationBoxVisAtt->SetVisibility(true);
 lRotationBox->SetVisAttributes(lRotationBoxVisAtt);
 
 // 
@@ -515,6 +509,81 @@ new G4PVPlacement(0,                      //no rotation
 auto logicConeVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.8)); //(r, g, b , transparency)
 logicConeVisAtt->SetVisibility(true);
 lColliShape->SetVisAttributes(logicConeVisAtt);
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// SD1
+G4Box* sSD1 =
+  new G4Box("sSD1",                        				//its name
+      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+
+G4LogicalVolume* lSD1 =
+  new G4LogicalVolume(sSD1,                				//its solid
+                      Vacuum(),		                //its material
+                      "lSD1");                    //its name
+
+  new G4PVPlacement(0,                     				//no rotation
+            G4ThreeVector(0,0,150.*cm),     		    //position
+            lSD1,                          		    //its logical volume
+            "pSD1",                         	    //its name
+            lWorld,								                //its mother  volume
+            false,                         		    //any boolean operation?
+            0,                             		    //copy number
+            true);                         		    //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lSD1VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+lSD1VisAtt->SetVisibility(true);
+lSD1->SetVisAttributes(lSD1VisAtt);
+
+// SD2
+G4Box* sSD2 =
+  new G4Box("sSD2",                        				//its name
+      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+
+G4LogicalVolume* lSD2 =
+  new G4LogicalVolume(sSD2,                				//its solid
+                      Vacuum(),		                //its material
+                      "lSD2");	                	//its name
+
+  new G4PVPlacement(0,                     				//no rotation
+            G4ThreeVector(0,0,400.*cm),     		    //position
+            lSD2,                          		    //its logical volume
+            "pSD2",                         	    //its name
+            lWorld,								                //its mother  volume
+            false,                         	    	//any boolean operation?
+            0,                             		    //copy number
+            true);                         		    //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lSD2VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+lSD2VisAtt->SetVisibility(true);
+lSD2->SetVisAttributes(lSD2VisAtt);
+
+// Sphere - SD to detect gammas
+G4Sphere* sSphere =
+  new G4Sphere("sSphere",                    				//name
+            200.*cm, 200.01*cm,                  	    //inner radius, outer radius
+            0., twopi,                      	      //min phi, max phi
+            0., pi);                        	      //min rho, max rho
+
+G4LogicalVolume* lSphere =
+  new G4LogicalVolume(sSphere,              				//shape
+                      Vacuum(),		                  //material
+                      "lSphere");		                //name
+
+new G4PVPlacement(0,                        				//no rotation
+            G4ThreeVector(0,0,0),           	      //position
+            lSphere,                        	      //logical volume
+            "pSphere",                       	      //name
+            lWorld,								                  //mother volume
+            false,                          	      //any boolean operation?
+            0,                              	      //copy number
+            true);                          	      //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lSphereVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.1)); //(r, g, b , transparency)
+lSphereVisAtt->SetVisibility(true);
+lSphere->SetVisAttributes(lSphereVisAtt);
 
 #endif
 
