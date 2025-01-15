@@ -7,6 +7,13 @@ WHAT DOES THIS DO?
 // #define TNY
 #define Shielding
 
+
+#include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
+#include "G4GeometryManager.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SolidStore.hh"
+
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
 #include "DetectorMessenger.hh"         //Header file for own macro commands
 #include "G4RunManager.hh"              //Necessary. You need this.
@@ -93,6 +100,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
 	// see 'GDML.cc' - check if any GDML related stuff should be done and then execute ConstructVolume() in most cases
 	return ConstructVolumesGDML();
+	// return ConstructVolumes();
 }
 
 // Define a Geometry in this file
@@ -119,7 +127,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 			new G4PVPlacement(0,                     					//no rotation
 												G4ThreeVector(),       	//at (0,0,0)
 												lWorld,            		//its logical volume
-												"pWorld",               //its name
+												"pworld",               //its name
 												0,                     	//its mother  volume
 												false,                	//boolean operation?
 												0,                     	//copy number
@@ -196,7 +204,6 @@ void DetectorConstruction::change_b(G4double value)
 void DetectorConstruction::change_c(G4double value)
 {
 	c = value;
-	// G4RunManager::GetRunManager()->GeometryHasBeenModified();
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 	G4cout  << "\n c is now " << G4BestUnit(c,"Length") << G4endl;
 }

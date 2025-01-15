@@ -626,7 +626,7 @@ G4cout << "---------------------------------------------------------------------
 // Box
 G4Box* sShielding =
 	new G4Box("sShielding",                        			//its name
-			1.*m/2, 1.*m/2, 20.*cm/2);                   		//its size: half x, half y, half z
+			1.*m/2, 1.*m/2, b/2);                   		//its size: half x, half y, half z
 
 G4LogicalVolume* lShielding =
 	new G4LogicalVolume(sShielding,                			//its solid
