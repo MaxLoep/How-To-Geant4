@@ -592,20 +592,20 @@ lSphere->SetVisAttributes(lSphereVisAtt);
 //
 // Box
 G4Box* sBox =
-	new G4Box("sBox",                        				//its name
-			boxX/2, boxY/2, boxZ/2);                   		//its size: half x, half y, half z
+	new G4Box("sBox",                        		//its name
+			boxX/2, boxY/2, boxZ/2);                //its size: half x, half y, half z
 
 G4LogicalVolume* lBox =
-	new G4LogicalVolume(sBox,                				//its solid
-											Vacuum(),		//its material
-											"lBox");        //its name
+	new G4LogicalVolume(sBox,                		//its solid
+											Vacuum(),		            //its material
+											"lBox");                //its name
 
-//G4VPhysicalVolume* physBox=              					//you can declare a varibale for placement but it will create a warning if unused
-	new G4PVPlacement(0,                     				//no rotation
+//G4VPhysicalVolume* physBox=              		//you can declare a varibale for placement but it will create a warning if unused
+	new G4PVPlacement(0,                     		//no rotation
 						G4ThreeVector(0,0,80.*cm),     		//position
 						lBox,                          		//its logical volume
 						"pBox",                         	//its name
-						lWorld,								//its mother  volume
+						lWorld,								            //its mother  volume
 						false,                         		//any boolean operation?
 						0,                             		//copy number
 						true);                         		//overlaps checking?
@@ -615,4 +615,88 @@ G4LogicalVolume* lBox =
 auto lBoxVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
 lBoxVisAtt->SetVisibility(true);
 lBox->SetVisAttributes(lBoxVisAtt);
+#endif
+
+
+#ifdef Shielding
+G4cout << "-------------------------------------------------------------------------" << G4endl;
+G4cout << "Compiled with Shielding at " __DATE__ ", " __TIME__ "." <<  G4endl;
+G4cout << "-------------------------------------------------------------------------" << G4endl;
+
+// Box
+G4Box* sShielding =
+	new G4Box("sShielding",                        			//its name
+			1.*m/2, 1.*m/2, 20.*cm/2);                   		//its size: half x, half y, half z
+
+G4LogicalVolume* lShielding =
+	new G4LogicalVolume(sShielding,                			//its solid
+											// Vacuum(),		                //its material
+                      dummyMat,
+											"lShielding");                  //its name
+
+//G4VPhysicalVolume* physShielding=               		//you can declare a varibale for placement but it will create a warning if unused
+	new G4PVPlacement(0,                     				    //no rotation
+						G4ThreeVector(0,0,30.*cm),     		        //position
+						lShielding,                          		  //its logical volume
+						"pShielding",                         	  //its name
+						lWorld,								                    //its mother  volume
+						false,                         		        //any boolean operation?
+						0,                             		        //copy number
+						true);                         		        //overlaps checking?
+
+//Make (in-)visible and give it a color
+//lShielding->SetVisAttributes (G4VisAttributes::GetInvisible());
+auto lShieldingVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+lShieldingVisAtt->SetVisibility(true);
+lShielding->SetVisAttributes(lShieldingVisAtt);
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// SD1
+G4Box* sSD1 =
+  new G4Box("sSD1",                        				//its name
+      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+
+G4LogicalVolume* lSD1 =
+  new G4LogicalVolume(sSD1,                				//its solid
+                      Vacuum(),		                //its material
+                      "lSD1");                    //its name
+
+  new G4PVPlacement(0,                     				//no rotation
+            G4ThreeVector(0,0,60.*cm),     		    //position
+            lSD1,                          		    //its logical volume
+            "pSD1",                         	    //its name
+            lWorld,								                //its mother  volume
+            false,                         		    //any boolean operation?
+            0,                             		    //copy number
+            true);                         		    //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lSD1VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+lSD1VisAtt->SetVisibility(true);
+lSD1->SetVisAttributes(lSD1VisAtt);
+
+// SD2
+G4Box* sSD2 =
+  new G4Box("sSD2",                        				//its name
+      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+
+G4LogicalVolume* lSD2 =
+  new G4LogicalVolume(sSD2,                				//its solid
+                      Vacuum(),		                //its material
+                      "lSD2");	                	//its name
+
+  new G4PVPlacement(0,                     				//no rotation
+            G4ThreeVector(0,0,80.*cm),     		    //position
+            lSD2,                          		    //its logical volume
+            "pSD2",                         	    //its name
+            lWorld,								                //its mother  volume
+            false,                         	    	//any boolean operation?
+            0,                             		    //copy number
+            true);                         		    //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lSD2VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+lSD2VisAtt->SetVisibility(true);
+lSD2->SetVisAttributes(lSD2VisAtt);
+
 #endif

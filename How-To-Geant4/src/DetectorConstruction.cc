@@ -2,9 +2,10 @@
 WHAT DOES THIS DO?
 */
 // #define DEBUG
-#define Collimator
+// #define Collimator
 // #define Range
 // #define TNY
+#define Shielding
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
 #include "DetectorMessenger.hh"         //Header file for own macro commands
