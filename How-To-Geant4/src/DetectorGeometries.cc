@@ -631,7 +631,8 @@ G4Box* sShielding =
 G4LogicalVolume* lShielding =
 	new G4LogicalVolume(sShielding,                			//its solid
 											// Vacuum(),		                //its material
-                      dummyMat,
+                      // dummyMat,
+                      BoratedPE(),
 											"lShielding");                  //its name
 
 //G4VPhysicalVolume* physShielding=               		//you can declare a varibale for placement but it will create a warning if unused
