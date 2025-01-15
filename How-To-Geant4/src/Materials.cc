@@ -30,6 +30,13 @@ void DetectorConstruction::DefineMaterials()
 	// Initiate the NIST Material Manager
 	nist = G4NistManager::Instance();
 
+	// ### DEFINE A NIST MATERIAL
+	// ###-----------------------------------------------------------------------------------------------------------------------------------------
+	// Create a Material from the NIST database with
+	// name 	= [&](){return nist->FindOrBuildMaterial("G4_element_name");};
+	// and use the function call 'name()' to assign it to a geometry.
+	// This way, it gets created (=loaded into memory) only when it is actually used
+
 	// NIST Materials
 	Vacuum      = [&](){return nist->FindOrBuildMaterial("G4_Galactic");};
 	Hydrogen    = [&](){return nist->FindOrBuildMaterial("G4_H");};
@@ -57,7 +64,9 @@ void DetectorConstruction::DefineMaterials()
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
 
-	// structure to easily define Custom Materials later on
+	// Structure to easily define Custom Materials later on
+	// This is just preparation to easily define custom materials later on.
+	// Skip this part and go ahead to see how custom materials are defined!
 	struct CustomMat{
 		string name;
 		double density;
@@ -98,6 +107,20 @@ void DetectorConstruction::DefineMaterials()
 		bool made = false;
 	};
 
+	// ### DEFINE A CUSTOM MATERIAL
+	// ###-----------------------------------------------------------------------------------------------------------------------------------------
+	// Create a Custom Material with defined NIST Materials with
+	// name = CustomMat("BoratedPE",	// name
+	// 				1.03*g/cm3,				//density
+	// 				{// components and abundances
+	// 				{Hydrogen, 14.*perCent},
+	// 				{Carbon, 81.*perCent},
+	// 				{Boron, 5.*perCent}
+	// 				});
+	// and use the function call 'name()' to assign it to a geometry.
+	// This way, it gets created (=loaded into memory) only when it is actually used
+	
+	
 	// Self-defined Materials
 	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
 	BoratedPE = CustomMat("BoratedPE",	// name
