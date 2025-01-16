@@ -637,7 +637,7 @@ G4LogicalVolume* lShielding =
 
 //G4VPhysicalVolume* physShielding=               		//you can declare a varibale for placement but it will create a warning if unused
 	new G4PVPlacement(0,                     				    //no rotation
-						G4ThreeVector(0,0,30.*cm),     		        //position
+						G4ThreeVector(0,0,b/2),     		        //position
 						lShielding,                          		  //its logical volume
 						"pShielding",                         	  //its name
 						lWorld,								                    //its mother  volume
