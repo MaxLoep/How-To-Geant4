@@ -124,7 +124,7 @@ void DetectorConstruction::DefineMaterials()
 	// Self-defined Materials
 	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
 	BoratedPE = CustomMat("BoratedPE",	// name
-				1.03*g/cm3,				//density
+				1.0*g/cm3,				//density
 				{// components
 				{Hydrogen, 14.*perCent},
 				{Carbon, 81.*perCent},

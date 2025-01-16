@@ -43,50 +43,50 @@
 #1st thickness
 /custom/geo/change_b 0.0001 cm
 /custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_0-0cm
-/run/printProgress 1000000
-/run/beamOn 100000000
+/run/printProgress 10000
+/run/beamOn 1000000
 
 #2nd thickness
 /custom/geo/change_b 5.5 cm
 /custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_5-5cm
-/run/printProgress 1000000
-/run/beamOn 100000000
+/run/printProgress 10000
+/run/beamOn 1000000
 
 #3rd thickness
 /custom/geo/change_b 11.0 cm
 /custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_11-0cm
-/run/printProgress 1000000
-/run/beamOn 100000000
+/run/printProgress 10000
+/run/beamOn 1000000
 
 #4th thickness
 /custom/geo/change_b 16.5 cm
 /custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_16-5cm
-/run/printProgress 1000000
-/run/beamOn 100000000
+/run/printProgress 10000
+/run/beamOn 1000000
 
 #5th thickness
 /custom/geo/change_b 22.0 cm
 /custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_22-0cm
-/run/printProgress 1000000
-/run/beamOn 100000000
+/run/printProgress 10000
+/run/beamOn 1000000
 
 #6th thickness
 /custom/geo/change_b 27.5 cm
 /custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_27-5cm
-/run/printProgress 1000000
-/run/beamOn 100000000
+/run/printProgress 10000
+/run/beamOn 1000000
 
 #7th thickness
 /custom/geo/change_b 33.0 cm
 /custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_33-0cm
-/run/printProgress 1000000
-/run/beamOn 100000000
+/run/printProgress 10000
+/run/beamOn 1000000
 
 
 #START RUN
 #------------------------------------------------------------------------
 #Start a run and print progress in console
-/run/printProgress 1000000
-/run/beamOn 100000000
+/run/printProgress 10000
+/run/beamOn 1000000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
