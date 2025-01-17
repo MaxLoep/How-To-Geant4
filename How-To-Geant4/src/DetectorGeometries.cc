@@ -626,7 +626,7 @@ G4cout << "---------------------------------------------------------------------
 // Box
 G4Box* sShielding =
 	new G4Box("sShielding",                        			//its name
-			1.*m/2, 1.*m/2, b/2);                   		//its size: half x, half y, half z
+			40.*cm/2, 40.*cm/2, b/2);                   		//its size: half x, half y, half z
 
 G4LogicalVolume* lShielding =
 	new G4LogicalVolume(sShielding,                			//its solid
@@ -655,7 +655,7 @@ lShielding->SetVisAttributes(lShieldingVisAtt);
 // SD1
 G4Box* sSD1 =
   new G4Box("sSD1",                        				//its name
-      1.*m/2, 1.*m/2, 0.02*mm /2);            //its size: half x, half y, half z
+      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
 
 G4LogicalVolume* lSD1 =
   new G4LogicalVolume(sSD1,                				//its solid

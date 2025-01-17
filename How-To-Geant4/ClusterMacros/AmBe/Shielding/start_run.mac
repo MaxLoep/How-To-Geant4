@@ -36,7 +36,7 @@
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-/custom/geo/setMat G4_POLYETHYLENE
+#/custom/geo/setMat G4_POLYETHYLENE
 #/custom/geo/setMat BoratedPE
 #/custom/ana/setOutFolder Output/tny_D_26MeV_G4_Al
 
