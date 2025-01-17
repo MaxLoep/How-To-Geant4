@@ -655,7 +655,7 @@ lShielding->SetVisAttributes(lShieldingVisAtt);
 // SD1
 G4Box* sSD1 =
   new G4Box("sSD1",                        				//its name
-      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+      2.5*cm/2, 2.5*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
 
 G4LogicalVolume* lSD1 =
   new G4LogicalVolume(sSD1,                				//its solid
@@ -663,7 +663,7 @@ G4LogicalVolume* lSD1 =
                       "lSD1");                    //its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,60.*cm),     		    //position
+            G4ThreeVector(20.*cm,0,60.*cm),     		    //position
             // G4ThreeVector(0,0,b + 0.02*mm /2),     		    //position
             lSD1,                          		    //its logical volume
             "pSD1",                         	    //its name
@@ -678,9 +678,15 @@ lSD1VisAtt->SetVisibility(true);
 lSD1->SetVisAttributes(lSD1VisAtt);
 
 // SD2
-G4Box* sSD2 =
-  new G4Box("sSD2",                        				//its name
-      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+// G4Box* sSD2 =
+//   new G4Box("sSD2",                        				//its name
+//       30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+
+G4Tubs* sSD2 =
+  new G4Tubs("sSD2",                     				//name
+      0, 20.*cm,                      				      //inner radius, outer radius
+      0.02*mm /2,                              			  //z half length
+      0., twopi);                       				    //min phi, max phi
 
 G4LogicalVolume* lSD2 =
   new G4LogicalVolume(sSD2,                				//its solid
@@ -688,7 +694,7 @@ G4LogicalVolume* lSD2 =
                       "lSD2");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,80.*cm),     		    //position
+            G4ThreeVector(-10*cm,0,60.*cm),     		    //position
             lSD2,                          		    //its logical volume
             "pSD2",                         	    //its name
             lWorld,								                //its mother  volume
