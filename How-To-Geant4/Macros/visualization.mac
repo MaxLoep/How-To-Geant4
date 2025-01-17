@@ -103,7 +103,9 @@
 /gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
 /gps/ene/mono 14 MeV   #sets energy for monoenergetic sources
-#/gps/pos/type Point
+/gps/pos/type Point
+#/gps/ang/type iso
+#/gps/ang/mintheta 135 degree
 
 #Define a scoring Mesh, assign a scorer+filter  and save the output in file
 #

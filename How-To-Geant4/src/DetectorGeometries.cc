@@ -655,7 +655,7 @@ lShielding->SetVisAttributes(lShieldingVisAtt);
 // SD1
 G4Box* sSD1 =
   new G4Box("sSD1",                        				//its name
-      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+      1.*m/2, 1.*m/2, 0.02*mm /2);            //its size: half x, half y, half z
 
 G4LogicalVolume* lSD1 =
   new G4LogicalVolume(sSD1,                				//its solid
@@ -664,6 +664,7 @@ G4LogicalVolume* lSD1 =
 
   new G4PVPlacement(0,                     				//no rotation
             G4ThreeVector(0,0,60.*cm),     		    //position
+            // G4ThreeVector(0,0,b + 0.02*mm /2),     		    //position
             lSD1,                          		    //its logical volume
             "pSD1",                         	    //its name
             lWorld,								                //its mother  volume

@@ -17,8 +17,10 @@
 #AmBe energy Spectrum for small sources according to ISO 8529-1-2021
 /gps/particle neutron        #beam particle
 /gps/position 0 0 -1 cm     #GPS position
-/gps/direction 0 0 1        #oriented along the Z axis
+#/gps/direction 0 0 1        #oriented along the Z axis
 /gps/pos/type Point
+/gps/ang/type iso
+/gps/ang/mintheta 45 degree
 /gps/ene/type User
 /gps/hist/type energy
 /gps/hist/point 0. 0.

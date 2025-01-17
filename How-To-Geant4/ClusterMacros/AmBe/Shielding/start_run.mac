@@ -36,49 +36,49 @@
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-#/custom/geo/setMat G4_Be
+/custom/geo/setMat G4_POLYETHYLENE
 #/custom/geo/setMat BoratedPE
 #/custom/ana/setOutFolder Output/tny_D_26MeV_G4_Al
 
 #1st thickness
 /custom/geo/change_b 0.0001 cm
-/custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_0-0cm
+/custom/ana/setOutFolder Output/shi_AmBe_G4_BoratedPE_00-0cm
 /run/printProgress 10000
 /run/beamOn 1000000
 
 #2nd thickness
 /custom/geo/change_b 5.5 cm
-/custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_5-5cm
+/custom/ana/setOutFolder Output/shi_AmBe_G4_BoratedPE_05-5cm
 /run/printProgress 10000
 /run/beamOn 1000000
 
 #3rd thickness
 /custom/geo/change_b 11.0 cm
-/custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_11-0cm
+/custom/ana/setOutFolder Output/shi_AmBe_G4_BoratedPE_11-0cm
 /run/printProgress 10000
 /run/beamOn 1000000
 
 #4th thickness
 /custom/geo/change_b 16.5 cm
-/custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_16-5cm
+/custom/ana/setOutFolder Output/shi_AmBe_G4_BoratedPE_16-5cm
 /run/printProgress 10000
 /run/beamOn 1000000
 
 #5th thickness
 /custom/geo/change_b 22.0 cm
-/custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_22-0cm
+/custom/ana/setOutFolder Output/shi_AmBe_G4_BoratedPE_22-0cm
 /run/printProgress 10000
 /run/beamOn 1000000
 
 #6th thickness
 /custom/geo/change_b 27.5 cm
-/custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_27-5cm
+/custom/ana/setOutFolder Output/shi_AmBe_G4_BoratedPE_27-5cm
 /run/printProgress 10000
 /run/beamOn 1000000
 
 #7th thickness
 /custom/geo/change_b 33.0 cm
-/custom/ana/setOutFolder Output/shi_AmBe_BoratedPE_33-0cm
+/custom/ana/setOutFolder Output/shi_AmBe_G4_BoratedPE_33-0cm
 /run/printProgress 10000
 /run/beamOn 1000000
 
