@@ -623,7 +623,7 @@ G4cout << "---------------------------------------------------------------------
 G4cout << "Compiled with Shielding at " __DATE__ ", " __TIME__ "." <<  G4endl;
 G4cout << "-------------------------------------------------------------------------" << G4endl;
 
-// Box
+// Shielding Box
 G4Box* sShielding =
 	new G4Box("sShielding",                        			//its name
 			40.*cm/2, 40.*cm/2, b/2);                   		//its size: half x, half y, half z
@@ -651,11 +651,39 @@ auto lShieldingVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b ,
 lShieldingVisAtt->SetVisibility(true);
 lShielding->SetVisAttributes(lShieldingVisAtt);
 
+// Concrete Box
+G4Box* sConcrete =
+	new G4Box("sConcrete",                        			//its name
+			50.*cm/2,50.*cm/2,100.*cm/2);                   		//its size: half x, half y, half z
+
+G4LogicalVolume* lConcrete =
+	new G4LogicalVolume(sConcrete,                			//its solid
+											// Vacuum(),		                //its material
+                      // dummyMat,
+                      Concrete(),
+											"lConcrete");                  //its name
+
+//G4VPhysicalVolume* physConcrete=               		//you can declare a varibale for placement but it will create a warning if unused
+	new G4PVPlacement(0,                     				    //no rotation
+						G4ThreeVector(0,45.*cm,30.*cm),     		        //position
+						lConcrete,                          		  //its logical volume
+						"pConcrete",                         	  //its name
+						lWorld,								                    //its mother  volume
+						false,                         		        //any boolean operation?
+						0,                             		        //copy number
+						true);                         		        //overlaps checking?
+
+//Make (in-)visible and give it a color
+//lConcrete->SetVisAttributes (G4VisAttributes::GetInvisible());
+auto lConcreteVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+lConcreteVisAtt->SetVisibility(true);
+lConcrete->SetVisAttributes(lConcreteVisAtt);
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // SD1
 G4Box* sSD1 =
   new G4Box("sSD1",                        				//its name
-      2.5*cm/2, 2.5*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+      2.54*cm/2, 2.54*cm/2, 50.*mm /2);            //its size: half x, half y, half z
 
 G4LogicalVolume* lSD1 =
   new G4LogicalVolume(sSD1,                				//its solid
@@ -663,7 +691,7 @@ G4LogicalVolume* lSD1 =
                       "lSD1");                    //its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(20.*cm,0,60.*cm),     		    //position
+            G4ThreeVector(10.*cm,0,60.*cm),     		    //position
             // G4ThreeVector(0,0,b + 0.02*mm /2),     		    //position
             lSD1,                          		    //its logical volume
             "pSD1",                         	    //its name
@@ -682,11 +710,17 @@ lSD1->SetVisAttributes(lSD1VisAtt);
 //   new G4Box("sSD2",                        				//its name
 //       30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
 
-G4Tubs* sSD2 =
-  new G4Tubs("sSD2",                     				//name
-      0, 20.*cm,                      				      //inner radius, outer radius
-      0.02*mm /2,                              			  //z half length
-      0., twopi);                       				    //min phi, max phi
+// G4Tubs* sSD2 =
+//   new G4Tubs("sSD2",                     				//name
+//       0, 20.*cm,                      				      //inner radius, outer radius
+//       0.02*mm /2,                              			  //z half length
+//       0., twopi);                       				    //min phi, max phi
+
+G4Sphere* sSD2 =
+  new G4Sphere("sSD2",                    				//name
+            0.*cm, 20.*cm,                  	    //inner radius, outer radius
+            0., twopi,                      	      //min phi, max phi
+            0., pi);                        	      //min rho, max rho
 
 G4LogicalVolume* lSD2 =
   new G4LogicalVolume(sSD2,                				//its solid
@@ -694,7 +728,7 @@ G4LogicalVolume* lSD2 =
                       "lSD2");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(-10*cm,0,60.*cm),     		    //position
+            G4ThreeVector(-15*cm,0,60.*cm),     		    //position
             lSD2,                          		    //its logical volume
             "pSD2",                         	    //its name
             lWorld,								                //its mother  volume
