@@ -24,8 +24,9 @@
 #/control/execute ../Macros/Primary_Deuteron.mac     #26 MeV Deuteron Beam, point source
 #/control/execute ../Macros/Primary_Neutron.mac      #13 MeV Neutron Beam, point source
 #/control/execute ../Macros/Primary_Proton.mac       #13 MeV Proton Beam, point source
-/control/execute ../Macros/Primary_AmBe.mac         #AmBe Neutron Source, point source
+#/control/execute ../Macros/Primary_AmBe.mac         #AmBe Neutron Source, point source
 #/control/execute ../Macros/Primary_Radionuclide.mac #Radionuclide Source, point source
+/control/execute ../Macros/Primary_Nitrogen.mac        #17N5+ Nitrogen beam, point source
 
 #CUSTOM COMMANDS
 #------------------------------------------------------------------------
@@ -35,8 +36,8 @@
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
-/custom/geo/setMat G4_Be
-#/custom/ana/setOutFolder Output/tny_D_26MeV_G4_Al
+/custom/geo/setMat G4_AIR
+/custom/ana/setOutFolder Output/range_N_100MeV_G4_Air
 
 #START RUN
 #------------------------------------------------------------------------
