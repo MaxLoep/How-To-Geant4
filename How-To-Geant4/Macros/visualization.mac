@@ -68,9 +68,9 @@
 /vis/scene/add/hits
 
 # To draw only gammas:
-/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/create/particleFilter
 #/vis/filtering/trajectories/particleFilter-0/add gamma
-/vis/filtering/trajectories/particleFilter-0/add  proton
+#/vis/filtering/trajectories/particleFilter-0/add  proton
 #
 # To invert the above, drawing all particles except gammas, keep the above two lines but also add:
 #/vis/filtering/trajectories/particleFilter-0/invert true
@@ -100,12 +100,12 @@
 #Commands to use with the General Particle Source (GPS)
 /gps/particle proton     #beam particle
 /gps/position 0 0 -10.      #Sets the centre co-ordinates (X,Y,Z) of the source [default (0,0,0) cm]
-#/gps/direction 0 0 1     #oriented along the Z axis
+/gps/direction 0 0 1     #oriented along the Z axis
 /gps/ene/type Mono       #monoenergetic:   I=E
 /gps/ene/mono 14 MeV   #sets energy for monoenergetic sources
 /gps/pos/type Point
-/gps/ang/type iso
-/gps/ang/mintheta 100 degree
+#/gps/ang/type iso
+#/gps/ang/mintheta 100 degree
 
 #Define a scoring Mesh, assign a scorer+filter  and save the output in file
 #

@@ -143,11 +143,11 @@ G4cout << "---------------------------------------------------------------------
 // Box
 G4Box* sBox =
   new G4Box("sBox",                  			//its name
-      20.*cm/2, 20.*cm/2, 20.*cm/2);      //its size: half x, half y, half z
+      50.*cm/2, 50.*cm/2, 50.*cm/2);      //its size: half x, half y, half z
 
 G4LogicalVolume* lBox =
   new G4LogicalVolume(sBox,               //its solid
-                      Vacuum(),		        //its material
+                      dummyMat,		        //its material
                       "lBox");            //its name
 
 //G4VPhysicalVolume* physBox=             //you can declare a varibale for placement but it will create a warning if unused
