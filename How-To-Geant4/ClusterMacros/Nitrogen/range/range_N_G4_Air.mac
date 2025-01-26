@@ -44,16 +44,16 @@
 #/run/beamOn 100000
 
 #3rd energy
-/gps/ene/mono 120. MeV
-/custom/ana/setOutFolder Output/range_N_120_MeV_G4_Air
-/run/printProgress 100
-/run/beamOn 100000
-
-#4th energy
-#/gps/ene/mono 110. MeV
-#/custom/ana/setOutFolder Output/range_N_110_MeV_G4_Air
+#/gps/ene/mono 120. MeV
+#/custom/ana/setOutFolder Output/range_N_120_MeV_G4_Air
 #/run/printProgress 100
 #/run/beamOn 100000
+
+#4th energy
+/gps/ene/mono 110. MeV
+/custom/ana/setOutFolder Output/range_N_110_MeV_G4_Air
+/run/printProgress 100
+/run/beamOn 100000
 
 #5th energy
 #/gps/ene/mono 100. MeV
