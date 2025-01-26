@@ -26,7 +26,7 @@ import os
 
 
 #Path to file
-path = "How-To-Geant4\\build\\Output\\Root_Files\\1736431312_288691500.root"
+path = "How-To-Geant4\\build\Output\\range_N_100MeV_G4_Air\\Root_Files\\1737660351_162105900.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-10PE.root"
 # path = "build\\Output\\Root Files\\28d-C-MobileCup-20PE.root"
 # path = "build\\Output\\Root Files\\ID_14964.root"
