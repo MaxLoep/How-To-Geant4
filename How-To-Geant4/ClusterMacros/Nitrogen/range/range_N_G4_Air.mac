@@ -104,15 +104,15 @@
 #/run/beamOn 100000
 
 #13th energy
-/gps/ene/mono 20. MeV
-/custom/ana/setOutFolder Output/range_N_020_MeV_G4_Air
-/run/printProgress 100
-/run/beamOn 100000
-
-#14th energy
-#/gps/ene/mono 10. MeV
-#/custom/ana/setOutFolder Output/range_N_010_MeV_G4_Air
+#/gps/ene/mono 20. MeV
+#/custom/ana/setOutFolder Output/range_N_020_MeV_G4_Air
 #/run/printProgress 100
 #/run/beamOn 100000
+
+#14th energy
+/gps/ene/mono 10. MeV
+/custom/ana/setOutFolder Output/range_N_010_MeV_G4_Air
+/run/printProgress 100
+/run/beamOn 100000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer
