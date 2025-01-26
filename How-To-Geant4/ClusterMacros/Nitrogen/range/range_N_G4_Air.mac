@@ -32,16 +32,16 @@
 
 #Start a run and print progress in console
 #1st energy
-/gps/ene/mono 140. MeV
-/custom/ana/setOutFolder Output/range_N_140_MeV_G4_Air
-/run/printProgress 100
-/run/beamOn 100000
-
-#2nd energy
-#/gps/ene/mono 130. MeV
-#/custom/ana/setOutFolder Output/range_N_130_MeV_G4_Air
+#/gps/ene/mono 140. MeV
+#/custom/ana/setOutFolder Output/range_N_140_MeV_G4_Air
 #/run/printProgress 100
 #/run/beamOn 100000
+
+#2nd energy
+/gps/ene/mono 130. MeV
+/custom/ana/setOutFolder Output/range_N_130_MeV_G4_Air
+/run/printProgress 100
+/run/beamOn 100000
 
 #3rd energy
 #/gps/ene/mono 120. MeV
