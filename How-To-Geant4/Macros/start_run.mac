@@ -37,12 +37,12 @@
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 /custom/geo/setMat G4_AIR
-/custom/ana/setOutFolder Output/range_N_100MeV_G4_Air
+#/custom/ana/setOutFolder Output/Energy_N_100MeV_SEM
 
 #START RUN
 #------------------------------------------------------------------------
 #Start a run and print progress in console
 /run/printProgress 1000
-/run/beamOn 100000
+/run/beamOn 100
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

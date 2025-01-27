@@ -109,6 +109,7 @@ G4bool SD4::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 	// keep only outgoing particle
 	const G4ParticleDefinition* particle = track->GetParticleDefinition();
+	G4String current_name   = track->GetDefinition()->GetParticleName();
 
 	// code PDG:
 	// G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
@@ -137,10 +138,12 @@ G4bool SD4::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 	// ntuples and histograms are set up in RunAction.cc
 	// Store hit in the ntuple
-	if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(4, 0, Ekin/MeV);
-	if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(4, 1, localPosition.x()/cm);
-	if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(4, 2, time/ns);
-	if(particle == G4Proton::Proton())  analysisManager->AddNtupleRow(4);
+	if(current_name == "N14")  analysisManager->FillNtupleDColumn(4, 0, Ekin/MeV);
+	// if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(4, 0, Ekin/MeV);
+	// if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(4, 1, localPosition.x()/cm);
+	// if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(4, 2, time/ns);
+	// if(particle == G4Proton::Proton())  analysisManager->AddNtupleRow(4);
+	if(current_name == "N14")  analysisManager->AddNtupleRow(4);
 
 	// Store hit in one dimensional histogram
 	// analysisManager->FillH1(id, value, G4double weight=1.0)

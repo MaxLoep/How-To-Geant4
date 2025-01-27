@@ -20,6 +20,7 @@ G4Box* sSD1 =
 G4LogicalVolume* lSD1 =
   new G4LogicalVolume(sSD1,                				//its solid
                       Vacuum(),		                //its material
+                      // Aluminum(),
                       "lSD1");                    //its name
 
   new G4PVPlacement(0,                     				//no rotation
@@ -39,11 +40,12 @@ lSD1->SetVisAttributes(lSD1VisAtt);
 // SD2
 G4Box* sSD2 =
   new G4Box("sSD2",                        				//its name
-      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+      30.*cm/2, 30.*cm/2, (5*4.5+30)*um  /2);            //its size: half x, half y, half z
 
 G4LogicalVolume* lSD2 =
   new G4LogicalVolume(sSD2,                				//its solid
-                      Vacuum(),		                //its material
+                      // Vacuum(),		                //its material
+                      Aluminum(),
                       "lSD2");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation
@@ -63,11 +65,12 @@ lSD2->SetVisAttributes(lSD2VisAtt);
 // SD3
 G4Box* sSD3 =
   new G4Box("sSD3",                        				//its name
-      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+      30.*cm/2, 30.*cm/2, 0.02*mm/2);            //its size: half x, half y, half z
 
 G4LogicalVolume* lSD3 =
   new G4LogicalVolume(sSD3,                				//its solid
                       Vacuum(),		                //its material
+                      // Aluminum(),
                       "lSD3");		                //its name
 
   new G4PVPlacement(0,                     				//no rotation
@@ -87,11 +90,12 @@ lSD3->SetVisAttributes(lSD3VisAtt);
 // SD4
 G4Box* sSD4 =
   new G4Box("sSD4",                        				//its name
-      30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
+      30.*cm/2, 30.*cm/2, 6.*cm /2);            //its size: half x, half y, half z
 
 G4LogicalVolume* lSD4 =
   new G4LogicalVolume(sSD4,                				//its solid
-                      Vacuum(),		                //its material
+                      // Vacuum(),		                //its material
+                      Air(),
                       "lSD4");		                //its name
 
   new G4PVPlacement(0,                     				//no rotation

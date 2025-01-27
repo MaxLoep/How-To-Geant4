@@ -1,9 +1,9 @@
 /*
 WHAT DOES THIS DO?
 */
-// #define DEBUG
+#define DEBUG
 // #define Collimator
-#define Range
+// #define Range
 // #define TNY
 // #define Shielding
 
