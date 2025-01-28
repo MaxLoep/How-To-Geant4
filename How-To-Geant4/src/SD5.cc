@@ -138,12 +138,12 @@ G4bool SD5::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 	// ntuples and histograms are set up in RunAction.cc
 	// Store hit in the ntuple
-	if(current_name == "N14")  analysisManager->FillNtupleDColumn(5, 0, Ekin/MeV);
+	if ( (current_name == "N14") )  analysisManager->FillNtupleDColumn(5, 0, Ekin/MeV);
 	// if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(5, 0, Ekin/MeV);
 	// if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(5, 1, localPosition.x()/cm);
 	// if(particle == G4Proton::Proton())  analysisManager->FillNtupleDColumn(5, 2, time/ns);
 	// if(particle == G4Proton::Proton())  analysisManager->AddNtupleRow(5);
-	if(current_name == "N14")  analysisManager->AddNtupleRow(5);
+	if ( (current_name == "N14") )  analysisManager->AddNtupleRow(5);
 
 	// Store hit in one dimensional histogram
 	// analysisManager->FillH1(id, value, G4double weight=1.0)
