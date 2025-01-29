@@ -1,5 +1,9 @@
 # How-To-Geant4
 
+v1.5.1:\
+-added geometry-case 'Sandwich': 4 materials between 5 Sensitive detectors for energy loss studies
+-added primary particle macro file for Nitrogen-Beam
+
 v1.5.0:\
 -added different geometry-cases (DEBUG, Collimator, TNY, Range) via #ifdef's that get created/set up if compiled with\
 the according variable defined in 'GeometryConstruction.cc'

@@ -6,9 +6,9 @@
 // 3.: Place it in your simulation
 
 // if-defing different scenarios
-#ifdef DEBUG
+#ifdef Sandwich
 G4cout << "-------------------------------------------------------------------------" << G4endl;
-G4cout << "Compiled with DEBUG at " __DATE__ ", " __TIME__ "." <<  G4endl;
+G4cout << "Compiled with Sandwich at " __DATE__ ", " __TIME__ "." <<  G4endl;
 G4cout << "-------------------------------------------------------------------------" << G4endl;
 
 //create 5 flat boxes to use as Sensitive Detector (SD)
@@ -20,11 +20,10 @@ G4Box* sSD1 =
 G4LogicalVolume* lSD1 =
   new G4LogicalVolume(sSD1,                				//its solid
                       Vacuum(),		                //its material
-                      // Aluminum(),
                       "lSD1");                    //its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,10.*cm),     		    //position
+            G4ThreeVector(0,0,5.*cm),     		    //position
             lSD1,                          		    //its logical volume
             "pSD1",                         	    //its name
             lWorld,								                //its mother  volume
@@ -37,19 +36,42 @@ auto lSD1VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , trans
 lSD1VisAtt->SetVisibility(true);
 lSD1->SetVisAttributes(lSD1VisAtt);
 
+// Material 1
+G4Box* sMat1 =
+  new G4Box("sMat1",                        	    //its name
+      30.*cm/2, 30.*cm/2, a/2);                   //its size: half x, half y, half z
+
+G4LogicalVolume* lMat1 =
+  new G4LogicalVolume(sMat1,                			//its solid
+                      dummyMat,                   //its material
+                      "lMat1");	                	//its name
+
+  new G4PVPlacement(0,                     				//no rotation
+            G4ThreeVector(0,0,10.*cm),     		    //position
+            lMat1,                          		  //its logical volume
+            "pMat1",                         	    //its name
+            lWorld,								                //its mother  volume
+            false,                         	    	//any boolean operation?
+            0,                             		    //copy number
+            true);                         		    //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lMat1VisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+lMat1VisAtt->SetVisibility(true);
+lMat1->SetVisAttributes(lMat1VisAtt);
+
 // SD2
 G4Box* sSD2 =
   new G4Box("sSD2",                        				//its name
-      30.*cm/2, 30.*cm/2, (5*4.5+30)*um  /2);            //its size: half x, half y, half z
+      30.*cm/2, 30.*cm/2, 0.02*mm/2);             //its size: half x, half y, half z
 
 G4LogicalVolume* lSD2 =
   new G4LogicalVolume(sSD2,                				//its solid
-                      // Vacuum(),		                //its material
-                      Aluminum(),
+                      Vacuum(),		                //its material
                       "lSD2");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,20.*cm),     		    //position
+            G4ThreeVector(0,0,15.*cm),     		    //position
             lSD2,                          		    //its logical volume
             "pSD2",                         	    //its name
             lWorld,								                //its mother  volume
@@ -62,19 +84,42 @@ auto lSD2VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , trans
 lSD2VisAtt->SetVisibility(true);
 lSD2->SetVisAttributes(lSD2VisAtt);
 
+// Material 2
+G4Box* sMat2 =
+  new G4Box("sMat2",                        			//its name
+      30.*cm/2, 30.*cm/2, b/2);                   //its size: half x, half y, half z
+
+G4LogicalVolume* lMat2 =
+  new G4LogicalVolume(sMat2,                			//its solid
+                      dummyMat,		                //its material
+                      "lMat2");	                	//its name
+
+  new G4PVPlacement(0,                     				//no rotation
+            G4ThreeVector(0,0,20.*cm),     		    //position
+            lMat2,                          		  //its logical volume
+            "pMat2",                         	    //its name
+            lWorld,								                //its mother  volume
+            false,                         	    	//any boolean operation?
+            0,                             		    //copy number
+            true);                         		    //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lMat2VisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+lMat2VisAtt->SetVisibility(true);
+lMat2->SetVisAttributes(lMat2VisAtt);
+
 // SD3
 G4Box* sSD3 =
   new G4Box("sSD3",                        				//its name
-      30.*cm/2, 30.*cm/2, 0.02*mm/2);            //its size: half x, half y, half z
+      30.*cm/2, 30.*cm/2, 0.02*mm/2);             //its size: half x, half y, half z
 
 G4LogicalVolume* lSD3 =
   new G4LogicalVolume(sSD3,                				//its solid
                       Vacuum(),		                //its material
-                      // Aluminum(),
                       "lSD3");		                //its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,30.*cm),     		    //position
+            G4ThreeVector(0,0,25.*cm),     		    //position
             lSD3,                          		    //its logical volume
             "pSD3",                             	//its name
             lWorld,								                //its mother  volume
@@ -87,44 +132,42 @@ auto lSD3VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , trans
 lSD3VisAtt->SetVisibility(true);
 lSD3->SetVisAttributes(lSD3VisAtt);
 
-// Air
-G4Box* sAirBox =
-  new G4Box("sAirBox",                        				//its name
-      30.*cm/2, 30.*cm/2, 6.*cm /2);            //its size: half x, half y, half z
+// Material 3
+G4Box* sMat3 =
+  new G4Box("sMat3",                        		   //its name
+      30.*cm/2, 30.*cm/2, c/2);                    //its size: half x, half y, half z
 
-G4LogicalVolume* lAirBox =
-  new G4LogicalVolume(sAirBox,                				//its solid
-                      // Vacuum(),		                //its material
-                      Air(),
-                      "lAirBox");		                //its name
+G4LogicalVolume* lMat3 =
+  new G4LogicalVolume(sMat3,                		   //its solid
+                      dummyMat,                    //its material
+                      "lMat3");		                 //its name
 
-  new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,35.*cm),     		    //position
-            lAirBox,                          		    //its logical volume
-            "pAirBox",                         	    //its name
-            lWorld,								                //its mother  volume
-            false,                         		    //any boolean operation?
-            0,                             		    //copy number
-            true);                         		    //overlaps checking?
+  new G4PVPlacement(0,                     				 //no rotation
+            G4ThreeVector(0,0,30.*cm),     		     //position
+            lMat3,                          		   //its logical volume
+            "pMat3",                         	     //its name
+            lWorld,								                 //its mother  volume
+            false,                         		     //any boolean operation?
+            0,                             		     //copy number
+            true);                         		     //overlaps checking?
 
 //Make (in-)visible and give it a color
-auto lAirBoxVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
-lAirBoxVisAtt->SetVisibility(true);
-lAirBox->SetVisAttributes(lAirBoxVisAtt);
+auto lMat3VisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+lMat3VisAtt->SetVisibility(true);
+lMat3->SetVisAttributes(lMat3VisAtt);
 
 // SD4
 G4Box* sSD4 =
   new G4Box("sSD4",                        				//its name
-      30.*cm/2, 30.*cm/2, 0.02*mm/2);            //its size: half x, half y, half z
+      30.*cm/2, 30.*cm/2, 0.02*mm/2);             //its size: half x, half y, half z
 
 G4LogicalVolume* lSD4 =
   new G4LogicalVolume(sSD4,                				//its solid
                       Vacuum(),		                //its material
-                      // Air(),
                       "lSD4");		                //its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,40.*cm),     		    //position
+            G4ThreeVector(0,0,35.*cm),     		    //position
             lSD4,                          		    //its logical volume
             "pSD4",                         	    //its name
             lWorld,								                //its mother  volume
@@ -137,30 +180,29 @@ auto lSD4VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , trans
 lSD4VisAtt->SetVisibility(true);
 lSD4->SetVisAttributes(lSD4VisAtt);
 
-// Alubox
-G4Box* sAlubox =
-  new G4Box("sAlubox",                        				//its name
-      30.*cm/2, 30.*cm/2, 30.*um  /2);            //its size: half x, half y, half z
+// Material 4
+G4Box* sMat4 =
+  new G4Box("sMat4",                        			//its name
+      30.*cm/2, 30.*cm/2, e/2);                   //its size: half x, half y, half z
 
-G4LogicalVolume* lAlubox =
-  new G4LogicalVolume(sAlubox,                				//its solid
-                      // Vacuum(),		                //its material
-                      Aluminum(),
-                      "lAlubox");	                	//its name
+G4LogicalVolume* lMat4 =
+  new G4LogicalVolume(sMat4,                			//its solid
+                      dummyMat,                   //its material
+                      "lMat4");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,45.*cm),     		    //position
-            lAlubox,                          		    //its logical volume
-            "pAlubox",                         	    //its name
+            G4ThreeVector(0,0,40.*cm),     		    //position
+            lMat4,                          		  //its logical volume
+            "pMat4",                         	    //its name
             lWorld,								                //its mother  volume
             false,                         	    	//any boolean operation?
             0,                             		    //copy number
             true);                         		    //overlaps checking?
 
 //Make (in-)visible and give it a color
-auto lAluboxVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
-lAluboxVisAtt->SetVisibility(true);
-lAlubox->SetVisAttributes(lAluboxVisAtt);
+auto lMat4VisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+lMat4VisAtt->SetVisibility(true);
+lMat4->SetVisAttributes(lMat4VisAtt);
 
 // SD5
 G4Box* sSD5 =
@@ -173,7 +215,7 @@ G4LogicalVolume* lSD5 =
                       "lSD5");		                //its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(0,0,50.*cm),     		    //position
+            G4ThreeVector(0,0,45.*cm),     		    //position
             lSD5,                          		    //its logical volume
             "pSD5",                         	    //its name
             lWorld,								                //its mother  volume

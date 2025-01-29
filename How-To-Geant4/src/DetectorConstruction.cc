@@ -1,7 +1,7 @@
 /*
 WHAT DOES THIS DO?
 */
-#define DEBUG
+#define Sandwich
 // #define Collimator
 // #define Range
 // #define TNY
@@ -67,12 +67,12 @@ fDetectorMessenger(nullptr)
 
 	#ifndef Collimator
 	// set initial values of dummy variables
-	a = 20.*m; 		// used for x- and y-width of Sensitive Detectors
-	b = 10.*cm; 	// unused
+	a = 1.*cm; 		// used for x- and y-width of Sensitive Detectors
+	b = 1.*cm; 	// unused
 	c = 1.*cm;  	// unused
 	d = 0.*degree;  // unused
 	e = 1.*cm;  	// unused
-	f = 0.*cm;      // position of the target
+	f = 1.*cm;      // position of the target
 	#endif
 
 	#ifdef Collimator
@@ -248,31 +248,31 @@ void DetectorConstruction::ConstructSDandField()
 	// Declare a Sensitive Detector
 	auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-	#if defined DEBUG || defined Shielding
+	#if defined Sandwich || defined Shielding
 	SetSensitiveDetector("lSD1", sd1);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 	#endif
 
 	auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-	#if defined DEBUG || defined Shielding
+	#if defined Sandwich || defined Shielding
 	SetSensitiveDetector("lSD2", sd2);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 	#endif
 
 	auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-	#if defined DEBUG
+	#if defined Sandwich
 	SetSensitiveDetector("lSD3", sd3);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 	#endif
 
 	auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-	#if defined DEBUG
+	#if defined Sandwich
 	SetSensitiveDetector("lSD4", sd4);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 	#endif
 
 	auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-	#if defined DEBUG
+	#if defined Sandwich
 	SetSensitiveDetector("lSD5", sd5);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 	#endif
 
