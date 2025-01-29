@@ -1,5 +1,21 @@
 # How-To-Geant4
 
+v1.5.1:\
+-added geometry-case 'Sandwich': 4 materials between 5 Sensitive detectors for energy loss studies
+-added primary particle macro file for Nitrogen-Beam
+
+v1.5.0:\
+-added different geometry-cases (DEBUG, Collimator, TNY, Range) via #ifdef's that get created/set up if compiled with\
+the according variable defined in 'GeometryConstruction.cc'
+-new structure of macro files; macro files now in folder 'Macros' and got structured better
+--added primary particle macro files for Proton-, Deuteron- and Alpha -Beam and for AmBe-Neutron source
+
+v1.4.0:\
+-Changed output of generated Particles - Thanks Loni!\
+--Energy information got removed (No one needs Emin,Emax and Emean; use a Sensitive Detector if you want to know these)\
+--output file format now toml form\
+-(-)updated merge.py for merging of new ListOfGeneratedParticles text file format
+
 v1.3.0:\
 -Materials: The way self defined composites are defined changed so that they will be loaded only when used (like materials) - Thanks Loni!\
 -Macros: Added directory for Macros for faster use on cluster; might be removed, because they are to specific for a 'How-To'

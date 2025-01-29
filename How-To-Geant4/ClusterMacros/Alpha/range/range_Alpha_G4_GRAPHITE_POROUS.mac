@@ -1,0 +1,122 @@
+# To be run preferably in batch, without graphics:
+# ./How-To-Geant4 run.mac
+#
+
+#Silence hadronic process summary (works in Geant4 v10.7.1)
+#/control/verbose 0
+#/run/verbose 0
+#/process/had/verbose 0
+#/process/verbose 0
+#/process/em/verbose 0
+
+#Set number of worker threads and initialize run
+/run/numberOfThreads 4
+/run/initialize
+
+#Deactivate Radioactive Decay
+#limit the decay chain to surpress following decays
+#/process/had/rdm/nucleusLimits [Amin] [Amax] [Zmin] [Zmax]
+/process/had/rdm/nucleusLimits 999 999 999 999
+
+#BEAM
+#------------------------------------------------------------------------
+#Commands to use with the General Particle Source (GPS)
+/gps/particle proton     #beam particle
+#/gps/particle deuteron     #beam particle
+#/gps/particle neutron     #beam particle
+/gps/position 0 0 0.8 m      #GPS position
+/gps/direction 0 0 1     #oriented along the Z axis
+/gps/ene/type Mono       #monoenergetic:   I=E
+/gps/ene/mono 14. MeV   #sets energy for monoenergetic sources
+#/gps/ene/mono 28. MeV   #sets energy for monoenergetic sources
+#/gps/pos/type Point 
+
+#/gps/pos/shape Circle    #the beam geometry is a circle
+#/gps/pos/radius 0. mm
+
+#HISKP Cyclotron FWHM is approx 4mm. FWHM = 2.3548*sigma -> sigma = 1.79mm
+#/gps/pos/sigma_r 1.79 mm
+#/gps/pos/sigma_r 4. mm
+#/gps/pos/type Beam
+#------------------------------------------------------------------------
+
+#DECAYING SOURCE
+#------------------------------------------------------------------------
+#Commands to use with the General Particle Source (GPS) for radioactive ion source
+#/gps/particle ion
+#Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
+#/gps/ion 11 24 0 0
+#/gps/energy 0. eV
+
+#limit the decay chain to surpress following decays
+#/grdm/nucleusLimits 210 210 82 82
+
+#custom commands to change things
+#/custom/geo/change_a 15 cm
+#/custom/geo/change_b 15 cm
+#/custom/geo/change_c 15 cm
+#/custom/geo/change_d 15 cm
+#/custom/geo/change_e 15 cm
+#/custom/geo/setMat G4_AIR
+#/custom/geo/setMat G4_GRAPHITE_POROUS
+#/custom/ana/setOutFolder Output/Test
+
+#Start a run and print progress in console
+
+#set particle/material
+/gps/particle alpha
+/custom/geo/setMat G4_GRAPHITE_POROUS
+#REMEMBER TO CHANGE PRIMITIVE SCORER TO ALPHA-TRACKING IN DETECTORCONSTRUCTION.CC!!!
+
+#remember to change 'particleFilter' for Primitive Scorer in 'DetectorConstruction.cc'
+#better naming scheme: Material_particle_energy or Particle_material_energy ?
+
+#1st energy
+/gps/ene/mono 56. MeV
+/custom/ana/setOutFolder Output/range_A_56MeV_G4_GRAPHITE_POROUS
+/run/printProgress 250000
+/run/beamOn 10000000
+
+#2nd energy
+/gps/ene/mono 55. MeV
+/custom/ana/setOutFolder Output/range_A_55MeV_G4_GRAPHITE_POROUS
+/run/printProgress 250000
+/run/beamOn 10000000
+
+#3rd energy
+/gps/ene/mono 54. MeV
+/custom/ana/setOutFolder Output/range_A_54MeV_G4_GRAPHITE_POROUS
+/run/printProgress 250000
+/run/beamOn 10000000
+
+#4th energy
+/gps/ene/mono 53. MeV
+/custom/ana/setOutFolder Output/range_A_53MeV_G4_GRAPHITE_POROUS
+/run/printProgress 250000
+/run/beamOn 10000000
+
+#5th energy
+/gps/ene/mono 52. MeV
+/custom/ana/setOutFolder Output/range_A_52MeV_G4_GRAPHITE_POROUS
+/run/printProgress 250000
+/run/beamOn 10000000
+
+#6th energy
+/gps/ene/mono 51. MeV
+/custom/ana/setOutFolder Output/range_A_51MeV_G4_GRAPHITE_POROUS
+/run/printProgress 250000
+/run/beamOn 10000000
+
+#7th energy
+/gps/ene/mono 50. MeV
+/custom/ana/setOutFolder Output/range_A_50MeV_G4_GRAPHITE_POROUS
+/run/printProgress 250000
+/run/beamOn 10000000
+
+#8th energy
+/gps/ene/mono 49. MeV
+/custom/ana/setOutFolder Output/range_A_49MeV_G4_GRAPHITE_POROUS
+/run/printProgress 250000
+/run/beamOn 10000000
+
+#max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

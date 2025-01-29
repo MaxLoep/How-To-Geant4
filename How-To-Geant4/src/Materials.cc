@@ -1,6 +1,6 @@
 /*
 TO-DO:
--implement Self-defined materials in a way like NIST materials (only get loaded when actually used)
+-nothing right now
 */
 
 
@@ -30,31 +30,43 @@ void DetectorConstruction::DefineMaterials()
 	// Initiate the NIST Material Manager
 	nist = G4NistManager::Instance();
 
-	// define world material as vacuum (Galactic) and boxMaterial as Copper using the NIST database
-	// world_mat    = nist->FindOrBuildMaterial("G4_AIR");
-	world_mat   = nist->FindOrBuildMaterial("G4_Galactic");
-	// boxMaterial = nist->FindOrBuildMaterial("G4_WATER");
+	// ### DEFINE A NIST MATERIAL
+	// ###-----------------------------------------------------------------------------------------------------------------------------------------
+	// Create a Material from the NIST database with
+	// name 	= [&](){return nist->FindOrBuildMaterial("G4_element_name");};
+	// and use the function call 'name()' to assign it to a geometry.
+	// This way, it gets created (=loaded into memory) only when it is actually used
 
 	// NIST Materials
 	Vacuum      = [&](){return nist->FindOrBuildMaterial("G4_Galactic");};
 	Hydrogen    = [&](){return nist->FindOrBuildMaterial("G4_H");};
+	Lithium		= [&](){return nist->FindOrBuildMaterial("G4_Li");};
 	Boron       = [&](){return nist->FindOrBuildMaterial("G4_B");};
 	Carbon      = [&](){return nist->FindOrBuildMaterial("G4_C");};
+	Silicon		= [&](){return nist->FindOrBuildMaterial("G4_Si");};
 	Aluminum    = [&](){return nist->FindOrBuildMaterial("G4_Al");};
+	Scandium	= [&](){return nist->FindOrBuildMaterial("G4_Sc");};
 	Titanium    = [&](){return nist->FindOrBuildMaterial("G4_Ti");};
+	Vanadium	= [&](){return nist->FindOrBuildMaterial("G4_V");};
 	Iron        = [&](){return nist->FindOrBuildMaterial("G4_Fe");};
-	Copper      = [&](){return nist->FindOrBuildMaterial("G4_Cu");};
 	Nickel      = [&](){return nist->FindOrBuildMaterial("G4_Ni");};
+	Copper      = [&](){return nist->FindOrBuildMaterial("G4_Cu");};
+	Cadmium		= [&](){return nist->FindOrBuildMaterial("G4_Cd");};
 	Tungsten    = [&](){return nist->FindOrBuildMaterial("G4_W");};
+	Gold		= [&](){return nist->FindOrBuildMaterial("G4_Au");};
 
 	// NIST Compounds
+	Air			= [&](){return nist->FindOrBuildMaterial("G4_AIR");};
 	Concrete    = [&](){return nist->FindOrBuildMaterial("G4_CONCRETE");};
 	Graphite    = [&](){return nist->FindOrBuildMaterial("G4_GRAPHITE_POROUS");};	// G4_Graphite has the molecular density of 2.2g/cm3, which can not be realized in a solid target
+	Polyethylene= [&](){return nist->FindOrBuildMaterial("G4_POLYETHYLENE");};
 	Steel       = [&](){return nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
 	Water       = [&](){return nist->FindOrBuildMaterial("G4_WATER");};
 
 
-	// structure to easily define Custom Materials later on
+	// Structure to easily define Custom Materials later on
+	// This is just preparation to easily define custom materials later on.
+	// Skip this part and go ahead to see how custom materials are defined!
 	struct CustomMat{
 		string name;
 		double density;
@@ -95,26 +107,44 @@ void DetectorConstruction::DefineMaterials()
 		bool made = false;
 	};
 
+	// ### DEFINE A CUSTOM MATERIAL
+	// ###-----------------------------------------------------------------------------------------------------------------------------------------
+	// Create a Custom Material with defined NIST Materials with
+	// name = CustomMat("BoratedPE",	// name
+	// 				1.03*g/cm3,				//density
+	// 				{// components and abundances
+	// 				{Hydrogen, 14.*perCent},
+	// 				{Carbon, 81.*perCent},
+	// 				{Boron, 5.*perCent}
+	// 				});
+	// and use the function call 'name()' to assign it to a geometry.
+	// This way, it gets created (=loaded into memory) only when it is actually used
+	
+	
 	// Self-defined Materials
 	//Define borated PE (Manufacturer: Roechling- Polystone M nuclear with 5% Boron)
-	BoratedPE = CustomMat("BoratedPE", 1.03*g/cm3, {
+	BoratedPE = CustomMat("BoratedPE",	// name
+				1.0*g/cm3,				//density
+				{// components
 				{Hydrogen, 14.*perCent},
 				{Carbon, 81.*perCent},
 				{Boron, 5.*perCent}
-	});
+				});
 
 	//Define Densimet180 (Manufacturer: Plansee)
-	Densimet180 = CustomMat("Densimet180", 18.0*g/cm3, {
+	Densimet180 = CustomMat("Densimet180",	//name
+				18.0*g/cm3,					//density
+				{// components
 				{Tungsten, 95.*perCent},
 				{Iron, 1.6*perCent},
 				{Nickel, 3.4*perCent}
-	});
+				});
 
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
 
 	// Initialize dummyMat as Vacuum
 	dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
 
-	//Print all defined materials to console
+	//Print all defined materials to console - this is currently done in 'DetectorConstruction.cc'
 	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }

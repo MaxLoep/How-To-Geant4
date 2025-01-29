@@ -140,14 +140,16 @@ G4bool SphereSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 		// ntuples and histograms are set up in RunAction.cc
 		// Store hit in the ntuple
-		// if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(0, 0, Ekin/MeV);
-		if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(6, 0, Ekin/MeV);
-		if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(6, 1, localPosition.theta()/degree);
-		// if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(6, 2, localPosition.phi()/degree);
+		if(particle == G4Neutron::Neutron())	analysisManager->FillNtupleDColumn(6, 0, Ekin/MeV);
+		if(particle == G4Neutron::Neutron())	analysisManager->FillNtupleDColumn(6, 1, localPosition.theta()/degree);
 		if(particle == G4Neutron::Neutron())	analysisManager->AddNtupleRow(6);
 
+		// if(particle == G4Gamma::Gamma())	analysisManager->FillNtupleDColumn(7, 0, Ekin/MeV);
+		// if(particle == G4Gamma::Gamma())	analysisManager->FillNtupleDColumn(7, 1, localPosition.theta()/degree);
+		// if(particle == G4Gamma::Gamma())	analysisManager->AddNtupleRow(7);
+
 		// // Store hit in histogram
-		analysisManager->FillH1(0, localPosition.phi()/degree);
+		if(particle == G4Neutron::Neutron())	analysisManager->FillH1(0, localPosition.phi()/degree);
 		// analysisManager->FillH1(1, pdgCode);
 		// analysisManager->FillH1(2, Ekin/MeV);
 		// analysisManager->FillH1(3, localPosition.x()/cm);

@@ -1,0 +1,25 @@
+#RADIONUCLIDE SOURCE
+#------------------------------------------------------------------------
+#Deactivate Radioactive Decay
+#/process/inactivate RadioactiveDecay
+
+#Commands to use with the General Particle Source (GPS) for radioactive ion source
+/gps/particle ion
+
+#Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
+#/gps/ion 11 24 0 0       #Na24 - 1368 keV gamma + 2754 keV gamma
+/gps/ion 55 137 0 0      #Cs137 - 661 keV gamma from Ba137*
+/gps/position 0 0 0      #GPS position of point source
+/gps/energy 0. eV        #at rest to study decay
+
+#Give the source a spherical or cylindrical volume
+#/gps/pos/type Volume
+#/gps/pos/shape Sphere
+#/gps/pos/shape Cylinder
+#/gps/pos/centre 0. 0. 0. cm
+#/gps/pos/radius 1 cm
+#/gps/pos/halfz 1 cm
+
+#limit the decay chain to surpress following decays
+#/process/had/rdm/nucleusLimits [Amin] [Amax] [Zmin] [Zmax]
+#/process/had/rdm/nucleusLimits 999 999 999 999

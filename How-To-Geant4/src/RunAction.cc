@@ -76,7 +76,8 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	analysisManager->CreateNtuple("SD2", "Sensitive Detector");
 	analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
 	analysisManager->CreateNtupleDColumn("Xpos");    // column id = 1
-	analysisManager->CreateNtupleDColumn("time");    // column id = 2
+	analysisManager->CreateNtupleDColumn("Ypos");    // column id = 2
+	analysisManager->CreateNtupleDColumn("time");    // column id = 3
 	analysisManager->FinishNtuple();
 
 	// Create ntuple for Sensitive Detector SD3 - ID 3
@@ -101,15 +102,20 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	analysisManager->FinishNtuple();
 
 	// Create ntuple for Sensitive Detector SphereSD - ID 6
-	analysisManager->CreateNtuple("SphereSD", "Sensitive Detector");
-	analysisManager->CreateNtupleDColumn("Ekin");    // column id = 0
-	analysisManager->CreateNtupleDColumn("Theta");    // column id = 1
-	analysisManager->CreateNtupleDColumn("Phi");    // column id = 2
+	analysisManager->CreateNtuple("N_SphereSD", "Sensitive Detector");
+	analysisManager->CreateNtupleDColumn("N_Ekin");    // column id = 0
+	analysisManager->CreateNtupleDColumn("N_Theta");    // column id = 1
+	analysisManager->FinishNtuple();
+
+	// Create ntuple for Sensitive Detector SphereSD - ID 7
+	analysisManager->CreateNtuple("G_SphereSD", "Sensitive Detector");
+	analysisManager->CreateNtupleDColumn("G_Ekin");    // column id = 0
+	analysisManager->CreateNtupleDColumn("G_Theta");    // column id = 1
 	analysisManager->FinishNtuple();
 
 	// Creating one dimensional histograms
 	// CreateH1 ("name", "title", nbins, xmin, xmax, unitName="none", fcnName="none")
-	analysisManager->CreateH1("Phi","Phi", 100, -180, 180.);             // column id = 0
+	analysisManager->CreateH1("N_Phi","N_Phi", 100, -180, 180.);             // column id = 0
 	// analysisManager->CreateH1("PDG","PDG Code", 100, 0., 10000);              // column id = 1
 	// analysisManager->CreateH1("Ekin","Kinetic Energy", 100, 0., 800*MeV);     // column id = 2
 	// analysisManager->CreateH1("Xpos","Hit Position X", 10, -1.*cm, 1.*cm);   // column id = 3
@@ -143,7 +149,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
 	// Get analysis manager
 	auto analysisManager = G4AnalysisManager::Instance();
 
-	// get epoch time and system clock nanosecond value that were used as seeds to create file name
+	// get epoch time and system clock nanosecond value that were used as seeds in main() to create file name
 	G4long time 	= G4Random::getTheSeeds()[0];
 	G4long time_ns 	= G4Random::getTheSeeds()[1];
 	// set file name
@@ -186,25 +192,34 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	 = static_cast<const DetectorConstruction*>
 		 (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
-	// Run conditions
-	//  note: There is no primary generator action object for "master"
-	//        run manager for multi-threaded mode.
-	const PrimaryGeneratorAction* generatorAction
-	 = static_cast<const PrimaryGeneratorAction*>
-		 (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
-	G4String runCondition;
 
-	//GPS
-		if (generatorAction)
-	{
-		const G4GeneralParticleSource* fParticleBeam = generatorAction->GetParticleGun();
-		runCondition += fParticleBeam->GetParticleDefinition()->GetParticleName();
-		runCondition += " of ";
-		G4double particleEnergy = fParticleBeam->GetParticleEnergy();
-		runCondition += G4BestUnit(particleEnergy,"Energy");
-		//run condition is a string and at this point it contains something like
-		// "proton of 100 MeV"
-	}
+
+
+	//REMOVE ! : WHAT IS THIS GOOD FOR? IS THIS A LEFT OVER OF SOMETHING I COPIED FROM SOMEWHERE? 
+	// // Run conditions
+	// //  note: There is no primary generator action object for "master"
+	// //        run manager for multi-threaded mode.
+	// const PrimaryGeneratorAction* generatorAction
+	//  = static_cast<const PrimaryGeneratorAction*>
+	// 	 (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
+	// G4String runCondition;
+
+	// //GPS
+	// 	if (generatorAction)
+	// {
+	// 	const G4GeneralParticleSource* fParticleBeam = generatorAction->GetParticleGun();
+	// 	runCondition += fParticleBeam->GetParticleDefinition()->GetParticleName();
+	// 	runCondition += " of ";
+	// 	G4double particleEnergy = fParticleBeam->GetParticleEnergy();
+	// 	runCondition += G4BestUnit(particleEnergy,"Energy");
+	// 	//run condition is a string and at this point it contains something like
+	// 	// "proton of 100 MeV"
+	//  // THIS STRING NEVER GETS PRINTED OR USED SOMEWHERE!
+	// }
+
+
+
+
 
 	// Print End of Run messages
 	if (IsMaster()) {
@@ -225,16 +240,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
 
 	if (isMaster) fRun->EndOfRun();
-
-	/*
-	// Where does this come from? REMOVE
-	//save histograms
-	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-	if ( analysisManager->IsActive() ) {
-		analysisManager->Write();
-		analysisManager->CloseFile();
-	}
-	*/
 
 	// show Rndm status
 	if (isMaster) G4Random::showEngineStatus();

@@ -8,6 +8,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4VProcess.hh"
 #include "G4ParticleTypes.hh"
+#include "G4IonTable.hh"
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -96,6 +97,15 @@ G4bool SD1::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 	currentTrackId = track->GetTrackID();
 	G4String name   = track->GetDefinition()->GetParticleName();
 	// G4double HalfLife = track->GetDefinition()->GetPDGLifeTime() / 1.443; // mean life time divided by 1.443 equals half-life
+	// G4cout << "-------------------------------------------------------------------------" << G4endl;
+	// G4cout << "SD1 was hit with " + name  <<  G4endl;
+	// G4cout << "-------------------------------------------------------------------------" << G4endl;
+
+	// NOT WORKING!
+	// if (currentTrackId == 0)
+	// {
+	// const G4ParticleDefinition* testparticle = track->GetParticleDefinition();
+	// }
 
 	// if particle is a secondary (trackID>1) and we have not counted it yet add it to the map
 	if ( (currentTrackId > 1) && (currentTrackId != oldTrackId) )
@@ -110,6 +120,8 @@ G4bool SD1::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 	// keep only outgoing particle
 	const G4ParticleDefinition* particle = track->GetParticleDefinition();
+	// const G4ParticleDefinition* particle = G4IonTable::FindIon(7,14);
+	G4String current_name   = track->GetDefinition()->GetParticleName();
 
 	// code PDG:
 	// G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
@@ -138,11 +150,12 @@ G4bool SD1::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 
 	// ntuples and histograms are set up in RunAction.cc
 	// Store hit in the ntuple
-	if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(1, 0, Ekin/MeV);
-	if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(1, 1, localPosition.x()/cm);
-	if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(1, 2, localPosition.y()/cm);
-	if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(1, 3, time/ns);
-	if(particle == G4Neutron::Neutron())  analysisManager->AddNtupleRow(1);
+	if ( (current_name == "N14") )  analysisManager->FillNtupleDColumn(1, 0, Ekin/MeV);
+	// if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(1, 0, Ekin/MeV);
+	// if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(1, 1, localPosition.x()/cm);
+	// if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(1, 2, localPosition.y()/cm);
+	// if(particle == G4Neutron::Neutron())  analysisManager->FillNtupleDColumn(1, 3, time/ns);
+	if ( (current_name == "N14") )  analysisManager->AddNtupleRow(1);
 
 	// Store hit in one dimensional histogram
 	// analysisManager->FillH1(id, value, G4double weight=1.0)
