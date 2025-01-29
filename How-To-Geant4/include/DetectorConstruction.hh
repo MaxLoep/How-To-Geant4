@@ -27,7 +27,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
     void SetOutputFolder (std::string);
-    void SetAbsorMaterial (G4String);
+    void SetDummyMat1 (G4String);
+    void SetDummyMat2 (G4String);
+    void SetDummyMat3 (G4String);
+    void SetDummyMat4 (G4String);
 
     // Writing and Reading GDML
     void SetLoadGDMLFile( const G4String& File );  // for the macro command to load a GDML file
@@ -76,7 +79,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume*   fLAbsor;
 
     G4Material*        boxMaterial;
-    G4Material*        dummyMat;
+    G4Material*        dummyMat1;
+    G4Material*        dummyMat2;
+    G4Material*        dummyMat3;
+    G4Material*        dummyMat4;
 
 
     // NIST Material Manager

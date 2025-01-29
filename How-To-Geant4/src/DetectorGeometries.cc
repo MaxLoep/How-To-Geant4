@@ -43,7 +43,7 @@ G4Box* sMat1 =
 
 G4LogicalVolume* lMat1 =
   new G4LogicalVolume(sMat1,                			//its solid
-                      dummyMat,                   //its material
+                      dummyMat1,                   //its material
                       "lMat1");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation
@@ -91,7 +91,7 @@ G4Box* sMat2 =
 
 G4LogicalVolume* lMat2 =
   new G4LogicalVolume(sMat2,                			//its solid
-                      dummyMat,		                //its material
+                      dummyMat2,		                //its material
                       "lMat2");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation
@@ -139,7 +139,7 @@ G4Box* sMat3 =
 
 G4LogicalVolume* lMat3 =
   new G4LogicalVolume(sMat3,                		   //its solid
-                      dummyMat,                    //its material
+                      dummyMat3,                   //its material
                       "lMat3");		                 //its name
 
   new G4PVPlacement(0,                     				 //no rotation
@@ -187,7 +187,7 @@ G4Box* sMat4 =
 
 G4LogicalVolume* lMat4 =
   new G4LogicalVolume(sMat4,                			//its solid
-                      dummyMat,                   //its material
+                      dummyMat4,                   //its material
                       "lMat4");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation

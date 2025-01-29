@@ -31,7 +31,10 @@ class DetectorMessenger: public G4UImessenger
     G4UIdirectory*             fGDMLDir;
 
     G4UIcmdWithAString*        fOutFoldCmd;
-    G4UIcmdWithAString*        fMaterCmd;
+    G4UIcmdWithAString*        fDummyMat1Cmd;
+    G4UIcmdWithAString*        fDummyMat2Cmd;
+    G4UIcmdWithAString*        fDummyMat3Cmd;
+    G4UIcmdWithAString*        fDummyMat4Cmd;
 
     G4UIcmdWithAString*        fTheLoadCommand;
     G4UIcmdWithAString*        fTheWriteCommand;

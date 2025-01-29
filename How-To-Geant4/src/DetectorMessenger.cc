@@ -21,7 +21,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 :G4UImessenger(), 
  fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), fGDMLDir(nullptr), 
  fOutFoldCmd(nullptr),
- fMaterCmd(nullptr),
+ fDummyMat1Cmd(nullptr),fDummyMat2Cmd(nullptr),fDummyMat3Cmd(nullptr),fDummyMat4Cmd(nullptr),
  fTheLoadCommand(0),fTheWriteCommand(0), fTheOnlyLoadCommand(0),
  fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr), fchange_fCmd(nullptr)
 {
@@ -49,10 +49,25 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 	fOutFoldCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 	// Change Material dummyMat
-	fMaterCmd = new G4UIcmdWithAString("/custom/geo/setMat",this);
-	fMaterCmd->SetGuidance("Select material of the box.");
-	fMaterCmd->SetParameterName("choice",false);
-	fMaterCmd->AvailableForStates(G4State_PreInit,G4State_Idle); 
+	fDummyMat1Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat1",this);
+	fDummyMat1Cmd->SetGuidance("Select material of the box.");
+	fDummyMat1Cmd->SetParameterName("choice",false);
+	fDummyMat1Cmd->AvailableForStates(G4State_PreInit,G4State_Idle); 
+
+	fDummyMat2Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat2",this);
+	fDummyMat2Cmd->SetGuidance("Select material of the box.");
+	fDummyMat2Cmd->SetParameterName("choice",false);
+	fDummyMat2Cmd->AvailableForStates(G4State_PreInit,G4State_Idle); 
+
+	fDummyMat3Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat3",this);
+	fDummyMat3Cmd->SetGuidance("Select material of the box.");
+	fDummyMat3Cmd->SetParameterName("choice",false);
+	fDummyMat3Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	fDummyMat4Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat4",this);
+	fDummyMat4Cmd->SetGuidance("Select material of the box.");
+	fDummyMat4Cmd->SetParameterName("choice",false);
+	fDummyMat4Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);  
 
 	// Change GDML-load-file name
 	fTheLoadCommand = new G4UIcmdWithAString("/custom/GDML/loadFile", this);
@@ -135,7 +150,10 @@ DetectorMessenger::~DetectorMessenger()
 	delete fOutFoldCmd;
 
 	// Change Material dummyMat
-	delete fMaterCmd;
+	delete fDummyMat1Cmd;
+	delete fDummyMat2Cmd;
+	delete fDummyMat3Cmd;
+	delete fDummyMat4Cmd;
 
 	// Change if GDML-file should be loaded or saved
 	delete fTheLoadCommand;
@@ -158,8 +176,17 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	 { fDetector->SetOutputFolder(newValue);}
 
 	// Change Material dummyMat
-	if( command == fMaterCmd )
-	 { fDetector->SetAbsorMaterial(newValue);}
+	if( command == fDummyMat1Cmd )
+	 { fDetector->SetDummyMat1(newValue);}
+
+	if( command == fDummyMat2Cmd )
+	 { fDetector->SetDummyMat2(newValue);}
+
+	if( command == fDummyMat3Cmd )
+	 { fDetector->SetDummyMat3(newValue);}
+
+	if( command == fDummyMat4Cmd )
+	 { fDetector->SetDummyMat4(newValue);}
 
 	// Change GDML load-file-name
 	if( command == fTheLoadCommand )

@@ -166,16 +166,67 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 //
 //Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
 //
-void DetectorConstruction::SetAbsorMaterial(G4String materialChoice)	//change "dummyMat" via macro file command
+void DetectorConstruction::SetDummyMat1(G4String materialChoice)	//change "dummyMat1" via macro file command
 {
 	// search the material by its name
 	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
 
 	if (NewMaterial) {
-		dummyMat = NewMaterial;
+		dummyMat1 = NewMaterial;
+		G4RunManager::GetRunManager()->ReinitializeGeometry();
+		G4cout << "\n The dummyMat1 is now "
+					 << dummyMat1->GetName()
+					 << G4endl;
+	} else {
+		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+					 << materialChoice << " not found" << G4endl;
+	}
+}
+
+void DetectorConstruction::SetDummyMat2(G4String materialChoice)	//change "dummyMat2" via macro file command
+{
+	// search the material by its name
+	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
+
+	if (NewMaterial) {
+		dummyMat2 = NewMaterial;
+		G4RunManager::GetRunManager()->ReinitializeGeometry();
+		G4cout << "\n The dummyMat2 is now "
+					 << dummyMat2->GetName()
+					 << G4endl;
+	} else {
+		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+					 << materialChoice << " not found" << G4endl;
+	}
+}
+
+void DetectorConstruction::SetDummyMat3(G4String materialChoice)	//change "dummyMat3" via macro file command
+{
+	// search the material by its name
+	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
+
+	if (NewMaterial) {
+		dummyMat3 = NewMaterial;
+		G4RunManager::GetRunManager()->ReinitializeGeometry();
+		G4cout << "\n The dummyMat3 is now "
+					 << dummyMat3->GetName()
+					 << G4endl;
+	} else {
+		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+					 << materialChoice << " not found" << G4endl;
+	}
+}
+
+void DetectorConstruction::SetDummyMat4(G4String materialChoice)	//change "dummyMat4" via macro file command
+{
+	// search the material by its name
+	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
+
+	if (NewMaterial) {
+		dummyMat4 = NewMaterial;
 		G4RunManager::GetRunManager()->ReinitializeGeometry();
 		G4cout << "\n The dummyMat is now "
-					 << dummyMat->GetName()
+					 << dummyMat4->GetName()
 					 << G4endl;
 	} else {
 		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "

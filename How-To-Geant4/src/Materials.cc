@@ -143,7 +143,10 @@ void DetectorConstruction::DefineMaterials()
 	// boxMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
 
 	// Initialize dummyMat as Vacuum
-	dummyMat     = nist->FindOrBuildMaterial("G4_Galactic");
+	dummyMat1	= nist->FindOrBuildMaterial("G4_Galactic");
+	dummyMat2	= nist->FindOrBuildMaterial("G4_Galactic");
+	dummyMat3	= nist->FindOrBuildMaterial("G4_Galactic");
+	dummyMat4	= nist->FindOrBuildMaterial("G4_Galactic");
 
 	//Print all defined materials to console - this is currently done in 'DetectorConstruction.cc'
 	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
