@@ -5,8 +5,8 @@ v1.5.1:\
 -added primary particle macro file for Nitrogen-Beam
 
 v1.5.0:\
--added different geometry-cases (DEBUG, Collimator, TNY, Range) via #ifdef's that get created/set up if compiled with\
-the according variable defined in 'GeometryConstruction.cc'
+-added different geometry-cases (DEBUG, Collimator, TNY, Range) via #ifdef's that get created/set up if compiled
+with the according variable defined in 'GeometryConstruction.cc'
 -new structure of macro files; macro files now in folder 'Macros' and got structured better
 --added primary particle macro files for Proton-, Deuteron- and Alpha -Beam and for AmBe-Neutron source
 
