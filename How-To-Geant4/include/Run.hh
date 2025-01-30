@@ -51,8 +51,8 @@ class Run : public G4Run
     G4ParticleDefinition* fParticle;
     G4double              fEkin;
 
-    G4double fEnergyDeposit, fEnergyDeposit2;
-    G4double fEnergyFlow,    fEnergyFlow2;
+    G4double fEnergyDeposit, fEnergyDeposit2; // old variable? can be REMOVED?
+    G4double fEnergyFlow,    fEnergyFlow2;    // old variable? can be REMOVED?
 
     // map to count processes
     std::map<G4String,G4int>        fProcCounter;
