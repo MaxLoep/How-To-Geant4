@@ -305,7 +305,7 @@ G4Tubs* solidCylinder =
 G4LogicalVolume* logicCylinder =
   new G4LogicalVolume(solidCylinder,        				//shape
           // Vacuum(),
-          dummyMat,
+          dummyMat1,
           "Cylinder");           					          //name
 
 new G4PVPlacement(0,                        				//no rotation

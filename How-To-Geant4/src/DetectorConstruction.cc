@@ -1,10 +1,10 @@
 /*
 WHAT DOES THIS DO?
 */
-#define Sandwich
+// #define Sandwich
 // #define Collimator
 // #define Range
-// #define TNY
+#define TNY
 // #define Shielding
 
 
