@@ -361,8 +361,8 @@ G4Box* sBox =
 
 G4LogicalVolume* lBox =
   new G4LogicalVolume(sBox,               //its solid
-                      // dummyMat1,		        //its material
-                      BoratedPE(),
+                      dummyMat1,		        //its material
+                      // BoratedPE(),
                       "lBox");            //its name
 
 //G4VPhysicalVolume* physBox=             //you can declare a varibale for placement but it will create a warning if unused

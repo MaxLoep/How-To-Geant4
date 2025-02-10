@@ -45,12 +45,22 @@
 #/custom/geo/setDummyMat1 G4_Al
 #/custom/geo/setDummyMat1 G4_Fe
 #/custom/geo/setDummyMat1 G4_Pb
+/custom/geo/setDummyMat1 G4_W
 #/custom/geo/setDummyMat1 G4_CONCRETE
+
 #/custom/ana/setOutFolder Output/nbs_1_MeV_G4_Al
-/custom/ana/setOutFolder Output/nbs_1_MeV_G4_Fe
+#/custom/ana/setOutFolder Output/nbs_1_MeV_G4_Fe
 #/custom/ana/setOutFolder Output/nbs_1_MeV_G4_Pb
+#/custom/ana/setOutFolder Output/nbs_1_MeV_G4_W
 #/custom/ana/setOutFolder Output/nbs_1_MeV_G4_CONCRETE
-/custom/ana/setOutFolder Output/nbs_1_MeV_G4_BoratedPE
+#/custom/ana/setOutFolder Output/nbs_1_MeV_G4_BoratedPE
+
+#/custom/ana/setOutFolder Output/nbs_10_MeV_G4_Al
+#/custom/ana/setOutFolder Output/nbs_10_MeV_G4_Fe
+#/custom/ana/setOutFolder Output/nbs_10_MeV_G4_Pb
+/custom/ana/setOutFolder Output/nbs_10_MeV_G4_W
+#/custom/ana/setOutFolder Output/nbs_10_MeV_G4_CONCRETE
+#/custom/ana/setOutFolder Output/nbs_10_MeV_BoratedPE
 
 
 #START RUN
