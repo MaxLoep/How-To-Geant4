@@ -5,7 +5,7 @@
 /gps/position 0 0 -1 cm     #GPS position
 /gps/direction 0 0 1        #oriented along the Z axis
 /gps/ene/type Mono          #monoenergetic:   I=E
-/gps/ene/mono 13. MeV       #sets energy for monoenergetic sources
+/gps/ene/mono 1. MeV       #sets energy for monoenergetic sources
 /gps/pos/type Point
 
 #/gps/pos/shape Circle       #the beam geometry is a circle

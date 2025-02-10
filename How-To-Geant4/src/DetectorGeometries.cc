@@ -323,6 +323,65 @@ logicCylinderVisAtt->SetVisibility(true);
 logicCylinder->SetVisAttributes(logicCylinderVisAtt);
 #endif
 
+#ifdef NBS  //Geometry for Neutron-Backscattering-Studies Analysis
+G4cout << "-------------------------------------------------------------------------" << G4endl;
+G4cout << "Compiled with NBS-Geometry at " __DATE__ ", " __TIME__ "." <<  G4endl;
+G4cout << "-------------------------------------------------------------------------" << G4endl;
+
+// Sphere - SD to detect gammas
+G4Sphere* sSphere =
+  new G4Sphere("sSphere",                    				//name
+            50.*cm, 50.01*cm,                  	    //inner radius, outer radius
+            0., twopi,                      	      //min phi, max phi
+            0., pi);                        	      //min rho, max rho
+
+G4LogicalVolume* lSphere =
+  new G4LogicalVolume(sSphere,              				//shape
+                      Vacuum(),		                  //material
+                      "lSphere");		                //name
+
+new G4PVPlacement(0,                        				//no rotation
+            G4ThreeVector(0,0,0),           	      //position
+            lSphere,                        	      //logical volume
+            "pSphere",                       	      //name
+            lWorld,								                  //mother volume
+            false,                          	      //any boolean operation?
+            0,                              	      //copy number
+            true);                          	      //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto lSphereVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+lSphereVisAtt->SetVisibility(true);
+lSphere->SetVisAttributes(lSphereVisAtt);
+
+// Box
+G4Box* sBox =
+  new G4Box("sBox",                  			//its name
+      10.*cm/2, 10.*cm/2, 10.*cm/2);      //its size: half x, half y, half z
+
+G4LogicalVolume* lBox =
+  new G4LogicalVolume(sBox,               //its solid
+                      // dummyMat1,		        //its material
+                      BoratedPE(),
+                      "lBox");            //its name
+
+//G4VPhysicalVolume* physBox=             //you can declare a varibale for placement but it will create a warning if unused
+  new G4PVPlacement(0,               			//no rotation
+            G4ThreeVector(0,0,10.*cm),  	//position
+            lBox,                      		//its logical volume
+            "pBox",                     	//its name
+            lWorld,							        	//its mother  volume
+            false,                     		//any boolean operation?
+            0,                         		//copy number
+            true);                     		//overlaps checking?
+
+//Make (in-)visible and give it a color
+//lBox->SetVisAttributes (G4VisAttributes::GetInvisible());
+auto lBoxVisAtt = new G4VisAttributes(G4Color(1, 0, 0, 0.8)); //(r, g, b , transparency)
+lBoxVisAtt->SetVisibility(true);
+lBox->SetVisAttributes(lBoxVisAtt);
+#endif
+
 
 #ifdef Collimator   //Geometry for the Neutron Collimator
 G4cout << "-------------------------------------------------------------------------" << G4endl;

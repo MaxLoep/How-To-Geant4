@@ -22,9 +22,9 @@
 #execute the macro file which defines the primary particle
 #/control/execute ../Macros/Primary_Alpha.mac        #52 MeV Alpha Beam, point source
 #/control/execute ../Macros/Primary_Deuteron.mac     #26 MeV Deuteron Beam, point source
-#/control/execute ../Macros/Primary_Neutron.mac      #13 MeV Neutron Beam, point source
+/control/execute ../Macros/Primary_Neutron.mac      #13 MeV Neutron Beam, point source
 #/control/execute ../Macros/Primary_Proton.mac       #13 MeV Proton Beam, point source
-/control/execute ../Macros/Primary_AmBe.mac         #AmBe Neutron Source, point source
+#/control/execute ../Macros/Primary_AmBe.mac         #AmBe Neutron Source, point source
 #/control/execute ../Macros/Primary_Radionuclide.mac #Radionuclide Source, point source
 #/control/execute ../Macros/Primary_Nitrogen.mac        #17N5+ Nitrogen beam, point source
 
@@ -40,7 +40,18 @@
 #/custom/ana/setOutFolder Output/Energy_N_100MeV_SEM
 
 /gps/position 0 0 0 cm     #GPS position
-/custom/ana/setOutFolder Output/tny_N_AmBe_Iso
+#/custom/ana/setOutFolder Output/tny_N_AmBe_Iso
+
+#/custom/geo/setDummyMat1 G4_Al
+#/custom/geo/setDummyMat1 G4_Fe
+#/custom/geo/setDummyMat1 G4_Pb
+#/custom/geo/setDummyMat1 G4_CONCRETE
+#/custom/ana/setOutFolder Output/nbs_1_MeV_G4_Al
+/custom/ana/setOutFolder Output/nbs_1_MeV_G4_Fe
+#/custom/ana/setOutFolder Output/nbs_1_MeV_G4_Pb
+#/custom/ana/setOutFolder Output/nbs_1_MeV_G4_CONCRETE
+/custom/ana/setOutFolder Output/nbs_1_MeV_G4_BoratedPE
+
 
 #START RUN
 #------------------------------------------------------------------------
