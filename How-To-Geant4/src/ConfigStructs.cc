@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+typedef unsigned int uint;
 
 namespace ConfigStructs {
 	struct NTuple {
