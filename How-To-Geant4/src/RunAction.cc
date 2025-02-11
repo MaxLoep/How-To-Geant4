@@ -23,6 +23,10 @@ Create output Root file and its structure here
 #include <filesystem>
 namespace fs = std::filesystem;
 
+#include "ConfigStructs.cc"
+
+ConfigStructs::RunActionConf global_run_action_conf;
+
 // Standard output folder name
 std::string folderName = "Output";
 // Standard folder name for the root files
@@ -59,6 +63,49 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	// CreateNtupleDColumn ("name")
 	// FinishNtuple ()
 
+	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
+		"PS", "Primitive Scorer",
+		{"TrackLength"}
+	});
+	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
+		"SD1", "Sensitive Detector",
+		{"Ekin", "Xpos", "Ypos", "time"}
+	});
+	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
+		"SD2", "Sensitive Detector",
+		{"Ekin", "Xpos", "Ypos", "time"}
+	});
+	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
+		"SD3", "Sensitive Detector",
+		{"Ekin", "Xpos", "time"}
+	});
+	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
+		"SD4", "Sensitive Detector",
+		{"Ekin", "Xpos", "time"}
+	});
+	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
+		"SD5", "Sensitive Detector",
+		{"Ekin", "Xpos", "time"}
+	});
+	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
+		"N_SphereSD", "Sensitive Detector",
+		{"N_Ekin", "N_Theta"}
+	});
+	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
+		"G_SphereSD", "Sensitive Detector",
+		{"G_Ekin", "G_Theta"}
+	});
+
+	global_run_action_conf.add_analysis(ConfigStructs::Histogram{"N_Phi","N_Phi", 100, -180, 180.});
+
+	for (auto tuple : global_run_action_conf.tuples) {
+		analysisManager->CreateNtuple(tuple.name, tuple.title);
+		for (auto column : tuple.members) analysisManager->CreateNtupleDColumn(column);
+		analysisManager->FinishNtuple();
+	}
+
+
+	/*
 	// Creating ntuple for Primitive Scorer - ID 0
 	analysisManager->CreateNtuple("PS", "Primitive Scorer");
 	analysisManager->CreateNtupleDColumn("TrackLength");           // column id = 0
@@ -128,7 +175,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 
 	// Create directories in the root file - commented out in the original B4d example!
 	// analysisManager->SetHistoDirectoryName("histograms");
-	// analysisManager->SetNtupleDirectoryName("ntuple");
+	// analysisManager->SetNtupleDirectoryName("ntuple");*/
 }
 
 RunAction::~RunAction()
@@ -195,7 +242,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
 
 
-	//REMOVE ! : WHAT IS THIS GOOD FOR? IS THIS A LEFT OVER OF SOMETHING I COPIED FROM SOMEWHERE? 
+	//REMOVE ! : WHAT IS THIS GOOD FOR? IS THIS A LEFT OVER OF SOMETHING I COPIED FROM SOMEWHERE?
 	// // Run conditions
 	// //  note: There is no primary generator action object for "master"
 	// //        run manager for multi-threaded mode.
