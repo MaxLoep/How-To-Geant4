@@ -1,3 +1,9 @@
+/*
+NOT WORKING AT THE MOMENT!
+set Reference Physics List still in the main.cpp
+*/
+
+
 #include "PhysicsList.hh"                     //Necessary. You need this.
 // #include "G4SystemOfUnits.hh"
 // #include "G4UnitsTable.hh"
@@ -26,7 +32,8 @@
 #include "Shielding.hh"                   //works!
 
 PhysicsList_Reference::PhysicsList_Reference()
-:G4VModularPhysicsList()
+:G4VModularPhysicsList(),
+physicsList(nullptr)
 {
 	// G4VModularPhysicsList* physicsList = new QBBC;
 	// G4VModularPhysicsList* physicsList = new FTF_BIC;
@@ -41,7 +48,8 @@ PhysicsList_Reference::PhysicsList_Reference()
 
 	// G4VModularPhysicsList* physicsList = new QGSP_BIC;
 	// G4VModularPhysicsList* physicsList = new QGSP_BIC_HP;
-	G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;  //system environmental variable 'G4PARTICLEHPDATA' needs to be set to path to data library e.g. TENDL
+	// G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;  //system environmental variable 'G4PARTICLEHPDATA' needs to be set to path to data library e.g. TENDL
+	physicsList = new QGSP_BIC_AllHP;  //system environmental variable 'G4PARTICLEHPDATA' needs to be set to path to data library e.g. TENDL
 	//G4VModularPhysicsList* physicsList = new QGSP_INCLXX;
 	//G4VModularPhysicsList* physicsList = new QGSP_INCLXX_HP;
 	// G4VModularPhysicsList* physicsList = new QGSP_BERT;
@@ -50,6 +58,7 @@ PhysicsList_Reference::PhysicsList_Reference()
 
 	// G4VModularPhysicsList* physicsList = new Shielding;
 
+	// RegisterPhysics(new QGSP_BIC_AllHP);
 	
 }
 
@@ -57,3 +66,15 @@ PhysicsList_Reference::PhysicsList_Reference()
 
 PhysicsList_Reference::~PhysicsList_Reference()
 { }
+
+// void PhysicsList::ConstructProcess()
+// {
+// 	// Transportation first (mandatory)
+// 	//
+// 	AddTransportation();
+
+// 	// Physics constructors
+// 	//
+// 	physicsList->ConstructProcess();
+
+// }

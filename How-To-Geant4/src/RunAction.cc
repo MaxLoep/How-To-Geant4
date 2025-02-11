@@ -47,7 +47,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	// Create analysis manager
 	auto analysisManager = G4AnalysisManager::Instance();
 
-	G4cout << "Using " << analysisManager->GetType() << G4endl;
+	// G4cout << "Using " << analysisManager->GetType() << G4endl; //Old line of code that doesn't do anything anymore since RunManager got changed from Geant v10 to v11
 	//analysisManager->SetVerboseLevel(1);
 	analysisManager->SetNtupleMerging(true);
 	// Note: merging ntuples is available only with Root output

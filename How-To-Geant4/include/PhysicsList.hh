@@ -36,7 +36,8 @@ public:
   // virtual void ConstructProcess();
   // virtual void SetCuts();
 
-  // private:
+  private:
+    G4VModularPhysicsList* physicsList;
   //   G4VPhysicsConstructor* fHadronElastic;
   //   G4VPhysicsConstructor* fHadronInelastic;
   //   G4VPhysicsConstructor* fIonElastic;
