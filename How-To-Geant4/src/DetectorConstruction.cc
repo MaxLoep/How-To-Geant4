@@ -150,6 +150,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
 	// Different Geometries are constructed depending on defined pre-processor variables at top
 	#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
+	#include "geometries/Test.cc"
 
 	//Print all defined materials to console
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
