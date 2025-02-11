@@ -11,7 +11,7 @@ namespace ConfigStructs {
 		std::string name, title = "";
 		uint nbins;
 		double xmin, xmax;
-		std::string uint_name = "none";
+		std::string unit_name = "none";
 		std::string fcn_name = "none";
 	};
 

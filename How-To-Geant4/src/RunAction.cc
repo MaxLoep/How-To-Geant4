@@ -103,8 +103,11 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 		for (auto column : tuple.members) analysisManager->CreateNtupleDColumn(column);
 		analysisManager->FinishNtuple();
 	}
-}
 
+	for (auto hist : global_run_action_conf.histograms) {
+		analysisManager->CreateH1(hist.name, hist.title, hist.nbins, hist.xmin, hist.xmax, hist.unit_name, hist.fcn_name);
+	}
+}
 
 RunAction::~RunAction()
 { }
