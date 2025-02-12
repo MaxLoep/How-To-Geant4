@@ -2,7 +2,7 @@ Spezifisch:
 ----
  - geometrien platzieren
  - detektoren konfigurieren
- - analyse konfigurieren
+ + analyse konfigurieren
  - (physics list optionen)
  - quelle
 
@@ -20,6 +20,6 @@ Allgemein:
 
 TODO:
 ----
- - redundanten kram for loopen
- - config structs bauen
+ + redundanten kram for loopen
+ 0 config structs bauen
  - externe function interfaces machen
