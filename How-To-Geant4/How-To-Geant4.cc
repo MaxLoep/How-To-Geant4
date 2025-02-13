@@ -110,6 +110,7 @@ int main(int argc,char** argv) {
 
   // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 default Physics Lists
   // runManager->SetUserInitialization(new PhysicsList);
+  // runManager->SetUserInitialization(new PhysicsList_Reference);    //NOT WORKING!
 
   // G4VModularPhysicsList* physicsList = new QBBC;
   // G4VModularPhysicsList* physicsList = new FTF_BIC;

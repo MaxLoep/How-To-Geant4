@@ -27,4 +27,27 @@ public:
 };
 
 
+class PhysicsList_Reference: public G4VModularPhysicsList
+{
+public:
+  PhysicsList_Reference();
+ ~PhysicsList_Reference();
+
+  // virtual void ConstructProcess();
+  // virtual void SetCuts();
+
+  private:
+    G4VModularPhysicsList* physicsList;
+  //   G4VPhysicsConstructor* fHadronElastic;
+  //   G4VPhysicsConstructor* fHadronInelastic;
+  //   G4VPhysicsConstructor* fIonElastic;
+  //   G4VPhysicsConstructor* fIonInelastic;
+  //   // G4VPhysicsConstructor* fGammaNuclear;    //self-written physics list
+  //   // G4VPhysicsConstructor* fElectromagnetic; //self-written physics list
+  //   G4VPhysicsConstructor* fDecay;
+  //   G4VPhysicsConstructor* fRadioactiveDecay;
+  //   G4VPhysicsConstructor* fStopping;
+};
+
+
 #endif
