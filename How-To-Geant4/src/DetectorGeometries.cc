@@ -19,7 +19,7 @@ G4Box* sSD1 =
 
 G4LogicalVolume* lSD1 =
   new G4LogicalVolume(sSD1,                				//its solid
-                      Vacuum(),		                //its material
+                      Iron(),		                //its material
                       "lSD1");                    //its name
 
   new G4PVPlacement(0,                     				//no rotation
@@ -388,12 +388,12 @@ G4cout << "---------------------------------------------------------------------
 G4cout << "Compiled with Collimator-Geometry at " __DATE__ ", " __TIME__ "." <<  G4endl;
 G4cout << "-------------------------------------------------------------------------" << G4endl;
 
-// 
+//
 //Copper Colimator with double conical Tungsten Inlet
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// 
+//
 // Parameters
-// 
+//
 
 G4double TargetDia = 40.*mm;
 G4double TargetLen = 3.*mm;
@@ -407,27 +407,27 @@ G4double TargetLen = 3.*mm;
 // G4double Exit_Radius     = (124.*cm + x) * std::tan(colli_angle);
 
 //create a box for the collimator and everything else. rotations are done to this box
-//     
+//
 // Box
-// 
+//
 //Create a Rotation Matrix
 G4RotationMatrix* BoxRotation = new G4RotationMatrix();
 BoxRotation->rotateX(0*deg);
 BoxRotation->rotateY(e);      // parameter e is the rotation of the system        e = rotation
 BoxRotation->rotateZ(0*deg);
 
-G4Box* sFullRotationBox =    
+G4Box* sFullRotationBox =
 new G4Box("sFullRotationBox",                       //its name
 	2.*m /2, 2.*m /2, 248.1*cm/2);                      //its size: half x, half y, half z - x and y just big and z long enough to fit everything
 
-G4Box* sHalfRotationBox =    
+G4Box* sHalfRotationBox =
 new G4Box("sHalfRotationBox",                       //its name
-	2.01*m /2, 2.01*m /2, 248.1*cm/4);                //its size: half x, half y, half z  
+	2.01*m /2, 2.01*m /2, 248.1*cm/4);                //its size: half x, half y, half z
 
 
-// 
+//
 // Subtract HalfRotationBox from FullRotationBox
-// 
+//
 G4SubtractionSolid* sRotationBox =                  // subtract sHalfRotationBox from sFullRotationBox
 new G4SubtractionSolid("Rotation Box",              //its name
 				sFullRotationBox,                           //Solid A
@@ -435,7 +435,7 @@ new G4SubtractionSolid("Rotation Box",              //its name
 				0,                                          //Rotation of B relative to A
 				G4ThreeVector(0,0,-248.11*cm/4));           //Translation of B relative to A = minus Half length of sHalfRotationBox
 
-G4LogicalVolume* lRotationBox =                         
+G4LogicalVolume* lRotationBox =
 new G4LogicalVolume(sRotationBox,                   //its solid
 					Vacuum(),                                 //its material
 					"logic Rotation Box");                    //its name
@@ -456,23 +456,23 @@ auto lRotationBoxVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.1)); //(r, g, b
 lRotationBoxVisAtt->SetVisibility(true);
 lRotationBox->SetVisAttributes(lRotationBoxVisAtt);
 
-// 
+//
 //Copper Colimator with double conical Tungsten Inlet and shielding
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Subtract two boxes to create a shielding from 4 sides
-// 
-G4Box* sInnerShieldBox =    
+//
+G4Box* sInnerShieldBox =
   new G4Box("InnerShieldBox",                //its name
       20.*cm, 20.*cm, 62.*cm);               //its size: half x, half y, half z
 
-G4Box* sOuterShieldBox =    
+G4Box* sOuterShieldBox =
   new G4Box("sOuterShieldBox",               //its name
       20.*cm + a , 20.*cm + a , 62.*cm);     //its size: half x, half y, half z
 
-// 
+//
 // Subtract InnerShieldBox from OuterShieldBox
-// 
+//
 G4SubtractionSolid* sShieldBox =                 // subtract air-cylinder from Copper boxes
   new G4SubtractionSolid("solid Shield Box",     //its name
                 sOuterShieldBox,                 //Solid A
@@ -480,7 +480,7 @@ G4SubtractionSolid* sShieldBox =                 // subtract air-cylinder from C
                 0,                               //Rotation of B relative to A
                 G4ThreeVector(0,0,0));           //Translation of B relative to A - minus Half length of SmallCuBox + Half Length of SmallCuCylinder
 
-G4LogicalVolume* lShieldBox =                         
+G4LogicalVolume* lShieldBox =
   new G4LogicalVolume(sShieldBox,                //its solid
                       BoratedPE(),                 //its material
                       "logic Shield Box");       //its name
@@ -499,18 +499,18 @@ auto logicShieldBoxVisAtt = new G4VisAttributes(G4Color(255./255, 226./255, 181.
 logicShieldBoxVisAtt->SetVisibility(true);
 lShieldBox->SetVisAttributes(logicShieldBoxVisAtt);
 
-// 
+//
 //Combine two boxes to Copper collimator and cut a air-cylinder because Tungsten Colli does not cover whole copper
-// 
-G4Box* sSmallCuBox =    
+//
+G4Box* sSmallCuBox =
   new G4Box("sSmallCuBox",                  //its name
       8.*cm, 8.*cm, 33.*cm);                //its size: half x, half y, half z
 
-G4Box* sBigCuBox =    
+G4Box* sBigCuBox =
   new G4Box("sBigCuBox",                    //its name
       10.*cm, 10.*cm, 29.*cm);              //its size: half x, half y, half z
-    
-G4Tubs* sSmallCuCylinder = 
+
+G4Tubs* sSmallCuCylinder =
   new G4Tubs("sSmallCuCylinder",            //name
             0., 3.07*cm,                     //inner radius, outer radius
             2.0*cm,                          //z half length
@@ -523,9 +523,9 @@ G4UnionSolid* sCuBoxes =                          // combine Copper boxes - BigC
                 0,                                //Rotation of B relative to A
                 G4ThreeVector(0,0,62.*cm));       //Translation of B relative to A - Half length of SmallCuBox + Half Length of BigCuBox
 
-// 
+//
 // Subtract air-cylinder
-// 
+//
 G4SubtractionSolid* sCuColli =                          // subtract air-cylinder from Copper boxes
   new G4SubtractionSolid("solid Copper Collimator",     //its name
                 sCuBoxes,                               //Solid A
@@ -533,7 +533,7 @@ G4SubtractionSolid* sCuColli =                          // subtract air-cylinder
                 0,                                      //Rotation of B relative to A
                 G4ThreeVector(0,0,-31.*cm));            //Translation of B relative to A - minus Half length of SmallCuBox + Half Length of SmallCuCylinder
 
-G4LogicalVolume* lCuColli =                         
+G4LogicalVolume* lCuColli =
   new G4LogicalVolume(sCuColli,                         //its solid
                       Copper(),                         //its material
                       "logic Copper Collimator");       //its name
@@ -555,13 +555,13 @@ lCuColli->SetVisAttributes(logicCopperCollimatorVisAtt);
 //
 // Target Cylinder
 //
-G4Tubs* sC_Target = 
+G4Tubs* sC_Target =
 new G4Tubs("C_Target",                              //name
 			0, TargetDia/2,                               //inner radius, outer radius
 			TargetLen/2,                                  //z half length
 			0., twopi);                                   //min phi, max phi
 
-G4LogicalVolume* lC_Target = 
+G4LogicalVolume* lC_Target =
 new G4LogicalVolume(sC_Target,                      //shape
 					Graphite(),                               //material
 					"C_Target");                              //name
@@ -580,16 +580,16 @@ auto logicTargetVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 1)); //(r, g, b , 
 logicTargetVisAtt->SetVisibility(true);
 lC_Target->SetVisAttributes(logicTargetVisAtt);
 
-// 
+//
 //Combine two cylinders to Tungsten collimator
-// 
-G4Tubs* sSmallWCylinder = 
+//
+G4Tubs* sSmallWCylinder =
   new G4Tubs("sSmallWCylinder",       //name
             0., 3.07*cm,               //inner radius, outer radius
             32.5*cm,                   //z half length
             0., twopi);                //min phi, max phi
 
-G4Tubs* sBigWCylinder = 
+G4Tubs* sBigWCylinder =
   new G4Tubs("sBigWCylinder",         //name
             0., 3.2*cm,                //inner radius, outer radius
             27.5*cm,                   //z half length
@@ -603,7 +603,7 @@ G4UnionSolid* sWColli =                            // combine Tungsten Cylinder 
                 0,                                 //Rotation of B relative to A
                 G4ThreeVector(0,0,60.*cm));        //Translation of B relative to A - half lenght Small + Half length Big
 
-G4LogicalVolume* lWColli =                         
+G4LogicalVolume* lWColli =
   new G4LogicalVolume(sWColli,                            //its solid
                       Densimet180(),                      //its material
                       "logic Tungsten Collimator");       //its name
@@ -622,17 +622,17 @@ auto logicTungstenInletVisAtt = new G4VisAttributes(G4Color(120./255, 124./255, 
 logicTungstenInletVisAtt->SetVisibility(true);
 lWColli->SetVisAttributes(logicTungstenInletVisAtt);
 
-// 
+//
 //Combine Cones for collimating shape and place in TungstenCylinder to remove the Tungsten and replace by Vacuum/Air
-// 
-G4Cons* sSmallCone =    
+//
+G4Cons* sSmallCone =
     new G4Cons("solid small Cone",          //name
     0., b/2,                                //inner radius side A, outer radius side A (negative side) - Entrance_Radius
     0., c/2,                                //inner radius side B, outer radius side B (positive side) - Inner_Radius
     7.5*cm,                                 //z half length
     0., twopi);                             //min phi, max phi
 
-G4Cons* sBigCone =    
+G4Cons* sBigCone =
     new G4Cons("solid big Cone",            //name
     0., c/2,                                //inner radius side A, outer radius side A (negative side) - Inner_Radius
     0., d/2,                                //inner radius side B, outer radius side B (positive side) - Exit_Radius
@@ -644,13 +644,13 @@ new G4UnionSolid("solid Collimator Shape",  //its name
               sSmallCone,                   //Solid A
               sBigCone,                     //Solid B
               0,                            //Rotation of B relative to A
-              G4ThreeVector(0,0,60.*cm));   //Translation of B relative to A 
+              G4ThreeVector(0,0,60.*cm));   //Translation of B relative to A
 
-G4LogicalVolume* lColliShape =                         
+G4LogicalVolume* lColliShape =
   new G4LogicalVolume(sColliShape,          //its solid
                       Vacuum(),             //its material
                       "Collimator Shape");  //its name
-              
+
 new G4PVPlacement(0,                      //no rotation
             G4ThreeVector(0,0,-25.*cm),   //at position
             lColliShape,                  //its logical volume

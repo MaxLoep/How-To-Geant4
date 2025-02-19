@@ -47,11 +47,12 @@
 #include "QGSP_FTFP_BERT.hh"              //works!
 #include "Shielding.hh"                   //works!
 
+#include "api.hh"
 // long TheSeed = time(NULL);
 // long TheSeed = G4Random::getTheSeed();
 
 int main(int argc,char** argv) {
-
+	api::generate_conf();
   // Detect interactive mode (if no arguments) and define UI session
   G4UIExecutive* ui = 0;
   if ( argc == 1 ) {
@@ -76,7 +77,7 @@ int main(int argc,char** argv) {
   int time_ns = ts.tv_nsec;
   // set a initial random seed
   G4Random::setTheSeed(time_ns);
-	
+
 	// Create seed array
 	G4long seed[2];
   // Use epoch time and nanosecond clock time as seeds

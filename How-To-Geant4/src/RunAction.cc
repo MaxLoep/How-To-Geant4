@@ -23,7 +23,7 @@ Create output Root file and its structure here
 #include <filesystem>
 namespace fs = std::filesystem;
 
-#include "ConfigStructs.cc"
+#include "ConfigStructs.hh"
 
 ConfigStructs::RunActionConf global_run_action_conf;
 
@@ -63,48 +63,17 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	// CreateNtupleDColumn ("name")
 	// FinishNtuple ()
 
-	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
-		"PS", "Primitive Scorer",
-		{"TrackLength"}
-	});
-	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
-		"SD1", "Sensitive Detector",
-		{"Ekin", "Xpos", "Ypos", "time"}
-	});
-	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
-		"SD2", "Sensitive Detector",
-		{"Ekin", "Xpos", "Ypos", "time"}
-	});
-	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
-		"SD3", "Sensitive Detector",
-		{"Ekin", "Xpos", "time"}
-	});
-	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
-		"SD4", "Sensitive Detector",
-		{"Ekin", "Xpos", "time"}
-	});
-	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
-		"SD5", "Sensitive Detector",
-		{"Ekin", "Xpos", "time"}
-	});
-	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
-		"N_SphereSD", "Sensitive Detector",
-		{"N_Ekin", "N_Theta"}
-	});
-	global_run_action_conf.add_analysis(ConfigStructs::NTuple{
-		"G_SphereSD", "Sensitive Detector",
-		{"G_Ekin", "G_Theta"}
-	});
-
 	global_run_action_conf.add_analysis(ConfigStructs::Histogram{"N_Phi","N_Phi", 100, -180, 180.});
+	extern ConfigStructs::GlobalConf global_conf;
 
-	for (auto tuple : global_run_action_conf.tuples) {
+
+	for (auto tuple : global_conf.ra_conf.tuples) {
 		analysisManager->CreateNtuple(tuple.name, tuple.title);
 		for (auto column : tuple.members) analysisManager->CreateNtupleDColumn(column);
 		analysisManager->FinishNtuple();
 	}
 
-	for (auto hist : global_run_action_conf.histograms) {
+	for (auto hist : global_conf.ra_conf.histograms) {
 		analysisManager->CreateH1(hist.name, hist.title, hist.nbins, hist.xmin, hist.xmax, hist.unit_name, hist.fcn_name);
 	}
 }

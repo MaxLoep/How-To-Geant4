@@ -1,31 +1,27 @@
+#include "ConfigStructs.hh"
 #include <string>
 #include <vector>
-typedef unsigned int uint;
 
-namespace ConfigStructs {
-	struct NTuple {
-		std::string name, title = "";
-		std::vector<std::string> members;
-	};
+#ifndef GLOBALCONF
+#define GLOBALCONF
 
-	struct Histogram {
-		std::string name, title = "";
-		uint nbins;
-		double xmin, xmax;
-		std::string unit_name = "none";
-		std::string fcn_name = "none";
-	};
+ConfigStructs::GlobalConf global_conf;
 
-	struct RunActionConf {
-		std::vector<NTuple> tuples = std::vector<NTuple>();
-		std::vector<Histogram> histograms = std::vector<Histogram>();
+#endif
 
-		void add_analysis(NTuple tuple) {
-			this->tuples.push_back(tuple);
-		}
+std::vector<std::string> ConfigStructs::property_strings(std::vector<ConfigStructs::ParticleProperty> props) {
+	std::vector<std::string> res = std::vector<std::string>();
 
-		void add_analysis(Histogram hist) {
-			this->histograms.push_back(hist);
-		}
-	};
+	for (auto p : props) {
+		if (p == ParticleProperty::Ekin) res.push_back("Ekin");
+		if (p == ParticleProperty::local_pos_x) res.push_back("local_pos_x");
+		if (p == ParticleProperty::local_pos_y) res.push_back("local_pos_y");
+		if (p == ParticleProperty::local_pos_z) res.push_back("local_pos_z");
+		if (p == ParticleProperty::global_pos_x) res.push_back("global_pos_x");
+		if (p == ParticleProperty::global_pos_y) res.push_back("global_pos_y");
+		if (p == ParticleProperty::global_pos_z) res.push_back("global_pos_z");
+		if (p == ParticleProperty::time) res.push_back("time");
+	}
+
+	return res;
 }

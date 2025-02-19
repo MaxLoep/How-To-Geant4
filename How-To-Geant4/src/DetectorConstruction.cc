@@ -1,7 +1,7 @@
 /*
 WHAT DOES THIS DO?
 */
-// #define Sandwich
+#define Sandwich
 // #define Collimator
 // #define Range
 // #define TNY
@@ -296,44 +296,23 @@ void DetectorConstruction::ConstructSDandField()
 	// RunAction.cc to open a file and declare ntuple or histograms to save data in
 	// Make a Volume a Sensitive Detector (SD); SD are able to access Track/Step information of Particles going through e.g. :
 	// Kinetic energy, Momentum
-
-
+	G4cout << "constructing detectors " << G4endl;
+	extern ConfigStructs::GlobalConf global_conf;
 	// Declare a Sensitive Detector
-	auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-	#if defined Sandwich || defined Shielding
-	SetSensitiveDetector("lSD1", sd1);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
+	//auto sd1 = new SD1("SD1");    //create a new Sensitive Detector
+	for (auto sd_conf : global_conf.sd_conf) {
+		G4cout << sd_conf.name << G4endl;
+		auto sd = new GenericSD(sd_conf);
+		G4SDManager::GetSDMpointer()->AddNewDetector(sd);  //add new SD to SDManager
+		SetSensitiveDetector(sd_conf.logical_volume, sd);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	}
 
-	auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-	#if defined Sandwich || defined Shielding
-	SetSensitiveDetector("lSD2", sd2);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
-	auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-	#if defined Sandwich
-	SetSensitiveDetector("lSD3", sd3);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
-	auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-	#if defined Sandwich
-	SetSensitiveDetector("lSD4", sd4);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
-	auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-	#if defined Sandwich
-	SetSensitiveDetector("lSD5", sd5);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
+	/*
 	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
 	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
 	#if defined TNY || defined NBS //|| defined Collimator
 	SetSensitiveDetector("lSphere", sphereSD);                  //Apply Sensitive Detector 'SphereSD' to logical Volume 'lSphere'
-	#endif
+	#endif*/
 
 	// PRIMITIVE SCORERS
 	// You need also Code for this one to work in:
@@ -381,7 +360,7 @@ void DetectorConstruction::ConstructSDandField()
 
 	// Declare what quantity should be scored and apply filters
 	G4VPrimitiveScorer* PS_TrackLength;						//create a scorer called "PS_TrackLength"
-	PS_TrackLength = new G4PSTrackLength("TrackLength");	//give "PS_TrackLength" the ability to track G4PSTrackLength and save in data "TrackLength" 
+	PS_TrackLength = new G4PSTrackLength("TrackLength");	//give "PS_TrackLength" the ability to track G4PSTrackLength and save in data "TrackLength"
 	// PS_TrackLength ->SetFilter(protonFilter);				//apply a filter; score only protons
 	// PS_TrackLength ->SetFilter(deuteronFilter);			//apply a filter; score only deuterons
 	// PS_TrackLength ->SetFilter(alphaFilter);				//apply a filter; score only alphas
