@@ -95,10 +95,9 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 	// {
 	// const G4ParticleDefinition* testparticle = track->GetParticleDefinition();
 	// }
-	this->particle_map["dummy"] = 420;
 
 	// if particle is a secondary (trackID>1) and we have not counted it yet add it to the map
-	if ( (currentTrackId > 0) && (currentTrackId != this->oldTrackId) ) {
+	if ( (currentTrackId > 1) && (currentTrackId != this->oldTrackId) ) {
 		//G4cout << this->name <<  " detected: " << particle_name << this->particle_map[particle_name] + 1  << "times" << G4endl;
 		this->particle_map[particle_name] = this->particle_map.count(particle_name)? this->particle_map[particle_name] + 1: 1;
 	}
