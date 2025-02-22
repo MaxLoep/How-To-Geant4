@@ -10,6 +10,9 @@
 #include "G4ParticleTypes.hh"
 #include "G4IonTable.hh"
 
+#include "ConfigStructs.hh"
+extern ConfigStructs::GlobalConf global_conf;
+
 #include <filesystem>
 namespace fs = std::filesystem;
 
@@ -35,18 +38,11 @@ GenericSD::~GenericSD() {
 	this->thread_id = std::this_thread::get_id();
 
 	// If returned to main thread (after closing all threads created by multithreading) print secondary counter
-	if (main_id == this->thread_id)
-	{
-		// Get an iterator pointing to the first element in the map
-		std::map<std::string, int>::iterator it_console = this->particle_map.begin();
-		std::map<std::string, int>::iterator it_file = this->particle_map.begin();
-
-		// Iterate through the map and print the elements in console
+	if (main_id == this->thread_id) {
+		auto _ = global_conf.lock();
 		G4cout << "PARTICLE COUNT OF " << this->name << G4endl;
-		while (it_console != this->particle_map.end())
-		{
-			G4cout << "  " << std::setw(15) << it_console->first << ": " << std::setw(10) << it_console->second << G4endl;
-			++it_console;
+		for (auto [particle, count] : global_conf.sd_counts[this->name]) {
+			G4cout << "  " << std::setw(15) << particle << ": " << std::setw(10) << count << G4endl;
 		}
 
 		//List of generated particles to file
@@ -60,8 +56,7 @@ GenericSD::~GenericSD() {
 		G4long pid = _getpid();
 
 		// Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
-		while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + this->name + ".txt"))
-		{
+		while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + this->name + ".txt")) {
 			pid++;
 		}
 		// Set final file name
@@ -72,24 +67,25 @@ GenericSD::~GenericSD() {
 
 		// Iterate through the map and print the elements in file
 		outFile <<  this->name << G4endl;
-		while (it_file != this->particle_map.end())
-		{
-			outFile << "  " << std::setw(15) << it_file->first << ": " << std::setw(10) << it_file->second << G4endl;
-			++it_file;
+		for (auto [particle, count] : global_conf.sd_counts[this->name]) {
+			outFile << "  " << std::setw(15) << particle << ": " << std::setw(10) << count << G4endl;
+		}
+	} else {
+		auto _ = global_conf.lock();
+		for (auto [particle, count] : this->particle_map) {
+			global_conf.sd_counts[this->name][particle] += count;
 		}
 	}
 }
 
 
-void GenericSD::Initialize(G4HCofThisEvent* /*hce*/)
-{}
+void GenericSD::Initialize(G4HCofThisEvent* /*hce*/) {}
 
-G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
-{
+G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 	// Get the Current trackID and the name of the particle
 	const G4Track* track = step->GetTrack();
 	currentTrackId = track->GetTrackID();
-	G4String name   = track->GetDefinition()->GetParticleName();
+	G4String particle_name   = track->GetDefinition()->GetParticleName();
 	// G4double HalfLife = track->GetDefinition()->GetPDGLifeTime() / 1.443; // mean life time divided by 1.443 equals half-life
 	// G4cout << "-------------------------------------------------------------------------" << G4endl;
 	// G4cout << "-------------------------------------------------------------------------" << G4endl;
@@ -99,11 +95,12 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 	// {
 	// const G4ParticleDefinition* testparticle = track->GetParticleDefinition();
 	// }
+	this->particle_map["dummy"] = 420;
 
 	// if particle is a secondary (trackID>1) and we have not counted it yet add it to the map
-	if ( (currentTrackId > 0) && (currentTrackId != this->oldTrackId) )
-	{
-		this->particle_map[name] = this->particle_map[name]+1;
+	if ( (currentTrackId > 0) && (currentTrackId != this->oldTrackId) ) {
+		//G4cout << this->name <<  " detected: " << particle_name << this->particle_map[particle_name] + 1  << "times" << G4endl;
+		this->particle_map[particle_name] = this->particle_map.count(particle_name)? this->particle_map[particle_name] + 1: 1;
 	}
 
 	// overwrite oldTrackID with currentTrackID
@@ -113,7 +110,6 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 	// keep only outgoing particle
 	const G4ParticleDefinition* particle = track->GetParticleDefinition();
 	// const G4ParticleDefinition* particle = G4IonTable::FindIon(7,14);
-	G4String current_name   = track->GetDefinition()->GetParticleName();
 
 	// code PDG:
 	// G4int pdgCode = track->GetDefinition()->GetPDGEncoding();
@@ -140,13 +136,13 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 	// Get Analysis Manager
 	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
-	G4cout << this->name << " processing a hit from " << current_name << G4endl;
+	//G4cout << this->name << " processing a hit from " << particle_name << G4endl;
 
 	for (auto det_info : this->log_properties) {
-		G4cout << this->name << " is looking for " << det_info.particle_kind << G4endl;
-		if (current_name == det_info.particle_kind) {
+		//G4cout << this->name << " is looking for " << det_info.particle_kind << G4endl;
+		if (particle_name == det_info.particle_kind) {
 			for (auto [property, col] : det_info.ntuple_spec) {
-				G4cout << this->name << " is writing to col " << col  << " of tuple " << det_info.ntuple << G4endl;
+				//G4cout << this->name << " is writing to col " << col  << " of tuple " << det_info.ntuple << G4endl;
 				switch (property){
 					case ConfigStructs::ParticleProperty::Ekin:
 						analysisManager->FillNtupleDColumn(det_info.ntuple, col, Ekin/MeV);
@@ -174,8 +170,7 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/)
 }
 
 
-void GenericSD::EndOfEvent(G4HCofThisEvent* /*hce*/)
-{
+void GenericSD::EndOfEvent(G4HCofThisEvent* /*hce*/) {
 	// reset oldTrackID for the next event
 	oldTrackId = 0;
 }

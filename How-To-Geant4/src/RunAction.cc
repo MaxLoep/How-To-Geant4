@@ -65,6 +65,7 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 
 	global_run_action_conf.add_analysis(ConfigStructs::Histogram{"N_Phi","N_Phi", 100, -180, 180.});
 	extern ConfigStructs::GlobalConf global_conf;
+	auto _ = global_conf.lock();
 
 
 	for (auto tuple : global_conf.ra_conf.tuples) {

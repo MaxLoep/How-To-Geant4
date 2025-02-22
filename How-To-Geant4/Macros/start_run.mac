@@ -24,9 +24,9 @@
 #/control/execute ../Macros/Primary_Deuteron.mac     #26 MeV Deuteron Beam, point source
 #/control/execute ../Macros/Primary_Neutron.mac      #13 MeV Neutron Beam, point source
 #/control/execute ../Macros/Primary_Proton.mac       #13 MeV Proton Beam, point source
-/control/execute ../Macros/Primary_AmBe.mac         #AmBe Neutron Source, point source
+#/control/execute ../Macros/Primary_AmBe.mac         #AmBe Neutron Source, point source
 #/control/execute ../Macros/Primary_Radionuclide.mac #Radionuclide Source, point source
-#/control/execute ../Macros/Primary_Nitrogen.mac        #17N5+ Nitrogen beam, point source
+/control/execute ../Macros/Primary_Nitrogen.mac        #17N5+ Nitrogen beam, point source
 
 #CUSTOM COMMANDS
 #------------------------------------------------------------------------
@@ -66,7 +66,7 @@
 #START RUN
 #------------------------------------------------------------------------
 #Start a run and print progress in console
-/run/printProgress 1000
-/run/beamOn 10000
+/run/printProgress 10000
+/run/beamOn 100000
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

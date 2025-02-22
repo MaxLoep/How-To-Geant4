@@ -9,6 +9,8 @@ void api::make_sd(
 	std::vector<property> properties,
 	std::string l_volume
 ) {
+	auto _ = global_conf.lock();
+
 	if (l_volume == "") l_volume = "l" + name;
 	ConfigStructs::DetectionInfo sd_detection_info = global_conf.ra_conf.add_detection_info(
 		name, particle, properties
@@ -25,7 +27,7 @@ void api::make_sd(
 
 
 void api::generate_conf() {
-	make_sd("SD1", "neutron", {property::Ekin, property::time});
+	make_sd("SD1", "N14", {property::Ekin, property::time});
 	make_sd("SD2", "neutron", {property::Ekin, property::time});
 	make_sd("SD3", "proton", {property::Ekin, property::time});
 	make_sd("SD4", "proton", {property::Ekin, property::time});

@@ -33,7 +33,7 @@ class GenericSD : public G4VSensitiveDetector {
     virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
     virtual void   EndOfEvent(G4HCofThisEvent* hce);
 
-    std::map<std::string, int> particle_map;
+    std::map<std::string, int> particle_map = {{"test", 1}};
     std::vector<ConfigStructs::DetectionInfo> log_properties;
     G4String name;
 	G4int oldTrackId;

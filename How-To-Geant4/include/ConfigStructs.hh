@@ -1,3 +1,5 @@
+#include <map>
+#include <mutex>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -76,6 +78,11 @@ namespace ConfigStructs {
 	struct GlobalConf {
 		RunActionConf ra_conf;
 		std::vector<SDConfig> sd_conf = std::vector<SDConfig>();
+		std::map<std::string, std::map<std::string, int>> sd_counts;
+		std::mutex m;
+		std::lock_guard<std::mutex> lock() {
+			return std::lock_guard<std::mutex>(this->m);
+		}
 	};
 }
 

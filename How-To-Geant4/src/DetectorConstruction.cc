@@ -307,13 +307,6 @@ void DetectorConstruction::ConstructSDandField()
 		SetSensitiveDetector(sd_conf.logical_volume, sd);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
 	}
 
-	/*
-	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-	#if defined TNY || defined NBS //|| defined Collimator
-	SetSensitiveDetector("lSphere", sphereSD);                  //Apply Sensitive Detector 'SphereSD' to logical Volume 'lSphere'
-	#endif*/
-
 	// PRIMITIVE SCORERS
 	// You need also Code for this one to work in:
 	// RunAction.cc, EventAction.cc
