@@ -5,8 +5,8 @@ WHAT DOES THIS DO?
 // #define Collimator
 // #define Range
 // #define TNY
-#define NBS
-// #define Shielding
+// #define NBS
+#define Shielding
 
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)

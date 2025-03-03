@@ -830,7 +830,7 @@ G4LogicalVolume* lConcrete =
 
 //Make (in-)visible and give it a color
 //lConcrete->SetVisAttributes (G4VisAttributes::GetInvisible());
-auto lConcreteVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 0.8)); //(r, g, b , transparency)
+auto lConcreteVisAtt = new G4VisAttributes(G4Color(0.5, 0.5, 0.5, 1)); //(r, g, b , transparency)
 lConcreteVisAtt->SetVisibility(true);
 lConcrete->SetVisAttributes(lConcreteVisAtt);
 
@@ -856,7 +856,7 @@ G4LogicalVolume* lSD1 =
             true);                         		    //overlaps checking?
 
 //Make (in-)visible and give it a color
-auto lSD1VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+auto lSD1VisAtt = new G4VisAttributes(G4Color(0.75, 0.75, 0.75, 1)); //(r, g, b , transparency)
 lSD1VisAtt->SetVisibility(true);
 lSD1->SetVisAttributes(lSD1VisAtt);
 
@@ -883,7 +883,7 @@ G4LogicalVolume* lSD2 =
                       "lSD2");	                	//its name
 
   new G4PVPlacement(0,                     				//no rotation
-            G4ThreeVector(-15*cm,0,60.*cm),     		    //position
+            G4ThreeVector(-15.*cm,0,60.*cm),     		    //position
             lSD2,                          		    //its logical volume
             "pSD2",                         	    //its name
             lWorld,								                //its mother  volume
@@ -892,7 +892,7 @@ G4LogicalVolume* lSD2 =
             true);                         		    //overlaps checking?
 
 //Make (in-)visible and give it a color
-auto lSD2VisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.8)); //(r, g, b , transparency)
+auto lSD2VisAtt = new G4VisAttributes(G4Color(0, 0, 0, 1)); //(r, g, b , transparency)
 lSD2VisAtt->SetVisibility(true);
 lSD2->SetVisAttributes(lSD2VisAtt);
 
