@@ -13,8 +13,7 @@ G4cout << "---------------------------------------------------------------------
 
 //create 5 flat boxes to use as Sensitive Detector (SD)
 // SD1
-G4Box* sSD1 =
-  new G4Box("sSD1",                        				//its name
+G4Box* sSD1 = new G4Box("sSD1",                        				//its name
       30.*cm/2, 30.*cm/2, 0.02*mm /2);            //its size: half x, half y, half z
 
 G4LogicalVolume* lSD1 =

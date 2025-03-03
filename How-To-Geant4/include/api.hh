@@ -15,6 +15,8 @@ namespace api {
 		std::vector<property> properties,
 		std::string l_volume = ""
 	);
+
+	void place_geometry(std::string l_volume_name, std::string geometry_name, std::map<std::string, double> placement_params = {});
 }
 
 #endif

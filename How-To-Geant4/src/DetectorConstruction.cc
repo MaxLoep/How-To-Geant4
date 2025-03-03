@@ -8,8 +8,6 @@ WHAT DOES THIS DO?
 #define NBS
 // #define Shielding
 
-
-#include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
 #include "G4GeometryManager.hh"
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
@@ -52,10 +50,10 @@ WHAT DOES THIS DO?
 #include "CADMesh.hh"                   // for importing CAD-files (.stl, .obj, ...). Read all about it at: https://github.com/christopherpoole/CADMesh
 #include "G4GDMLParser.hh"              // for importing/exporting GDML-files
 
+#include "Geometries.hh"
+
 DetectorConstruction::DetectorConstruction()
-:G4VUserDetectorConstruction(),
-fDetectorMessenger(nullptr)
-{
+:G4VUserDetectorConstruction(), fDetectorMessenger(nullptr) {
 	// for reading and writing GDML
 	fLoadFile  ="test.gdml";
 	fWriteFile ="wtest.gdml";
@@ -113,26 +111,25 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to be constructed
 	{
 		// If no GDML file is loaded, a World volume needs to be created - otherwise it should be in the GDML file
-		G4Box* solidWorld =
-			new G4Box("sWorld",                       							//its name
-				0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     	//its size
+		G4Box* solidWorld = new G4Box("sWorld", //its name
+				0.5 * world_sizeXYZ, 0.5 * world_sizeXYZ, 0.5 * world_sizeXYZ
+		);     	//its size
 
 		// G4LogicalVolume* lWorld =
-		lWorld =
-			new G4LogicalVolume(solidWorld,          						//its solid
-													Vacuum(),				//its material
-													"lWorld");            	//its name
+		lWorld = new G4LogicalVolume(solidWorld, //its solid
+			Vacuum(), //its material
+			"lWorld" //its name
+		);
 
 		// G4VPhysicalVolume* fWorldPhysVol =
-		fWorldPhysVol =
-			new G4PVPlacement(0,                     					//no rotation
-												G4ThreeVector(),       	//at (0,0,0)
-												lWorld,            		//its logical volume
-												"pworld",               //its name
-												0,                     	//its mother  volume
-												false,                	//boolean operation?
-												0,                     	//copy number
-												true);                 	//overlaps checking?
+		fWorldPhysVol = new G4PVPlacement(0, //no rotation
+			G4ThreeVector(),       	//at (0,0,0)
+			lWorld,            		//its logical volume
+			"pworld",               //its name
+			0,                     	//its mother  volume
+			false,                	//boolean operation?
+			0,                     	//copy number
+			true);                 	//overlaps checking?
 
 		// Make world-volume invisible
 		auto lWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
@@ -149,17 +146,18 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	G4cout << lWorld->GetName() << " is the world volume" << G4endl;
 
 	// Different Geometries are constructed depending on defined pre-processor variables at top
-	#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
+	//#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
 	// #include "geometries/Test.cc"
+	//
+	geometries::run_placements(lWorld);
 
 	//Print all defined materials to console
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
 	// save geometry in GDML file
-	if(fWritingChoice==1) // default value = 0
-		{
-			SaveGDML( fWriteFile );
-		}
+	if(fWritingChoice==1) { // default value = 0
+		SaveGDML( fWriteFile );
+	}
 
 	//always return the root volume
 	return fWorldPhysVol;
@@ -254,40 +252,35 @@ void DetectorConstruction::change_b(G4double value)
 }
 
 // Change c
-void DetectorConstruction::change_c(G4double value)
-{
+void DetectorConstruction::change_c(G4double value) {
 	c = value;
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 	G4cout  << "\n c is now " << G4BestUnit(c,"Length") << G4endl;
 }
 
 // Change d
-void DetectorConstruction::change_d(G4double value)
-{
+void DetectorConstruction::change_d(G4double value) {
 	d = value;
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 	G4cout  << "\n d is now " << G4BestUnit(d,"Length") << G4endl;
 }
 
 // Change e
-void DetectorConstruction::change_e(G4double value)
-{
+void DetectorConstruction::change_e(G4double value) {
 	e = value;
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 	G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
 }
 
 // Change f
-void DetectorConstruction::change_f(G4double value)
-{
+void DetectorConstruction::change_f(G4double value) {
   f = value;
   G4RunManager::GetRunManager()->ReinitializeGeometry();
   G4cout  << "\n f is now " << G4BestUnit(f,"Length") << G4endl;
 }
 
 // Assign Detectors and Scorers to Volume
-void DetectorConstruction::ConstructSDandField()
-{
+void DetectorConstruction::ConstructSDandField() {
 	G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
 
 	// SENSITIVE DETECTORS
