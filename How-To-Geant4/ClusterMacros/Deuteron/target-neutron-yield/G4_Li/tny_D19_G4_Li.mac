@@ -33,7 +33,7 @@
 
 /custom/geo/change_e 10.5 mm
 /custom/geo/setMat G4_Li
-/custom/ana/setOutFolder Output/tny_D_29MeV_G4_Li
+/custom/ana/setOutFolder Output/tny_D_19MeV_G4_Li
 /gps/particle deuteron 
 /gps/ene/mono 19. MeV
 
