@@ -167,3 +167,7 @@ void geometries::run_placements(G4LogicalVolume* lWorld) {
 		}
 	}
 }
+
+void geometries::add_placer(std::string name, placer_func func) {
+	placers[name] = func;
+}

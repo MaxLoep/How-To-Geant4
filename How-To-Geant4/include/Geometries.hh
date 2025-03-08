@@ -30,13 +30,15 @@
 #include "G4SubtractionSolid.hh"        //for the boolean subtraction operation
 #include "G4UnionSolid.hh"              //for the boolean combination operation
 
-using fmap = std::map<std::string, std::function<G4LogicalVolume*(std::string, std::map<std::string, double>&)>>;
+using placer_func = std::function<G4LogicalVolume*(std::string, std::map<std::string, double>&)>;
+using fmap = std::map<std::string, placer_func>;
 
 namespace geometries {
 	void register_placement(std::string thing, std::string name, std::map<std::string, double> params);
 	void run_placements(G4LogicalVolume* lWorld);
 	G4LogicalVolume* cube(std::string name, std::map<std::string, double>& params);
 	G4LogicalVolume* sphere(std::string name, std::map<std::string, double>& params);
+	void add_placer(std::string name, placer_func func);
 }
 
 #endif
