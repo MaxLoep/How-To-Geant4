@@ -23,6 +23,8 @@ namespace api {
 		std::map<std::string, double> placement_params = {},
 		Materials::MaterialMaker material = Materials::Vacuum
 	);
+
+	void add_placer(std::string name, placer_func func);
 }
 
 #endif

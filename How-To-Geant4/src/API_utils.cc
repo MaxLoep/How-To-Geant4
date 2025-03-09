@@ -47,3 +47,7 @@ void api::place_geometry(
 ) {
 	geometries::register_placement(geometry_name, l_volume_name, placement_params, material);
 }
+
+void api::add_placer(std::string name, placer_func func) {
+	geometries::add_placer(name, func);
+}

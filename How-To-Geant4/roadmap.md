@@ -1,7 +1,8 @@
 Spezifisch:
 ----
- - geometrien platzieren
- - detektoren konfigurieren
+ + geometrien platzieren
+ + detektoren konfigurieren
+ - primitive scorers konfigurieren
  + analyse konfigurieren
  - (physics list optionen)
  - quelle
@@ -14,7 +15,7 @@ Allgemein:
  - run durchführen
  - gdml/step file interface
  - physics list
- - materialien laden
+ + materialien laden
  - custom commands
 
 

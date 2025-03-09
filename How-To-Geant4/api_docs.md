@@ -1,13 +1,13 @@
 <details>
-<summary> scope and concept </summary>
-### scope
+<summary> <ins> scope and concept </ins> </summary>
+
 The simplified api aims to wrap some basic geant4 capabilities into a more user friendly form, thus enabling quicker simulation of simple setups for rate approximation or estimating contamination.
 It aims to only require limited C++ from the user and reduce the prerequisite amount of experience with geant4.
 This by necesseity limits the things that can be done, hence only a few select features are represented.
 
 </details>
 <details>
-	<summary> api::make_sd(...)</summary>
+	<summary> <ins> api::make_sd(...) </ins></summary>
 
 	void make_sd(
 		std::string name,
@@ -26,7 +26,7 @@ _properties_ is a vector of particle properties, which will be logged (the colum
 </details>
 
 <details> 
-<summary> api::place_geometry(...)</summary>
+<summary> <ins> api::place_geometry(...) </ins> </summary>
 
 	void place_geometry(
 		std::string l_volume_name,
@@ -43,6 +43,12 @@ This function is used to generically place named logical volumes. *l_volume_name
 
 _material_ sets the material of the volume. If ommited, vacuum is the default. Predefined materials and custom materials can be found in the _Material_ namespace.
 </details>
+<details> 
+<summary> <ins> api::add_placer(...) </ins> </summary>
 
+	void api::add_placer(std::string name, placer_func func)
+
+
+</details>
 
 [^1]: not yet implemented
