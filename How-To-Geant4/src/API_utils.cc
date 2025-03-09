@@ -2,8 +2,6 @@
 #include "ConfigStructs.hh"
 extern ConfigStructs::GlobalConf global_conf;
 
-#include "Geometries.hh"
-
 #include "G4ios.hh"
 
 void api::make_sd(
@@ -29,8 +27,8 @@ void api::make_sd(
 }
 
 
-void api::generate_conf() {
-	place_geometry("SD1", "cube", {{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10.*cm}, {"x_size", 15. * cm}, {"y_size", 15. * cm}, {"z_size", 0.02 * mm}});
+void api::setup_sim() {
+	place_geometry("SD1", "cube", {{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10.*cm}, {"x_size", 15. * cm}, {"y_size", 15. * cm}, {"z_size", 0.02 * mm}}, Materials::Carbon);
 
 	make_sd("SD1", "N14", {property::Ekin, property::time});
 //	make_sd("SD2", "neutron", {property::Ekin, property::time});
@@ -44,7 +42,8 @@ void api::generate_conf() {
 void api::place_geometry(
 	std::string l_volume_name,
 	std::string geometry_name,
-	std::map<std::string, double> placement_params
+	std::map<std::string, double> placement_params,
+	Materials::MaterialMaker material
 ) {
-	geometries::register_placement(geometry_name, l_volume_name, placement_params);
+	geometries::register_placement(geometry_name, l_volume_name, placement_params, material);
 }

@@ -52,7 +52,7 @@
 // long TheSeed = G4Random::getTheSeed();
 
 int main(int argc,char** argv) {
-	api::generate_conf();
+	api::setup_sim();
   // Detect interactive mode (if no arguments) and define UI session
   G4UIExecutive* ui = 0;
   if ( argc == 1 ) {

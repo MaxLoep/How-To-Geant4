@@ -1,6 +1,5 @@
 <details>
 <summary> scope and concept </summary>
-
 ### scope
 The simplified api aims to wrap some basic geant4 capabilities into a more user friendly form, thus enabling quicker simulation of simple setups for rate approximation or estimating contamination.
 It aims to only require limited C++ from the user and reduce the prerequisite amount of experience with geant4.
@@ -27,12 +26,13 @@ _properties_ is a vector of particle properties, which will be logged (the colum
 </details>
 
 <details> 
-<summary> place_geometry(...)</summary>
+<summary> api::place_geometry(...)</summary>
 
 	void place_geometry(
 		std::string l_volume_name,
 		std::string geometry_name,
-		std::map<std::string, double> placement_params = {}
+		std::map<std::string, double> placement_params = {},
+		Materials::MaterialMaker material = Materials::Vacuum
 	);
 
 This function is used to generically place named logical volumes. *l_volume_name* is the name of the logical volume. This name is used to referr to the created volume from different places (no two logical volumes should be named the same).
@@ -40,6 +40,8 @@ This function is used to generically place named logical volumes. *l_volume_name
 *geometry_name* referrs to the object to be placed (i.e. "sphere"). These are either provided default geometries or self defined and registered geometries.
 
 *placement_params* contains numerical parameters required for the placement. What is needed will vary per object, often things such as size, position, rotation will be present.
+
+_material_ sets the material of the volume. If ommited, vacuum is the default. Predefined materials and custom materials can be found in the _Material_ namespace.
 </details>
 
 
