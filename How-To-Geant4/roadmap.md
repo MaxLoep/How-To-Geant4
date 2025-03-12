@@ -24,3 +24,5 @@ TODO:
  + redundanten kram for loopen
  0 config structs bauen
  - externe function interfaces machen
+ - add geometry color support
+ - release mode: kein backtrace etc für cluster runs

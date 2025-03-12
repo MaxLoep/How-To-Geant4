@@ -37,6 +37,29 @@ namespace ConfigStructs {
 		std::vector<DetectionInfo> log_properties = std::vector<DetectionInfo>();
 	};
 
+	enum ParticleKind {
+		ion, other
+	};
+
+	struct ParticleSpec {
+		std::string name;
+		ParticleKind kind;
+		uint protons, nucleons, electrons; //only relevant for ions
+
+		ParticleSpec(std::string description, uint protons = 0, uint nucleons = 0){
+			this->name = description;
+			this->kind = nucleons == 0? ParticleKind::other: ParticleKind::ion;
+			this->protons = protons;
+			this->nucleons = nucleons;
+		};
+	};
+
+	struct PSConf {
+		const std::string name, logical_volume, quantity;
+		bool filtered;
+		ParticleSpec filter_for;
+	};
+
 	std::vector<std::string> property_strings(std::vector<ParticleProperty> props);
 
 	struct RunActionConf {
@@ -75,10 +98,19 @@ namespace ConfigStructs {
 		};
 	};
 
+	struct EOEConfig {
+		std::vector<std::tuple<std::string, int, int>> ps_tuple_targets
+			= std::vector<std::tuple<std::string, int, int>>();
+		std::vector<std::tuple<std::string, int>> ps_hist_targets
+			= std::vector<std::tuple<std::string, int>>();
+	};
+
 	struct GlobalConf {
 		public:
 		RunActionConf ra_conf;
+		EOEConfig eoe_conf;
 		std::vector<SDConfig> sd_conf = std::vector<SDConfig>();
+		std::vector<PSConf> ps_conf = std::vector<PSConf>();
 		std::map<std::string, std::map<std::string, int>> sd_counts;
 		std::lock_guard<std::mutex> lock() {
 			return std::lock_guard<std::mutex>(this->m);

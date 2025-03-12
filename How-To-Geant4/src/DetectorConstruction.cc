@@ -306,62 +306,23 @@ void DetectorConstruction::ConstructSDandField() {
 	// Make a Volume a Primitive Scorer (PS); PS are able to save information on events related to inside the volume e.g. :
 	// energy deposit, track length, current, flux
 
+	for (auto ps_conf : global_conf.ps_conf) {
+		auto mf_detector = new G4MultiFunctionalDetector(ps_conf.name);
+		G4SDManager::GetSDMpointer()->AddNewDetector(mf_detector);
 
-	// FILTERS FOR PRIMITVIE SCORERS
-	// Declare filters on Particles, Charge, Energy
-	G4String fltName,particleName;
+		G4VPrimitiveScorer* primitive_scorer = new G4PSTrackLength(ps_conf.quantity);
 
-	// charged particle filter
-	// auto charged = new G4SDChargedFilter("chargedFilter");
-	// G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
+		if (ps_conf.filtered) {
+			G4SDParticleFilter* ps_filter = new G4SDParticleFilter(ps_conf.filter_for.name + "Filter");
+			if (ps_conf.filter_for.kind == ConfigStructs::ParticleKind::ion) {
+				ps_filter->addIon(ps_conf.filter_for.protons, ps_conf.filter_for.nucleons);
+			} else {
+				ps_filter->add(ps_conf.filter_for.name);
+			}
+			primitive_scorer->SetFilter(ps_filter);
+		}
 
-  	// Proton filter
-	// G4SDParticleFilter* protonFilter =
-	// new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
-
-	// Deuteron filter
-	// G4SDParticleFilter* deuteronFilter =
-	// new G4SDParticleFilter(fltName="deuteronFilter", particleName="deuteron");
-
-  	// Alpha filter
-	// G4SDParticleFilter* alphaFilter =
-	// new G4SDParticleFilter(fltName="alphaFilter", particleName="alpha");
-
-  	// Neutron filter
-	// G4SDParticleFilter* neutronFilter =
-	// new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
-
-	// Nitrogen filter
-	G4SDParticleFilter* nitrogenFilter = new G4SDParticleFilter("nitrogenFilter");
-	nitrogenFilter->addIon(7,14);
-
-	// Gamma filter
-	// G4SDParticleFilter* gammaFilter =
-	// new G4SDParticleFilter("gammaFilter", "gamma");
-
-
-	// Create a MultiFunctionalDetector (MFD) and name it "Scorer"
-	auto MFD_Scorer = new G4MultiFunctionalDetector("Scorer");
-	G4SDManager::GetSDMpointer()->AddNewDetector(MFD_Scorer );
-
-	// Declare what quantity should be scored and apply filters
-	G4VPrimitiveScorer* PS_TrackLength;						//create a scorer called "PS_TrackLength"
-	PS_TrackLength = new G4PSTrackLength("TrackLength");	//give "PS_TrackLength" the ability to track G4PSTrackLength and save in data "TrackLength"
-	// PS_TrackLength ->SetFilter(protonFilter);				//apply a filter; score only protons
-	// PS_TrackLength ->SetFilter(deuteronFilter);			//apply a filter; score only deuterons
-	// PS_TrackLength ->SetFilter(alphaFilter);				//apply a filter; score only alphas
-	// PS_TrackLength ->SetFilter(neutronFilter);			//apply a filter; score only neutrons
-	PS_TrackLength ->SetFilter(nitrogenFilter);				//apply a filter; score only N14
-
-	// Register Scorer to MultiFunctionalDetector
-	MFD_Scorer ->RegisterPrimitive(PS_TrackLength);
-
-	#ifdef Range
-	// Apply MFD to Volume
-	SetSensitiveDetector("lBox",MFD_Scorer );
-	#endif
-
-	//
-	// other Scorers
-	// PS_EnergyDeposit = new G4PSEnergyDeposit("Edep");
+		mf_detector->RegisterPrimitive(primitive_scorer);
+		SetSensitiveDetector(ps_conf.logical_volume, mf_detector);
+	}
 }

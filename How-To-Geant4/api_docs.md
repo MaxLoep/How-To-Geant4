@@ -48,7 +48,28 @@ _material_ sets the material of the volume. If ommited, vacuum is the default. P
 
 	void api::add_placer(std::string name, placer_func func)
 
-
+This utility function is used to add custom geometry placement functions. It adds _func_ into the map of known geometries under _name_. _placer_func_ is an alias for std::function<G4LogicalVolume*(std::string, std::map<std::string, double>&, Materials::MaterialMaker)>. 
 </details>
+
+<details> 
+<summary> <ins> api::make_ps(...) </ins> </summary>
+
+	void make_ps(
+		std::string name,
+		std::string quantity,
+		bool filter,
+		ConfigStructs::ParticleSpec particle_filter,
+		std::string l_volume = ""
+	);
+
+Creates a primitive scorer named _name_ for _quantity_. For possible _quantity_ options see https://geant4.web.cern.ch/documentation/dev/bfad_html/ForApplicationDevelopers/Detector/commandScore.html . If the scorer should be filtered, set _filter_ to true and specify _particle_filter_ to the particle which you wish to detect.
+</details>
+
+<details> 
+<summary> <ins> api::setup_sim() </ins> </summary>
+
+Probably not permanent. For now, code that builds the actualy concrete simulation setup (geometries, detectors and the like) goes here. 
+</details>
+
 
 [^1]: not yet implemented

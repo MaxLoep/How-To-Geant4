@@ -55,6 +55,16 @@ struct Either{
 	bool has_a;
 	A option_a;
 	B option_b;
+	Either<A, B> (A elem) {
+		this->option_a = elem;
+		this->has_a = true;
+	}
+
+	Either<A, B> (B elem) {
+		this->option_b = elem;
+		this->has_a = false;
+	}
+
 	Option<A> get_A() {
 		return this->has_a? Option<A>(this->option_a): Option<A>();
 	};
