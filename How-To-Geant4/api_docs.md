@@ -57,12 +57,13 @@ This utility function is used to add custom geometry placement functions. It add
 	void make_ps(
 		std::string name,
 		std::string quantity,
+		save_data save_to,
 		bool filter,
 		ConfigStructs::ParticleSpec particle_filter,
 		std::string l_volume = ""
 	);
 
-Creates a primitive scorer named _name_ for _quantity_. For possible _quantity_ options see https://geant4.web.cern.ch/documentation/dev/bfad_html/ForApplicationDevelopers/Detector/commandScore.html . If the scorer should be filtered, set _filter_ to true and specify _particle_filter_ to the particle which you wish to detect.
+Creates a primitive scorer named _name_ for _quantity_. For possible _quantity_ options see https://geant4.web.cern.ch/documentation/dev/bfad_html/ForApplicationDevelopers/Detector/commandScore.html . If the scorer should be filtered, set _filter_ to true and specify _particle_filter_ to the particle which you wish to detect. _save_to_ shoulder either specify a Histogram or an NTuple to which the scored data will be saved.
 </details>
 
 <details> 

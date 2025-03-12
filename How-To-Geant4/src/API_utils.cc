@@ -105,13 +105,13 @@ void api::setup_sim() {
 	auto hist = ConfigStructs::Histogram{
 		.name = "PIXE energy",
 		.title = "PIXE energy",
-		.xmin = 0.,
-		.xmax = 1.,
+		.xmin = 1e-2 * MeV,
+		.xmax = 10. * MeV,
 		.nbins = 100
 	};
 
-	make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
+	make_ps("PIXE_total", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
 //	make_sd("PIXE", "gamma", {property::Ekin, property::time});
-	make_sd("PIXE_total", "all", {property::Ekin, property::time});
+	//make_sd("PIXE_total", "all", {property::Ekin, property::time});
 	make_sd("RBS", "proton", {property::Ekin, property::time});
 }
