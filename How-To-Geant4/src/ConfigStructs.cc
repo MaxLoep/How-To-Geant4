@@ -17,9 +17,8 @@ std::vector<std::string> ConfigStructs::property_strings(std::vector<ConfigStruc
 		if (p == ParticleProperty::local_pos_x) res.push_back("local_pos_x");
 		if (p == ParticleProperty::local_pos_y) res.push_back("local_pos_y");
 		if (p == ParticleProperty::local_pos_z) res.push_back("local_pos_z");
-		if (p == ParticleProperty::global_pos_x) res.push_back("global_pos_x");
-		if (p == ParticleProperty::global_pos_y) res.push_back("global_pos_y");
-		if (p == ParticleProperty::global_pos_z) res.push_back("global_pos_z");
+		if (p == ParticleProperty::theta) res.push_back("theta");
+		if (p == ParticleProperty::phi) res.push_back("phi");
 		if (p == ParticleProperty::time) res.push_back("time");
 	}
 

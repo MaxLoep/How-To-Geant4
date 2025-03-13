@@ -23,7 +23,7 @@ namespace ConfigStructs {
 	};
 
 	enum ParticleProperty {
-		Ekin, local_pos_x,  local_pos_y,  local_pos_z, global_pos_x, global_pos_y, global_pos_z, time,
+		Ekin, local_pos_x,  local_pos_y,  local_pos_z, time, theta, phi
 	};
 
 	struct DetectionInfo {

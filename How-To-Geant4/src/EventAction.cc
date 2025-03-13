@@ -139,6 +139,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	for (auto [id, tuple, col] : ps_tuple_targets) {
 		auto value = GetSum(GetHitsCollection(id, event));
 		analysisManager->FillNtupleDColumn(tuple, col, value);
+		analysisManager->AddNtupleRow(tuple);
 	}
 
 	for (auto [id, hist] : ps_hist_targets) {

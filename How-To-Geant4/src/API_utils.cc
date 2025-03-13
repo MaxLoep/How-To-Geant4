@@ -41,10 +41,11 @@ void api::make_ps(
 	if (save_to.has_a) {
 		global_conf.ra_conf.add_analysis(save_to.option_a);
 		int hist_id = global_conf.ra_conf.histograms.size() - 1;
-
+		global_conf.eoe_conf.ps_hist_targets.push_back({name + "/" + quantity, hist_id});
 	} else {
 		global_conf.ra_conf.add_analysis(save_to.option_b);
-
+		int tuple_id = global_conf.ra_conf.tuples.size() - 1;
+		global_conf.eoe_conf.ps_tuple_targets.push_back({name + "/" + quantity, tuple_id, 0});
 	}
 
 	if (l_volume == "") l_volume = "l" + name;
@@ -87,7 +88,7 @@ void api::setup_sim() {
 	place_geometry(
 		"PIXE_total", "sphere",
 		{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 10. * cm}, {"inner_radius", 9.9 * cm}, {"transparency", 0.}},
-		Materials::Vacuum
+		Materials::Carbon
 	);
 
 	place_geometry(
@@ -105,13 +106,12 @@ void api::setup_sim() {
 	auto hist = ConfigStructs::Histogram{
 		.name = "PIXE energy",
 		.title = "PIXE energy",
-		.xmin = 1e-2 * MeV,
+		.xmin = 0.,
 		.xmax = 10. * MeV,
 		.nbins = 100
 	};
 
-	make_ps("PIXE_total", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
-//	make_sd("PIXE", "gamma", {property::Ekin, property::time});
-	//make_sd("PIXE_total", "all", {property::Ekin, property::time});
+	make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
+	make_sd("PIXE_total", "gamma", {property::Ekin, property::theta, property::phi});
 	make_sd("RBS", "proton", {property::Ekin, property::time});
 }

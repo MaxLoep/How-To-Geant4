@@ -155,7 +155,12 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 					case ConfigStructs::ParticleProperty::local_pos_z:
 						analysisManager->FillNtupleDColumn(det_info.ntuple, col, localPosition.y()/cm);
 						break;
-
+					case ConfigStructs::ParticleProperty::theta:
+						analysisManager->FillNtupleDColumn(det_info.ntuple, col, localPosition.theta());
+						break;
+					case ConfigStructs::ParticleProperty::phi:
+						analysisManager->FillNtupleDColumn(det_info.ntuple, col, localPosition.phi());
+						break;
 					case ConfigStructs::ParticleProperty::time:
 						analysisManager->FillNtupleDColumn(det_info.ntuple, col, time/ns);
 						break;

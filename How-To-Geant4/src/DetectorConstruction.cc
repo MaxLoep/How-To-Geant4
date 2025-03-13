@@ -291,6 +291,7 @@ void DetectorConstruction::ConstructSDandField() {
 	// Kinetic energy, Momentum
 	G4cout << "constructing detectors " << G4endl;
 	extern ConfigStructs::GlobalConf global_conf;
+	auto _ = global_conf.lock();
 	// Declare a Sensitive Detector
 	//auto sd1 = new SD1("SD1");    //create a new Sensitive Detector
 	for (auto sd_conf : global_conf.sd_conf) {
