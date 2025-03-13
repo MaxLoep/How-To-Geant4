@@ -17,6 +17,7 @@
 #/gps/ion 55 137 0 0      #Cs137 - 661 keV gamma from Ba137*
 /gps/ion 98 252 0 0      #Cf252 - Californium 252
 #/gps/ion 96 248 0 0      #Cm242
+#/gps/ion 92 238 0 0      #U238
 /gps/position 0 0 0      #GPS position of point source
 /gps/energy 0. eV        #at rest to study decay
 

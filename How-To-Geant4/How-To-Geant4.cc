@@ -161,7 +161,7 @@ int main(int argc,char** argv) {
   //Very CPU intense: for those applications that do not need it, it can be switched off by setting the environmental variable
   G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
 
-  G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( false );
+  G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( true );
   //G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7
   G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
 

@@ -3,8 +3,8 @@ WHAT DOES THIS DO?
 */
 // #define Sandwich
 // #define Collimator
-#define Range
-// #define TNY
+// #define Range
+#define TNY
 // #define NBS
 // #define Shielding
 
@@ -120,8 +120,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 		// G4LogicalVolume* lWorld =
 		lWorld =
 			new G4LogicalVolume(solidWorld,          						//its solid
-													Vacuum(),				//its material
-													// Air(),
+													// Vacuum(),				//its material
+													Air(),
 													"lWorld");            	//its name
 
 		// G4VPhysicalVolume* fWorldPhysVol =
