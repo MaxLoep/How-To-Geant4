@@ -1,14 +1,22 @@
 #RADIONUCLIDE SOURCE
 #------------------------------------------------------------------------
+#If you want to see a pure Decay chain, remember to set the world material to something other than vacuum,
+# otherwise the daughter nuclides will leave the world volume due to the recoil they recive when decaying
+#------------------------------------------------------------------------
 #Deactivate Radioactive Decay
 #/process/inactivate RadioactiveDecay
 
 #Commands to use with the General Particle Source (GPS) for radioactive ion source
 /gps/particle ion
 
+#macro to make every Cf252 decay by Spontaneous Fission
+#/process/had/rdm/setRadioactiveDecayFile 98 252 ../Macros/z98.a252_modify.txt
+
 #Atomic Number /  Atomic Mass / Charge of ion / Excitation energy in keV
 #/gps/ion 11 24 0 0       #Na24 - 1368 keV gamma + 2754 keV gamma
-/gps/ion 55 137 0 0      #Cs137 - 661 keV gamma from Ba137*
+#/gps/ion 55 137 0 0      #Cs137 - 661 keV gamma from Ba137*
+/gps/ion 98 252 0 0      #Cf252 - Californium 252
+#/gps/ion 96 248 0 0      #Cm242
 /gps/position 0 0 0      #GPS position of point source
 /gps/energy 0. eV        #at rest to study decay
 

@@ -3,10 +3,10 @@ WHAT DOES THIS DO?
 */
 // #define Sandwich
 // #define Collimator
-// #define Range
+#define Range
 // #define TNY
 // #define NBS
-#define Shielding
+// #define Shielding
 
 
 #include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
@@ -121,6 +121,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 		lWorld =
 			new G4LogicalVolume(solidWorld,          						//its solid
 													Vacuum(),				//its material
+													// Air(),
 													"lWorld");            	//its name
 
 		// G4VPhysicalVolume* fWorldPhysVol =
@@ -351,8 +352,8 @@ void DetectorConstruction::ConstructSDandField()
 	// G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
 
   	// Proton filter
-	// G4SDParticleFilter* protonFilter =
-	// new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
+	G4SDParticleFilter* protonFilter =
+	new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
 
 	// Deuteron filter
 	// G4SDParticleFilter* deuteronFilter =
@@ -367,8 +368,8 @@ void DetectorConstruction::ConstructSDandField()
 	// new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
 
 	// Nitrogen filter
-	G4SDParticleFilter* nitrogenFilter = new G4SDParticleFilter("nitrogenFilter");
-	nitrogenFilter->addIon(7,14);
+	// G4SDParticleFilter* nitrogenFilter = new G4SDParticleFilter("nitrogenFilter");
+	// nitrogenFilter->addIon(7,14);
 
 	// Gamma filter
 	// G4SDParticleFilter* gammaFilter =
@@ -382,11 +383,11 @@ void DetectorConstruction::ConstructSDandField()
 	// Declare what quantity should be scored and apply filters
 	G4VPrimitiveScorer* PS_TrackLength;						//create a scorer called "PS_TrackLength"
 	PS_TrackLength = new G4PSTrackLength("TrackLength");	//give "PS_TrackLength" the ability to track G4PSTrackLength and save in data "TrackLength" 
-	// PS_TrackLength ->SetFilter(protonFilter);				//apply a filter; score only protons
+	PS_TrackLength ->SetFilter(protonFilter);				//apply a filter; score only protons
 	// PS_TrackLength ->SetFilter(deuteronFilter);			//apply a filter; score only deuterons
 	// PS_TrackLength ->SetFilter(alphaFilter);				//apply a filter; score only alphas
 	// PS_TrackLength ->SetFilter(neutronFilter);			//apply a filter; score only neutrons
-	PS_TrackLength ->SetFilter(nitrogenFilter);				//apply a filter; score only N14
+	// PS_TrackLength ->SetFilter(nitrogenFilter);				//apply a filter; score only N14
 
 	// Register Scorer to MultiFunctionalDetector
 	MFD_Scorer ->RegisterPrimitive(PS_TrackLength);
