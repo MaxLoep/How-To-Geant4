@@ -1,3 +1,5 @@
+#ifndef COLLIMATORGEO
+#define COLLIMATORGEO
 #include "Geometries.hh"
 
 #include "G4GeometryManager.hh"
@@ -301,3 +303,4 @@ G4LogicalVolume* lColliShape =
 
   return lRotationBox;
 }
+#endif

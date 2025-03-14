@@ -74,7 +74,7 @@ void api::add_placer(std::string name, placer_func func) {
 	geometries::add_placer(name, func);
 }
 
-#include "Collimator.cc"
+#include "Collimator.hh"
 
 void api::setup_sim() {
 	//place_geometry("SD1", "cube", {{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10.*cm}, {"x_size", 15. * cm}, {"y_size", 15. * cm}, {"z_size", 0.02 * mm}}, Materials::Vacuum);
@@ -82,7 +82,7 @@ void api::setup_sim() {
 
 	add_placer("collimator", collimator);
 
-	place_geometry("THEcollimator", "collimator", {{"x_pos", 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}}, Materials::Vacuum);
+	//place_geometry("THEcollimator", "collimator", {{"x_pos", 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}}, Materials::Vacuum);
 
 	place_geometry(
 		"PIXE", "sphere",
