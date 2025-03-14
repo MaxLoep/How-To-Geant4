@@ -38,7 +38,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #
 add_executable(How-To-Geant4 How-To-Geant4.cc ${sources} ${headers})
 target_compile_features(How-To-Geant4 PRIVATE cxx_std_20)
-set(CMAKE_CXX_FLAGS "-O2")
+#set(CMAKE_CXX_FLAGS "-O2")
 
 #if gcc is the compiler, you need to use this because of '#include <filesystem>'
 if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
