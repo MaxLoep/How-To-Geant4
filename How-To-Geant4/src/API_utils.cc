@@ -104,7 +104,7 @@ void api::setup_sim() {
 
 	place_geometry(
 		"target_base", "cube",
-		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 5. * cm}, {"x_size", 2. * cm}, {"y_size", 2. * cm}, {"z_size", 1. * mm}},
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 5. * cm}, {"rot_x", 35. * degree}, {"x_size", 2. * cm}, {"y_size", 2. * cm}, {"z_size", 1. * mm}},
 	 	Materials::Carbon
 	);
 
