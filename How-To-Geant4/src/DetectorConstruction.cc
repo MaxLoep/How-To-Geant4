@@ -85,7 +85,7 @@ DetectorConstruction::DetectorConstruction()
 	#endif
 
 	// Define Materials
-	DefineMaterials(); // see 'Materials.cc' for defined Materials
+	//DefineMaterials(); // see 'Materials.cc' for defined Materials
 
 	// create commands for interactive definition of the geometry via macro file
 	fDetectorMessenger = new DetectorMessenger(this);
@@ -117,7 +117,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
 		// G4LogicalVolume* lWorld =
 		lWorld = new G4LogicalVolume(solidWorld, //its solid
-			Vacuum(), //its material
+			Materials::Vacuum(), //its material
 			"lWorld" //its name
 		);
 
