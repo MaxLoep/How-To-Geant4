@@ -1,8 +1,9 @@
 Spezifisch:
 ----
- - geometrien platzieren
- - detektoren konfigurieren
- - analyse konfigurieren
+ + geometrien platzieren
+ + detektoren konfigurieren
+ - primitive scorers konfigurieren
+ + analyse konfigurieren
  - (physics list optionen)
  - quelle
 
@@ -14,12 +15,17 @@ Allgemein:
  - run durchführen
  - gdml/step file interface
  - physics list
- - materialien laden
+ + materialien laden
  - custom commands
 
 
 TODO:
 ----
- - redundanten kram for loopen
- - config structs bauen
+ + redundanten kram for loopen
+ - rotation bei place_geometry implementieren
+ - sd "primary" teilchen supporten
+ - generischer change parameter macro befehl
+ 0 config structs bauen
  - externe function interfaces machen
+ - add geometry color support
+ - release mode: kein backtrace etc für cluster runs

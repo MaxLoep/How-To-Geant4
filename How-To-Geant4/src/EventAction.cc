@@ -23,11 +23,12 @@ Primitive Scorer data are saved here
 #include "G4StepStatus.hh"
 #include "G4ParticleTypes.hh"
 
+#include "ConfigStructs.hh"
 
 EventAction::EventAction()
-:G4UserEventAction(),
+:G4UserEventAction()
 //  fTotalEnergyDeposit(0.), fTotalEnergyFlow(0.),
- fAbsoEdepHCID(-1)
+// fAbsoEdepHCID(-1)
 //  ,fRunAction(runAction),
 //   fEdep(0.),
 //    fEnergyAbs(0.),
@@ -38,7 +39,7 @@ EventAction::EventAction()
 //    fGapEdepHCID(-1),
 //    fAbsoTrackLengthHCID(-1),
 //    fGapTrackLengthHCID(-1)
-	
+
 { }
 
 
@@ -48,21 +49,18 @@ EventAction::~EventAction()
 //PRIMITIVE SCORERS
 //From example B4d
 
-G4THitsMap<G4double>* 
-EventAction::GetHitsCollection(G4int hcID,
-																	const G4Event* event) const
-{
+G4THitsMap<G4double>* EventAction::GetHitsCollection(G4int hcID, const G4Event* event) const {
 	auto hitsCollection = static_cast<G4THitsMap<G4double>*>(event->GetHCofThisEvent()->GetHC(hcID));
-	
+
 	if ( ! hitsCollection ) {
 		G4ExceptionDescription msg;
-		msg << "Cannot access hitsCollection ID " << hcID; 
+		msg << "Cannot access hitsCollection ID " << hcID;
 		G4Exception("B4dEventAction::GetHitsCollection()",
 			"MyCode0003", FatalException, msg);
-	}         
+	}
 
 	return hitsCollection;
-}    
+}
 
 
 G4double EventAction::GetSum(G4THitsMap<G4double>* hitsMap) const
@@ -72,14 +70,14 @@ G4double EventAction::GetSum(G4THitsMap<G4double>* hitsMap) const
 		// hitsMap->GetMap() returns the map of std::map<G4int, G4double*>
 		sumValue += *(it.second);
 	}
-	return sumValue;  
-} 
+	return sumValue;
+}
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
 
 /*
-	//variable initialisation per event 
+	//variable initialisation per event
 	//from B1
 	fEdep = 0.;
 
@@ -94,22 +92,41 @@ void EventAction::BeginOfEventAction(const G4Event*)
 
 void EventAction::EndOfEventAction(const G4Event* event)
 {
-	Run* run = static_cast<Run*>(G4RunManager::GetRunManager()->GetNonConstCurrentRun());
-						
+	static std::vector<std::tuple<int, int, int>> ps_tuple_targets;
+	static std::vector<std::tuple<int, int>> ps_hist_targets;
+	static bool eoe_conf_set = false;
+
+	// fetch end of event config only once per thread for better performance
+	if (not eoe_conf_set) {
+		extern ConfigStructs::GlobalConf global_conf;
+		auto _ = global_conf.lock();
+
+		for (auto [ps, tuple, col] : global_conf.eoe_conf.ps_tuple_targets) {
+			ps_tuple_targets.push_back({G4SDManager::GetSDMpointer()->GetCollectionID(ps), tuple, col});
+		}
+
+		for (auto [ps, hist] : global_conf.eoe_conf.ps_hist_targets) {
+			ps_hist_targets.push_back({G4SDManager::GetSDMpointer()->GetCollectionID(ps), hist});
+		}
+
+		eoe_conf_set = true;
+	}
+
+
 	// PRIMITVE SCORERS
 	// from example B4d
 	// Get hist collections IDs
-	if ( fAbsoEdepHCID == -1 ) {
-		fAbsoEdepHCID           = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/TrackLength");
+	//if ( fAbsoEdepHCID == -1 ) {
+	//	fAbsoEdepHCID           = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/TrackLength");
 		// fAbsoEdepHCID        = G4SDManager::GetSDMpointer()->GetCollectionID("Scorer/Edep");
 		// fGapEdepHCID         = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/Edep");
 		// fAbsoTrackLengthHCID = G4SDManager::GetSDMpointer()->GetCollectionID("Absorber/TrackLength");
 		// fGapTrackLengthHCID  = G4SDManager::GetSDMpointer()->GetCollectionID("Gap/TrackLength");
-	}
-	
+
+
 	// Get sum values from hits collections
 	//
-	auto TrackLength        = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
+	//auto TrackLength        = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
 	// auto absoEdep        = GetSum(GetHitsCollection(fAbsoEdepHCID, event));
 	// auto gapEdep         = GetSum(GetHitsCollection(fGapEdepHCID, event));
 
@@ -119,21 +136,31 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	// get analysis manager
 	auto analysisManager = G4AnalysisManager::Instance();
 
+	for (auto [id, tuple, col] : ps_tuple_targets) {
+		auto value = GetSum(GetHitsCollection(id, event));
+		analysisManager->FillNtupleDColumn(tuple, col, value);
+		analysisManager->AddNtupleRow(tuple);
+	}
+
+	for (auto [id, hist] : ps_hist_targets) {
+		auto value = GetSum(GetHitsCollection(id, event));
+		analysisManager->FillH1(hist, value);
+	}
+
 	// // fill histograms
-	// //  
+	// //
 	// if(absoEdep != 0)       analysisManager->FillH1(0, absoEdep);
 	// if(gapEdep != 0)        analysisManager->FillH1(1, gapEdep);
 	// if(absoTrackLength !=0) analysisManager->FillH1(2, absoTrackLength);
 	// if(gapTrackLength != 0) analysisManager->FillH1(3, gapTrackLength);
-	
+
 	// fill ntuple
 	//
-	if(TrackLength != 0)       analysisManager->FillNtupleDColumn(0, 0, TrackLength);
+	//if(TrackLength != 0)       analysisManager->FillNtupleDColumn(0, 0, TrackLength);
 	// if(absoEdep != 0)       analysisManager->FillNtupleDColumn(0, 0, absoEdep);
 	// if(gapEdep != 0)        analysisManager->FillNtupleDColumn(1, gapEdep);
 	// if(absoTrackLength !=0) analysisManager->FillNtupleDColumn(2, absoTrackLength);
 	// if(gapTrackLength != 0) analysisManager->FillNtupleDColumn(3, gapTrackLength);
-	if(TrackLength != 0)       analysisManager->AddNtupleRow(0); 
+	//if(TrackLength != 0)       analysisManager->AddNtupleRow(0);
 
 }
-

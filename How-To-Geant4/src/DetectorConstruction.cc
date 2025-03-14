@@ -1,15 +1,13 @@
 /*
 WHAT DOES THIS DO?
 */
-// #define Sandwich
+#define Sandwich
 // #define Collimator
 // #define Range
 #define TNY
 // #define NBS
 // #define Shielding
 
-
-#include "DetectorConstruction.hh"      //Header file where functions classes and variables may be defined (...)
 #include "G4GeometryManager.hh"
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
@@ -52,10 +50,10 @@ WHAT DOES THIS DO?
 #include "CADMesh.hh"                   // for importing CAD-files (.stl, .obj, ...). Read all about it at: https://github.com/christopherpoole/CADMesh
 #include "G4GDMLParser.hh"              // for importing/exporting GDML-files
 
+#include "Geometries.hh"
+
 DetectorConstruction::DetectorConstruction()
-:G4VUserDetectorConstruction(),
-fDetectorMessenger(nullptr)
-{
+:G4VUserDetectorConstruction(), fDetectorMessenger(nullptr) {
 	// for reading and writing GDML
 	fLoadFile  ="test.gdml";
 	fWriteFile ="wtest.gdml";
@@ -87,7 +85,7 @@ fDetectorMessenger(nullptr)
 	#endif
 
 	// Define Materials
-	DefineMaterials(); // see 'Materials.cc' for defined Materials
+	//DefineMaterials(); // see 'Materials.cc' for defined Materials
 
 	// create commands for interactive definition of the geometry via macro file
 	fDetectorMessenger = new DetectorMessenger(this);
@@ -113,27 +111,26 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	if(fLoadingChoice==0) //no GDML file is loaded = world Volume needs to be constructed
 	{
 		// If no GDML file is loaded, a World volume needs to be created - otherwise it should be in the GDML file
-		G4Box* solidWorld =
-			new G4Box("sWorld",                       							//its name
-				0.5*world_sizeXYZ, 0.5*world_sizeXYZ, 0.5*world_sizeXYZ);     	//its size
+		G4Box* solidWorld = new G4Box("sWorld", //its name
+				0.5 * world_sizeXYZ, 0.5 * world_sizeXYZ, 0.5 * world_sizeXYZ
+		);     	//its size
 
 		// G4LogicalVolume* lWorld =
-		lWorld =
-			new G4LogicalVolume(solidWorld,          						//its solid
-													// Vacuum(),				//its material
-													Air(),
-													"lWorld");            	//its name
+		lWorld = new G4LogicalVolume(solidWorld, //its solid
+			Materials::Vacuum(), //its material
+			"lWorld" //its name
+		);
+
 
 		// G4VPhysicalVolume* fWorldPhysVol =
-		fWorldPhysVol =
-			new G4PVPlacement(0,                     					//no rotation
-												G4ThreeVector(),       	//at (0,0,0)
-												lWorld,            		//its logical volume
-												"pworld",               //its name
-												0,                     	//its mother  volume
-												false,                	//boolean operation?
-												0,                     	//copy number
-												true);                 	//overlaps checking?
+		fWorldPhysVol = new G4PVPlacement(0, //no rotation
+			G4ThreeVector(),       	//at (0,0,0)
+			lWorld,            		//its logical volume
+			"pworld",               //its name
+			0,                     	//its mother  volume
+			false,                	//boolean operation?
+			0,                     	//copy number
+			true);                 	//overlaps checking?
 
 		// Make world-volume invisible
 		auto lWorldVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.01)); //(r, g, b , transparency)
@@ -150,17 +147,18 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	G4cout << lWorld->GetName() << " is the world volume" << G4endl;
 
 	// Different Geometries are constructed depending on defined pre-processor variables at top
-	#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
+	//#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
 	// #include "geometries/Test.cc"
+	//
+	geometries::run_placements(lWorld);
 
 	//Print all defined materials to console
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
 	// save geometry in GDML file
-	if(fWritingChoice==1) // default value = 0
-		{
-			SaveGDML( fWriteFile );
-		}
+	if(fWritingChoice==1) { // default value = 0
+		SaveGDML( fWriteFile );
+	}
 
 	//always return the root volume
 	return fWorldPhysVol;
@@ -255,40 +253,35 @@ void DetectorConstruction::change_b(G4double value)
 }
 
 // Change c
-void DetectorConstruction::change_c(G4double value)
-{
+void DetectorConstruction::change_c(G4double value) {
 	c = value;
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 	G4cout  << "\n c is now " << G4BestUnit(c,"Length") << G4endl;
 }
 
 // Change d
-void DetectorConstruction::change_d(G4double value)
-{
+void DetectorConstruction::change_d(G4double value) {
 	d = value;
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 	G4cout  << "\n d is now " << G4BestUnit(d,"Length") << G4endl;
 }
 
 // Change e
-void DetectorConstruction::change_e(G4double value)
-{
+void DetectorConstruction::change_e(G4double value) {
 	e = value;
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 	G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
 }
 
 // Change f
-void DetectorConstruction::change_f(G4double value)
-{
+void DetectorConstruction::change_f(G4double value) {
   f = value;
   G4RunManager::GetRunManager()->ReinitializeGeometry();
   G4cout  << "\n f is now " << G4BestUnit(f,"Length") << G4endl;
 }
 
 // Assign Detectors and Scorers to Volume
-void DetectorConstruction::ConstructSDandField()
-{
+void DetectorConstruction::ConstructSDandField() {
 	G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
 
 	// SENSITIVE DETECTORS
@@ -297,44 +290,17 @@ void DetectorConstruction::ConstructSDandField()
 	// RunAction.cc to open a file and declare ntuple or histograms to save data in
 	// Make a Volume a Sensitive Detector (SD); SD are able to access Track/Step information of Particles going through e.g. :
 	// Kinetic energy, Momentum
-
-
+	G4cout << "constructing detectors " << G4endl;
+	extern ConfigStructs::GlobalConf global_conf;
+	auto _ = global_conf.lock();
 	// Declare a Sensitive Detector
-	auto sd1 = new SD1("SD1");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd1);  //add new SD to SDManager
-	#if defined Sandwich || defined Shielding
-	SetSensitiveDetector("lSD1", sd1);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
-	auto sd2 = new SD2("SD2");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd2);  //add new SD to SDManager
-	#if defined Sandwich || defined Shielding
-	SetSensitiveDetector("lSD2", sd2);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
-	auto sd3 = new SD3("SD3");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd3);  //add new SD to SDManager
-	#if defined Sandwich
-	SetSensitiveDetector("lSD3", sd3);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
-	auto sd4 = new SD4("SD4");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd4);  //add new SD to SDManager
-	#if defined Sandwich
-	SetSensitiveDetector("lSD4", sd4);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
-	auto sd5 = new SD5("SD5");                          //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sd5);  //add new SD to SDManager
-	#if defined Sandwich
-	SetSensitiveDetector("lSD5", sd5);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
-	#endif
-
-	auto sphereSD = new SphereSD("SphereSD");                   //create a new Sensitive Detector
-	G4SDManager::GetSDMpointer()->AddNewDetector(sphereSD);     //add new SD to SDManager
-	#if defined TNY || defined NBS //|| defined Collimator
-	SetSensitiveDetector("lSphere", sphereSD);                  //Apply Sensitive Detector 'SphereSD' to logical Volume 'lSphere'
-	#endif
+	//auto sd1 = new SD1("SD1");    //create a new Sensitive Detector
+	for (auto sd_conf : global_conf.sd_conf) {
+		G4cout << sd_conf.name << G4endl;
+		auto sd = new GenericSD(sd_conf);
+		G4SDManager::GetSDMpointer()->AddNewDetector(sd);  //add new SD to SDManager
+		SetSensitiveDetector(sd_conf.logical_volume, sd);                  //Apply Sensitive Detector 'sdX' to logical Volume 'lSDX'
+	}
 
 	// PRIMITIVE SCORERS
 	// You need also Code for this one to work in:
@@ -342,62 +308,23 @@ void DetectorConstruction::ConstructSDandField()
 	// Make a Volume a Primitive Scorer (PS); PS are able to save information on events related to inside the volume e.g. :
 	// energy deposit, track length, current, flux
 
+	for (auto ps_conf : global_conf.ps_conf) {
+		auto mf_detector = new G4MultiFunctionalDetector(ps_conf.name);
+		G4SDManager::GetSDMpointer()->AddNewDetector(mf_detector);
 
-	// FILTERS FOR PRIMITVIE SCORERS
-	// Declare filters on Particles, Charge, Energy
-	G4String fltName,particleName;
+		G4VPrimitiveScorer* primitive_scorer = new G4PSTrackLength(ps_conf.quantity);
 
-	// charged particle filter
-	// auto charged = new G4SDChargedFilter("chargedFilter");
-	// G4SDChargedFilter* chargedFilter = new G4SDChargedFilter(fltName="chargedFilter");
+		if (ps_conf.filtered) {
+			G4SDParticleFilter* ps_filter = new G4SDParticleFilter(ps_conf.filter_for.name + "Filter");
+			if (ps_conf.filter_for.kind == ConfigStructs::ParticleKind::ion) {
+				ps_filter->addIon(ps_conf.filter_for.protons, ps_conf.filter_for.nucleons);
+			} else {
+				ps_filter->add(ps_conf.filter_for.name);
+			}
+			primitive_scorer->SetFilter(ps_filter);
+		}
 
-  	// Proton filter
-	G4SDParticleFilter* protonFilter =
-	new G4SDParticleFilter(fltName="protonFilter", particleName="proton");
-
-	// Deuteron filter
-	// G4SDParticleFilter* deuteronFilter =
-	// new G4SDParticleFilter(fltName="deuteronFilter", particleName="deuteron");
-
-  	// Alpha filter
-	// G4SDParticleFilter* alphaFilter =
-	// new G4SDParticleFilter(fltName="alphaFilter", particleName="alpha");
-
-  	// Neutron filter
-	// G4SDParticleFilter* neutronFilter =
-	// new G4SDParticleFilter(fltName="neutronFilter", particleName="neutron");
-
-	// Nitrogen filter
-	// G4SDParticleFilter* nitrogenFilter = new G4SDParticleFilter("nitrogenFilter");
-	// nitrogenFilter->addIon(7,14);
-
-	// Gamma filter
-	// G4SDParticleFilter* gammaFilter =
-	// new G4SDParticleFilter("gammaFilter", "gamma");
-
-
-	// Create a MultiFunctionalDetector (MFD) and name it "Scorer"
-	auto MFD_Scorer = new G4MultiFunctionalDetector("Scorer");
-	G4SDManager::GetSDMpointer()->AddNewDetector(MFD_Scorer );
-
-	// Declare what quantity should be scored and apply filters
-	G4VPrimitiveScorer* PS_TrackLength;						//create a scorer called "PS_TrackLength"
-	PS_TrackLength = new G4PSTrackLength("TrackLength");	//give "PS_TrackLength" the ability to track G4PSTrackLength and save in data "TrackLength" 
-	PS_TrackLength ->SetFilter(protonFilter);				//apply a filter; score only protons
-	// PS_TrackLength ->SetFilter(deuteronFilter);			//apply a filter; score only deuterons
-	// PS_TrackLength ->SetFilter(alphaFilter);				//apply a filter; score only alphas
-	// PS_TrackLength ->SetFilter(neutronFilter);			//apply a filter; score only neutrons
-	// PS_TrackLength ->SetFilter(nitrogenFilter);				//apply a filter; score only N14
-
-	// Register Scorer to MultiFunctionalDetector
-	MFD_Scorer ->RegisterPrimitive(PS_TrackLength);
-
-	#ifdef Range
-	// Apply MFD to Volume
-	SetSensitiveDetector("lBox",MFD_Scorer );
-	#endif
-
-	//
-	// other Scorers
-	// PS_EnergyDeposit = new G4PSEnergyDeposit("Edep");
+		mf_detector->RegisterPrimitive(primitive_scorer);
+		SetSensitiveDetector(ps_conf.logical_volume, mf_detector);
+	}
 }

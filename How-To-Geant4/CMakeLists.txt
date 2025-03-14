@@ -6,7 +6,7 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
 project(How-To-Geant4)
- 
+
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -28,7 +28,7 @@ include(${Geant4_USE_FILE})
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #
-include_directories(${PROJECT_SOURCE_DIR}/include 
+include_directories(${PROJECT_SOURCE_DIR}/include
                     ${Geant4_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
@@ -37,7 +37,8 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(How-To-Geant4 How-To-Geant4.cc ${sources} ${headers})
-target_compile_features(How-To-Geant4 PRIVATE cxx_std_17)
+target_compile_features(How-To-Geant4 PRIVATE cxx_std_20)
+#set(CMAKE_CXX_FLAGS "-O2")
 
 #if gcc is the compiler, you need to use this because of '#include <filesystem>'
 if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
@@ -75,10 +76,10 @@ endif()
 #
 install(TARGETS How-To-Geant4 DESTINATION bin)
 
-#if using Visual Studio, copy the executable from the "release"-folder to the build directory 
+#if using Visual Studio, copy the executable from the "release"-folder to the build directory
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   set_target_properties(How-To-Geant4 PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BINARY_DIR})
-    
+
   target_compile_options(How-To-Geant4 PRIVATE /W4 )
 endif()
