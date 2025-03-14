@@ -37,7 +37,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(How-To-Geant4 How-To-Geant4.cc ${sources} ${headers})
-target_compile_features(How-To-Geant4 PRIVATE cxx_std_17)
+target_compile_features(How-To-Geant4 PRIVATE cxx_std_20)
 
 #if gcc is the compiler, you need to use this because of '#include <filesystem>'
 if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)

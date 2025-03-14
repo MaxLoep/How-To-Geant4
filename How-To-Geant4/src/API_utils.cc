@@ -106,9 +106,9 @@ void api::setup_sim() {
 	auto hist = ConfigStructs::Histogram{
 		.name = "PIXE energy",
 		.title = "PIXE energy",
+		.nbins = 100,
 		.xmin = 0.,
-		.xmax = 10. * MeV,
-		.nbins = 100
+		.xmax = 10. * MeV
 	};
 
 	make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
