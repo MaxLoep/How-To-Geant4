@@ -22,6 +22,9 @@ Allgemein:
 TODO:
 ----
  + redundanten kram for loopen
+ - rotation bei place_geometry implementieren
+ - sd "primary" teilchen supporten
+ - generischer change parameter macro befehl
  0 config structs bauen
  - externe function interfaces machen
  - add geometry color support
