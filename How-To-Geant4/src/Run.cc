@@ -79,7 +79,7 @@ void Run::CountProcesses(const G4VProcess* process)
 	}
 }
 
-// Function to count particles and fill the map fParticleDataMap1
+// Function to count ALL particles created and fill the map fParticleDataMap1
 void Run::ParticleCount(G4String name, G4double meanLife)
 {
 	std::map<G4String, ParticleData>::iterator it = fParticleDataMap1.find(name);
@@ -98,7 +98,7 @@ void Run::ParticleFlux(G4String name)
 {
 	std::map<G4String, ParticleData>::iterator it = fParticleDataMap2.find(name);
 	if ( it == fParticleDataMap2.end()) {
-		fParticleDataMap2[name] = ParticleData(1, -1*ns);
+		fParticleDataMap2[name] = ParticleData(1, -1*ns); //this marks every particle as 'stable' - is the on purpose?
 	}
 	else {
 		ParticleData& data = it->second;
@@ -217,20 +217,20 @@ void Run::EndOfRun()
 	}
 	G4cout << G4endl;
 
-	//List of generated particles: to console (the old style)
-	G4cout << "\n List of generated particles:" << G4endl;
-	for ( const auto& particleData : fParticleDataMap1 )
-	{
-		G4String name = particleData.first;
-		ParticleData data = particleData.second;
-		G4int count = data.fCount;
-		G4double meanLife = data.fTmean;
+	// //List of generated particles: to console (the old style)  //this prints number of excited states too! //CAN BE REMOVED? newer version below
+	// G4cout << "\n List of generated particles:" << G4endl;
+	// for ( const auto& particleData : fParticleDataMap1 )
+	// {
+	// 	G4String name = particleData.first;
+	// 	ParticleData data = particleData.second;
+	// 	G4int count = data.fCount;
+	// 	G4double meanLife = data.fTmean;
 
-		G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count;
-		if (meanLife >= 0.)
-			G4cout << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
-		else G4cout << "\tstable" << G4endl;
-	}
+	// 	G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count;
+	// 	if (meanLife >= 0.)
+	// 		G4cout << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
+	// 	else G4cout << "\tstable" << G4endl;
+	// }
 
 	//List of generated Particles (LogP) to file
 	// create a folder for the files
@@ -250,6 +250,7 @@ void Run::EndOfRun()
 	OutputParticleData(fParticleDataMap1, outFile);
 
 	// List of generated Particles leaving the World volume to console
+	G4cout << "\n List of particles leaving the World Volume (BUG: they are all marked as 'stable'):" << G4endl;
 	OutputParticleData(fParticleDataMap2, G4cout);
 
 	//remove all contents in fProcCounter, fCount

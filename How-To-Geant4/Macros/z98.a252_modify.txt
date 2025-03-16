@@ -1,0 +1,13 @@
+#Spontaneous Fisson Neutron Cf252 - source
+#from:
+#https://geant4-forum.web.cern.ch/t/cf252-generated-neutron-capture-through-helium-3-gas/13692
+#put this file somewhere and use it with the macro command
+#/process/had/rdm/setRadioactiveDecayFile 98 252 z98.a252_modify.txt
+
+
+
+# 252CF ( 2.645 Y   )
+#  Excitation  flag   Halflife  Mode    Daughter Ex flag   Intensity          Q
+P            0  - 8.346985e+07
+                              SpFission            0               1
+                              SpFission            0  -          100        1e-06

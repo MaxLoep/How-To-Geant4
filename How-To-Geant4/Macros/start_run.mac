@@ -17,11 +17,12 @@
 /run/numberOfThreads 8
 /run/initialize
 
+
 #BEAM
 #------------------------------------------------------------------------
 #execute the macro file which defines the primary particle
 #/control/execute ../Macros/Primary_Alpha.mac        #52 MeV Alpha Beam, point source
-#/control/execute ../Macros/Primary_Deuteron.mac     #26 MeV Deuteron Beam, point source
+/control/execute ../Macros/Primary_Deuteron.mac     #26 MeV Deuteron Beam, point source
 #/control/execute ../Macros/Primary_Neutron.mac      #13 MeV Neutron Beam, point source
 #/control/execute ../Macros/Primary_Proton.mac       #13 MeV Proton Beam, point source
 /control/execute ../Macros/Primary_LE_Proton.mac       #1.2 MeV Proton Beam, point source
@@ -33,14 +34,14 @@
 #------------------------------------------------------------------------
 #custom commands to change things
 #/custom/geo/change_a 15 cm
-#/custom/geo/change_b 15 cm
+#/custom/geo/change_b 25 cm
 #/custom/geo/change_c 15 cm
 #/custom/geo/change_d 15 cm
 #/custom/geo/change_e 15 cm
 #/custom/geo/setMat G4_AIR
 #/custom/ana/setOutFolder Output/Energy_N_100MeV_SEM
 
-/gps/position 0 0 0 cm     #GPS position
+#/gps/position 0 0 0 cm     #GPS position
 #/custom/ana/setOutFolder Output/tny_N_AmBe_Iso
 
 #/custom/geo/setDummyMat1 G4_Al
@@ -69,5 +70,6 @@
 #Start a run and print progress in console
 /run/printProgress 100000
 /run/beamOn 1000000
+
 
 #max value for beam On is 2.147.483.647 because this is the maximum value for a 32 bit integer

@@ -4,8 +4,8 @@ WHAT DOES THIS DO?
 #define Sandwich
 // #define Collimator
 // #define Range
-// #define TNY
-#define NBS
+#define TNY
+// #define NBS
 // #define Shielding
 
 #include "G4GeometryManager.hh"
@@ -120,6 +120,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 			Materials::Vacuum(), //its material
 			"lWorld" //its name
 		);
+
 
 		// G4VPhysicalVolume* fWorldPhysVol =
 		fWorldPhysVol = new G4PVPlacement(0, //no rotation
