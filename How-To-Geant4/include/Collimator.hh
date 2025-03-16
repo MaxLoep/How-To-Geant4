@@ -54,7 +54,7 @@ G4LogicalVolume* collimator(std::string name, std::map<std::string, double>& par
 	double c = params.count("c")? params["c"] : 2.*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm
 	double d = params.count("d")? params["d"] : 4.*cm;   //Exit_Diameter of the tungsten colli; MAX 6.4cm
 	double e = params.count("e")? params["e"] : 0.;   //rotation of the collimator
-	double f = params.count("f")? params["f"] : 0.;   // position of the target; MAX 4.0cm - NEED TO CHECK!    
+	double f = params.count("f")? params["f"] : 33.9*mm;   // position of the target; MAX 4.0cm - NEED TO CHECK!    
 
 //Collimator parameters (old, when the Collimator was built with fixed Entrance and Exit radius
 //Beam diameter is ~2cm, so 1cm is used for geometrical calculations
@@ -217,7 +217,7 @@ new G4LogicalVolume(sC_Target,                      //shape
 						"C_Target");                              //name
 
 new G4PVPlacement(0,                                //no rotation
-				G4ThreeVector(0,0,TargetLen/2 + 33.9*mm),           //position              f = target position
+				G4ThreeVector(0,0,TargetLen/2 + f),           //position              f = target position
 				lC_Target,                                    //logical volume
 				"C_Target",                                   //name
 				lRotationBox,                                 //mother  volume
