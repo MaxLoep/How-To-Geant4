@@ -139,7 +139,11 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 
 	for (auto det_info : this->log_properties) {
 		//G4cout << this->name << " is looking for " << det_info.particle_kind << G4endl;
-		if (particle_name == det_info.particle_kind or det_info.particle_kind == "all") {
+		if (
+			particle_name == det_info.particle_kind
+			or det_info.particle_kind == "all"
+			or (det_info.particle_kind == "primary" and currentTrackId == 1)
+		) {
 			for (auto [property, col] : det_info.ntuple_spec) {
 				//G4cout << this->name << " is writing to col " << col  << " of tuple " << det_info.ntuple << G4endl;
 				switch (property){

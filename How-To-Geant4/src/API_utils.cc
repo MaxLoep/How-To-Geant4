@@ -98,7 +98,7 @@ void api::setup_sim() {
 
 	place_geometry(
 		"RBS", "sphere",
-		{{"x_pos", - 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
+		{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 9.9 * cm}, {"inner_radius", 9.8 * cm}, {"transparency", 0.}},
 		Materials::Vacuum
 	);
 
@@ -118,5 +118,5 @@ void api::setup_sim() {
 
 	make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
 	make_sd("PIXE_total", "gamma", {property::Ekin, property::theta, property::phi});
-	make_sd("RBS", "proton", {property::Ekin, property::time});
+	make_sd("RBS", "primary", {property::Ekin, property::time});
 }
