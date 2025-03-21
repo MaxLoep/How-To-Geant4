@@ -1,5 +1,6 @@
 #include "api.hh"
 #include "ConfigStructs.hh"
+#include "parser.hh"
 extern ConfigStructs::GlobalConf global_conf;
 
 #include "G4ios.hh"
@@ -76,6 +77,13 @@ void api::add_placer(std::string name, placer_func func) {
 
 #include "Collimator.hh"
 
+void api::setup_sim(std::string arg) {
+	add_placer("collimator", collimator);
+
+	auto res = parser::parse_toml(arg);
+}
+
+/*
 void api::setup_sim() {
 	//place_geometry("SD1", "cube", {{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10.*cm}, {"x_size", 15. * cm}, {"y_size", 15. * cm}, {"z_size", 0.02 * mm}}, Materials::Vacuum);
 	//make_sd("SD1", "neutron", {property::Ekin, property::time});
@@ -120,3 +128,4 @@ void api::setup_sim() {
 	make_sd("PIXE_total", "gamma", {property::Ekin, property::theta, property::phi});
 	make_sd("RBS", "proton", {property::Ekin, property::time});
 }
+*/
