@@ -53,8 +53,8 @@ G4LogicalVolume* collimator(std::string name, std::map<std::string, double>& par
 	double b = params.count("b")? params["b"] : 4.*cm;   //Entrance_Diameter of the tungsten colli; MAX 6.14cm
 	double c = params.count("c")? params["c"] : 2.*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm
 	double d = params.count("d")? params["d"] : 4.*cm;   //Exit_Diameter of the tungsten colli; MAX 6.4cm
-	double e = params.count("e")? params["e"] : 0.;   //rotation of the collimator
-	double f = params.count("f")? params["f"] : 33.9*mm;   // position of the target; MAX 4.0cm - NEED TO CHECK!    
+	double e = params.count("e")? params["e"] : 0.;      //rotation of the collimator
+	double f = params.count("f")? params["f"] : 33.9*mm; // position of the target; MAX 4.0cm - NEED TO CHECK!    
 
 //Collimator parameters (old, when the Collimator was built with fixed Entrance and Exit radius
 //Beam diameter is ~2cm, so 1cm is used for geometrical calculations
@@ -114,11 +114,11 @@ lRotationBox->SetVisAttributes(lRotationBoxVisAtt);
 
 G4Box* sInnerShieldBox =
   new G4Box("InnerShieldBox",                //its name
-      20.*cm, 20.*cm, 62.*cm);               //its size: half x, half y, half z
+      10.*cm, 10.*cm, 62.*cm);               //its size: half x, half y, half z
 
 G4Box* sOuterShieldBox =
   new G4Box("sOuterShieldBox",               //its name
-      20.*cm + a , 20.*cm + a , 62.*cm);     //its size: half x, half y, half z
+      10.*cm + a , 10.*cm + a , 62.*cm);     //its size: half x, half y, half z
 
 //
 // Subtract InnerShieldBox from OuterShieldBox
