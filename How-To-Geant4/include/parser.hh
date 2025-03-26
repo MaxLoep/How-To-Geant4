@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <functional>
 #include <iterator>
 #include <string>
 #include <variant>

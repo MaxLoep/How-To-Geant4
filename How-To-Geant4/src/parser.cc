@@ -44,9 +44,9 @@ parser::token parser::tokenize(
 	token partial_token
 ) {
 	auto printer = current;
-	std::cout << "------------ tokenize call ------------" << std::endl << "\"";
-	for (;printer != end; ++printer) std::cout << *printer << " ";
-	std::cout << "\"" << std::endl << std::endl;
+	//std::cout << "------------ tokenize call ------------" << std::endl << "\"";
+	//for (;printer != end; ++printer) std::cout << *printer << " ";
+	//std::cout << "\"" << std::endl << std::endl;
 
 	auto next = current + 1;
 	// singular tokens are converted and returned
@@ -68,6 +68,30 @@ parser::token parser::tokenize(
 	}
 }
 
+parser::argtype collapse_to_argtype(parser::token tkn) {
+	return 0.;
+}
+
+parser::command construct_place_cmd(parser::token input) {
+	return {parser::cmd_type::place_geometry, {}};
+}
+
+parser::command construct_make_sd_cmd(parser::token input) {
+	return {parser::cmd_type::make_sd, {}};
+}
+
+parser::command construct_make_ps_cmd(parser::token input) {
+	return {parser::cmd_type::make_ps, {}};
+}
+
 std::vector<parser::command> parser::token_to_cmd(parser::token input) {
+	static const std::map<std::string, std::function<parser::command(parser::token)>> cmd_converter = {
+		{"place", construct_place_cmd},
+		{"make_sd", construct_make_sd_cmd},
+		{"make_ps", construct_make_ps_cmd}
+	};
+
+	//TODO: strip redundant token layers (vec with top level tokens contained)
+	// these can occur an arbitrary number of times but at least once
 	return {};
 }
