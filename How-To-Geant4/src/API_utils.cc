@@ -77,14 +77,15 @@ void api::add_placer(std::string name, placer_func func) {
 
 #include "Collimator.hh"
 
+
 void api::setup_sim(std::string arg) {
 	add_placer("collimator", collimator);
 
-	auto res = parser::parse_toml(arg);
+	auto res = parser::load_file(arg);
 }
 
 /*
-void api::setup_sim() {
+void api::setup_sim(std::string arg) {
 	//place_geometry("SD1", "cube", {{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10.*cm}, {"x_size", 15. * cm}, {"y_size", 15. * cm}, {"z_size", 0.02 * mm}}, Materials::Vacuum);
 	//make_sd("SD1", "neutron", {property::Ekin, property::time});
 
@@ -94,7 +95,7 @@ void api::setup_sim() {
 
 	place_geometry(
 		"PIXE", "sphere",
-		{{"x_pos", 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
+		{{"x_pos", - 5. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
 		Materials::Carbon
 	);
 
@@ -112,7 +113,7 @@ void api::setup_sim() {
 
 	place_geometry(
 		"target_base", "cube",
-		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 5. * cm}, {"rot_x", 35. * degree}, {"x_size", 2. * cm}, {"y_size", 2. * cm}, {"z_size", 1. * mm}},
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 0. * cm}, {"x_size", 0.5 * cm}, {"y_size", 0.5 * cm}, {"z_size", 0.5 * cm}},
 	 	Materials::Carbon
 	);
 
