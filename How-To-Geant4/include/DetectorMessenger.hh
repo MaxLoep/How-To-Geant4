@@ -16,16 +16,16 @@ class G4UIcmdWithABool;
 class DetectorMessenger: public G4UImessenger
 {
   public:
-  
+
     DetectorMessenger(DetectorConstruction* );
    ~DetectorMessenger();
-    
+
     virtual void SetNewValue(G4UIcommand*, G4String);
-    
+
   private:
-  
+
     DetectorConstruction*      fDetector;
-    
+
     G4UIdirectory*             fTestemDir;
     G4UIdirectory*             fDetDir;
     G4UIdirectory*             fGDMLDir;
@@ -36,16 +36,20 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithAString*        fDummyMat3Cmd;
     G4UIcmdWithAString*        fDummyMat4Cmd;
 
+    G4UIcmdWithAString*        fSelectPOI;
     G4UIcmdWithAString*        fTheLoadCommand;
     G4UIcmdWithAString*        fTheWriteCommand;
     G4UIcmdWithABool*          fTheOnlyLoadCommand;
 
+    G4UIcmdWithADoubleAndUnit* fSetPOI;
     G4UIcmdWithADoubleAndUnit* fchange_aCmd;
     G4UIcmdWithADoubleAndUnit* fchange_bCmd;
     G4UIcmdWithADoubleAndUnit* fchange_cCmd;
     G4UIcmdWithADoubleAndUnit* fchange_dCmd;
     G4UIcmdWithADoubleAndUnit* fchange_eCmd;
-    G4UIcmdWithADoubleAndUnit* fchange_fCmd; 
+    G4UIcmdWithADoubleAndUnit* fchange_fCmd;
+
+    G4String current_poi;
 };
 
 

@@ -7,7 +7,25 @@ static fmap placers = {{"cube", geometries::cube}, {"sphere", geometries::sphere
 
 
 void geometries::register_placement(std::string thing, std::string name, std::map<std::string, double> params, Materials::MaterialMaker material) {
+	auto _ = std::lock_guard<std::mutex>(record_mutex);
 	record.push_back({thing, name, params, material});
+}
+
+void geometries::change_param(std::string name, std::string param, double value) {
+	auto _ = std::lock_guard<std::mutex>(record_mutex);
+	int id = 0;
+	bool found = false;
+	for (auto [thing, obj_name, params, material] : record) {
+		if (obj_name == name) {
+			found = true;
+			break;
+		} else {
+			++ id;
+		}
+	}
+	G4cout << name << " " << param << " " << found << G4endl;
+	if (not found) return;
+	std::get<2>(record[id])[param] = value;
 }
 
 

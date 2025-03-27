@@ -184,6 +184,24 @@ void DetectorConstruction::SetDummyMat1(G4String materialChoice)	//change "dummy
 	}
 }
 
+void DetectorConstruction::change_poi(G4String& poi, G4double value) {
+	G4cout << "changing " << poi << " to " << value << G4endl;
+	std::string name = "";
+	std::string param = "";
+	bool in_name = true;
+	for (auto c : poi) {
+		if (c == '/') {
+			in_name = false;
+			continue;
+		}
+		if (in_name) name += c;
+		else param += c;
+	}
+
+	geometries::change_param(name, param, value);
+	G4RunManager::GetRunManager()->ReinitializeGeometry();
+}
+
 void DetectorConstruction::SetDummyMat2(G4String materialChoice)	//change "dummyMat2" via macro file command
 {
 	// search the material by its name

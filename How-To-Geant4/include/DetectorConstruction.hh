@@ -40,6 +40,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void LoadGDML( const G4String& File );         // function for loading a GDML file
     void SaveGDML( const G4String& File );         // function for saving to a GDML file
 
+    void change_poi(G4String&, G4double);
+
     void change_a   (G4double);
     void change_b   (G4double);
     void change_c   (G4double);
