@@ -82,31 +82,47 @@ void api::setup_sim() {
 
 	add_placer("collimator", collimator);
 
-	//place_geometry("THEcollimator", "collimator", {{"x_pos", 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}}, Materials::Vacuum);
+	place_geometry("THEcollimator", "collimator", {{"x_pos", 0. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}}, Materials::Vacuum);
 
 	place_geometry(
-		"PIXE", "sphere",
-		{{"x_pos", 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
-		Materials::Carbon
+		"Plane1", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 130. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
+	 	Materials::Vacuum
 	);
 
-	place_geometry(
-		"PIXE_total", "sphere",
-		{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 10. * cm}, {"inner_radius", 9.9 * cm}, {"transparency", 0.}},
-		Materials::Carbon
-	);
+	make_sd("Plane1", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
 
 	place_geometry(
-		"RBS", "sphere",
-		{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 9.9 * cm}, {"inner_radius", 9.8 * cm}, {"transparency", 0.}},
-		Materials::Vacuum
+		"Plane2", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 230. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
+	 	Materials::Vacuum
 	);
 
-	place_geometry(
-		"target_base", "cube",
-		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 5. * cm}, {"rot_x", 35. * degree}, {"x_size", 2. * cm}, {"y_size", 2. * cm}, {"z_size", 1. * mm}},
-	 	Materials::Carbon
-	);
+	make_sd("Plane2", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+
+	// place_geometry(
+	// 	"PIXE", "sphere",
+	// 	{{"x_pos", 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
+	// 	Materials::Carbon
+	// );
+
+	// place_geometry(
+	// 	"PIXE_total", "sphere",
+	// 	{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 10. * cm}, {"inner_radius", 9.9 * cm}, {"transparency", 0.}},
+	// 	Materials::Carbon
+	// );
+
+	// place_geometry(
+	// 	"RBS", "sphere",
+	// 	{{"x_pos", - 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
+	// 	Materials::Vacuum
+	// );
+
+	// place_geometry(
+	// 	"target_base", "cube",
+	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 5. * cm}, {"rot_x", 35. * degree}, {"x_size", 2. * cm}, {"y_size", 2. * cm}, {"z_size", 1. * mm}},
+	//  	Materials::Carbon
+	// );
 
 	auto hist = ConfigStructs::Histogram{
 		.name = "PIXE energy",
@@ -116,7 +132,7 @@ void api::setup_sim() {
 		.xmax = 10. * MeV
 	};
 
-	make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
-	make_sd("PIXE_total", "gamma", {property::Ekin, property::theta, property::phi});
-	make_sd("RBS", "primary", {property::Ekin, property::time});
+	// make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
+	// make_sd("PIXE_total", "gamma", {property::Ekin, property::theta, property::phi});
+	// make_sd("RBS", "proton", {property::Ekin, property::time});
 }

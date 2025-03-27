@@ -47,14 +47,14 @@
 
 
 G4LogicalVolume* collimator(std::string name, std::map<std::string, double>& params, Materials::MaterialMaker mat) {
-	G4double TargetDia = 40.*mm;
-	G4double TargetLen = 3.*mm;
-	double a = params.count("a")? params["a"] : 0.;
-	double b = params.count("b")? params["b"] : 0.;
-	double c = params.count("c")? params["c"] : 0.;
-	double d = params.count("d")? params["d"] : 0.;
-	double e = params.count("e")? params["e"] : 0.;
-	double f = params.count("f")? params["f"] : 0.;
+	G4double TargetDia = 50.*mm;
+	G4double TargetLen = 3.1*mm;
+	double a = params.count("a")? params["a"] : 20.*cm;  //thickness of shielding
+	double b = params.count("b")? params["b"] : 4.*cm;   //Entrance_Diameter of the tungsten colli; MAX 6.14cm
+	double c = params.count("c")? params["c"] : 2.*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm
+	double d = params.count("d")? params["d"] : 4.*cm;   //Exit_Diameter of the tungsten colli; MAX 6.4cm
+	double e = params.count("e")? params["e"] : 0.;      //rotation of the collimator
+	double f = params.count("f")? params["f"] : 33.9*mm; // position of the target; MAX 4.0cm - NEED TO CHECK!    
 
 //Collimator parameters (old, when the Collimator was built with fixed Entrance and Exit radius
 //Beam diameter is ~2cm, so 1cm is used for geometrical calculations
@@ -80,7 +80,7 @@ new G4Box("sFullRotationBox",                       //its name
 
 G4Box* sHalfRotationBox =
 new G4Box("sHalfRotationBox",                       //its name
-		2.01*m /2, 2.01*m /2, 248.1*cm/4);                //its size: half x, half y, half z
+		2.01*m /2, 2.01*m /2, 248.11*cm/4);                //its size: half x, half y, half z
 
 
 //
@@ -114,11 +114,11 @@ lRotationBox->SetVisAttributes(lRotationBoxVisAtt);
 
 G4Box* sInnerShieldBox =
   new G4Box("InnerShieldBox",                //its name
-      20.*cm, 20.*cm, 62.*cm);               //its size: half x, half y, half z
+      10.*cm, 10.*cm, 62.*cm);               //its size: half x, half y, half z
 
 G4Box* sOuterShieldBox =
   new G4Box("sOuterShieldBox",               //its name
-      20.*cm + a , 20.*cm + a , 62.*cm);     //its size: half x, half y, half z
+      10.*cm + a , 10.*cm + a , 62.*cm);     //its size: half x, half y, half z
 
 //
 // Subtract InnerShieldBox from OuterShieldBox
@@ -226,7 +226,7 @@ new G4PVPlacement(0,                                //no rotation
 				true);                                        //overlaps checking?
 
 //Make (in-)visible and give it a color
-auto logicTargetVisAtt = new G4VisAttributes(G4Color(0, 1, 0, 1)); //(r, g, b , transparency)
+auto logicTargetVisAtt = new G4VisAttributes(G4Color(0, 0, 0, 1)); //(r, g, b , transparency)
 logicTargetVisAtt->SetVisibility(true);
 lC_Target->SetVisAttributes(logicTargetVisAtt);
 
@@ -300,6 +300,20 @@ G4LogicalVolume* lColliShape =
   new G4LogicalVolume(sColliShape,          //its solid
                       Materials::Vacuum(),             //its material
                       "Collimator Shape");  //its name
+
+new G4PVPlacement(0,                      //no rotation
+            G4ThreeVector(0,0,-25.*cm),   //at position
+            lColliShape,                  //its logical volume
+            "Collimator Shape",           //its name
+            lWColli,                      //its mother  volume
+            false,                        //boolean operation?
+            0,                            //copy number
+            true);                        //overlaps checking?
+
+//Make (in-)visible and give it a color
+auto logicConeVisAtt = new G4VisAttributes(G4Color(1, 1, 1, 0.8)); //(r, g, b , transparency)
+logicConeVisAtt->SetVisibility(true);
+lColliShape->SetVisAttributes(logicConeVisAtt);
 
   return lRotationBox;
 }
