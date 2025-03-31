@@ -1,5 +1,6 @@
 #include "api.hh"
 #include "ConfigStructs.hh"
+
 extern ConfigStructs::GlobalConf global_conf;
 
 #include "G4ios.hh"
@@ -31,19 +32,19 @@ void api::make_sd(
 void api::make_ps(
 		std::string name,
 		std::string quantity,
-		util::Either<ConfigStructs::Histogram, ConfigStructs::NTuple> save_to,
+		save_data save_to,
 		bool filter,
 		ConfigStructs::ParticleSpec particle_filter,
 		std::string l_volume
 ){
 	auto _ = global_conf.lock();
 
-	if (save_to.has_a) {
-		global_conf.ra_conf.add_analysis(save_to.option_a);
+	if (auto save_variant = std::get_if<ConfigStructs::Histogram>(&save_to)) {
+		global_conf.ra_conf.add_analysis(*save_variant);
 		int hist_id = global_conf.ra_conf.histograms.size() - 1;
 		global_conf.eoe_conf.ps_hist_targets.push_back({name + "/" + quantity, hist_id});
-	} else {
-		global_conf.ra_conf.add_analysis(save_to.option_b);
+	} else if (auto save_variant = std::get_if<ConfigStructs::NTuple>(&save_to)) {
+		global_conf.ra_conf.add_analysis(*save_variant);
 		int tuple_id = global_conf.ra_conf.tuples.size() - 1;
 		global_conf.eoe_conf.ps_tuple_targets.push_back({name + "/" + quantity, tuple_id, 0});
 	}
@@ -82,47 +83,31 @@ void api::setup_sim() {
 
 	add_placer("collimator", collimator);
 
-	place_geometry("THEcollimator", "collimator", {{"x_pos", 0. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}}, Materials::Vacuum);
+	//place_geometry("THEcollimator", "collimator", {{"x_pos", 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}}, Materials::Vacuum);
 
 	place_geometry(
-		"Plane1", "cube",
-		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 130. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
-	 	Materials::Vacuum
+		"PIXE", "sphere",
+		{{"x_pos", - 5. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
+		Materials::Carbon
 	);
-
-	make_sd("Plane1", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
 
 	place_geometry(
-		"Plane2", "cube",
-		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 230. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
-	 	Materials::Vacuum
+		"PIXE_total", "sphere",
+		{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 10. * cm}, {"inner_radius", 9.9 * cm}, {"transparency", 0.}},
+		Materials::Carbon
 	);
 
-	make_sd("Plane2", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	place_geometry(
+		"RBS", "sphere",
+		{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 9.9 * cm}, {"inner_radius", 9.8 * cm}, {"transparency", 0.}},
+		Materials::Vacuum
+	);
 
-	// place_geometry(
-	// 	"PIXE", "sphere",
-	// 	{{"x_pos", 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
-	// 	Materials::Carbon
-	// );
-
-	// place_geometry(
-	// 	"PIXE_total", "sphere",
-	// 	{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 10. * cm}, {"inner_radius", 9.9 * cm}, {"transparency", 0.}},
-	// 	Materials::Carbon
-	// );
-
-	// place_geometry(
-	// 	"RBS", "sphere",
-	// 	{{"x_pos", - 2. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
-	// 	Materials::Vacuum
-	// );
-
-	// place_geometry(
-	// 	"target_base", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 5. * cm}, {"rot_x", 35. * degree}, {"x_size", 2. * cm}, {"y_size", 2. * cm}, {"z_size", 1. * mm}},
-	//  	Materials::Carbon
-	// );
+	place_geometry(
+		"target_base", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 0. * cm}, {"x_size", 0.5 * cm}, {"y_size", 0.5 * cm}, {"z_size", 0.5 * cm}},
+	 	Materials::Carbon
+	);
 
 	auto hist = ConfigStructs::Histogram{
 		.name = "PIXE energy",
@@ -132,7 +117,7 @@ void api::setup_sim() {
 		.xmax = 10. * MeV
 	};
 
-	// make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
-	// make_sd("PIXE_total", "gamma", {property::Ekin, property::theta, property::phi});
-	// make_sd("RBS", "proton", {property::Ekin, property::time});
+	make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
+	make_sd("PIXE_total", "gamma", {property::Ekin, property::theta, property::phi});
+	make_sd("RBS", "primary", {property::Ekin, property::time});
 }

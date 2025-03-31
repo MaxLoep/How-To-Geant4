@@ -3,13 +3,13 @@
 
 #include <string>
 #include <vector>
+#include <variant>
 #include "ConfigStructs.hh"
 #include "Geometries.hh"
-#include "Utils.hh"
 
 namespace api {
 	typedef ConfigStructs::ParticleProperty property;
-	typedef util::Either<ConfigStructs::Histogram, ConfigStructs::NTuple> save_data;
+	typedef std::variant<ConfigStructs::Histogram, ConfigStructs::NTuple> save_data;
 
 	void setup_sim();
 	void make_sd(
