@@ -11,6 +11,7 @@
 #include <variant>
 #include <vector>
 #include <span>
+#include <sstream>
 
 namespace parser {
 	using std::span, std::string;
@@ -46,6 +47,13 @@ namespace parser {
 		std::vector<token>& vec() {
 			return get<1>(this->body);
 		}
+
+		bool is_vec() {
+			if (auto _ = std::get_if<1>(&this->body)) {
+				return true;
+			}
+			return false;
+		};
 
 		std::string& value() {
 			return get<0>(this->body);

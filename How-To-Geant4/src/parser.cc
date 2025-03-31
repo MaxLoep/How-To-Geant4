@@ -72,8 +72,16 @@ double apply_unit(double value, std::string& unit) {
 	return value; //TODO: functionality
 }
 
+std::variant<double, std::string> maybe_double(std::string input) {
+	double value = NAN;
+	std::istringstream(input) >> value;
+	if (value == value) return value; //value == value checks for NAN as NAN != NAN
+	else return input;
+}
+
 parser::argtype collapse_to_argtype(parser::token tkn) {
-	if (std::vector<parser::token>* inner = std::get_if<std::vector<parser::token>>(&tkn.body)) {
+	if (tkn.is_vec()) {
+		auto inner = tkn.vec();
 		// in this case, inner is not a singular token
 		// could be a sequence or something nested.
 		// if it's a keyword (a future todo. like loops, ifs, function defs, or other math stuff)
@@ -82,30 +90,50 @@ parser::argtype collapse_to_argtype(parser::token tkn) {
 		// or if it is of the form: (parameter name,) literal, unit
 		// this needs to be evaluated in a simplyfied version
 
-	} else {
-		std::string inner = std::get<std::string>(&tkn.body);
+		// for now just assume it's either value and unit or kwd value unit
+		auto parsed_elem = maybe_double(inner[0].value());
+		if (double* num = std::get_if<double>(&parsed_elem)) {
+			return apply_unit(*num, inner[1].value()); // number and unit case
+		} else {
+			double n = std::get<double>(maybe_double(inner[1].value()));
+			if (inner.size() > 2) {
+				std::string unit = inner[2].value();
+				n = apply_unit(n, unit);
+			}
+			std::string keyword = inner[0].value();
+			return std::tuple<std::string, double>(keyword, n);
+		}
+
+	} else if (auto inner = std::get_if<std::string>(&tkn.body)) {
 		// check if it's a numerical literal or a string literal.
 		// return that.
-		try {
-			return atof(inner);
- 		} catch () {
-			return inner;
-		}
+		auto parsed_elem = maybe_double(*inner);
+		if (double* num = std::get_if<double>(&parsed_elem)) return *num;
+		else if (std::string* str = std::get_if<std::string>(&parsed_elem)) return *str;
 	}
 
 	return 0.;
 }
 
+std::vector<parser::argtype> accumulate_arguments(parser::token input) {
+	std::vector<parser::argtype> res = {};
+	auto inner =  input.vec();
+	for (uint i = 1; i < inner.size(); ++ i) {
+		res.push_back(collapse_to_argtype(inner[i]));
+	}
+	return res;
+}
+
 parser::command construct_place_cmd(parser::token input) {
-	return {parser::cmd_type::place_geometry, {}};
+	return {parser::cmd_type::place_geometry, accumulate_arguments(input)};
 }
 
 parser::command construct_make_sd_cmd(parser::token input) {
-	return {parser::cmd_type::make_sd, {}};
+	return {parser::cmd_type::make_sd, accumulate_arguments(input)};
 }
 
 parser::command construct_make_ps_cmd(parser::token input) {
-	return {parser::cmd_type::make_ps, {}};
+	return {parser::cmd_type::make_ps, accumulate_arguments(input)};
 }
 
 parser::token unwrap(parser::token tkn) {
