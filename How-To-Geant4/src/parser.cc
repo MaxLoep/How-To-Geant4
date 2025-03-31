@@ -68,7 +68,31 @@ parser::token parser::tokenize(
 	}
 }
 
+double apply_unit(double value, std::string& unit) {
+	return value; //TODO: functionality
+}
+
 parser::argtype collapse_to_argtype(parser::token tkn) {
+	if (std::vector<parser::token>* inner = std::get_if<std::vector<parser::token>>(&tkn.body)) {
+		// in this case, inner is not a singular token
+		// could be a sequence or something nested.
+		// if it's a keyword (a future todo. like loops, ifs, function defs, or other math stuff)
+		// the token must be evaluated down to a value
+		// if it is a value literal, the value is the result
+		// or if it is of the form: (parameter name,) literal, unit
+		// this needs to be evaluated in a simplyfied version
+
+	} else {
+		std::string inner = std::get<std::string>(&tkn.body);
+		// check if it's a numerical literal or a string literal.
+		// return that.
+		try {
+			return atof(inner);
+ 		} catch () {
+			return inner;
+		}
+	}
+
 	return 0.;
 }
 
@@ -84,14 +108,38 @@ parser::command construct_make_ps_cmd(parser::token input) {
 	return {parser::cmd_type::make_ps, {}};
 }
 
+parser::token unwrap(parser::token tkn) {
+	return tkn.vec()[0];
+}
+
+bool contains_token_vec(parser::token tkn) {
+	if (std::vector<parser::token>* inner = std::get_if<std::vector<parser::token>>(&tkn.body)) {
+		return inner->size() > 1;
+		// todo: make better check. this is merely improvised and could brake
+		// with single line input files
+	}
+
+	return true; //this case should not happen but could technically
+	// happen if an already too far unwrapped token is given.
+	// too prevent endless looping this case should be true
+}
+
 std::vector<parser::command> parser::token_to_cmd(parser::token input) {
-	static const std::map<std::string, std::function<parser::command(parser::token)>> cmd_converter = {
+	static std::map<std::string, std::function<parser::command(parser::token)>> cmd_converter = {
 		{"place", construct_place_cmd},
 		{"make_sd", construct_make_sd_cmd},
 		{"make_ps", construct_make_ps_cmd}
 	};
 
+	while (not contains_token_vec(input)) input = unwrap(input);
+
 	//TODO: strip redundant token layers (vec with top level tokens contained)
 	// these can occur an arbitrary number of times but at least once
-	return {};
+
+	std::vector<parser::command> res = {};
+	for (auto tkn : input.vec()) {
+		std::string name = tkn.vec()[0].value();
+		res.push_back(cmd_converter[name](tkn));
+	}
+	return res;
 }

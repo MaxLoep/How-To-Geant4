@@ -21,7 +21,7 @@ namespace parser {
 		make_sd
 	};
 
-	typedef std::variant<std::string, double> argtype;
+	typedef std::variant<std::string, double, std::tuple<std::string, double>> argtype;
 
 	struct command {
 		cmd_type type;
@@ -41,6 +41,14 @@ namespace parser {
 
 		token(std::vector<token> vt) {
 			this->body = vt;
+		}
+
+		std::vector<token>& vec() {
+			return get<1>(this->body);
+		}
+
+		std::string& value() {
+			return get<0>(this->body);
 		}
 
 		token operator+(token other) {
