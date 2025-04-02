@@ -90,14 +90,14 @@ void api::setup_sim() {
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 130. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
 	 	Materials::Vacuum
 	);
-	make_sd("Plane1", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_130", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
 
 	place_geometry(
 		"Plane_230", "cube",
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 230. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
 	 	Materials::Vacuum
 	);
-	make_sd("Plane2", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_230", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
 
 	// place_geometry(
 	// 	"PIXE", "sphere",
