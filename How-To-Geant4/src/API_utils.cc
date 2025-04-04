@@ -86,18 +86,32 @@ void api::setup_sim() {
 	place_geometry("THEcollimator", "collimator", {{"x_pos", 0. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}}, Materials::Vacuum);
 
 	place_geometry(
-		"Plane_130", "cube",
-		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 130. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
+		"Plane_150", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 150. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
 	 	Materials::Vacuum
 	);
-	make_sd("Plane_130", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_150", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
 
 	place_geometry(
-		"Plane_230", "cube",
-		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 230. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
+		"Plane_200", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 200. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
 	 	Materials::Vacuum
 	);
-	make_sd("Plane_230", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_200", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+
+	place_geometry(
+		"Plane_300", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 300. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
+	 	Materials::Vacuum
+	);
+	make_sd("Plane_300", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+
+	place_geometry(
+		"Plane_400", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 400. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
+	 	Materials::Vacuum
+	);
+	make_sd("Plane_400", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
 
 	// place_geometry(
 	// 	"PIXE", "sphere",
