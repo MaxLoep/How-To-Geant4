@@ -50,7 +50,7 @@
 #/custom/geo/setDummyMat1 G4_W
 #/custom/geo/setDummyMat1 G4_CONCRETE
 
-/custom/ana/setOutFolder Output/cs_D_26_MeV_G4_GRAPHITE_POROUS_4_4_4
+/custom/ana/setOutFolder Output/cs_D_26_MeV_G4_GRAPHITE_POROUS_3_3_3
 
 
 
