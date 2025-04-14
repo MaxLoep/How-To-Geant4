@@ -108,6 +108,9 @@ namespace parser {
 
 	token load_file(string filename);
 	std::vector<command> token_to_cmd(token input);
+
+	std::vector<std::vector<std::string>> ssv_chunks(std::basic_ifstream<char>& stream);
+	std::vector<std::tuple<parser::cmd_type, std::map<std::string, parser::argtype>>> load_simple_file(string filename);
 }
 
 #endif

@@ -1,5 +1,84 @@
 #include "parser.hh"
 
+std::vector<std::vector<std::string>> parser::ssv_chunks(std::basic_ifstream<char>& stream) {
+	std::string current_tag = "";
+	char c;
+	std::vector<std::vector<std::string>> chunk_list = std::vector<std::vector<std::string>>();
+	std::vector<std::string> chunk = std::vector<std::string>();
+
+	while (stream >> c) {
+		if (c == ';') {
+			chunk.push_back(current_tag);
+			current_tag = "";
+		}
+		else if (c == '\n') {
+			chunk_list.push_back(chunk);
+			chunk = std::vector<std::string>();
+		}
+		else current_tag += c;
+	}
+
+	return chunk_list;
+}
+
+using cmd_tuple = std::tuple<parser::cmd_type, std::map<std::string, parser::argtype>>;
+
+// for string delimiter
+std::vector<std::string> split(std::string s, std::string delimiter) {
+    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+    std::string token;
+    std::vector<std::string> res;
+
+    while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos) {
+        token = s.substr (pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back (token);
+    }
+
+    res.push_back (s.substr (pos_start));
+    return res;
+}
+
+std::map<std::string, parser::argtype> primitive_args(std::vector<parser::string> input) {
+	std::map<std::string, parser::argtype> args = {};
+
+	int str_param_cutoff = 2;
+
+	for (auto parameter : std::vector<parser::string>(input.begin(), input.begin() + str_param_cutoff)) {
+		auto chunks = split(parameter, "=");
+		args[chunks[0]] = chunks[1];
+	}
+
+	for (auto parameter : std::vector<parser::string>(input.begin() + str_param_cutoff, input.end())) {
+		auto chunks = split(parameter, "=");
+		args[chunks[0]] = std::stod(chunks[1]);
+	}
+
+	return args;
+}
+
+cmd_tuple primitive_cmd(std::vector<parser::string>& line) {
+	static std::map<parser::string, parser::cmd_type> cmd_lut = {
+		{"place", parser::cmd_type::place_geometry},
+		{"make_sd", parser::cmd_type::make_sd},
+		{"make_ps", parser::cmd_type::make_ps},
+	};
+
+
+	return {cmd_lut[line[0]], primitive_args(std::vector<parser::string>(line.begin() + 1, line.end()))};
+}
+
+std::vector<cmd_tuple> parser::load_simple_file(std::string filename) {
+	auto file = std::ifstream(filename) >> std::noskipws;
+	auto lines = ssv_chunks(file);
+	auto res = std::vector<cmd_tuple>();
+	for (auto line : lines) {
+
+	}
+
+	return res;
+}
+
 
 parser::token parser::load_file(string filename) {
 	auto file = std::ifstream(filename) >> std::noskipws;
