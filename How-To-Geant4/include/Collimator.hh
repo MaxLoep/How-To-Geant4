@@ -50,9 +50,9 @@ G4LogicalVolume* collimator(std::string name, std::map<std::string, double>& par
 	G4double TargetDia = 50.*mm;
 	G4double TargetLen = 3.1*mm;
 	double a = params.count("a")? params["a"] : 20.*cm;  //thickness of shielding
-	double b = params.count("b")? params["b"] : 3.1*cm;   //Entrance_Diameter of the tungsten colli;      MAX 6.14cm ; INLET WE HAVE 3.10cm
-	double c = params.count("c")? params["c"] : 1.32*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm ; INLET WE HAVE 1.32cm
-	double d = params.count("d")? params["d"] : 1.65*cm;   //Exit_Diameter of the tungsten colli;          MAX 6.40cm ; INLET WE HAVE 1.65cm
+	double b = params.count("b")? params["b"] : 5.*cm;   //Entrance_Diameter of the tungsten colli;      MAX 6.14cm ; INLET WE HAVE 3.10cm
+	double c = params.count("c")? params["c"] : 5.*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm ; INLET WE HAVE 1.32cm
+	double d = params.count("d")? params["d"] : 5.*cm;   //Exit_Diameter of the tungsten colli;          MAX 6.40cm ; INLET WE HAVE 1.65cm
 	double e = params.count("e")? params["e"] : 0.;      //rotation of the collimator
 	double f = params.count("f")? params["f"] : 33.9*mm; // position of the target; MAX 4.0cm - NEED TO CHECK!    
 
@@ -255,8 +255,8 @@ G4UnionSolid* sWColli =                            // combine Tungsten Cylinder 
 
 G4LogicalVolume* lWColli =
   new G4LogicalVolume(sWColli,                            //its solid
-                      // Materials::Densimet180(),           //its material
-                      Materials::Vacuum(),                // FOR LEFTOVERS: make this part vacuum
+                      Materials::Densimet180(),           //its material
+                      // Materials::Vacuum(),                // FOR LEFTOVERS: make this part vacuum
                       "logic Tungsten Collimator");       //its name
 
 new G4PVPlacement(0,                        //no rotation
@@ -276,30 +276,30 @@ lWColli->SetVisAttributes(logicTungstenInletVisAtt);
 // FOR LEFTOVERS:
 // Tungsten Cylinder for Inlet Leftovers-Simulation. Make above cylinder vacuum for this, comment this out otherwise
 //
-G4Tubs* sW_Cyl =
-new G4Tubs("W_Cylinder",                              //name
-            0., 3.07*cm,               //inner radius, outer radius
-            30.0*cm,                   //z half length
-            0., twopi);                //min phi, max phi
+// G4Tubs* sW_Cyl =
+// new G4Tubs("W_Cylinder",                              //name
+//             0., 3.07*cm,               //inner radius, outer radius
+//             30.0*cm,                   //z half length
+//             0., twopi);                //min phi, max phi
 
-G4LogicalVolume* lW_Cyl =
-new G4LogicalVolume(sW_Cyl,                      //shape
-            Materials::Densimet180(),                               //material
-						"W_Cylinder");                              //name
+// G4LogicalVolume* lW_Cyl =
+// new G4LogicalVolume(sW_Cyl,                      //shape
+//             Materials::Densimet180(),                               //material
+// 						"W_Cylinder");                              //name
 
-new G4PVPlacement(0,                                //no rotation
-				G4ThreeVector(0,0,-2.5*cm),           //position              f = target position
-				lW_Cyl,                                    //logical volume
-				"W_Cylinder",                                   //name
-				lWColli,                                 //mother  volume
-				false,                                        //boolean operation?
-				0,                                            //copy number
-				true);                                        //overlaps checking?
+// new G4PVPlacement(0,                                //no rotation
+// 				G4ThreeVector(0,0,-2.5*cm),           //position              f = target position
+// 				lW_Cyl,                                    //logical volume
+// 				"W_Cylinder",                                   //name
+// 				lWColli,                                 //mother  volume
+// 				false,                                        //boolean operation?
+// 				0,                                            //copy number
+// 				true);                                        //overlaps checking?
 
-//Make (in-)visible and give it a color
-auto logicW_CylVisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.5)); //(r, g, b , transparency)
-logicW_CylVisAtt->SetVisibility(true);
-lW_Cyl->SetVisAttributes(logicW_CylVisAtt);
+// //Make (in-)visible and give it a color
+// auto logicW_CylVisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.5)); //(r, g, b , transparency)
+// logicW_CylVisAtt->SetVisibility(true);
+// lW_Cyl->SetVisAttributes(logicW_CylVisAtt);
 
 //
 //Combine Cones for collimating shape and place in TungstenCylinder to remove the Tungsten and replace by Vacuum/Air
@@ -315,8 +315,8 @@ G4Cons* sBigCone =
     new G4Cons("solid big Cone",            //name
     0., c/2,                                //inner radius side A, outer radius side A (negative side) - Inner_Radius
     0., d/2,                                //inner radius side B, outer radius side B (positive side) - Exit_Radius
-    // 52.5*cm,                                //z half length
-    22.5*cm,                                //Inlet pieces we still have left
+    52.5*cm,                                //z half length
+    // 22.5*cm,                                //FOR LEFTOVERS: Inlet pieces we still have left
     0., twopi);                             //min phi, max phi
 
 G4UnionSolid* sColliShape =
@@ -324,8 +324,8 @@ new G4UnionSolid("solid Collimator Shape",  //its name
               sSmallCone,                   //Solid A
               sBigCone,                     //Solid B
               0,                            //Rotation of B relative to A
-              // G4ThreeVector(0,0,60.*cm));   //Translation of B relative to A
-              G4ThreeVector(0,0,30.*cm));   //FOR LEFTOVERS: Inlet pieces we still have left
+              G4ThreeVector(0,0,60.*cm));   //Translation of B relative to A
+              // G4ThreeVector(0,0,30.*cm));   //FOR LEFTOVERS: Inlet pieces we still have left
 
 G4LogicalVolume* lColliShape =
   new G4LogicalVolume(sColliShape,          //its solid
@@ -333,12 +333,12 @@ G4LogicalVolume* lColliShape =
                       "Collimator Shape");  //its name
 
 new G4PVPlacement(0,                      //no rotation
-            // G4ThreeVector(0,0,-25.*cm),   //at position
-            G4ThreeVector(0,0,-22.5*cm),   //FOR LEFTOVERS: Inlet pieces we still have left
+            G4ThreeVector(0,0,-25.*cm),   //at position
+            // G4ThreeVector(0,0,-22.5*cm),   //FOR LEFTOVERS: Inlet pieces we still have left
             lColliShape,                  //its logical volume
             "Collimator Shape",           //its name
-            // lWColli,                      //its mother  volume
-            lW_Cyl,                      //FOR LEFTOVERS: Inlet pieces we still have left
+            lWColli,                      //its mother  volume
+            // lW_Cyl,                      //FOR LEFTOVERS: Inlet pieces we still have left
             false,                        //boolean operation?
             0,                            //copy number
             true);                        //overlaps checking?
