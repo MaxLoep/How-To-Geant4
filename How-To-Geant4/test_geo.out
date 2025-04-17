@@ -1,0 +1,3 @@
+place; 4; command=place; object=cube; name=target; material=carbon; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; size_x=0.0001; size_y=0.01; size_z=0.01; 
+place; 4; command=place; object=sphere; name=detector; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=0.1; inner_radius=0.099; 
+make_sd; 7; command=make_sd; attach=detector; name=exit_counter; particle=all; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3; 

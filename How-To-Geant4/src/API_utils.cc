@@ -75,13 +75,51 @@ void api::add_placer(std::string name, placer_func func) {
 	geometries::add_placer(name, func);
 }
 
+
+api::property property_from_string(std::string property_string) {
+	// Ekin, local_pos_x,  local_pos_y,  local_pos_z, time, theta, phi
+	std::map<std::string, api::property> lut = {
+		{"ekin", api::property::Ekin},
+		{"pos_x", api::property::local_pos_x},
+		{"pos_y", api::property::local_pos_y},
+		{"pos_z", api::property::local_pos_z},
+		{"theta", api::property::theta},
+		{"phi", api::property::phi}
+	};
+
+	return lut[property_string];
+}
+
+
 #include "Collimator.hh"
 
 
 void api::setup_sim(std::string arg) {
 	add_placer("collimator", collimator);
 
-	auto res = parser::load_file(arg);
+	auto commands = parser::load_simple_file(arg);
+
+	for (auto [command_type, string_args, numerical_args] : commands) {
+		std::cout << "command" << std::endl;
+		// actually run the commands lol!
+		if (command_type == parser::cmd_type::place_geometry) {
+			auto mat = Materials::Vacuum;
+			place_geometry(string_args["name"], string_args["object"], numerical_args, mat);
+		} else if (command_type == parser::cmd_type::make_sd) {
+			auto properties = std::vector<api::property>();
+			for (int i = 0; i < (int) numerical_args["atrrib_count"]; ++ i) {
+				std::string attrib_name = "attrib_" + std::to_string(i);
+				properties.push_back(property_from_string(string_args[attrib_name]));
+			}
+			make_sd(string_args["name"], string_args["particle"], {}, string_args["attach"]);
+		} else if (command_type == parser::cmd_type::make_ps) {
+			std::cout << "not implemented yet!" << std::endl;
+		} else if (command_type == parser::cmd_type::make_custom_material) {
+			std::cout << "not implemented yet!" << std::endl;
+		}
+	}
+
+	exit(0);
 }
 
 /*
