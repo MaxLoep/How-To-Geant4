@@ -6,6 +6,24 @@ static std::mutex record_mutex;
 static fmap placers = {{"cube", geometries::cube}, {"sphere", geometries::sphere}};
 
 
+
+Materials::MaterialMaker Materials::get_mat(std::string name) {
+	if (known_materials.count(name)) {
+		return known_materials[name];
+	}
+
+	return Vacuum; // just return vacuum as default, idk, error handling seems over the top for now
+}
+
+void Materials::add_custom_mat(std::string mat_name, std::vector<std::tuple<std::string, double>> composition, double density) {
+	std::vector<std::tuple<MaterialMaker, double>> make_up = {};
+	for (auto [name, amount] : composition) {
+		make_up.push_back({get_mat(name), amount});
+	}
+
+	known_materials[mat_name] = CustomMat(mat_name, density, make_up);
+}
+
 void geometries::register_placement(std::string thing, std::string name, std::map<std::string, double> params, Materials::MaterialMaker material) {
 	auto _ = std::lock_guard<std::mutex>(record_mutex);
 	record.push_back({thing, name, params, material});
@@ -30,7 +48,7 @@ void geometries::change_param(std::string name, std::string param, double value)
 
 
 G4LogicalVolume* geometries::cube(std::string name, std::map<std::string, double>& params, Materials::MaterialMaker mat) {
-	G4Box* sCube = new G4Box("s" + name, params["x_size"], params["y_size"], params["z_size"]);
+	G4Box* sCube = new G4Box("s" + name, params["size_x"], params["size_y"], params["size_z"]);
 
 	G4LogicalVolume* lCube = new G4LogicalVolume(sCube, mat(), "l" + name);
 
@@ -39,7 +57,7 @@ G4LogicalVolume* geometries::cube(std::string name, std::map<std::string, double
 		params.count("red")? params["red"]: 0.,
 		params.count("green")? params["green"]: 0.,
 		params.count("blue")? params["blue"]: 1.,
-		params.count("transparency")? params["transparency"]: 0.8
+		params.count("transparency")? params["alpha"]: 0.8
 	);
 	auto lCubeVisAtt = new G4VisAttributes(color); //(r, g, b , transparency)
 	lCubeVisAtt->SetVisibility(true);
@@ -52,10 +70,10 @@ G4LogicalVolume* geometries::sphere(std::string name, std::map<std::string, doub
 	G4Sphere* sSphere = new G4Sphere(name,
 		params.count("inner_radius")? params["inner_radius"]: 0.,
 		params["radius"],
-		params.count("min_phi")? params["min_phi"]: 0.,
-		params.count("max_phi")? params["max_phi"]: twopi,
-		params.count("min_phi")? params["min_theta"]: 0.,
-		params.count("max_phi")? params["max_theta"]: pi
+		params.count("min_phi")? params["phi_min"]: 0.,
+		params.count("max_phi")? params["phi_max"]: twopi,
+		params.count("min_phi")? params["theta_min"]: 0.,
+		params.count("max_phi")? params["theta_max"]: pi
 	);
 	G4LogicalVolume* lSphere = new G4LogicalVolume(sSphere, mat(), "l" + name);
 

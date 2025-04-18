@@ -100,26 +100,34 @@ void api::setup_sim(std::string arg) {
 	auto commands = parser::load_simple_file(arg);
 
 	for (auto [command_type, string_args, numerical_args] : commands) {
-		std::cout << "command" << std::endl;
+		std::cout << string_args["command"] << std::endl;
 		// actually run the commands lol!
 		if (command_type == parser::cmd_type::place_geometry) {
-			auto mat = Materials::Vacuum;
+			std::cout << "running place_geometry command" << std::endl;
+			auto mat = Materials::get_mat(string_args["material"]);
 			place_geometry(string_args["name"], string_args["object"], numerical_args, mat);
 		} else if (command_type == parser::cmd_type::make_sd) {
+			std::cout << "running make_sd command" << std::endl;
 			auto properties = std::vector<api::property>();
-			for (int i = 0; i < (int) numerical_args["atrrib_count"]; ++ i) {
+			for (int i = 0; i < (int) numerical_args["attrib_count"]; ++ i) {
 				std::string attrib_name = "attrib_" + std::to_string(i);
 				properties.push_back(property_from_string(string_args[attrib_name]));
+				std::cout << string_args[attrib_name] << std::endl;
 			}
-			make_sd(string_args["name"], string_args["particle"], {}, string_args["attach"]);
+			make_sd(string_args["name"], string_args["particle"], properties, string_args["attach"]);
 		} else if (command_type == parser::cmd_type::make_ps) {
 			std::cout << "not implemented yet!" << std::endl;
 		} else if (command_type == parser::cmd_type::make_custom_material) {
-			std::cout << "not implemented yet!" << std::endl;
+			std::cout << "running make_custom_mat command" << std::endl;
+			std::vector<std::tuple<std::string, double>> parts = {};
+			for (auto [mat, amount] : numerical_args) {
+				if (mat == "density") continue;
+				parts.push_back({mat, amount});
+			}
+			Materials::add_custom_mat(string_args["name"], parts, numerical_args["density"]);
 		}
 	}
 
-	exit(0);
 }
 
 /*

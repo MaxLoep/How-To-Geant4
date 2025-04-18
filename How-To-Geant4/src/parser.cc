@@ -39,6 +39,12 @@ std::vector<std::string> split(std::string s, std::string delimiter) {
     return res;
 }
 
+inline std::string trim(const std::string &s) {
+	auto wsfront=std::find_if_not(s.begin(),s.end(),[](int c){return std::isspace(c);});
+	auto wsback=std::find_if_not(s.rbegin(),s.rend(),[](int c){return std::isspace(c);}).base();
+	return (wsback<=wsfront ? std::string() : std::string(wsfront,wsback));
+}
+
 std::tuple<std::map<std::string, std::string>, std::map<std::string, double>>
 primitive_args(std::vector<parser::string> input, int str_param_cutoff) {
 	std::map<std::string, double> num_args = {};
@@ -47,12 +53,12 @@ primitive_args(std::vector<parser::string> input, int str_param_cutoff) {
 
 	for (auto parameter : std::vector<parser::string>(input.begin(), input.begin() + str_param_cutoff)) {
 		auto chunks = split(parameter, "=");
-		str_args[chunks[0]] = chunks[1];
+		str_args[trim(chunks[0])] = trim(chunks[1]);
 	}
 
 	for (auto parameter : std::vector<parser::string>(input.begin() + str_param_cutoff, input.end())) {
 		auto chunks = split(parameter, "=");
-		num_args[chunks[0]] = std::stod(chunks[1]);
+		num_args[trim(chunks[0])] = std::stod(chunks[1]);
 	}
 
 	return {str_args, num_args};
@@ -63,11 +69,12 @@ cmd_tuple primitive_cmd(std::vector<parser::string>& line) {
 		{"place", parser::cmd_type::place_geometry},
 		{"make_sd", parser::cmd_type::make_sd},
 		{"make_ps", parser::cmd_type::make_ps},
+		{"make_custom_material", parser::cmd_type::make_custom_material},
 	};
 
 	int str_cnt = std::stoi(line[1]);
 	auto [str_args, num_args] = primitive_args(std::vector<parser::string>(line.begin() + 2, line.end()), str_cnt);
-	return {cmd_lut[line[0]], str_args, num_args};
+	return {cmd_lut[trim(line[0])], str_args, num_args};
 }
 
 std::vector<cmd_tuple> parser::load_simple_file(std::string filename) {

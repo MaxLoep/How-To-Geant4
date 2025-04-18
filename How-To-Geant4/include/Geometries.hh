@@ -1,6 +1,7 @@
 #ifndef GEOMETRYBUILDER
 #define GEOMETRYBUILDER
 
+#include <cwchar>
 #include <string>
 #include <vector>
 #include <map>
@@ -113,7 +114,6 @@ namespace Materials {
 	static MaterialMaker Steel       = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
 	static MaterialMaker Water       = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");};
 
-
 	// Structure to easily define Custom Materials later on
 	// This is just preparation to easily define custom materials later on.
 	// Skip this part and go ahead to see how custom materials are defined!
@@ -161,6 +161,35 @@ namespace Materials {
 	//Print all defined materials to console - this is currently done in 'DetectorConstruction.cc'
 	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
+	static std::map<std::string, MaterialMaker> known_materials = {
+		{"vacuum", Vacuum},
+		{"hydrogen", Hydrogen},
+		{"lithium", Lithium},
+		{"boron", Boron},
+		{"carbon", Carbon},
+		{"silicon", Silicon},
+		{"aluminum", Aluminum},
+		{"scandium", Scandium},
+		{"titanium", Titanium},
+		{"vanadium", Vanadium},
+		{"iron", Iron},
+		{"nickel", Nickel},
+		{"copper", Copper},
+		{"cadmium", Cadmium},
+		{"tungsten", Tungsten},
+		{"gold", Gold},
+		{"air", Air},
+		{"concrete", Concrete},
+		{"graphite", Graphite},
+		{"polyethylene", Polyethylene},
+		{"steel", Steel},
+		{"water", Water},
+		{"boratedPE", BoratedPE},
+		{"densimet180", Densimet180}
+	};
+
+	void add_custom_mat(std::string mat_name, std::vector<std::tuple<std::string, double>> composition, double density);
+	MaterialMaker get_mat(std::string name);
 }
 
 using placer_func = std::function<G4LogicalVolume*(std::string, std::map<std::string, double>&, Materials::MaterialMaker)>;

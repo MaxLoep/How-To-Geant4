@@ -79,7 +79,7 @@ def place(
 def make_sd(name: str, attach_to: str, attributes: List[str], sensitive_to = "all"):
     command_dict = {
         "command": "make_sd",
-        "attach": attach_to,
+        "attach": "l" + attach_to,
         "name": name,
         "attrib_count": len(attributes),
         "particle": sensitive_to
@@ -97,13 +97,13 @@ def make_ps(name: str, attach_to: str):
     command_dict = {
         "command": "make_ps",
         "name": name,
-        "attach": attach_to
+        "attach": "l" + attach_to
     }
 
     write_simple_ff(command_dict)
 
 
-def custom_material(name: str, **components):
+def custom_material(name: str, density: float, **components):
     # adds a new, usable material. components should be material=float, with float being the
     # fraction of the custom material which is material
     ...
