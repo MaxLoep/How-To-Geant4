@@ -62,6 +62,13 @@ namespace Materials {
 			this -> parts = parts;
 		};
 
+		void to_molecule() {
+			for (auto& element : this->parts) {
+				// convert atom count to mass fraction
+
+			}
+		}
+
 		G4Material* make() {
 			if (this->made) return this->mat_ptr;
 
@@ -105,6 +112,8 @@ namespace Materials {
 	static MaterialMaker Cadmium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cd");};
 	static MaterialMaker Tungsten    = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_W");};
 	static MaterialMaker Gold		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Au");};
+	static MaterialMaker Yttrium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Y");};
+	static MaterialMaker Barium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ba");};
 
 	// NIST Compounds
 	static MaterialMaker Air			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR");};
@@ -172,6 +181,8 @@ namespace Materials {
 		{"scandium", Scandium},
 		{"titanium", Titanium},
 		{"vanadium", Vanadium},
+		{"yttrium", Yttrium},
+		{"barium", Barium},
 		{"iron", Iron},
 		{"nickel", Nickel},
 		{"copper", Copper},

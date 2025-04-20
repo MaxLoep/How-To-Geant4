@@ -16,12 +16,15 @@ Materials::MaterialMaker Materials::get_mat(std::string name) {
 }
 
 void Materials::add_custom_mat(std::string mat_name, std::vector<std::tuple<std::string, double>> composition, double density) {
+	std::cout << ">> making: " << mat_name << " with composition: " << std::endl;
+
 	std::vector<std::tuple<MaterialMaker, double>> make_up = {};
 	for (auto [name, amount] : composition) {
+		std::cout << name << " " << amount << std::endl;
 		make_up.push_back({get_mat(name), amount});
 	}
 
-	known_materials[mat_name] = CustomMat(mat_name, density, make_up);
+	known_materials[mat_name] = CustomMat(mat_name, density * g / cm3, make_up);
 }
 
 void geometries::register_placement(std::string thing, std::string name, std::map<std::string, double> params, Materials::MaterialMaker material) {

@@ -10,6 +10,13 @@ cm = 1e-2
 m = 1.
 um = 1e-6
 
+def clear_setup():
+    # resets the command queue, so that multiple files
+    # can be built in one session
+    global command_list
+    command_list = []
+
+
 def spherical(r: Tuple[float, float, float]):
     # converts spherical to carthesian coordiantes
     # makes placing things easier sometimes
@@ -103,18 +110,79 @@ def make_ps(name: str, attach_to: str):
     write_simple_ff(command_dict)
 
 
-def custom_material(name: str, density: float, **components):
+def custom_material(name: str, density: float, normalize = True, **components):
     # adds a new, usable material. components should be material=float, with float being the
     # fraction of the custom material which is material
-    ...
+    # expects density in g/cm3 (nope, not adding units for that... for now)
+    command_dict = {
+        "command": "make_custom_material",
+        "name": name,
+        "density": density
+    }
+
+    norm = 0.
+    for key in components:
+        norm += components[key]
+
+    norm = 1. if not normalize else norm
+
+    for key in components:
+        command_dict[key] = components[key] / norm
+
+    write_simple_ff(command_dict)
 
 
-def make_source(particle: str, energy: float, position: Tuple[float, float, float], rotation = (0., 0., 0.)):
-    ...
+def custom_molecule(name: str, density: float, **components):
+    # adds a new, usable material. components should be element=int,
+    # according to the molecular formular
+    command_dict = {
+        "command": "make_custom_molecule",
+        "name": name,
+        "density": density
+    }
+
+    norm = 0.
+    for key in components:
+        norm += components[key]
+
+    for key in components:
+        command_dict[key] = components[key] / norm
+
+    write_simple_ff(command_dict)
 
 
-def set_run_macro(path: str):
-    ...
+def no_macro_run_file(event_count: int, thread_count = 1):
+    # enables running without macro file.
+    # will become default soon
+    command_dict = {
+        "command": "no_macro_f",
+        "event_count": event_count,
+        "thread_count": thread_count
+    }
+
+    write_simple_ff(command_dict)
+
+
+def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], rotation = (0., 0., 0.)):
+    # only works when no macro file is used
+    x, y, z = position
+    rx, ry, rz = rotation
+    command_dict = {
+        "command": "particle_source",
+        "particle": particle,
+        "energy": energy, # TODO: make energy distribution an option
+        "mono_e": "true",
+        "sigma": 0.,
+        "x_pos": x,
+        "y_pos": y,
+        "z_pos": z,
+        "x_rot": rx,
+        "y_rot": ry,
+        "z_rot": rz,
+    }
+
+    write_simple_ff(command_dict)
+
 
 
 def build_cluster_tar(job_count: int, bin_path: str):

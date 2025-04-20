@@ -8,6 +8,7 @@
 #include "ActionInitialization.hh"        //This is where you define what the simulation does (...)
 
 #include "G4Version.hh"                   //for checking which Geant4 version is installed
+#include <vector>
 #if G4VERSION_NUMBER>=1070
 #include "G4RunManagerFactory.hh"         //Necessary. You need this.
 #else
@@ -55,10 +56,10 @@ int main(int argc,char** argv) {
 	std::string setup_file = argv[argc - 1];
 	--argc;
 
-	api::setup_sim(setup_file);
+	std::vector<std::string> run_commands = api::setup_sim(setup_file);
   // Detect interactive mode (if no arguments) and define UI session
   G4UIExecutive* ui = 0;
-  if ( argc == 1 ) {
+  if ( argc == 1 and run_commands.size() == 0) {
     ui = new G4UIExecutive(argc, argv);
   }
 
@@ -192,7 +193,10 @@ int main(int argc,char** argv) {
 
   // Process macro or start UI session
   // A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../visualization.mac will be executed
-  if ( ! ui ) {
+  if ( ! ui and run_commands.size() > 0) {
+  	std::cout << "run commands are given" << std::endl;
+   	exit(1);
+  } else if ( ! ui ) {
     // batch mode
     G4String command = "/control/execute ";
     G4String fileName = argv[1];

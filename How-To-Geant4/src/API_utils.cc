@@ -94,7 +94,7 @@ api::property property_from_string(std::string property_string) {
 #include "Collimator.hh"
 
 
-void api::setup_sim(std::string arg) {
+std::vector<std::string> api::setup_sim(std::string arg) {
 	add_placer("collimator", collimator);
 
 	auto commands = parser::load_simple_file(arg);
@@ -128,4 +128,6 @@ void api::setup_sim(std::string arg) {
 		}
 	}
 
+
+	return {};
 }

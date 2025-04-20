@@ -63,10 +63,10 @@ RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
 	// CreateNtupleDColumn ("name")
 	// FinishNtuple ()
 
-	global_run_action_conf.add_analysis(ConfigStructs::Histogram{"N_Phi","N_Phi", 100, -180, 180.});
 	extern ConfigStructs::GlobalConf global_conf;
 	auto _ = global_conf.lock();
 
+	global_run_action_conf.add_analysis(ConfigStructs::Histogram{"N_Phi","N_Phi", 100, -180, 180.});
 
 	for (auto tuple : global_conf.ra_conf.tuples) {
 		analysisManager->CreateNtuple(tuple.name, tuple.title);
