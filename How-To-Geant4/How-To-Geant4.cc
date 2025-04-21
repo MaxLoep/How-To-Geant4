@@ -160,12 +160,19 @@ int main(int argc,char** argv) {
 	// Process macro or start UI session
 	// A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../visualization.mac will be executed
 	std::cout << "run commands are given" << std::endl;
-	for (auto cmd : run_commands) {
-		UImanager->ApplyCommand(cmd);
-	}
 	if (interactive){
+		UImanager->ApplyCommand("/control/execute ../Macros/visualization.mac");
+
+		for (auto cmd : run_commands) {
+			UImanager->ApplyCommand(cmd);
+		}
+
 		ui->SessionStart();
 		delete ui;
+	} else {
+		for (auto cmd : run_commands) {
+			UImanager->ApplyCommand(cmd);
+		}
 	}
 	// Job termination
 	// Free the store: user actions, physics_list and detector_description are

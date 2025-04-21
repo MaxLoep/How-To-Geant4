@@ -101,7 +101,7 @@ void geometries::run_placements(G4LogicalVolume* lWorld) {
 			rotation->rotateX(params.count("rot_x")? params["rot_x"]: 0.);
 			rotation->rotateY(params.count("rot_y")? params["rot_y"]: 0.);
 			rotation->rotateZ(params.count("rot_z")? params["rot_z"]: 0.);
-			G4ThreeVector pos(params["x_pos"], params["y_pos"], params["z_pos"]);
+			G4ThreeVector pos(params["pos_x"], params["pos_y"], params["pos_z"]);
 			new G4PVPlacement(rotation, pos, l_volume, "p" + name, lWorld, false, 0, true);
 			G4cout << name << " has been created and placed!" << G4endl;
 		}

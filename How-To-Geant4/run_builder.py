@@ -169,10 +169,10 @@ def config_run(event_count: int, thread_count = 1):
     write_simple_ff(command_dict)
 
 
-def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], aims_at = (0., 0., 0.)):
+def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float]):
     # only works when no macro file is used
     x, y, z = position
-    rx, ry, rz = aims_at
+    rx, ry, rz = direction
     command_dict = {
         "command": "particle_source",
         "particle": particle,

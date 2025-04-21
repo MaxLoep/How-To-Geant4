@@ -163,6 +163,7 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 			macro_commands.insert(macro_commands.end(), "/run/beamOn " + std::to_string((int) (numerical_args["event_count"])));
 		} else if (command_type == parser::cmd_type::start_gui) {
 			interactive = true;
+			/*
 			auto pos = macro_commands.begin();
 			pos = macro_commands.insert(pos, "/run/numberOfThreads 1");
 			pos = macro_commands.insert(pos, "/run/initialize");
@@ -189,6 +190,7 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 			pos = macro_commands.insert(pos, "/vis/scene/add/hits");
 			pos = macro_commands.insert(pos, "/vis/viewer/set/autoRefresh true");
 			pos = macro_commands.insert(pos, "/vis/verbose warnings");
+			*/
 		}
 	}
 
