@@ -195,7 +195,9 @@ int main(int argc,char** argv) {
   // A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../visualization.mac will be executed
   if ( ! ui and run_commands.size() > 0) {
   	std::cout << "run commands are given" << std::endl;
-   	exit(1);
+   	for (auto cmd : run_commands) {
+    	UImanager->ApplyCommand(cmd);
+    }
   } else if ( ! ui ) {
     // batch mode
     G4String command = "/control/execute ";

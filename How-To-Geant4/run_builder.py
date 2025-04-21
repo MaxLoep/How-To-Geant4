@@ -3,6 +3,8 @@ from types import NoneType
 from typing import Tuple, List, Dict
 
 command_list = []
+needs_run_cmd = False
+has_run_cmd = False
 
 #units:
 mm = 1e-3
@@ -13,7 +15,9 @@ um = 1e-6
 def clear_setup():
     # resets the command queue, so that multiple files
     # can be built in one session
-    global command_list
+    global command_list, needs_run_cmd, has_run_cmd
+    needs_run_cmd = False
+    has_run_cmd = False
     command_list = []
 
 
@@ -151,7 +155,7 @@ def custom_molecule(name: str, density: float, **components):
     write_simple_ff(command_dict)
 
 
-def no_macro_run_file(event_count: int, thread_count = 1):
+def config_run(event_count: int, thread_count = 1):
     # enables running without macro file.
     # will become default soon
     command_dict = {
@@ -160,13 +164,16 @@ def no_macro_run_file(event_count: int, thread_count = 1):
         "thread_count": thread_count
     }
 
+    global needs_run_cmd
+    needs_run_cmd = False
+
     write_simple_ff(command_dict)
 
 
-def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], rotation = (0., 0., 0.)):
+def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], aims_at = (0., 0., 0.)):
     # only works when no macro file is used
     x, y, z = position
-    rx, ry, rz = rotation
+    rx, ry, rz = aims_at
     command_dict = {
         "command": "particle_source",
         "particle": particle,
@@ -176,11 +183,13 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
         "x_pos": x,
         "y_pos": y,
         "z_pos": z,
-        "x_rot": rx,
-        "y_rot": ry,
-        "z_rot": rz,
+        "x_facing": rx,
+        "y_facing": ry,
+        "z_facing": rz,
     }
 
+    global needs_run_cmd
+    needs_run_cmd = True
     write_simple_ff(command_dict)
 
 
@@ -201,7 +210,10 @@ def launch_local_job():
 def build_geo_file(path = None):
     # writes the geometry file. for debug or local use
     # or calling the run binary manually (for whatever reason)
-    global command_list
+    global command_list, needs_run_cmd, has_run_cmd
+
+    if needs_run_cmd and not has_run_cmd:
+        config_run(1000, 1) # just make a default
 
     if type(path) == NoneType:
         _ = [print(line) for line in command_list]

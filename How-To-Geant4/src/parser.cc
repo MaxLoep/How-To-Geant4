@@ -70,6 +70,9 @@ cmd_tuple primitive_cmd(std::vector<parser::string>& line) {
 		{"make_sd", parser::cmd_type::make_sd},
 		{"make_ps", parser::cmd_type::make_ps},
 		{"make_custom_material", parser::cmd_type::make_custom_material},
+		{"particle_source", parser::cmd_type::particle_source},
+		{"no_macro_f", parser::cmd_type::replace_macro_file},
+
 	};
 
 	int str_cnt = std::stoi(line[1]);

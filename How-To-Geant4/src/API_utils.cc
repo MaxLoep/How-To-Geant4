@@ -1,6 +1,7 @@
 #include "api.hh"
 #include "ConfigStructs.hh"
 #include "parser.hh"
+#include <string>
 extern ConfigStructs::GlobalConf global_conf;
 
 #include "G4ios.hh"
@@ -98,6 +99,7 @@ std::vector<std::string> api::setup_sim(std::string arg) {
 	add_placer("collimator", collimator);
 
 	auto commands = parser::load_simple_file(arg);
+	std::vector<std::string> macro_commands = {};
 
 	for (auto [command_type, string_args, numerical_args] : commands) {
 		std::cout << string_args["command"] << std::endl;
@@ -125,9 +127,37 @@ std::vector<std::string> api::setup_sim(std::string arg) {
 				parts.push_back({mat, amount});
 			}
 			Materials::add_custom_mat(string_args["name"], parts, numerical_args["density"]);
+		} else if (command_type == parser::cmd_type::particle_source) {
+			std::cout << "making particle source" << std::endl;
+			auto pos = macro_commands.size() > 3? macro_commands.begin(): macro_commands.begin();
+			pos = macro_commands.insert(pos, "/gps/particle " + string_args["particle"]);
+			pos = macro_commands.insert(pos, "/gps/position "
+				+ std::to_string(numerical_args["x_pos"]) + " "
+				+ std::to_string(numerical_args["y_pos"]) + " "
+				+ std::to_string(numerical_args["x_pos"])
+			);
+			pos = macro_commands.insert(pos, "/gps/direction "
+				+ std::to_string(numerical_args["x_facing"]) + " "
+				+ std::to_string(numerical_args["y_facing"]) + " "
+				+ std::to_string(numerical_args["x_facing"])
+			);
+			if (string_args["mono_e"] == "true"){
+				pos = macro_commands.insert(pos, "/gps/ene/type Mono");
+				pos = macro_commands.insert(pos, "/gps/ene/mono " + std::to_string(numerical_args["energy"]) + " MeV");
+			} else {
+				exit(-1);
+			}
+
+			macro_commands.insert(pos, "/gps/pos/type Point");
+		} else if (command_type == parser::cmd_type::replace_macro_file) {
+			std::cout << "making run macros" << std::endl;
+			macro_commands.insert(macro_commands.begin(), "/run/initialize");
+			macro_commands.insert(macro_commands.begin(), "/run/numberOfThreads " + std::to_string((int) (numerical_args["thread_count"])));
+			macro_commands.insert(macro_commands.end(), "/run/printProgress " + std::to_string((int) (numerical_args["event_count"] / 1e3)));
+			macro_commands.insert(macro_commands.end(), "/run/beamOn " + std::to_string((int) (numerical_args["event_count"])));
 		}
 	}
 
 
-	return {};
+	return macro_commands;
 }

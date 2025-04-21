@@ -20,7 +20,9 @@ namespace parser {
 		place_geometry,
 		make_ps,
 		make_sd,
-		make_custom_material
+		make_custom_material,
+		particle_source,
+		replace_macro_file
 	};
 
 

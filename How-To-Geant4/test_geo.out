@@ -2,3 +2,5 @@ make_custom_material; 2; command=make_custom_material; name=ybco; density=6.4; y
 place; 4; command=place; object=cube; name=target; material=ybco; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; size_x=0.0001; size_y=0.01; size_z=0.01; 
 place; 4; command=place; object=sphere; name=detector; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=0.1; inner_radius=0.099; 
 make_sd; 7; command=make_sd; attach=ldetector; name=scatter; particle=primary; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3; 
+particle_source; 3; command=particle_source; particle=alpha; mono_e=true; energy=7.5; sigma=0.0; x_pos=-0.05; y_pos=0.0; z_pos=0.0; x_facing=1; y_facing=0; z_facing=0; 
+no_macro_f; 1; command=no_macro_f; event_count=1000000.0; thread_count=8; 

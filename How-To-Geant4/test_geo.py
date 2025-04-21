@@ -5,4 +5,5 @@ place("target", "cube", (0., 0., 0.), material= "ybco", size_x = 0.1 * mm, size_
 place("detector", "sphere", (0., 0., 0.), material="vacuum", radius = 10 * cm, inner_radius = 9.9 * cm)
 make_sd("scatter", "detector", ["ekin", "theta", "phi"], "primary")
 make_particle_source("alpha", 7.5, (-5. * cm, 0., 0.), (1, 0, 0))
+config_run(1e6, 8)
 build_geo_file()
