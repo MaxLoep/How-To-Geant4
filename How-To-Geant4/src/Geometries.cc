@@ -60,7 +60,7 @@ G4LogicalVolume* geometries::cube(std::string name, std::map<std::string, double
 		params.count("red")? params["red"]: 0.,
 		params.count("green")? params["green"]: 0.,
 		params.count("blue")? params["blue"]: 1.,
-		params.count("transparency")? params["alpha"]: 0.8
+		params.count("alpha")? params["alpha"]: 0.8
 	);
 	auto lCubeVisAtt = new G4VisAttributes(color); //(r, g, b , transparency)
 	lCubeVisAtt->SetVisibility(true);
@@ -85,7 +85,7 @@ G4LogicalVolume* geometries::sphere(std::string name, std::map<std::string, doub
 		params.count("red")? params["red"]: 0.,
 		params.count("green")? params["green"]: 1.,
 		params.count("blue")? params["blue"]: 0.,
-		params.count("transparency")? params["transparency"]: 0.8
+		params.count("alpha")? params["alpha"]: 0.8
 	);
 	auto lSphereVisAtt = new G4VisAttributes(color); //(r, g, b , transparency)
 	lSphereVisAtt->SetVisibility(true);

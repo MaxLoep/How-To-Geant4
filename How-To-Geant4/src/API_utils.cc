@@ -95,11 +95,17 @@ api::property property_from_string(std::string property_string) {
 #include "Collimator.hh"
 
 
-std::vector<std::string> api::setup_sim(std::string arg) {
+std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 	add_placer("collimator", collimator);
+
+	std::cout
+	<< "mm = " << mm << std::endl
+	<< "cm = " << cm << std::endl
+	<< "m = " << m << std::endl;
 
 	auto commands = parser::load_simple_file(arg);
 	std::vector<std::string> macro_commands = {};
+	bool interactive = false;
 
 	for (auto [command_type, string_args, numerical_args] : commands) {
 		std::cout << string_args["command"] << std::endl;
@@ -129,7 +135,7 @@ std::vector<std::string> api::setup_sim(std::string arg) {
 			Materials::add_custom_mat(string_args["name"], parts, numerical_args["density"]);
 		} else if (command_type == parser::cmd_type::particle_source) {
 			std::cout << "making particle source" << std::endl;
-			auto pos = macro_commands.size() > 3? macro_commands.begin(): macro_commands.begin();
+			auto pos = macro_commands.size() > 2? macro_commands.begin() + 2: macro_commands.begin();
 			pos = macro_commands.insert(pos, "/gps/particle " + string_args["particle"]);
 			pos = macro_commands.insert(pos, "/gps/position "
 				+ std::to_string(numerical_args["x_pos"]) + " "
@@ -153,11 +159,39 @@ std::vector<std::string> api::setup_sim(std::string arg) {
 			std::cout << "making run macros" << std::endl;
 			macro_commands.insert(macro_commands.begin(), "/run/initialize");
 			macro_commands.insert(macro_commands.begin(), "/run/numberOfThreads " + std::to_string((int) (numerical_args["thread_count"])));
-			macro_commands.insert(macro_commands.end(), "/run/printProgress " + std::to_string((int) (numerical_args["event_count"] / 1e3)));
+			macro_commands.insert(macro_commands.end(), "/run/printProgress " + std::to_string((int) (numerical_args["event_count"] / 10)));
 			macro_commands.insert(macro_commands.end(), "/run/beamOn " + std::to_string((int) (numerical_args["event_count"])));
+		} else if (command_type == parser::cmd_type::start_gui) {
+			interactive = true;
+			auto pos = macro_commands.begin();
+			pos = macro_commands.insert(pos, "/run/numberOfThreads 1");
+			pos = macro_commands.insert(pos, "/run/initialize");
+			pos = macro_commands.insert(pos, "/vis/open OGL 600x600-0+0");
+			pos = macro_commands.insert(pos, "/vis/drawVolume");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/viewpointVector -1 0 0");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/viewpointThetaPhi 120 150");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/lightsVector -1 0 0");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/background 1 1 1 1");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/autoRefresh false");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/style surface");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/auxiliaryEdge true");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/lineSegmentsPerCircle 100");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/hiddenMarker true");
+			pos = macro_commands.insert(pos, "/vis/scene/add/eventID");
+			pos = macro_commands.insert(pos, "/vis/scene/add/trajectories smooth");
+			pos = macro_commands.insert(pos, "/vis/modeling/trajectories/create/drawByCharge");
+			macro_commands.insert(pos, "/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts pos = true");
+			macro_commands.insert(pos, "/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2pos = ");
+			pos = macro_commands.insert(pos, "/vis/scene/add/hits");
+			pos = macro_commands.insert(pos, "/vis/modeling/trajectories/create/drawByParticleID");
+			pos = macro_commands.insert(pos, "/vis/modeling/trajectories/drawByParticleID-0/set proton yellow");
+			pos = macro_commands.insert(pos, "/vis/scene/endOfEventAction accumulate");
+			pos = macro_commands.insert(pos, "/vis/scene/add/hits");
+			pos = macro_commands.insert(pos, "/vis/viewer/set/autoRefresh true");
+			pos = macro_commands.insert(pos, "/vis/verbose warnings");
 		}
 	}
 
 
-	return macro_commands;
+	return {macro_commands, interactive};
 }

@@ -3,21 +3,19 @@ from types import NoneType
 from typing import Tuple, List, Dict
 
 command_list = []
-needs_run_cmd = False
-has_run_cmd = False
+has_run_config = False
 
 #units:
-mm = 1e-3
-cm = 1e-2
-m = 1.
-um = 1e-6
+mm = 1
+cm = 10
+m = 1000
+um = m * 1e-6
+nm = m * 1e-9
 
 def clear_setup():
     # resets the command queue, so that multiple files
     # can be built in one session
-    global command_list, needs_run_cmd, has_run_cmd
-    needs_run_cmd = False
-    has_run_cmd = False
+    global command_list
     command_list = []
 
 
@@ -25,6 +23,7 @@ def spherical(r: Tuple[float, float, float]):
     # converts spherical to carthesian coordiantes
     # makes placing things easier sometimes
     return r # TODO: implement
+
 
 def can_float(string: str) -> bool:
     try:
@@ -164,8 +163,8 @@ def config_run(event_count: int, thread_count = 1):
         "thread_count": thread_count
     }
 
-    global needs_run_cmd
-    needs_run_cmd = False
+    global has_run_config
+    has_run_config = True
 
     write_simple_ff(command_dict)
 
@@ -188,8 +187,15 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
         "z_facing": rz,
     }
 
-    global needs_run_cmd
-    needs_run_cmd = True
+    write_simple_ff(command_dict)
+
+
+def make_ui_commands():
+    command_dict = {
+        "command": "start_gui",
+        "placeholder": "value"
+    }
+
     write_simple_ff(command_dict)
 
 
@@ -203,17 +209,17 @@ def build_cluster_tar(job_count: int, bin_path: str):
     ...
 
 
-def launch_local_job():
-    ...
+def start_run():
+    build_geo_file()
 
 
 def build_geo_file(path = None):
     # writes the geometry file. for debug or local use
     # or calling the run binary manually (for whatever reason)
-    global command_list, needs_run_cmd, has_run_cmd
+    global has_run_config
 
-    if needs_run_cmd and not has_run_cmd:
-        config_run(1000, 1) # just make a default
+    if not has_run_config:
+        make_ui_commands()
 
     if type(path) == NoneType:
         _ = [print(line) for line in command_list]

@@ -1,4 +1,8 @@
 #include "parser.hh"
+#include <cstdlib>
+#include <string>
+#include <unistd.h>
+#include <stdlib.h>
 
 std::vector<std::vector<std::string>> parser::ssv_chunks(std::basic_ifstream<char>& stream) {
 	std::string current_tag = "";
@@ -72,6 +76,7 @@ cmd_tuple primitive_cmd(std::vector<parser::string>& line) {
 		{"make_custom_material", parser::cmd_type::make_custom_material},
 		{"particle_source", parser::cmd_type::particle_source},
 		{"no_macro_f", parser::cmd_type::replace_macro_file},
+		{"start_gui", parser::cmd_type::start_gui}
 
 	};
 
@@ -82,7 +87,17 @@ cmd_tuple primitive_cmd(std::vector<parser::string>& line) {
 
 std::vector<cmd_tuple> parser::load_simple_file(std::string filename) {
 	std::cout << "entering load file!" << std::endl;
+
+	auto temp_path = "/tmp/" + std::to_string(getpid()) + "geo_file.out";
+	if (filename.ends_with(".py")) {
+		std::cout << "running the python script, writing run file to: " << temp_path << std::endl;
+		std::string exec_script = "python " + filename + " > " + temp_path;
+		int res = std::system(exec_script.data());
+		filename = temp_path;
+	}
+
 	auto file = std::ifstream(filename) >> std::noskipws;
+
 	auto lines = ssv_chunks(file);
 	auto res = std::vector<cmd_tuple>();
 	for (auto line : lines) {
