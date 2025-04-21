@@ -10,6 +10,6 @@ place("z_block", "cube", (0., 0., 2. * cm), material="vacuum", size_z = 2 * cm, 
 
 place("detector", "sphere", (0., 0., 0.), material="vacuum", radius = 10 * cm, inner_radius = 9.9 * cm, alpha=0.01, red=255, green = 0)
 make_sd("scatter", "detector", ["ekin", "theta", "phi"], "primary")
-make_particle_source("alpha", 7.5, (0, 0., 0.), (0, 1, 0))
+make_particle_source("alpha", 7.5, (0, 0., 0.), (1, 1, 1))
 #config_run(1e6, 8)
 start_run()
