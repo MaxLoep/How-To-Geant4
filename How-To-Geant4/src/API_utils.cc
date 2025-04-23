@@ -142,6 +142,13 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 			Materials::add_custom_mat(string_args["name"], parts, numerical_args["density"]);
 		} else if (command_type == parser::cmd_type::particle_source) {
 			auto pos = macro_commands.size() > 2? macro_commands.begin() + 2: macro_commands.begin();
+			if (string_args["shape"] == "point") pos = macro_commands.insert(pos, "/gps/pos/type Point");
+			else if (string_args["shape"] == "beam") {
+				pos = macro_commands.insert(pos, "/gps/pos/type Beam");
+				pos = macro_commands.insert(pos, "/gps/pos/sigma_r " + std::to_string(numerical_args["sigma_r"]) + " mm");
+				std::cout << "sigma r is: " << std::to_string(numerical_args["sigma_r"]) << std::endl;
+			}
+
 			pos = macro_commands.insert(pos, "/gps/particle " + string_args["particle"]);
 			pos = macro_commands.insert(pos, std::format("/gps/position {} {} {} mm", numerical_args["x_pos"], numerical_args["y_pos"], numerical_args["z_pos"]));
 			pos = macro_commands.insert(pos, std::format("/gps/direction {} {} {}", numerical_args["x_facing"], numerical_args["y_facing"], numerical_args["z_facing"]));
@@ -153,7 +160,6 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 				exit(-1);
 			}
 
-			macro_commands.insert(pos, "/gps/pos/type Point");
 		} else if (command_type == parser::cmd_type::replace_macro_file) {
 			macro_commands.insert(macro_commands.begin(), "/run/initialize");
 			macro_commands.insert(macro_commands.begin(), "/run/numberOfThreads " + std::to_string((int) (numerical_args["thread_count"])));

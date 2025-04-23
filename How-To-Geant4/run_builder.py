@@ -177,8 +177,7 @@ def config_run(event_count: int, thread_count = 1):
     write_simple_ff(command_dict)
 
 
-def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float], size = 0.):
-    # only works when no macro file is used
+def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float]):
     x, y, z = position
     rx, ry, rz = direction
     command_dict = {
@@ -193,10 +192,33 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
         "x_facing": rx,
         "y_facing": ry,
         "z_facing": rz,
-        "extent": size,
+        "shape": "point",
     }
 
     write_simple_ff(command_dict)
+
+
+def make_beam_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0.):
+    x, y, z = position
+    rx, ry, rz = direction
+    command_dict = {
+        "command": "particle_source",
+        "particle": particle,
+        "energy": energy, # TODO: make energy distribution an option
+        "mono_e": "true",
+        "sigma": 0.,
+        "x_pos": x,
+        "y_pos": y,
+        "z_pos": z,
+        "x_facing": rx,
+        "y_facing": ry,
+        "z_facing": rz,
+        "shape": "beam",
+        "sigma_r": sigma_r
+    }
+
+    write_simple_ff(command_dict)
+
 
 
 def make_ui_commands():
