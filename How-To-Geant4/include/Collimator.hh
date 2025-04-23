@@ -50,9 +50,9 @@ G4LogicalVolume* collimator(std::string name, std::map<std::string, double>& par
 	G4double TargetDia = 50.*mm;
 	G4double TargetLen = 3.1*mm;
 	double a = params.count("a")? params["a"] : 20.*cm;  //thickness of shielding
-	double b = params.count("b")? params["b"] : 5.*cm;   //Entrance_Diameter of the tungsten colli;      MAX 6.14cm ; INLET WE HAVE 3.10cm
-	double c = params.count("c")? params["c"] : 5.*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm ; INLET WE HAVE 1.32cm
-	double d = params.count("d")? params["d"] : 5.*cm;   //Exit_Diameter of the tungsten colli;          MAX 6.40cm ; INLET WE HAVE 1.65cm
+	double b = params.count("b")? params["b"] : 5.*cm;   //Entrance_Diameter of the tungsten colli;       MAX 6.14cm ; LEFTOVER INLET WE HAVE 3.10cm
+	double c = params.count("c")? params["c"] : 5.*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm ; LEFTOVER INLET WE HAVE 1.32cm
+	double d = params.count("d")? params["d"] : 5.*cm;   //Exit_Diameter of the tungsten colli;          MAX 6.40cm ; LEFTOVER INLET WE HAVE 1.65cm
 	double e = params.count("e")? params["e"] : 0.;      //rotation of the collimator
 	double f = params.count("f")? params["f"] : 33.9*mm; // position of the target; MAX 4.0cm - NEED TO CHECK!    
 
