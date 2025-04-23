@@ -49,7 +49,7 @@
 G4LogicalVolume* collimator(std::string name, std::map<std::string, double>& params, Materials::MaterialMaker mat) {
 	G4double TargetDia = 40.*mm;
 	G4double TargetLen = 3.*mm;
-	double a = params.count("a")? params["a"] : 0.;
+	double a = params.count("shield_thickness")? params["shield_thickness"] : 0.;
 	double b = params.count("b")? params["b"] : 0.;
 	double c = params.count("c")? params["c"] : 0.;
 	double d = params.count("d")? params["d"] : 0.;

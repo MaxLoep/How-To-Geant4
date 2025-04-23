@@ -1,4 +1,5 @@
 #include "platform.hh"
+#include "config.hh"
 #include "SensitiveDetector.hh"
 #include "Analysis.hh"
 
@@ -122,8 +123,7 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 	// Obtain local coordinates:
 	const G4VTouchable* touchable = preStepPoint->GetTouchable();
 	G4ThreeVector globalPosition = preStepPoint->GetPosition();
-	G4ThreeVector localPosition
-		= touchable->GetHistory()->GetTopTransform().TransformPoint(globalPosition);
+	G4ThreeVector localPosition = touchable->GetHistory()->GetTopTransform().TransformPoint(globalPosition);
 	// // Example for obtaining the local direction:
 	// G4ThreeVector globalDirection = preStepPoint->GetMomentumDirection();
 	// G4ThreeVector localDirection
@@ -137,11 +137,15 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 
 	//G4cout << this->name << " processing a hit from " << particle_name << G4endl;
 
+	#ifdef MOREDEBUG
+	std::cout << "GENERIC SD: " << this->name << " got a hit from: " << particle_name << std::endl;
+	#endif
+
 	for (auto det_info : this->log_properties) {
 		//G4cout << this->name << " is looking for " << det_info.particle_kind << G4endl;
 		if (
-			particle_name == det_info.particle_kind
-			or det_info.particle_kind == "all"
+			(particle_name == det_info.particle_kind)
+			or (det_info.particle_kind == "all")
 			or (det_info.particle_kind == "primary" and currentTrackId == 1)
 		) {
 			for (auto [property, col] : det_info.ntuple_spec) {

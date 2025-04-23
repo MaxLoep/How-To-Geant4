@@ -1,7 +1,9 @@
 #include "api.hh"
 #include "ConfigStructs.hh"
+#include "config.hh"
 #include "parser.hh"
 #include <string>
+
 extern ConfigStructs::GlobalConf global_conf;
 
 #include "G4ios.hh"
@@ -26,6 +28,10 @@ void api::make_sd(
 	};
 
 	global_conf.sd_conf.push_back(sd_conf);
+
+	#ifdef DEBUG
+	std::cout << "make_sd ran succesfully" << std::endl;
+	#endif
 }
 
 // should primitive scorers even be implemented in code??
@@ -98,11 +104,6 @@ api::property property_from_string(std::string property_string) {
 std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 	add_placer("collimator", collimator);
 
-	std::cout
-	<< "mm = " << mm << std::endl
-	<< "cm = " << cm << std::endl
-	<< "m = " << m << std::endl;
-
 	auto commands = parser::load_simple_file(arg);
 	std::vector<std::string> macro_commands = {};
 	bool interactive = false;
@@ -111,22 +112,28 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 		std::cout << string_args["command"] << std::endl;
 		// actually run the commands lol!
 		if (command_type == parser::cmd_type::place_geometry) {
-			std::cout << "running place_geometry command" << std::endl;
 			auto mat = Materials::get_mat(string_args["material"]);
 			place_geometry(string_args["name"], string_args["object"], numerical_args, mat);
 		} else if (command_type == parser::cmd_type::make_sd) {
+			#ifdef DEBUG
 			std::cout << "running make_sd command" << std::endl;
+			#endif
+
 			auto properties = std::vector<api::property>();
 			for (int i = 0; i < (int) numerical_args["attrib_count"]; ++ i) {
 				std::string attrib_name = "attrib_" + std::to_string(i);
 				properties.push_back(property_from_string(string_args[attrib_name]));
 				std::cout << string_args[attrib_name] << std::endl;
 			}
+
+			#ifdef DEBUG
+			std::cout << "\tparticle is: " << string_args["particle"] << std::endl;
+			#endif
+
 			make_sd(string_args["name"], string_args["particle"], properties, string_args["attach"]);
 		} else if (command_type == parser::cmd_type::make_ps) {
 			std::cout << "not implemented yet!" << std::endl;
 		} else if (command_type == parser::cmd_type::make_custom_material) {
-			std::cout << "running make_custom_mat command" << std::endl;
 			std::vector<std::tuple<std::string, double>> parts = {};
 			for (auto [mat, amount] : numerical_args) {
 				if (mat == "density") continue;
@@ -134,19 +141,11 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 			}
 			Materials::add_custom_mat(string_args["name"], parts, numerical_args["density"]);
 		} else if (command_type == parser::cmd_type::particle_source) {
-			std::cout << "making particle source" << std::endl;
 			auto pos = macro_commands.size() > 2? macro_commands.begin() + 2: macro_commands.begin();
 			pos = macro_commands.insert(pos, "/gps/particle " + string_args["particle"]);
-			pos = macro_commands.insert(pos, "/gps/position "
-				+ std::to_string(numerical_args["x_pos"]) + " "
-				+ std::to_string(numerical_args["y_pos"]) + " "
-				+ std::to_string(numerical_args["x_pos"])
-			);
-			pos = macro_commands.insert(pos, "/gps/direction "
-				+ std::to_string(numerical_args["x_facing"]) + " "
-				+ std::to_string(numerical_args["y_facing"]) + " "
-				+ std::to_string(numerical_args["x_facing"])
-			);
+			pos = macro_commands.insert(pos, std::format("/gps/position {} {} {} mm", numerical_args["x_pos"], numerical_args["y_pos"], numerical_args["z_pos"]));
+			pos = macro_commands.insert(pos, std::format("/gps/direction {} {} {}", numerical_args["x_facing"], numerical_args["y_facing"], numerical_args["z_facing"]));
+
 			if (string_args["mono_e"] == "true"){
 				pos = macro_commands.insert(pos, "/gps/ene/type Mono");
 				pos = macro_commands.insert(pos, "/gps/ene/mono " + std::to_string(numerical_args["energy"]) + " MeV");
@@ -156,41 +155,14 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 
 			macro_commands.insert(pos, "/gps/pos/type Point");
 		} else if (command_type == parser::cmd_type::replace_macro_file) {
-			std::cout << "making run macros" << std::endl;
 			macro_commands.insert(macro_commands.begin(), "/run/initialize");
 			macro_commands.insert(macro_commands.begin(), "/run/numberOfThreads " + std::to_string((int) (numerical_args["thread_count"])));
 			macro_commands.insert(macro_commands.end(), "/run/printProgress " + std::to_string((int) (numerical_args["event_count"] / 10)));
 			macro_commands.insert(macro_commands.end(), "/run/beamOn " + std::to_string((int) (numerical_args["event_count"])));
 		} else if (command_type == parser::cmd_type::start_gui) {
 			interactive = true;
-			/*
-			auto pos = macro_commands.begin();
-			pos = macro_commands.insert(pos, "/run/numberOfThreads 1");
-			pos = macro_commands.insert(pos, "/run/initialize");
-			pos = macro_commands.insert(pos, "/vis/open OGL 600x600-0+0");
-			pos = macro_commands.insert(pos, "/vis/drawVolume");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/viewpointVector -1 0 0");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/viewpointThetaPhi 120 150");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/lightsVector -1 0 0");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/background 1 1 1 1");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/autoRefresh false");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/style surface");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/auxiliaryEdge true");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/lineSegmentsPerCircle 100");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/hiddenMarker true");
-			pos = macro_commands.insert(pos, "/vis/scene/add/eventID");
-			pos = macro_commands.insert(pos, "/vis/scene/add/trajectories smooth");
-			pos = macro_commands.insert(pos, "/vis/modeling/trajectories/create/drawByCharge");
-			macro_commands.insert(pos, "/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts pos = true");
-			macro_commands.insert(pos, "/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2pos = ");
-			pos = macro_commands.insert(pos, "/vis/scene/add/hits");
-			pos = macro_commands.insert(pos, "/vis/modeling/trajectories/create/drawByParticleID");
-			pos = macro_commands.insert(pos, "/vis/modeling/trajectories/drawByParticleID-0/set proton yellow");
-			pos = macro_commands.insert(pos, "/vis/scene/endOfEventAction accumulate");
-			pos = macro_commands.insert(pos, "/vis/scene/add/hits");
-			pos = macro_commands.insert(pos, "/vis/viewer/set/autoRefresh true");
-			pos = macro_commands.insert(pos, "/vis/verbose warnings");
-			*/
+		} else if (command_type == parser::cmd_type::prerun_macro) {
+			macro_commands.insert(macro_commands.begin(), string_args["content"]);
 		}
 	}
 

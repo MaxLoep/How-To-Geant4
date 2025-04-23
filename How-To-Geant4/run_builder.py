@@ -12,6 +12,7 @@ m = 1000
 um = m * 1e-6
 nm = m * 1e-9
 
+
 def clear_setup():
     # resets the command queue, so that multiple files
     # can be built in one session
@@ -102,6 +103,13 @@ def make_sd(name: str, attach_to: str, attributes: List[str], sensitive_to = "al
 
     write_simple_ff(command_dict)
 
+def prerun_macro(command: str):
+    command_dict = {
+        "command": "prerun_macro",
+        "content": command,
+    }
+    write_simple_ff(command_dict)
+
 
 def make_ps(name: str, attach_to: str):
     command_dict = {
@@ -169,7 +177,7 @@ def config_run(event_count: int, thread_count = 1):
     write_simple_ff(command_dict)
 
 
-def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float]):
+def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float], size = 0.):
     # only works when no macro file is used
     x, y, z = position
     rx, ry, rz = direction
@@ -185,6 +193,7 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
         "x_facing": rx,
         "y_facing": ry,
         "z_facing": rz,
+        "extent": size,
     }
 
     write_simple_ff(command_dict)

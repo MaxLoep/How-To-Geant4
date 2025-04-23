@@ -23,7 +23,8 @@ namespace parser {
 		make_custom_material,
 		particle_source,
 		replace_macro_file,
-		start_gui
+		start_gui,
+		prerun_macro
 	};
 
 

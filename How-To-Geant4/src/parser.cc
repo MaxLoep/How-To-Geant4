@@ -76,8 +76,8 @@ cmd_tuple primitive_cmd(std::vector<parser::string>& line) {
 		{"make_custom_material", parser::cmd_type::make_custom_material},
 		{"particle_source", parser::cmd_type::particle_source},
 		{"no_macro_f", parser::cmd_type::replace_macro_file},
-		{"start_gui", parser::cmd_type::start_gui}
-
+		{"start_gui", parser::cmd_type::start_gui},
+		{"prerun_macro", parser::cmd_type::prerun_macro},
 	};
 
 	int str_cnt = std::stoi(line[1]);
