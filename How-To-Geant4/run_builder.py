@@ -3,6 +3,7 @@ from types import NoneType
 from typing import Tuple, List, Dict
 
 command_list = []
+run_list = []
 has_run_config = False
 
 #units:
@@ -244,6 +245,13 @@ def make_ui_commands():
     write_simple_ff(command_dict)
 
 
+def set_output_path(path: str):
+    command_dict = {
+        "command": "start_gui",
+        "path": path
+    }
+    write_simple_ff(command_dict)
+
 
 def build_cluster_tar(job_count: int, bin_path: str):
     # packages the geometry file, macro file, jdl file and
@@ -254,8 +262,12 @@ def build_cluster_tar(job_count: int, bin_path: str):
     ...
 
 
-def start_run():
-    build_geo_file()
+def start_run(path = None):
+    build_geo_file(path)
+    clear_setup()
+    if type(path) != NoneType:
+        global run_list
+        run_list.append(path)
 
 
 def build_geo_file(path = None):
