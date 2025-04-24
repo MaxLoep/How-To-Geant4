@@ -149,7 +149,18 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 				std::cout << "sigma r is: " << std::to_string(numerical_args["sigma_r"]) << std::endl;
 			}
 
+			if (string_args["particle"] == "ion") {
+				pos = macro_commands.insert(pos,
+					std::format("/gps/ion {} {} {} {}",
+						(int) numerical_args["atomic_number"],
+						(int) numerical_args["atomic_mass"],
+						(int) numerical_args["charge"],
+						(int) numerical_args["excitation"]
+					)
+				);
+			}
 			pos = macro_commands.insert(pos, "/gps/particle " + string_args["particle"]);
+
 			pos = macro_commands.insert(pos, std::format("/gps/position {} {} {} mm", numerical_args["x_pos"], numerical_args["y_pos"], numerical_args["z_pos"]));
 			pos = macro_commands.insert(pos, std::format("/gps/direction {} {} {}", numerical_args["x_facing"], numerical_args["y_facing"], numerical_args["z_facing"]));
 

@@ -177,7 +177,7 @@ def config_run(event_count: int, thread_count = 1):
     write_simple_ff(command_dict)
 
 
-def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float]):
+def make_particle_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float], **kwdargs):
     x, y, z = position
     rx, ry, rz = direction
     command_dict = {
@@ -193,12 +193,19 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
         "y_facing": ry,
         "z_facing": rz,
         "shape": "point",
+        "atomic_number": "0",
+        "atomic_mass": "0",
+        "charge": "0",
+        "excitation": "0"
     }
+
+    for key in kwdargs:
+            command_dict[key] = str(kwdargs[key])
 
     write_simple_ff(command_dict)
 
 
-def make_beam_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0.):
+def make_beam_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., **kwdargs):
     x, y, z = position
     rx, ry, rz = direction
     command_dict = {
@@ -214,8 +221,15 @@ def make_beam_source(particle: str, energy: float, position: Tuple[float, float,
         "y_facing": ry,
         "z_facing": rz,
         "shape": "beam",
-        "sigma_r": sigma_r
+        "sigma_r": sigma_r,
+        "atomic_number": 0,
+        "atomic_mass": 0,
+        "charge": 0,
+        "excitation": 0
     }
+
+    for key in kwdargs:
+            command_dict[key] = str(kwdargs[key])
 
     write_simple_ff(command_dict)
 

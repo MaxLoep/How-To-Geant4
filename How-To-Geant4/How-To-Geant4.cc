@@ -165,7 +165,7 @@ int main(int argc,char** argv) {
 
 		for (auto cmd : run_commands) {
 			UImanager->ApplyCommand(cmd);
-			std::cout << cmd << std::endl;
+			//std::cout << cmd << std::endl;
 		}
 
 		ui->SessionStart();
