@@ -7,70 +7,25 @@ This by necesseity limits the things that can be done, hence only a few select f
 
 </details>
 <details>
-	<summary> <ins> api::make_sd(...) </ins></summary>
+<summary> <ins> make_sd(name: str, attach_to: str, attributes: List[str], sensitive_to = "all") </ins></summary>
 
-	void make_sd(
-		std::string name,
-		std::string particle,
-		std::vector<property> properties,
-		std::string l_volume = ""
-	);
-	
-Creates a sensitive detector with the given name.
-It is sensitive to _particle_. If _particle_ is "all", the SD will be sensitive to all particles[^1], if _particle_ is "primary" the SD will be sensitive to the runs primary particle.
-
-_properties_ is a vector of particle properties, which will be logged (the columns will be be created in the order in which the properties are found in the vector).
-
-*l_volume* is an optional parameter. If it's omitted, the logical volume to which the SD gets attached is given by prepending _name_ with "l" otherwise, the SD will be attached to *l_volume*. Make sure *l_volume* exists.
-
+Specifies that a placed geometry should act as a sensitive detector and which attributes to log.
+The geometry (attach_to) must exist (by name).
+Multiple SDs can attach to the same geometry.
 </details>
 
-<details> 
-<summary> <ins> api::place_geometry(...) </ins> </summary>
+<details>
+<summary> <ins> prerun_macro(cmd: str) </ins></summary>
 
-	void place_geometry(
-		std::string l_volume_name,
-		std::string geometry_name,
-		std::map<std::string, double> placement_params = {},
-		Materials::MaterialMaker material = Materials::Vacuum
-	);
-
-This function is used to generically place named logical volumes. *l_volume_name* is the name of the logical volume. This name is used to referr to the created volume from different places (no two logical volumes should be named the same).
-
-*geometry_name* referrs to the object to be placed (i.e. "sphere"). These are either provided default geometries or self defined and registered geometries.
-
-*placement_params* contains numerical parameters required for the placement. What is needed will vary per object, often things such as size, position, rotation will be present.
-
-_material_ sets the material of the volume. If ommited, vacuum is the default. Predefined materials and custom materials can be found in the _Material_ namespace.
-</details>
-<details> 
-<summary> <ins> api::add_placer(...) </ins> </summary>
-
-	void api::add_placer(std::string name, placer_func func)
-
-This utility function is used to add custom geometry placement functions. It adds _func_ into the map of known geometries under _name_. _placer_func_ is an alias for std::function<G4LogicalVolume*(std::string, std::map<std::string, double>&, Materials::MaterialMaker)>. 
+The given geant macro will be run before the run is started.
+This is a function for when you know what you are doing.
+probably don't use it too much.
 </details>
 
-<details> 
-<summary> <ins> api::make_ps(...) </ins> </summary>
+<detail>
+<summary> <ins> custom_material(name: str, density: float, normalize = True, **components) </ins></summary>
 
-	void make_ps(
-		std::string name,
-		std::string quantity,
-		save_data save_to,
-		bool filter,
-		ConfigStructs::ParticleSpec particle_filter,
-		std::string l_volume = ""
-	);
-
-Creates a primitive scorer named _name_ for _quantity_. For possible _quantity_ options see https://geant4.web.cern.ch/documentation/dev/bfad_html/ForApplicationDevelopers/Detector/commandScore.html . If the scorer should be filtered, set _filter_ to true and specify _particle_filter_ to the particle which you wish to detect. _save_to_ shoulder either specify a Histogram or an NTuple to which the scored data will be saved.
+Speficies the makeup of a custom material. Density should be given in gram per cubic centimeter.
+Components are the Materials that make up this new material, with the amounts in mass fractions.
+If normalize is True, these will be normalized so that the sum of all components is 1.
 </details>
-
-<details> 
-<summary> <ins> api::setup_sim() </ins> </summary>
-
-Probably not permanent. For now, code that builds the actualy concrete simulation setup (geometries, detectors and the like) goes here. 
-</details>
-
-
-[^1]: not yet implemented

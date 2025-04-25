@@ -1,0 +1,5 @@
+behind_shield
+            alpha:          1
+            gamma:         17
+          neutron:        124
+           proton:          1

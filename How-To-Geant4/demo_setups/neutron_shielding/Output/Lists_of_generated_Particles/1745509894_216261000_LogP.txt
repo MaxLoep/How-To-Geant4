@@ -1,0 +1,152 @@
+[Primaries_neutron]
+count = 100000
+stable = true
+half_life = nan
+
+[B10]
+count = 303
+stable = true
+half_life = nan
+
+[B11]
+count = 4789
+stable = true
+half_life = nan
+
+[B12]
+count = 182
+stable = false
+half_life = 0.0201957
+human_readable_half_life = "20.1957 ms "
+
+[B13]
+count = 5
+stable = false
+half_life = 0.0173263
+human_readable_half_life = "17.3263 ms "
+
+[Be10]
+count = 3
+stable = false
+half_life = 4.76419e+13
+human_readable_half_life = "1.51071e+06 y  "
+
+[Be8]
+count = 2838
+stable = false
+half_life = 8.17971e-17
+human_readable_half_life = "8.17971e-05 ps "
+
+[Be9]
+count = 110
+stable = true
+half_life = nan
+
+[C11]
+count = 258
+stable = false
+half_life = 1221.58
+human_readable_half_life = "20.3597 min"
+
+[C12]
+count = 61403
+stable = true
+half_life = nan
+
+[C12_10300_000]
+count = 1
+stable = false
+half_life = 0
+human_readable_half_life = "0 ps "
+
+[C12_4438_910]
+count = 5
+stable = false
+half_life = 0
+human_readable_half_life = "0 ps "
+
+[C12_7654_200]
+count = 3
+stable = false
+half_life = 0
+human_readable_half_life = "0 ps "
+
+[C13]
+count = 675
+stable = true
+half_life = nan
+
+[He6]
+count = 5
+stable = false
+half_life = 0.806529
+human_readable_half_life = "806.529 ms "
+
+[Li6]
+count = 7
+stable = true
+half_life = nan
+
+[Li7]
+count = 2
+stable = true
+half_life = nan
+
+[N13]
+count = 1
+stable = false
+half_life = 597.774
+human_readable_half_life = "9.96289 min"
+
+[alpha]
+count = 63284
+stable = true
+half_life = nan
+
+[anti_nu_e]
+count = 195
+stable = true
+half_life = nan
+
+[deuteron]
+count = 1073
+stable = true
+half_life = nan
+
+[e_plus]
+count = 286
+stable = true
+half_life = nan
+
+[e_minus]
+count = 1491
+stable = true
+half_life = nan
+
+[gamma]
+count = 6522
+stable = true
+half_life = nan
+
+[neutron]
+count = 26189
+stable = false
+half_life = 609.979
+human_readable_half_life = "10.1663 min"
+
+[nu_e]
+count = 259
+stable = true
+half_life = nan
+
+[proton]
+count = 3637
+stable = true
+half_life = nan
+
+[triton]
+count = 308
+stable = false
+half_life = 2.69247e+08
+human_readable_half_life = "8.53777 y  "
+

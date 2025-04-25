@@ -1,3 +1,4 @@
+from os import mkdir, rename
 import sys
 from types import NoneType
 from typing import Tuple, List, Dict
@@ -235,7 +236,6 @@ def make_beam_source(particle: str, energy: float, position: Tuple[float, float,
     write_simple_ff(command_dict)
 
 
-
 def make_ui_commands():
     command_dict = {
         "command": "start_gui",
@@ -253,13 +253,22 @@ def set_output_path(path: str):
     write_simple_ff(command_dict)
 
 
-def build_cluster_tar(job_count: int, bin_path: str):
+def build_cluster_tar(job_count: int, bin_path: str, tar_name: str):
     # packages the geometry file, macro file, jdl file and
     # all necessary shell scripts into a single tar, which can
     # be used to start the cluster job.
     # simply unpack the tar on desktop.physik and use launch.sh
     # to start the cluster jobs
-    ...
+
+    mkdir(tar_name)
+    launch_script = []
+    for run in run_list:
+        launch_script.append(f"{bin_path} {run}\n")
+        rename(run, f"{tar_name}/{run}")
+        # copy the file to the dir
+
+    with open(tar_name + "/launch.sh", "w") as launch_file:
+        launch_file.writelines(launch_script)
 
 
 def start_run(path = None):
@@ -273,7 +282,7 @@ def start_run(path = None):
 def build_geo_file(path = None):
     # writes the geometry file. for debug or local use
     # or calling the run binary manually (for whatever reason)
-    global has_run_config
+    global has_run_config, command_list
 
     if not has_run_config:
         make_ui_commands()
@@ -281,6 +290,8 @@ def build_geo_file(path = None):
     if type(path) == NoneType:
         _ = [print(line) for line in command_list]
         return
+
+    command_list = [cmd + "\n" for cmd in command_list]
 
     with open(path, "w") as file:
         file.writelines(command_list)
