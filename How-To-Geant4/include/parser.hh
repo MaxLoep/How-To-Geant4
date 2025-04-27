@@ -24,7 +24,7 @@ namespace parser {
 		particle_source,
 		replace_macro_file,
 		start_gui,
-		prerun_macro
+		prerun_macro,
 	};
 
 

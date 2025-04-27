@@ -1,5 +1,0 @@
-behind_shield
-        anti_nu_e:          1
-               e-:          1
-            gamma:         21
-          neutron:         94

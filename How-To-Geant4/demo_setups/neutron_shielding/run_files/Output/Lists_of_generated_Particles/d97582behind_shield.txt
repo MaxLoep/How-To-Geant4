@@ -1,0 +1,5 @@
+behind_shield
+        anti_nu_e:          2
+            gamma:         44
+          neutron:        196
+             nu_e:          4

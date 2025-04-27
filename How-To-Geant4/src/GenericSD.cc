@@ -19,6 +19,7 @@ namespace fs = std::filesystem;
 
 // get folderName from where it is defined (RunAction.cc) - the really dirty way
 extern std::string folderName;
+extern std::string run_name;
 // get folderName from where it is defined (Run.cc) - the really dirty way
 extern std::string ListFolder;
 
@@ -57,11 +58,11 @@ GenericSD::~GenericSD() {
 		G4long pid = _getpid();
 
 		// Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
-		while(std::ifstream(folderName + "/" + ListFolder + "/" + std::to_string(pid) + this->name + ".txt")) {
+		while(std::ifstream(folderName + "/" + ListFolder + "/" + run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt")) {
 			pid++;
 		}
 		// Set final file name
-		std::string fileName = std::to_string(pid) + this->name + ".txt";
+		std::string fileName = run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt";
 
 		// flush output to file
 		std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);

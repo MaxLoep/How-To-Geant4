@@ -8,6 +8,7 @@ extern ConfigStructs::GlobalConf global_conf;
 
 #include "G4ios.hh"
 
+
 void api::make_sd(
 	std::string name,
 	std::string particle,
@@ -168,7 +169,7 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 				pos = macro_commands.insert(pos, "/gps/ene/type Mono");
 				pos = macro_commands.insert(pos, "/gps/ene/mono " + std::to_string(numerical_args["energy"]) + " MeV");
 			} else {
-				exit(-1);
+				exit(-1); // troll the user for wanting to do this!
 			}
 
 		} else if (command_type == parser::cmd_type::replace_macro_file) {

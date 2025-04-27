@@ -48,6 +48,12 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 	fOutFoldCmd->SetParameterName("choice",false);
 	fOutFoldCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+	// Change output folder name
+	fRunNameCmd = new G4UIcmdWithAString("/custom/ana/setRunName",this);
+	fRunNameCmd->SetGuidance("Set the name of the run");
+	fRunNameCmd->SetParameterName("choice",false);
+	fRunNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 	// Change Material dummyMat
 	fDummyMat1Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat1",this);
 	fDummyMat1Cmd->SetGuidance("Select material of the box.");
@@ -159,6 +165,7 @@ DetectorMessenger::~DetectorMessenger()
 
 	// Change output folder name
 	delete fOutFoldCmd;
+	delete fRunNameCmd;
 
 	// Change Material dummyMat
 	delete fDummyMat1Cmd;
@@ -185,6 +192,9 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	// Change output folder name
 	if( command == fOutFoldCmd )
 	 { fDetector->SetOutputFolder(newValue);}
+
+	if( command == fRunNameCmd )
+	 { fDetector->SetRunName(newValue);}
 
 	// Change Material dummyMat
 	if( command == fDummyMat1Cmd )

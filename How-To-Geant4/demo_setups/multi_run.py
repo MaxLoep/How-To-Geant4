@@ -11,6 +11,7 @@ def sim_thickness(d):
 
     make_beam_source("neutron", 28., (0, 0., -5. * cm), (0, 0, 1), sigma_r = 0.4* mm)
     config_run(1e5, 8)
+    set_run_name(f"d={d}pid=")
     start_run(f"thickness{d}.run")
     #start_run()
 
@@ -18,4 +19,4 @@ def sim_thickness(d):
 for d in range(1, 10):
     sim_thickness(float(d) * cm)
 
-build_cluster_tar(1, "../../build/How-To-Geant4", "neutron_shielding")
+build_cluster_tar(1, "/Users/leonidessau/work/How-To-Geant4/How-To-Geant4/build/How-To-Geant4", "neutron_shielding")

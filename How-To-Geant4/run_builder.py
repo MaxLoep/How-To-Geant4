@@ -1,5 +1,6 @@
-from os import mkdir, rename
+from os import mkdir, remove, rename, removedirs
 import sys
+import subprocess
 from types import NoneType
 from typing import Tuple, List, Dict
 
@@ -236,21 +237,8 @@ def make_beam_source(particle: str, energy: float, position: Tuple[float, float,
     write_simple_ff(command_dict)
 
 
-def make_ui_commands():
-    command_dict = {
-        "command": "start_gui",
-        "placeholder": "value"
-    }
-
-    write_simple_ff(command_dict)
-
-
 def set_output_path(path: str):
-    command_dict = {
-        "command": "start_gui",
-        "path": path
-    }
-    write_simple_ff(command_dict)
+    prerun_macro(f"/custom/ana/setOutFolder {path}")
 
 
 def build_cluster_tar(job_count: int, bin_path: str, tar_name: str):
@@ -260,29 +248,67 @@ def build_cluster_tar(job_count: int, bin_path: str, tar_name: str):
     # simply unpack the tar on desktop.physik and use launch.sh
     # to start the cluster jobs
 
-    mkdir(tar_name)
-    launch_script = []
-    for run in run_list:
-        launch_script.append(f"{bin_path} {run}\n")
-        rename(run, f"{tar_name}/{run}")
-        # copy the file to the dir
+    temp_path = f"/tmp/{tar_name}"
+    meta_path = ""
+    n = 1
 
-    with open(tar_name + "/launch.sh", "w") as launch_file:
+    while 1:
+        try:
+            mkdir(temp_path)
+            meta_path = temp_path
+            temp_path += f"/{tar_name}"
+            mkdir(temp_path)
+            mkdir(f"{temp_path}/run_files")
+            break
+        except:
+            temp_path = f"/tmp/{tar_name}{n}"
+            n += 1
+
+    launch_script = []
+    for run, cmds in run_list:
+        launch_script.append(f"{bin_path} {run}\n")
+
+        cmds = [cmd + "\n" for cmd in cmds]
+
+        with open(f"{temp_path}/run_files/{run}", "w") as file:
+            file.writelines(cmds)
+
+    with open(f"{temp_path}/run_files/session_launch.sh", "w") as launch_file:
         launch_file.writelines(launch_script)
+
+    with open(f"{temp_path}/launch_jobs.sh", "w") as cluster_launch:
+        cluster_launch.write("echo 'hello this will be the launch script'")
+
+    tar_cmd = f"tar -cf {tar_name}.tgz  -C {meta_path} ."
+    subprocess.run(tar_cmd.split())
+    subprocess.run(f"rm -r {temp_path}/".split())
+
+
+def set_run_name(name: str):
+    prerun_macro(f"/custom/ana/setRunName {name}")
 
 
 def start_run(path = None):
     build_geo_file(path)
     clear_setup()
-    if type(path) != NoneType:
-        global run_list
-        run_list.append(path)
+#    if type(path) != NoneType:
+#        global run_list
+#        run_list.append(path)
 
 
-def build_geo_file(path = None):
+def make_ui_commands():
+    command_dict = {
+        "command": "start_gui",
+        "placeholder": "value"
+    }
+
+    write_simple_ff(command_dict)
+
+
+def build_geo_file(path = None, write_file = False):
     # writes the geometry file. for debug or local use
     # or calling the run binary manually (for whatever reason)
-    global has_run_config, command_list
+    global has_run_config, command_list, run_list
 
     if not has_run_config:
         make_ui_commands()
@@ -291,7 +317,10 @@ def build_geo_file(path = None):
         _ = [print(line) for line in command_list]
         return
 
-    command_list = [cmd + "\n" for cmd in command_list]
+    if write_file:
+        command_list = [cmd + "\n" for cmd in command_list]
 
-    with open(path, "w") as file:
-        file.writelines(command_list)
+        with open(path, "w") as file:
+            file.writelines(command_list)
+    else:
+        run_list.append((path, command_list))

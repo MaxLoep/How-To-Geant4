@@ -1,0 +1,9 @@
+behind_shield
+            alpha:          5
+        anti_nu_e:          2
+               e+:          1
+               e-:          3
+            gamma:         74
+          neutron:        456
+             nu_e:          7
+           proton:          2
