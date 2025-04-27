@@ -1,5 +1,0 @@
-behind_shield
-            alpha:          1
-         deuteron:          1
-            gamma:         31
-          neutron:        107

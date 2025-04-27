@@ -1,1 +1,0 @@
-echo 'hello this will be the launch script'

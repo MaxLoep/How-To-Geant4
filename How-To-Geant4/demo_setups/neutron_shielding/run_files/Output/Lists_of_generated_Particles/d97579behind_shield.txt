@@ -1,8 +1,0 @@
-behind_shield
-            alpha:          2
-        anti_nu_e:          2
-               e-:          2
-            gamma:         51
-          neutron:        288
-             nu_e:          2
-           proton:          1

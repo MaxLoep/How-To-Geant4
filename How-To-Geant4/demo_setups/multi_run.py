@@ -11,7 +11,7 @@ def sim_thickness(d):
 
     make_beam_source("neutron", 28., (0, 0., -5. * cm), (0, 0, 1), sigma_r = 0.4* mm)
     config_run(1e5, 8)
-    set_run_name(f"d={d}pid=")
+    set_run_name(f"d_{d}_pid")
     start_run(f"thickness{d}.run")
     #start_run()
 

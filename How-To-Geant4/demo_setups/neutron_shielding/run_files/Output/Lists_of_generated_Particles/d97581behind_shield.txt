@@ -1,7 +1,0 @@
-behind_shield
-            alpha:          2
-        anti_nu_e:          2
-               e-:          1
-            gamma:         37
-          neutron:        242
-             nu_e:          1

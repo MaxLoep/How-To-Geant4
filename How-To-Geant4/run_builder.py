@@ -264,9 +264,9 @@ def build_cluster_tar(job_count: int, bin_path: str, tar_name: str):
             temp_path = f"/tmp/{tar_name}{n}"
             n += 1
 
-    launch_script = []
+    launch_script = ['PREFIX=$(dirname "$0")\n']
     for run, cmds in run_list:
-        launch_script.append(f"{bin_path} {run}\n")
+        launch_script.append(f"{bin_path} $PREFIX/{run}\n")
 
         cmds = [cmd + "\n" for cmd in cmds]
 
@@ -277,7 +277,7 @@ def build_cluster_tar(job_count: int, bin_path: str, tar_name: str):
         launch_file.writelines(launch_script)
 
     with open(f"{temp_path}/launch_jobs.sh", "w") as cluster_launch:
-        cluster_launch.write("echo 'hello this will be the launch script'")
+        cluster_launch.write("echo 'hello this will be the launch script'\nsh run_files/session_launch.sh")
 
     tar_cmd = f"tar -cf {tar_name}.tgz  -C {meta_path} ."
     subprocess.run(tar_cmd.split())
