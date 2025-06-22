@@ -116,6 +116,13 @@ void api::setup_sim() {
 	// NEUTRON COLLIMATOR GEOMETRY END
 
 	// BEAM SPREAD GEOMETRY START
+	place_geometry(//Plane00
+		"Plane_00", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 0. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
+		Materials::Vacuum
+	);
+	make_sd("Plane_00", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+
 	place_geometry(//Plane0
 		"Plane_0", "cube",
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
@@ -147,7 +154,7 @@ void api::setup_sim() {
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 30. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
 		Materials::Vacuum
 	);
-	make_sd("Plane_2", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_2", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
 
 	place_geometry(//Air3
 		"Air_3", "cube",
@@ -160,7 +167,7 @@ void api::setup_sim() {
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 40. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
 		Materials::Vacuum
 	);
-	make_sd("Plane_3", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_3", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
 
 	place_geometry(//Air4
 		"Air_4", "cube",
@@ -173,7 +180,7 @@ void api::setup_sim() {
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 50. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
 		Materials::Vacuum
 	);
-	make_sd("Plane_4", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_4", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
 
 	place_geometry(//Air5
 		"Air_5", "cube",
@@ -186,7 +193,41 @@ void api::setup_sim() {
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 60. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
 		Materials::Vacuum
 	);
-	make_sd("Plane_5", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_5", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
+
+	place_geometry(//Air6
+		"Air_6", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 65. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", (10.*cm)/2-0.1*mm}},
+		Materials::Air
+	);
+
+	place_geometry(//Plane6
+		"Plane_6", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 70. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
+		Materials::Vacuum
+	);
+	make_sd("Plane_6", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
+
+	place_geometry(//Plane7
+		"Plane_7", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 80. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
+		Materials::Vacuum
+	);
+	make_sd("Plane_7", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
+
+	place_geometry(//Plane8
+		"Plane_8", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 90. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
+		Materials::Vacuum
+	);
+	make_sd("Plane_8", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
+
+	place_geometry(//Plane9
+		"Plane_9", "cube",
+		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 100. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
+		Materials::Vacuum
+	);
+	make_sd("Plane_9", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
 	// BEAM SPREAD GEOMETRY END
 
 	// place_geometry(

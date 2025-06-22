@@ -14,5 +14,6 @@
 #HISKP Cyclotron FWHM is approx 4mm. FWHM = 2.3548*sigma -> sigma = 1.79mm
 #/gps/pos/sigma_r 1.79 mm
 #/gps/pos/sigma_r 4. mm
+#/gps/pos/sigma_r 6. mm      #F-Site Beam Spot is sigma=6mm
 #/gps/pos/type Beam
 
