@@ -121,14 +121,14 @@ void api::setup_sim() {
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 0. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
 		Materials::Vacuum
 	);
-	make_sd("Plane_00", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_00", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
 
 	place_geometry(//Plane0
 		"Plane_0", "cube",
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
 		Materials::Vacuum
 	);
-	make_sd("Plane_0", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_0", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
 	
 	place_geometry(//Air1
 		"Air_1", "cube",
@@ -141,7 +141,7 @@ void api::setup_sim() {
 		{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 20. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
 		Materials::Vacuum
 	);
-	make_sd("Plane_1", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
+	make_sd("Plane_1", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
 
 	place_geometry(//Air2
 		"Air_2", "cube",
