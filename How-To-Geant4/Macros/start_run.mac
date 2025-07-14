@@ -25,8 +25,8 @@
 #/control/execute ../Macros/Primary_Deuteron.mac     #26 MeV Deuteron Beam, point source
 #/control/execute ../Macros/Primary_Neutron.mac      #13 MeV Neutron Beam, point source
 #/control/execute ../Macros/Primary_Proton.mac       #13 MeV Proton Beam, point source
-#/control/execute ../Macros/Primary_LE_Proton.mac    #0.75 - 1.5 MeV/u Proton Gaussian Beam, sigma_x/y=3mm  
-/control/execute ../Macros/Primary_LE_Alpha.mac     #0.75 - 1.5 MeV/u Alpha Gaussian Beam, sigma_x/y=3mm  
+/control/execute ../Macros/Primary_LE_Proton.mac    #0.75 - 1.5 MeV/u Proton Gaussian Beam, sigma_x/y=3mm  
+#/control/execute ../Macros/Primary_LE_Alpha.mac     #0.75 - 1.5 MeV/u Alpha Gaussian Beam, sigma_x/y=3mm  
 #/control/execute ../Macros/Primary_AmBe.mac         #AmBe Neutron Source, point source
 #/control/execute ../Macros/Primary_Radionuclide.mac #Radionuclide Source, point source
 #/control/execute ../Macros/Primary_Nitrogen.mac     #17N5+ Nitrogen beam, point source
@@ -70,8 +70,14 @@
 #/custom/ana/setOutFolder Output/beamstudy_P_1-5_MeV_3_mm_22-5_um
 #/custom/ana/setOutFolder Output/beamstudy_P_0-75_MeV_3_mm_22-5_um
 
-/custom/ana/setOutFolder Output/beamstudy_A_6_MeV_3_mm_22-5_um
+#/custom/ana/setOutFolder Output/beamstudy_A_6_MeV_3_mm_22-5_um
 #/custom/ana/setOutFolder Output/beamstudy_A_3_MeV_3_mm_22-5_um
+
+#/custom/ana/setOutFolder Output/beamstudy_A_6_MeV_3_mm_11-4_um
+#/custom/ana/setOutFolder Output/beamstudy_A_3_MeV_3_mm_11-4_um
+
+/custom/ana/setOutFolder Output/beamstudy_P_0-75_MeV_3_mm_11-4_um
+#/custom/ana/setOutFolder Output/beamstudy_P_1-5_MeV_3_mm_11-4_um
 
 #START RUN
 #------------------------------------------------------------------------

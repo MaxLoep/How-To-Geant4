@@ -118,9 +118,10 @@ void api::setup_sim() {
 
 	// SANDWICH GEOMETRY START
 	G4int layers = 1;
-	G4double width = 0.0225*mm;
+	G4double width = 0.0114*mm;
+	// G4double width = 0.0225*mm;
 	// G4double width = 10.*cm;
-	G4String particle = "alpha";
+	G4String particle = "proton";
 
 	for (int i = 0; i < layers; i++) {
 		place_geometry(//SD-Plane
