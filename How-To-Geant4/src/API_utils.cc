@@ -117,22 +117,23 @@ void api::setup_sim() {
 
 
 	// SANDWICH GEOMETRY START
-	G4int layers = 1;
+	G4int layers = 5;
+	// G4double width = 0.0225*mm;
 	G4double width = 10.*cm;
 	G4String particle = "proton";
 
 	for (int i = 0; i < layers; i++) {
 		place_geometry(//Plane0
 			"Plane_" + std::to_string(i), "cube",
-			{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)*i}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
+			{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)*i}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1*mm/2}},
 			Materials::Vacuum
 		);
 		make_sd("Plane_" + std::to_string(i), particle, {property::Ekin, property::local_pos_x, property::local_pos_y});
 		
 		place_geometry(//Air1
 			"Air_" + std::to_string(i), "cube",
-			{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", width/2+0.1*mm + (width+0.1*mm)*i}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", width/2-0.1*mm}},
-			Materials::Air
+			{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)/2 + (width+0.1*mm)*i}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", width/2}},
+			Materials::Aluminum
 		);
 
 		// print for DEBUGGING
@@ -141,7 +142,7 @@ void api::setup_sim() {
 
 	place_geometry(//End-Plane
 	"Plane_" + std::to_string(layers), "cube",
-	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)*(layers)}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
+	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)*(layers)}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1*mm/2}},
 	Materials::Vacuum
 	);
 	make_sd("Plane_" + std::to_string(layers), particle, {property::Ekin, property::local_pos_x, property::local_pos_y});
