@@ -1,12 +1,12 @@
 #BEAM
 #------------------------------------------------------------------------
 #Commands to use with the General Particle Source (GPS)
-/gps/particle proton        #beam particle
+/gps/particle alpha        #beam particle
 /gps/position 0 0 -1 cm     #GPS position
 /gps/direction 0 0 1        #oriented along the Z axis
 /gps/ene/type Mono          #monoenergetic:   I=E
-#/gps/ene/mono 0.75. MeV       #sets energy for monoenergetic sources , 0.75 MeV/u
-/gps/ene/mono 1.5. MeV       #sets energy for monoenergetic sources , 1.50 MeV/u
+#/gps/ene/mono 3. MeV       #sets energy for monoenergetic sources , 0.75 MeV/u
+/gps/ene/mono 6. MeV       #sets energy for monoenergetic sources , 1.50 MeV/u
 /gps/pos/type Point
 
 /gps/pos/shape Circle       #the beam geometry is a circle
