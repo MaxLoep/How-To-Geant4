@@ -9,5 +9,6 @@ make_sd("RBS", "detector", ["ekin", "theta", "phi"], "primary")
 make_sd("PIXE", "detector", ["ekin", "theta", "phi"], "gamma")
 make_beam_source("deuteron", 26.5, (0, 0., -5. * cm), (0, 0, 1), sigma_r = 1.7 * mm)
 
-config_run(1e6, 8)
+make_ui_commands()
+#config_run(1e6, 8)
 start_run()

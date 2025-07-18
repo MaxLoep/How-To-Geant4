@@ -114,6 +114,12 @@ namespace Materials {
 	static MaterialMaker Gold		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Au");};
 	static MaterialMaker Yttrium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Y");};
 	static MaterialMaker Barium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ba");};
+	static MaterialMaker Lead		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Pb");};
+	static MaterialMaker Silver		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ag");};
+	static MaterialMaker Arsenic		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_As");};
+	static MaterialMaker Tin		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sn");};
+	static MaterialMaker Antimony		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sb");};
+	static MaterialMaker Zinc		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Zn");};
 
 	// NIST Compounds
 	static MaterialMaker Air			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR");};
@@ -188,7 +194,13 @@ namespace Materials {
 		{"copper", Copper},
 		{"cadmium", Cadmium},
 		{"tungsten", Tungsten},
+		{"lead", Lead},
+		{"silver", Silver},
 		{"gold", Gold},
+		{"arsenic", Arsenic},
+		{"antimony", Antimony},
+		{"zinc", Zinc},
+		{"tin", Tin},
 		{"air", Air},
 		{"concrete", Concrete},
 		{"graphite", Graphite},
