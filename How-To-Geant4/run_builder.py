@@ -288,8 +288,8 @@ def set_run_name(name: str):
     prerun_macro(f"/custom/ana/setRunName {name}")
 
 
-def start_run(path = None):
-    build_geo_file(path, not type(path) == NoneType)
+def start_run(path = None, force_file_write = False):
+    build_geo_file(path, force_file_write)
     clear_setup()
 #    if type(path) != NoneType:
 #        global run_list
