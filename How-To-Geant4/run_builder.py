@@ -289,7 +289,7 @@ def set_run_name(name: str):
 
 
 def start_run(path = None):
-    build_geo_file(path)
+    build_geo_file(path, not type(path) == NoneType)
     clear_setup()
 #    if type(path) != NoneType:
 #        global run_list
