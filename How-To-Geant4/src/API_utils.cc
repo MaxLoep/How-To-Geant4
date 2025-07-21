@@ -176,7 +176,7 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 			macro_commands.insert(macro_commands.begin(), "/run/initialize");
 			macro_commands.insert(macro_commands.begin(), "/run/numberOfThreads " + std::to_string((int) (numerical_args["thread_count"])));
 			macro_commands.insert(macro_commands.end(), "/run/printProgress " + std::to_string((int) (numerical_args["event_count"] / 10)));
-			while (numerical_args["event_count"] > 0xffffffff) {
+			while (numerical_args["event_count"] > 4e9) {
 				macro_commands.insert(macro_commands.end(), "/run/beamOn " + std::to_string((int) 4e9));
 				numerical_args["event_count"] -= 4e9;
 			}
