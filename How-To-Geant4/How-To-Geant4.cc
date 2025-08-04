@@ -46,6 +46,7 @@
 #include "QGSP_BERT_HP.hh"                //works!
 #include "QGSP_FTFP_BERT.hh"              //works!
 #include "Shielding.hh"                   //works!
+#include "G4EmStandardPhysics_option4.hh" //for RBS to work (maybe)
 
 #include "api.hh"
 // long TheSeed = time(NULL);
@@ -135,6 +136,8 @@ int main(int argc,char** argv) {
 
   // G4VModularPhysicsList* physicsList = new Shielding;
 
+  physicsList->ReplacePhysics(new G4EmStandardPhysics_option4()); //does this make RBS work? we will see...
+  
   runManager->SetUserInitialization(physicsList);
   G4HadronicProcessStore::Instance()->SetVerbose(0);
 

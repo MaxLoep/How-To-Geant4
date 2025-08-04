@@ -143,7 +143,7 @@ void api::setup_sim() {
 
 	place_geometry(//End-Plane
 	"Plane_" + std::to_string(layers), "cube",
-	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)*(layers)}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1*mm/2}},
+	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)*(layers)+1.0*m}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1*mm/2}},
 	Materials::Vacuum
 	);
 	make_sd("Plane_" + std::to_string(layers), particle, {property::Ekin, property::local_pos_x, property::local_pos_y});
