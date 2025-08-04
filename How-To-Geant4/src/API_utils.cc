@@ -122,6 +122,7 @@ void api::setup_sim() {
 	G4double width = 0.0225*mm;
 	// G4double width = 10.*cm;
 	G4String particle = "proton";
+	// G4String particle = "alpha";
 
 	for (int i = 0; i < layers; i++) {
 		place_geometry(//SD-Plane

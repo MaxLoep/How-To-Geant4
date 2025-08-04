@@ -67,7 +67,7 @@
 
 #/custom/ana/setOutFolder Output/beamspread_P_13-6_MeV_6_mm
 
-/custom/ana/setOutFolder Output/beamstudy_P_1-5_MeV_3_mm_22-5_um
+#/custom/ana/setOutFolder Output/beamstudy_P_1-5_MeV_3_mm_22-5_um
 #/custom/ana/setOutFolder Output/beamstudy_P_0-75_MeV_3_mm_22-5_um
 
 #/custom/ana/setOutFolder Output/beamstudy_A_6_MeV_3_mm_22-5_um
@@ -78,6 +78,8 @@
 
 #/custom/ana/setOutFolder Output/beamstudy_P_0-75_MeV_3_mm_11-4_um
 #/custom/ana/setOutFolder Output/beamstudy_P_1-5_MeV_3_mm_11-4_um
+
+/custom/ana/setOutFolder Output/beamstudy_P_14_MeV_3_mm_22-5_um
 
 #START RUN
 #------------------------------------------------------------------------

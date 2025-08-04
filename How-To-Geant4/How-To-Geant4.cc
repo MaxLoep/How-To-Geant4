@@ -136,8 +136,8 @@ int main(int argc,char** argv) {
 
   // G4VModularPhysicsList* physicsList = new Shielding;
 
-  physicsList->ReplacePhysics(new G4EmStandardPhysics_option4()); //does this make RBS work? we will see...
-  
+  // physicsList->ReplacePhysics(new G4EmStandardPhysics_option4()); //does this make RBS work? we will see...
+
   runManager->SetUserInitialization(physicsList);
   G4HadronicProcessStore::Instance()->SetVerbose(0);
 
