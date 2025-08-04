@@ -47,6 +47,7 @@
 #include "QGSP_BERT_HP.hh"                //works!
 #include "QGSP_FTFP_BERT.hh"              //works!
 #include "Shielding.hh"                   //works!
+#include "G4EmStandardPhysics_option4.hh" //for RBS to work (maybe)
 
 #include "api.hh"
 // long TheSeed = time(NULL);
@@ -105,6 +106,7 @@ int main(int argc,char** argv) {
 	DetectorConstruction* det= new DetectorConstruction;
 	runManager->SetUserInitialization(det);
 	G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;	//system environmental variable 'G4PARTICLEHPDATA' needs to be set to path to data library e.g. TENDL
+	physicsList->ReplacePhysics(new G4EmStandardPhysics_option4()); // hopefully fixes RBS physics
 	runManager->SetUserInitialization(physicsList);
 	G4HadronicProcessStore::Instance()->SetVerbose(0);
 
