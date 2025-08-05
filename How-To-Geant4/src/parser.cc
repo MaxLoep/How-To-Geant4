@@ -88,7 +88,11 @@ cmd_tuple primitive_cmd(std::vector<parser::string>& line) {
 std::vector<cmd_tuple> parser::load_simple_file(std::string filename) {
 	std::cout << "entering load file!" << std::endl;
 
-	auto temp_path = "/tmp/" + std::to_string(getpid()) + "geo_file.out";
+	#ifdef _WIN64 || _WIN32
+		auto temp_path = std::to_string(getpid()) + "geo_file.out";
+	#else
+		auto temp_path = "/tmp/" + std::to_string(getpid()) + "geo_file.out";
+	#endif
 	if (filename.ends_with(".py")) {
 		std::cout << "running the python script, writing run file to: " << temp_path << std::endl;
 		std::string exec_script = "python " + filename + " > " + temp_path;
