@@ -1,7 +1,11 @@
 #include "parser.hh"
 #include <cstdlib>
 #include <string>
-#include <unistd.h>
+#ifdef _WIN32 || _WIN64
+	#include <process.h>
+#else
+	#include <unistd.h>
+#endif
 #include <stdlib.h>
 
 std::vector<std::vector<std::string>> parser::ssv_chunks(std::basic_ifstream<char>& stream) {
