@@ -89,7 +89,8 @@ namespace Materials {
 
 	// NIST Materials from the periodic table in natural abundances
 	static MaterialMaker Vacuum     = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Galactic");};	// basically low density Hydrogen
-	static MaterialMaker H, Hydrogen = H   = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_H");};			// Z =  1
+	// static MaterialMaker H, Hydrogen = H   = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_H");};			// Z =  1 				//rewritte everything like this so Element Name and Symbol can be used?
+	static MaterialMaker Hydrogen	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_H");};			// Z =  1
 	static MaterialMaker Helium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_He");};		// Z =  2
 	static MaterialMaker Lithium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Li");};		// Z =  3
 	static MaterialMaker Beryllium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Be");};		// Z =  4
