@@ -87,31 +87,54 @@ namespace Materials {
 		bool made = false;
 	};
 
-	// NIST Materials
-	static MaterialMaker Vacuum      = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Galactic");};
-	static MaterialMaker Hydrogen    = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_H");};
-	static MaterialMaker Lithium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Li");};
-	static MaterialMaker Boron       = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_B");};
-	static MaterialMaker Carbon      = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_C");};
-	static MaterialMaker Silicon		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Si");};
-	static MaterialMaker Aluminum    = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");};
-	static MaterialMaker Scandium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sc");};
-	static MaterialMaker Titanium    = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ti");};
-	static MaterialMaker Vanadium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_V");};
-	static MaterialMaker Iron        = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Fe");};
-	static MaterialMaker Nickel      = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ni");};
-	static MaterialMaker Copper      = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cu");};
-	static MaterialMaker Cadmium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cd");};
-	static MaterialMaker Tungsten    = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_W");};
-	static MaterialMaker Gold		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Au");};
+	// NIST Materials from the periodic table in natural abundances
+	static MaterialMaker Vacuum     = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Galactic");};	// basically low density Hydrogen
+	static MaterialMaker Hydrogen   = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_H");};			// Z =  1
+	static MaterialMaker Helium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_He");};		// Z =  2
+	static MaterialMaker Lithium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Li");};		// Z =  3
+	static MaterialMaker Beryllium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Be");};		// Z =  4
+	static MaterialMaker Boron      = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_B");};			// Z =  5
+	static MaterialMaker Carbon     = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_C");};			// Z =  6
+	static MaterialMaker Nitrogen	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_N");};			// Z =  7
+	static MaterialMaker Oxygen		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_O");};			// Z =  8
+	static MaterialMaker Fluorine	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_F");};			// Z =  9
+	static MaterialMaker Neon		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ne");};		// Z = 10
+	static MaterialMaker Sodium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Na");};		// Z = 11
+	static MaterialMaker Magnesium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Mg");};		// Z = 12
+	static MaterialMaker Aluminum   = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");};		// Z = 13
+	static MaterialMaker Silicon	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Si");};		// Z = 14
+	static MaterialMaker Phosphorus	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_P");};			// Z = 15
+	static MaterialMaker Sulfur		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_S");};			// Z = 16
+	static MaterialMaker Chlorine	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cl");};		// Z = 17
+	static MaterialMaker Argon		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ar");};		// Z = 18
+	static MaterialMaker Potassium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_K");};			// Z = 19
+	static MaterialMaker Calcium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ca");};		// Z = 20
+	static MaterialMaker Scandium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sc");};		// Z = 21
+	static MaterialMaker Titanium   = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ti");};		// Z = 22
+	static MaterialMaker Vanadium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_V");};			// Z = 23
+	static MaterialMaker Chromium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cr");};		// Z = 24
+	static MaterialMaker Manganese	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Mn");};		// Z = 25
+	static MaterialMaker Iron       = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Fe");};		// Z = 26
+	static MaterialMaker Cobalt		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Co");};		// Z = 27
+	static MaterialMaker Nickel     = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ni");};		// Z = 28
+	static MaterialMaker Copper     = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cu");};		// Z = 29
+	static MaterialMaker Zinc		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Zn");};		// Z = 30
+	static MaterialMaker Cadmium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cd");};		// Z = 48
+	static MaterialMaker Tungsten   = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_W");};			// Z = 74
+	static MaterialMaker Gold		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Au");};		// Z = 79
+	static MaterialMaker Lead		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Pb");};		// Z = 82
 
-	// NIST Compounds
+	// NIST Compounds of commonly used materials
 	static MaterialMaker Air			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR");};
-	static MaterialMaker Concrete    = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_CONCRETE");};
-	static MaterialMaker Graphite    = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_GRAPHITE_POROUS");};	// G4_Graphite has the molecular density of 2.2g/cm3, which can not be realized in a solid target
-	static MaterialMaker Polyethylene= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_POLYETHYLENE");};
-	static MaterialMaker Steel       = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
-	static MaterialMaker Water       = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");};
+	static MaterialMaker Concrete		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_CONCRETE");};
+	static MaterialMaker Graphite		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_GRAPHITE_POROUS");};	// G4_Graphite has the molecular density of 2.2g/cm3, which can not be realized in a solid target
+	static MaterialMaker Kapton			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_KAPTON");};
+	static MaterialMaker Plexiglass		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_PLEXIGLASS");};		// also known as acrylic glass or PMMA
+	static MaterialMaker Polyethylene	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_POLYETHYLENE");};
+	static MaterialMaker Steel			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
+	static MaterialMaker Viton			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_VITON");};
+	static MaterialMaker Water			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");};
+	
 
 
 	// Structure to easily define Custom Materials later on
