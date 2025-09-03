@@ -17,6 +17,7 @@ std::vector<std::vector<std::string>> parser::ssv_chunks(std::basic_ifstream<cha
 	while (stream >> c) {
 		if (c == ';') {
 			chunk.push_back(current_tag);
+			std::cout << current_tag << std::endl;
 			current_tag = "";
 		}
 		else if (c == '\n') {

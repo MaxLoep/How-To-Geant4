@@ -1,0 +1,10 @@
+make_custom_material; 2; command=make_custom_material; name=ybco; density=6.4; yttrium=0.1334866513348665; barium=0.4122587741225877; copper=0.28617138286171384; oxygen=0.16808319168083188; 
+place; 4; command=place; object=cube; name=target; material=ybco; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; size_x=10.0; size_y=10.0; size_z=0.005; 
+place; 4; command=place; object=sphere; name=source_marker; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=-50.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=2.0; alpha=0.5; red=0; green=100; 
+place; 4; command=place; object=sphere; name=detector; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=100; inner_radius=95.0; phi_min=-1.5707963267948966; phi_max=1.5707963267948966; alpha=0.1; red=255; green=0; 
+make_sd; 7; command=make_sd; attach=ldetector; name=RBS; particle=primary; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3; 
+make_sd; 7; command=make_sd; attach=ldetector; name=PIXE; particle=gamma; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3; 
+particle_source; 4; command=particle_source; particle=alpha; mono_e=true; shape=beam; energy=8.0; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=-50.0; x_facing=0; y_facing=0; z_facing=1; sigma_r=0.4; atomic_number=0; atomic_mass=0; charge=0; excitation=0; 
+prerun_macro; 2; command=prerun_macro; content=/custom/ana/setOutFolder test_geo_output; 
+prerun_macro; 2; command=prerun_macro; content=/custom/ana/setRunName custom_name; 
+start_gui; 2; command=start_gui; placeholder=value; 
