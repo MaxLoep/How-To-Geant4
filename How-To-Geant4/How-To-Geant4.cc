@@ -8,6 +8,7 @@
 #include "ActionInitialization.hh"        //This is where you define what the simulation does (...)
 
 #include "G4Version.hh"                   //for checking which Geant4 version is installed
+#include <vector>
 #if G4VERSION_NUMBER>=1070
 #include "G4RunManagerFactory.hh"         //Necessary. You need this.
 #else
@@ -47,169 +48,141 @@
 #include "QGSP_FTFP_BERT.hh"              //works!
 #include "Shielding.hh"                   //works!
 #include "G4EmStandardPhysics_option4.hh" //for RBS to work (maybe)
+#include "G4EmStandardPhysics_option4.hh" //for RBS to work (maybe)
 
 #include "api.hh"
 // long TheSeed = time(NULL);
 // long TheSeed = G4Random::getTheSeed();
 
 int main(int argc,char** argv) {
-	api::setup_sim();
-  // Detect interactive mode (if no arguments) and define UI session
-  G4UIExecutive* ui = 0;
-  if ( argc == 1 ) {
-    ui = new G4UIExecutive(argc, argv);
-  }
+	std::string setup_file = argv[argc - 1];
+	--argc;
 
-  // choose the Random engine
-  // G4Random::setTheEngine(new CLHEP::DualRand);             //works!
-  // G4Random::setTheEngine(new CLHEP::HepJamesRandom);       //works!
-  G4Random::setTheEngine(new CLHEP::MixMaxRng);               //works! Default and recommended!
-  // G4Random::setTheEngine(new CLHEP::MTwistEngine);         //works! Default?
-  // G4Random::setTheEngine(new CLHEP::RanecuEngine);         //works! uses Tables. obsolete?
-  // G4Random::setTheEngine(new CLHEP::Ranlux64Engine);       //works!
-  // G4Random::setTheEngine(new CLHEP::RanluxEngine);         //works!
-  // G4Random::setTheEngine(new CLHEP::RanshiEngine);         //works!
+	auto [run_commands, interactive] = api::setup_sim(setup_file);
+	// Detect interactive mode (if no arguments) and define UI session
+	G4UIExecutive* ui = 0;
+	if (interactive) {
+		ui = new G4UIExecutive(argc, argv);
+	}
 
-  // set a initial random seed based on epoch time and system clock
-  std::timespec ts;
-  std::timespec_get(&ts, TIME_UTC);
-  // get epoch time and system clock nanosecond value
-  int time    = ts.tv_sec;
-  int time_ns = ts.tv_nsec;
-  // set a initial random seed
-  G4Random::setTheSeed(time_ns);
+	G4Random::setTheEngine(new CLHEP::MixMaxRng);               //works! Default and recommended!
+
+	// set a initial random seed based on epoch time and system clock
+	std::timespec ts;
+	std::timespec_get(&ts, TIME_UTC);
+	// get epoch time and system clock nanosecond value
+	int time    = ts.tv_sec;
+	int time_ns = ts.tv_nsec;
+	// set a initial random seed
+	G4Random::setTheSeed(time_ns);
 
 	// Create seed array
 	G4long seed[2];
-  // Use epoch time and nanosecond clock time as seeds
-  seed[0] = (G4long) time;
+	// Use epoch time and nanosecond clock time as seeds
+	seed[0] = (G4long) time;
 	seed[1] = (G4long) time_ns;
-  G4Random::setTheSeeds(seed);
+	G4Random::setTheSeeds(seed);
 
-  #if G4VERSION_NUMBER>=1070
-    // Construct the default run manager in Geant4 Version > 10.7.0
-    // Auto detect if singlethreaded mode or multithreaded mode is used
-    auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
-  #else
-    //for Geant4 Versions < 10.7 use this!
-    //check if Geant4 is built with multithread option
-    #ifdef G4MULTITHREADED
-      G4MTRunManager* runManager = new G4MTRunManager;
-    #else
-      //my Verbose output class
-      G4VSteppingVerbose::SetInstance(new SteppingVerbose);
-      G4RunManager* runManager = new G4RunManager;
-    #endif
-  #endif
+	#if G4VERSION_NUMBER>=1070
+	// Construct the default run manager in Geant4 Version > 10.7.0
+	// Auto detect if singlethreaded mode or multithreaded mode is used
+	auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+	#else
+	//for Geant4 Versions < 10.7 use this!
+	//check if Geant4 is built with multithread option
+	#ifdef G4MULTITHREADED
+	G4MTRunManager* runManager = new G4MTRunManager;
+	#else
+	//my Verbose output class
+	G4VSteppingVerbose::SetInstance(new SteppingVerbose);
+	G4RunManager* runManager = new G4RunManager;
+	#endif
+	#endif
 
- // Activate UI-command base scorer
- G4ScoringManager * scManager = G4ScoringManager::GetScoringManager();
- scManager->SetVerboseLevel(1);
+	// Activate UI-command base scorer
+	G4ScoringManager * scManager = G4ScoringManager::GetScoringManager();
+	scManager->SetVerboseLevel(1);
 
-  //set mandatory initialization classes
-  DetectorConstruction* det= new DetectorConstruction;
-  runManager->SetUserInitialization(det);
+	//set mandatory initialization classes
+	DetectorConstruction* det= new DetectorConstruction;
+	runManager->SetUserInitialization(det);
+	G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;	//system environmental variable 'G4PARTICLEHPDATA' needs to be set to path to data library e.g. TENDL
+	physicsList->ReplacePhysics(new G4EmStandardPhysics_option4()); // hopefully fixes RBS physics
+	runManager->SetUserInitialization(physicsList);
+	G4HadronicProcessStore::Instance()->SetVerbose(0);
 
-  // Physics list -> choose between selfmade Physics List in PhysicsList.cc or choose one of Geant4 default Physics Lists
-  // runManager->SetUserInitialization(new PhysicsList);
-  // runManager->SetUserInitialization(new PhysicsList_Reference);    //NOT WORKING!
+	runManager->SetUserInitialization(new ActionInitialization(det));
 
-  // G4VModularPhysicsList* physicsList = new QBBC;
-  // G4VModularPhysicsList* physicsList = new FTF_BIC;
-  // G4VModularPhysicsList* physicsList = new FTFP_INCLXX;
-  // G4VModularPhysicsList* physicsList = new FTFP_INCLXX_HP;
+	// Replaced HP (high-precision) environmental variables with C++ calls
+	//
+	//SkipMissingIsotopes: It sets to zero the cross section of the isotopes which are not present in the neutron library. If GEANT4 doesn’t find an isotope,
+	//then it looks for the natural composition data of that element. Only if the element is not found then the cross section is set to zero.
+	//On the contrary, if this variable is not defined, GEANT4 looks then for the neutron data of another isotope close in Z and A, which will
+	//have completely different nuclear properties and lead to incorrect results (highly recommended).
+	G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( true );
 
-  // G4VModularPhysicsList* physicsList = new FTFP_BERT;
-  // G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
-  // G4VModularPhysicsList* physicsList = new FTFP_BERT_ATL;
-  // G4VModularPhysicsList* physicsList = new FTFP_BERT_TRV;
-  // G4VModularPhysicsList* physicsList = new FTFQGSP_BERT;
+	//DoNotAdjustFinalState: If this variable is not defined, a GEANT4 model that attempts to satisfy the energy and momentum conservation in some nuclear
+	//reactions, by generating artificial gamma rays. By setting such a variable one avoids the correction and leads to the result obtained with the
+	//ENDF-6 libraries. Even though energy and momentum conservation are desirable, the ENDF-6 libraries do not provide the necessary correlations
+	//between secondary particles for satisfying them in all cases. On the contrary, ENDF-6 libraries intrinsically violate energy and momentum
+	//conservation for several processes and have been built for preserving the overall average quantities such as average energy releases, average number of
+	//secondaries. . . (highly recommended).
+	G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( true );
 
-  // G4VModularPhysicsList* physicsList = new QGSP_BIC;
-  // G4VModularPhysicsList* physicsList = new QGSP_BIC_HP;
-  G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;  //system environmental variable 'G4PARTICLEHPDATA' needs to be set to path to data library e.g. TENDL
-  //G4VModularPhysicsList* physicsList = new QGSP_INCLXX;
-  //G4VModularPhysicsList* physicsList = new QGSP_INCLXX_HP;
-  // G4VModularPhysicsList* physicsList = new QGSP_BERT;
-  // G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
-  // G4VModularPhysicsList* physicsList = new QGSP_FTFP_BERT;
+	G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
 
-  // G4VModularPhysicsList* physicsList = new Shielding;
+	//Doppler broadening of the resonances, due to target thermal motion, is calculated on-the-fly (from T = 0 K values)
+	//Very CPU intense: for those applications that do not need it, it can be switched off by setting the environmental variable
+	G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
 
-  // physicsList->ReplacePhysics(new G4EmStandardPhysics_option4()); //does this make RBS work? we will see...
+	G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( true );
+	//G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );	 //not working in Geant4 Versions < 10.7
+	G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
 
-  runManager->SetUserInitialization(physicsList);
-  G4HadronicProcessStore::Instance()->SetVerbose(0);
+	// Initialize visualization
+	// G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
+	G4VisManager* visManager = new G4VisExecutive("Quiet");
+	visManager->Initialize();
 
-  runManager->SetUserInitialization(new ActionInitialization(det));
+	// Get the pointer to the User Interface manager
+	G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
-  // Replaced HP (high-precision) environmental variables with C++ calls
-  //
-  //SkipMissingIsotopes: It sets to zero the cross section of the isotopes which are not present in the neutron library. If GEANT4 doesn’t find an isotope,
-  //then it looks for the natural composition data of that element. Only if the element is not found then the cross section is set to zero.
-  //On the contrary, if this variable is not defined, GEANT4 looks then for the neutron data of another isotope close in Z and A, which will
-  //have completely different nuclear properties and lead to incorrect results (highly recommended).
-  G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes( true );
+	// set verbosity off
+	UImanager->ApplyCommand(G4String("/process/verbose       0"));
+	UImanager->ApplyCommand(G4String("/process/em/verbose    0"));
+	UImanager->ApplyCommand(G4String("/process/had/verbose   0"));
+	UImanager->ApplyCommand(G4String("/process/eLoss/verbose 0"));
 
-  //DoNotAdjustFinalState: If this variable is not defined, a GEANT4 model that attempts to satisfy the energy and momentum conservation in some nuclear
-  //reactions, by generating artificial gamma rays. By setting such a variable one avoids the correction and leads to the result obtained with the
-  //ENDF-6 libraries. Even though energy and momentum conservation are desirable, the ENDF-6 libraries do not provide the necessary correlations
-  //between secondary particles for satisfying them in all cases. On the contrary, ENDF-6 libraries intrinsically violate energy and momentum
-  //conservation for several processes and have been built for preserving the overall average quantities such as average energy releases, average number of
-  //secondaries. . . (highly recommended).
-  G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState( true );
+	UImanager->ApplyCommand(G4String("/control/verbose  0"));
+	UImanager->ApplyCommand(G4String("/run/verbose      0"));
+	UImanager->ApplyCommand(G4String("/event/verbose    0"));
+	UImanager->ApplyCommand(G4String("/hits/verbose     0"));
+	UImanager->ApplyCommand(G4String("/tracking/verbose 0"));
+	UImanager->ApplyCommand(G4String("/stepping/verbose 0"));
 
-  G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation( false );
+	// Process macro or start UI session
+	// A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../visualization.mac will be executed
+	std::cout << "run commands are given" << std::endl;
+	if (interactive){
+		UImanager->ApplyCommand("/control/execute ../Macros/visualization.mac");
 
-  //Doppler broadening of the resonances, due to target thermal motion, is calculated on-the-fly (from T = 0 K values)
-  //Very CPU intense: for those applications that do not need it, it can be switched off by setting the environmental variable
-  G4ParticleHPManager::GetInstance()->SetNeglectDoppler( false );
+		for (auto cmd : run_commands) {
+			UImanager->ApplyCommand(cmd);
+			//std::cout << cmd << std::endl;
+		}
 
-  G4ParticleHPManager::GetInstance()->SetProduceFissionFragments( true );
-  //G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel( false );   //not working in Geant4 Versions < 10.7
-  G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
+		ui->SessionStart();
+		delete ui;
+	} else {
+		for (auto cmd : run_commands) {
+			UImanager->ApplyCommand(cmd);
+		}
+	}
+	// Job termination
+	// Free the store: user actions, physics_list and detector_description are
+	// owned and deleted by the run manager, so they should not be deleted
+	// in the main() program !
 
-  // Initialize visualization
-  // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-  G4VisManager* visManager = new G4VisExecutive("Quiet");
-  visManager->Initialize();
-
-  // Get the pointer to the User Interface manager
-  G4UImanager* UImanager = G4UImanager::GetUIpointer();
-
-  // set verbosity off
-  UImanager->ApplyCommand(G4String("/process/verbose       0"));
-  UImanager->ApplyCommand(G4String("/process/em/verbose    0"));
-  UImanager->ApplyCommand(G4String("/process/had/verbose   0"));
-  UImanager->ApplyCommand(G4String("/process/eLoss/verbose 0"));
-
-  UImanager->ApplyCommand(G4String("/control/verbose  0"));
-  UImanager->ApplyCommand(G4String("/run/verbose      0"));
-  UImanager->ApplyCommand(G4String("/event/verbose    0"));
-  UImanager->ApplyCommand(G4String("/hits/verbose     0"));
-  UImanager->ApplyCommand(G4String("/tracking/verbose 0"));
-  UImanager->ApplyCommand(G4String("/stepping/verbose 0"));
-
-  // Process macro or start UI session
-  // A UI session is started if the program is execute without a macro file. -> if you execute without macro then the macro ../visualization.mac will be executed
-  if ( ! ui ) {
-    // batch mode
-    G4String command = "/control/execute ";
-    G4String fileName = argv[1];
-    UImanager->ApplyCommand(command+fileName);
-  }
-  else {
-    // interactive mode
-    UImanager->ApplyCommand("/control/execute ../Macros/visualization.mac");
-    ui->SessionStart();
-    delete ui;
-  }
-
-  // Job termination
-  // Free the store: user actions, physics_list and detector_description are
-  // owned and deleted by the run manager, so they should not be deleted
-  // in the main() program !
-
-  delete visManager;
-  delete runManager;
+	delete visManager;
+	delete runManager;
 }

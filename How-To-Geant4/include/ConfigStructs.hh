@@ -65,6 +65,7 @@ namespace ConfigStructs {
 	struct RunActionConf {
 		std::vector<NTuple> tuples = std::vector<NTuple>();
 		std::vector<Histogram> histograms = std::vector<Histogram>();
+		std::string output_folder = "Output";
 
 		void add_analysis(NTuple tuple) {
 			this->tuples.push_back(tuple);

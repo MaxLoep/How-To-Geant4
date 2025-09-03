@@ -11,7 +11,7 @@ namespace api {
 	typedef ConfigStructs::ParticleProperty property;
 	typedef std::variant<ConfigStructs::Histogram, ConfigStructs::NTuple> save_data;
 
-	void setup_sim();
+	std::tuple<std::vector<std::string>, bool> setup_sim(std::string);
 	void make_sd(
 		std::string name,
 		std::string particle,

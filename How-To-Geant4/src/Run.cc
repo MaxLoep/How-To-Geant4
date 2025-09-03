@@ -22,6 +22,7 @@ namespace fs = std::filesystem;
 
 // get folderName from where it is defined (RunAction.cc) - the really dirty way
 extern std::string folderName;
+extern std::string run_name;
 // Standard folder name for the 'ListOfGeneratedParticles' files
 std::string ListFolder = "Lists_of_generated_Particles";
 
@@ -237,11 +238,16 @@ void Run::EndOfRun()
 	fs::create_directory(folderName);
 	fs::create_directory(folderName + "/" + ListFolder);
 
-	// get epoch time and system clock nanosecond value that were used as seeds in main() to create file name
-	G4long time 	= G4Random::getTheSeeds()[0];
-	G4long time_ns 	= G4Random::getTheSeeds()[1];
-	// set file name
-	std::string fileName = std::to_string(time) + "_" + std::to_string(time_ns) + "_LogP" + ".txt";
+
+
+	G4long pid = _getpid();
+
+	// Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
+	while(std::ifstream(folderName + "/" + ListFolder + "/" + run_name + "_" + std::to_string(pid) + "_logP.txt")) {
+		pid++;
+	}
+	// Set final file name
+	std::string fileName = run_name + "_" + std::to_string(pid) + "_logP.txt";
 
 	// flush output to file
 	std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);

@@ -1,9 +1,13 @@
 #include "api.hh"
 #include "ConfigStructs.hh"
+#include "config.hh"
+#include "parser.hh"
+#include <string>
 
 extern ConfigStructs::GlobalConf global_conf;
 
 #include "G4ios.hh"
+
 
 void api::make_sd(
 	std::string name,
@@ -25,6 +29,10 @@ void api::make_sd(
 	};
 
 	global_conf.sd_conf.push_back(sd_conf);
+
+	#ifdef DEBUG
+	std::cout << "make_sd ran succesfully" << std::endl;
+	#endif
 }
 
 // should primitive scorers even be implemented in code??
@@ -75,230 +83,111 @@ void api::add_placer(std::string name, placer_func func) {
 	geometries::add_placer(name, func);
 }
 
-#include "Collimator.hh"
 
-void api::setup_sim() {
-	//place_geometry("SD1", "cube", {{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10.*cm}, {"x_size", 15. * cm}, {"y_size", 15. * cm}, {"z_size", 0.02 * mm}}, Materials::Vacuum);
-	//make_sd("SD1", "neutron", {property::Ekin, property::time});
-
-	// NEUTRON COLLIMATOR GEOMETRY START
-	// add_placer("collimator", collimator);
-
-	// place_geometry("THEcollimator", "collimator", {{"x_pos", 0. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}}, Materials::Vacuum);
-
-	// place_geometry(
-	// 	"Plane_150", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 150. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
-	//  	Materials::Vacuum
-	// );
-	// make_sd("Plane_150", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
-
-	// place_geometry(
-	// 	"Plane_200", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 200. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
-	//  	Materials::Vacuum
-	// );
-	// make_sd("Plane_200", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
-
-	// place_geometry(
-	// 	"Plane_300", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 300. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
-	//  	Materials::Vacuum
-	// );
-	// make_sd("Plane_300", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
-
-	// place_geometry(
-	// 	"Plane_400", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 400. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 1. * mm}},
-	//  	Materials::Vacuum
-	// );
-	// make_sd("Plane_400", "neutron", {property::Ekin, property::local_pos_x, property::local_pos_y, property::time});
-	// NEUTRON COLLIMATOR GEOMETRY END
-
-
-	// SANDWICH GEOMETRY START
-	G4int layers = 1;
-	// G4double width = 0.0114*mm;
-	G4double width = 0.0225*mm;
-	// G4double width = 10.*cm;
-	G4String particle = "proton";
-	// G4String particle = "alpha";
-
-	for (int i = 0; i < layers; i++) {
-		place_geometry(//SD-Plane
-			"Plane_" + std::to_string(i), "cube",
-			{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)*i}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1*mm/2}},
-			Materials::Vacuum
-		);
-		make_sd("Plane_" + std::to_string(i), particle, {property::Ekin, property::local_pos_x, property::local_pos_y});
-		
-		place_geometry(//Material
-			"Air_" + std::to_string(i), "cube",
-			{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)/2 + (width+0.1*mm)*i}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", width/2}},
-			Materials::Aluminum
-		);
-
-		// print for DEBUGGING
-		// G4cout << "\n FOR-LOOP ITERATION: " << i <<  G4endl;
-	}
-
-	place_geometry(//End-Plane
-	"Plane_" + std::to_string(layers), "cube",
-	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", (width+0.1*mm)*(layers)+1.0*m}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1*mm/2}},
-	Materials::Vacuum
-	);
-	make_sd("Plane_" + std::to_string(layers), particle, {property::Ekin, property::local_pos_x, property::local_pos_y});
-	// SANDWICH GEOMETRY END
-
-
-	// BEAM SPREAD GEOMETRY START
-	// place_geometry(//Plane00
-	// 	"Plane_00", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 0. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_00", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Plane0
-	// 	"Plane_0", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 10. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_0", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-	
-	// place_geometry(//Air1
-	// 	"Air_1", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 15. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", (10.*cm)/2-0.1*mm}},
-	// 	Materials::Air
-	// );
-
-	// place_geometry(//Plane1
-	// 	"Plane_1", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 20. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_1", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Air2
-	// 	"Air_2", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 25. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", (10.*cm)/2-0.1*mm}},
-	// 	Materials::Air
-	// );
-
-	// place_geometry(//Plane2
-	// 	"Plane_2", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 30. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_2", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Air3
-	// 	"Air_3", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 35. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", (10.*cm)/2-0.1*mm}},
-	// 	Materials::Air
-	// );
-
-	// place_geometry(//Plane3
-	// 	"Plane_3", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 40. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_3", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Air4
-	// 	"Air_4", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 45. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", (10.*cm)/2-0.1*mm}},
-	// 	Materials::Air
-	// );
-
-	// place_geometry(//Plane4
-	// 	"Plane_4", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 50. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_4", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Air5
-	// 	"Air_5", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 55. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", (10.*cm)/2-0.1*mm}},
-	// 	Materials::Air
-	// );
-
-	// place_geometry(//Plane5
-	// 	"Plane_5", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 60. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_5", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Air6
-	// 	"Air_6", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 65. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", (10.*cm)/2-0.1*mm}},
-	// 	Materials::Air
-	// );
-
-	// place_geometry(//Plane6
-	// 	"Plane_6", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 70. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_6", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Plane7
-	// 	"Plane_7", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 80. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_7", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Plane8
-	// 	"Plane_8", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 90. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_8", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-
-	// place_geometry(//Plane9
-	// 	"Plane_9", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 100. * cm}, {"rot_x", 0. * degree}, {"x_size", 50. * cm}, {"y_size", 50. * cm}, {"z_size", 0.1 * mm}},
-	// 	Materials::Vacuum
-	// );
-	// make_sd("Plane_9", "proton", {property::Ekin, property::local_pos_x, property::local_pos_y});
-	// BEAM SPREAD GEOMETRY END
-
-	// place_geometry(
-	// 	"PIXE", "sphere",
-	// 	{{"x_pos", - 5. * cm}, {"y_pos", 0.}, {"z_pos", 0.*cm}, {"radius", 1. * cm}},
-	// 	Materials::Carbon
-	// );
-
-	// place_geometry(
-	// 	"PIXE_total", "sphere",
-	// 	{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 10. * cm}, {"inner_radius", 9.9 * cm}, {"transparency", 0.}},
-	// 	Materials::Carbon
-	// );
-
-	// place_geometry(
-	// 	"RBS", "sphere",
-	// 	{{"x_pos", 0. }, {"y_pos", 0.}, {"z_pos", 0. }, {"radius", 9.9 * cm}, {"inner_radius", 9.8 * cm}, {"transparency", 0.}},
-	// 	Materials::Vacuum
-	// );
-
-	// place_geometry(
-	// 	"target_base", "cube",
-	// 	{{"x_pos", 0.}, {"y_pos", 0.}, {"z_pos", 0. * cm}, {"x_size", 0.5 * cm}, {"y_size", 0.5 * cm}, {"z_size", 0.5 * cm}},
-	//  	Materials::Carbon
-	// );
-
-	auto hist = ConfigStructs::Histogram{
-		.name = "PIXE energy",
-		.title = "PIXE energy",
-		.nbins = 100,
-		.xmin = 0.,
-		.xmax = 10. * MeV
+api::property property_from_string(std::string property_string) {
+	// Ekin, local_pos_x,  local_pos_y,  local_pos_z, time, theta, phi
+	std::map<std::string, api::property> lut = {
+		{"ekin", api::property::Ekin},
+		{"pos_x", api::property::local_pos_x},
+		{"pos_y", api::property::local_pos_y},
+		{"pos_z", api::property::local_pos_z},
+		{"theta", api::property::theta},
+		{"phi", api::property::phi}
 	};
 
-	// make_ps("PIXE", "energyDeposit", save_data{hist}, true, ConfigStructs::ParticleSpec("gamma"));
-	// make_sd("PIXE_total", "gamma", {property::Ekin, property::theta, property::phi});
-	// make_sd("RBS", "primary", {property::Ekin, property::time});
+	return lut[property_string];
+}
+
+
+#include "Collimator.hh"
+
+
+std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
+	add_placer("collimator", collimator);
+
+	auto commands = parser::load_simple_file(arg);
+	std::vector<std::string> macro_commands = {};
+	bool interactive = false;
+
+	for (auto [command_type, string_args, numerical_args] : commands) {
+		std::cout << string_args["command"] << std::endl;
+		// actually run the commands lol!
+		if (command_type == parser::cmd_type::place_geometry) {
+			auto mat = Materials::get_mat(string_args["material"]);
+			place_geometry(string_args["name"], string_args["object"], numerical_args, mat);
+		} else if (command_type == parser::cmd_type::make_sd) {
+			#ifdef DEBUG
+			std::cout << "running make_sd command" << std::endl;
+			#endif
+
+			auto properties = std::vector<api::property>();
+			for (int i = 0; i < (int) numerical_args["attrib_count"]; ++ i) {
+				std::string attrib_name = "attrib_" + std::to_string(i);
+				properties.push_back(property_from_string(string_args[attrib_name]));
+				std::cout << string_args[attrib_name] << std::endl;
+			}
+
+			#ifdef DEBUG
+			std::cout << "\tparticle is: " << string_args["particle"] << std::endl;
+			#endif
+
+			make_sd(string_args["name"], string_args["particle"], properties, string_args["attach"]);
+		} else if (command_type == parser::cmd_type::make_ps) {
+			std::cout << "not implemented yet!" << std::endl;
+		} else if (command_type == parser::cmd_type::make_custom_material) {
+			std::vector<std::tuple<std::string, double>> parts = {};
+			for (auto [mat, amount] : numerical_args) {
+				if (mat == "density") continue;
+				parts.push_back({mat, amount});
+			}
+			Materials::add_custom_mat(string_args["name"], parts, numerical_args["density"]);
+		} else if (command_type == parser::cmd_type::particle_source) {
+			auto pos = macro_commands.size() > 2? macro_commands.begin() + 2: macro_commands.begin();
+			if (string_args["shape"] == "point") pos = macro_commands.insert(pos, "/gps/pos/type Point");
+			else if (string_args["shape"] == "beam") {
+				pos = macro_commands.insert(pos, "/gps/pos/type Beam");
+				pos = macro_commands.insert(pos, "/gps/pos/sigma_r " + std::to_string(numerical_args["sigma_r"]) + " mm");
+				std::cout << "sigma r is: " << std::to_string(numerical_args["sigma_r"]) << std::endl;
+			}
+
+			if (string_args["particle"] == "ion") {
+				pos = macro_commands.insert(pos,
+					std::format("/gps/ion {} {} {} {}",
+						(int) numerical_args["atomic_number"],
+						(int) numerical_args["atomic_mass"],
+						(int) numerical_args["charge"],
+						(int) numerical_args["excitation"]
+					)
+				);
+			}
+			pos = macro_commands.insert(pos, "/gps/particle " + string_args["particle"]);
+
+			pos = macro_commands.insert(pos, std::format("/gps/position {} {} {} mm", numerical_args["x_pos"], numerical_args["y_pos"], numerical_args["z_pos"]));
+			pos = macro_commands.insert(pos, std::format("/gps/direction {} {} {}", numerical_args["x_facing"], numerical_args["y_facing"], numerical_args["z_facing"]));
+
+			if (string_args["mono_e"] == "true"){
+				pos = macro_commands.insert(pos, "/gps/ene/type Mono");
+				pos = macro_commands.insert(pos, "/gps/ene/mono " + std::to_string(numerical_args["energy"]) + " MeV");
+			} else {
+				exit(-1); // troll the user for wanting to do this!
+			}
+
+		} else if (command_type == parser::cmd_type::replace_macro_file) {
+			macro_commands.insert(macro_commands.begin(), "/run/initialize");
+			macro_commands.insert(macro_commands.begin(), "/run/numberOfThreads " + std::to_string((int) (numerical_args["thread_count"])));
+			macro_commands.insert(macro_commands.end(), "/run/printProgress " + std::to_string((int) (numerical_args["event_count"] / 10)));
+			while (numerical_args["event_count"] > 2e9) {
+				macro_commands.insert(macro_commands.end(), "/run/beamOn " + std::to_string((int) 2e9));
+				numerical_args["event_count"] -= 2e9;
+			}
+			macro_commands.insert(macro_commands.end(), "/run/beamOn " + std::to_string((int) (numerical_args["event_count"])));
+		} else if (command_type == parser::cmd_type::start_gui) {
+			interactive = true;
+		} else if (command_type == parser::cmd_type::prerun_macro) {
+			macro_commands.insert(macro_commands.begin(), string_args["content"]);
+		}
+	}
+
+
+	return {macro_commands, interactive};
 }

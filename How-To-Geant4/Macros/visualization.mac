@@ -21,8 +21,8 @@
 /vis/viewer/set/viewpointThetaPhi 120 150
 #/vis/viewer/zoom 1.4
 /vis/viewer/set/lightsVector -1 0 0
-/vis/viewer/set/background 1 1 1 1 #background white
-#/vis/viewer/set/background 0 0 0 1 #background black
+#/vis/viewer/set/background 1 1 1 1 #background white
+/vis/viewer/set/background 0.3 0.3 0.3 1 #background black
 
 # Disable auto refresh and quieten vis messages whilst scene and trajectories are established:
 /vis/viewer/set/autoRefresh false
@@ -37,7 +37,7 @@
 
 # Axes, scale, etc.
 #/vis/scene/add/scale   # Simple scale line                             ### THIS BREAKS UPDATING GEOMETRY VIA CUSTOM COMMANDS!!!
-#/vis/scene/add/axes -1 -1 -1   # Simple axes: x=red, y=green, z=blue.  ### THIS BREAKS UPDATING GEOMETRY VIA CUSTOM COMMANDS!!!
+#/vis/scene/add/axes 1 1 1   # Simple axes: x=red, y=green, z=blue.  ### THIS BREAKS UPDATING GEOMETRY VIA CUSTOM COMMANDS!!!
 /vis/scene/add/eventID # Drawn at end of event
 #/vis/scene/add/date    # Date stamp
 #/vis/scene/add/logo2D  # Simple logo
@@ -64,7 +64,7 @@
 # (if too many tracks cause core dump => /tracking/storeTrajectory 0)
 
 # Draw hits at end of event:
-/vis/scene/add/trajectories smooth
+/vis/scene/add/trajectories
 /vis/scene/add/hits
 
 # To draw only gammas:
@@ -78,12 +78,12 @@
 # Many other options are available with /vis/modeling and /vis/filtering.
 # For example, to select colour by particle ID:
 /vis/modeling/trajectories/create/drawByParticleID
-#/vis/modeling/trajectories/drawByParticleID-0/set e- red
-#/vis/modeling/trajectories/drawByParticleID-0/set gamma green
+/vis/modeling/trajectories/drawByParticleID-0/set e- red
+/vis/modeling/trajectories/drawByParticleID-0/set gamma green
 /vis/modeling/trajectories/drawByParticleID-0/set proton yellow
-#/vis/modeling/trajectories/drawByParticleID-0/set neutron yellow
-#/vis/modeling/trajectories/drawByParticleID-0/set alpha blue
-#/vis/modeling/trajectories/drawByParticleID-0/set GenericIon blue
+/vis/modeling/trajectories/drawByParticleID-0/set neutron yellow
+/vis/modeling/trajectories/drawByParticleID-0/set alpha blue
+/vis/modeling/trajectories/drawByParticleID-0/set GenericIon blue
 
 # To superimpose all of the events from a given run:
 /vis/scene/endOfEventAction accumulate
@@ -113,26 +113,26 @@
 #define a boxMesh (cube) with name boxMesh_1
 #/score/create/boxMesh boxMesh_1
 #define x,y,z-sizes
-#/score/mesh/boxSize 10. 10. 10. cm 
+#/score/mesh/boxSize 10. 10. 10. cm
 #define number of bins for each axes
-#/score/mesh/nBin 10 10 10 
+#/score/mesh/nBin 10 10 10
 #Place scoring mesh
-#/score/mesh/translate/xyz 0. 0. 50. cm 
+#/score/mesh/translate/xyz 0. 0. 50. cm
 
-#define a scorer via 
+#define a scorer via
 #/score/quantity/xxxxx <scorer_name>
 # 'xxxxx' can be: energyDeposit, doseDeposit, trackLength, cellFlux, cellCharge, passageCellFlux, nOfStep, nOfSecondary, nOfCollision, nOfTrack, nOfTerminatedTrack, ...
 #/score/quantity/energyDeposit eDep
 
 #apply a filter to the scorer we are currently creating scorer
 #/score/filter/kineticEnergy <filter_name> <eLow> <eHigh> <unit>
-#/score/filter/particle <filter_name> <p1> <p2> <pn> 
+#/score/filter/particle <filter_name> <p1> <p2> <pn>
 
 #Close the mesh when defining scorers is done
 #/score/close
 
 #Drawing a scorer via
-#/score/drawProjection <mesh_name> <scorer_name> <color_map> 
+#/score/drawProjection <mesh_name> <scorer_name> <color_map>
 #/score/drawProjection boxMesh_1 eDep
 
 #Write scores to a file (existing ones get overwriten!) at the end via

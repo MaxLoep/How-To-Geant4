@@ -27,6 +27,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
     void SetOutputFolder (std::string);
+    void SetRunName (std::string);
     void SetDummyMat1 (G4String);
     void SetDummyMat2 (G4String);
     void SetDummyMat3 (G4String);

@@ -1,6 +1,7 @@
 #ifndef GEOMETRYBUILDER
 #define GEOMETRYBUILDER
 
+#include <cwchar>
 #include <string>
 #include <vector>
 #include <map>
@@ -60,6 +61,13 @@ namespace Materials {
 			this -> density = density;
 			this -> parts = parts;
 		};
+
+		void to_molecule() {
+			for (auto& element : this->parts) {
+				// convert atom count to mass fraction
+
+			}
+		}
 
 		G4Material* make() {
 			if (this->made) return this->mat_ptr;
@@ -249,6 +257,43 @@ namespace Materials {
 	//Print all defined materials to console - this is currently done in 'DetectorConstruction.cc'
 	// G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
+	static std::map<std::string, MaterialMaker> known_materials = {
+		{"vacuum", Vacuum},
+		{"hydrogen", Hydrogen},
+		{"lithium", Lithium},
+		{"boron", Boron},
+		{"carbon", Carbon},
+		{"silicon", Silicon},
+		{"aluminum", Aluminum},
+		{"scandium", Scandium},
+		{"titanium", Titanium},
+		{"vanadium", Vanadium},
+		{"yttrium", Yttrium},
+		{"barium", Barium},
+		{"iron", Iron},
+		{"nickel", Nickel},
+		{"copper", Copper},
+		{"cadmium", Cadmium},
+		{"tungsten", Tungsten},
+		{"lead", Lead},
+		{"silver", Silver},
+		{"gold", Gold},
+		{"arsenic", Arsenic},
+		{"antimony", Antimony},
+		{"zinc", Zinc},
+		{"tin", Tin},
+		{"air", Air},
+		{"concrete", Concrete},
+		{"graphite", Graphite},
+		{"polyethylene", Polyethylene},
+		{"steel", Steel},
+		{"water", Water},
+		{"boratedPE", BoratedPE},
+		{"densimet180", Densimet180}
+	};
+
+	void add_custom_mat(std::string mat_name, std::vector<std::tuple<std::string, double>> composition, double density);
+	MaterialMaker get_mat(std::string name);
 }
 
 using placer_func = std::function<G4LogicalVolume*(std::string, std::map<std::string, double>&, Materials::MaterialMaker)>;
