@@ -120,32 +120,32 @@ namespace Materials {
 	static MaterialMaker Nickel     = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ni");};		// Z = 28
 	static MaterialMaker Copper     = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cu");};		// Z = 29
 	static MaterialMaker Zinc		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Zn");};		// Z = 30
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ga");};		// Z = 31
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ge");};		// Z = 32
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_As");};		// Z = 33
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Se");};		// Z = 34
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Br");};		// Z = 35
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Kr");};		// Z = 36
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Rb");};		// Z = 37
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sr");};		// Z = 38
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Y");};			// Z = 39
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Zr");};		// Z = 40
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Nb");};		// Z = 41
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Mo");};		// Z = 42
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Tc");};		// Z = 43
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ru");};		// Z = 44
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Rh");};		// Z = 45
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Pd");};		// Z = 46
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ag");};		// Z = 47
+	static MaterialMaker Gallium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ga");};		// Z = 31
+	static MaterialMaker Germanium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ge");};		// Z = 32
+	static MaterialMaker Arsenic	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_As");};		// Z = 33
+	static MaterialMaker Selenium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Se");};		// Z = 34
+	static MaterialMaker Bromine	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Br");};		// Z = 35
+	static MaterialMaker Krypton	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Kr");};		// Z = 36
+	static MaterialMaker Rubidium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Rb");};		// Z = 37
+	static MaterialMaker Strontium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sr");};		// Z = 38
+	static MaterialMaker Yttrium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Y");};			// Z = 39
+	static MaterialMaker Zirconium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Zr");};		// Z = 40
+	static MaterialMaker Niobium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Nb");};		// Z = 41
+	static MaterialMaker Molybdenum	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Mo");};		// Z = 42
+	static MaterialMaker Technetium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Tc");};		// Z = 43
+	static MaterialMaker Ruthenium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ru");};		// Z = 44
+	static MaterialMaker Rhodium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Rh");};		// Z = 45
+	static MaterialMaker Palladium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Pd");};		// Z = 46
+	static MaterialMaker Silver		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ag");};		// Z = 47
 	static MaterialMaker Cadmium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cd");};		// Z = 48
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_In");};		// Z = 49
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sn");};		// Z = 50
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sb");};		// Z = 51
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Te");};		// Z = 52
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_I");};			// Z = 53
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Xe");};		// Z = 54
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cs");};		// Z = 55
-	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ba");};		// Z = 56
+	static MaterialMaker Indium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_In");};		// Z = 49
+	static MaterialMaker Tin		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sn");};		// Z = 50
+	static MaterialMaker Antimony	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Sb");};		// Z = 51
+	static MaterialMaker Tellurium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Te");};		// Z = 52
+	static MaterialMaker Iodine		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_I");};			// Z = 53
+	static MaterialMaker Xenon		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Xe");};		// Z = 54
+	static MaterialMaker Caesium	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Cs");};		// Z = 55
+	static MaterialMaker Barium		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ba");};		// Z = 56
 	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_La");};		// Z = 57
 	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Ce");};		// Z = 58
 	// static MaterialMaker = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_Pm");};		// Z = 59
