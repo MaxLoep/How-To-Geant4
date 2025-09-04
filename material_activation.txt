@@ -3,4 +3,4 @@ place; 4; command=place; object=sphere; name=source_marker; material=vacuum; pos
 particle_source; 4; command=particle_source; particle=proton; mono_e=true; shape=beam; energy=14.0; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=-10.0; x_facing=0; y_facing=0; z_facing=1; sigma_r=0.0; atomic_number=0; atomic_mass=0; charge=0; excitation=0;
 prerun_macro; 2; command=prerun_macro; content=/custom/ana/setOutFolder material_activation_output;
 prerun_macro; 2; command=prerun_macro; content=/custom/ana/setRunName plexiglass_activation;
-no_macro_f; 1; command=no_macro_f; event_count=100000000.0; thread_count=8;
+no_macro_f; 1; command=no_macro_f; event_count=200000000.0; thread_count=8;
