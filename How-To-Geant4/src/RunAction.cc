@@ -145,35 +145,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
 	 = static_cast<const DetectorConstruction*>
 		 (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
-
-
-
-	//REMOVE ! : WHAT IS THIS GOOD FOR? IS THIS A LEFT OVER OF SOMETHING I COPIED FROM SOMEWHERE?
-	// // Run conditions
-	// //  note: There is no primary generator action object for "master"
-	// //        run manager for multi-threaded mode.
-	// const PrimaryGeneratorAction* generatorAction
-	//  = static_cast<const PrimaryGeneratorAction*>
-	// 	 (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
-	// G4String runCondition;
-
-	// //GPS
-	// 	if (generatorAction)
-	// {
-	// 	const G4GeneralParticleSource* fParticleBeam = generatorAction->GetParticleGun();
-	// 	runCondition += fParticleBeam->GetParticleDefinition()->GetParticleName();
-	// 	runCondition += " of ";
-	// 	G4double particleEnergy = fParticleBeam->GetParticleEnergy();
-	// 	runCondition += G4BestUnit(particleEnergy,"Energy");
-	// 	//run condition is a string and at this point it contains something like
-	// 	// "proton of 100 MeV"
-	//  // THIS STRING NEVER GETS PRINTED OR USED SOMEWHERE!
-	// }
-
-
-
-
-
 	// Print End of Run messages
 	if (IsMaster()) {
 		G4cout

@@ -23,9 +23,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 :G4UImessenger(),
  fDetector(Det), fTestemDir(nullptr), fDetDir(nullptr), fGDMLDir(nullptr),
  fOutFoldCmd(nullptr),
- fDummyMat1Cmd(nullptr),fDummyMat2Cmd(nullptr),fDummyMat3Cmd(nullptr),fDummyMat4Cmd(nullptr),
+//  fDummyMat1Cmd(nullptr),fDummyMat2Cmd(nullptr),fDummyMat3Cmd(nullptr),fDummyMat4Cmd(nullptr),
  fTheLoadCommand(0),fTheWriteCommand(0), fTheOnlyLoadCommand(0),
- fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr), fchange_fCmd(nullptr), fSelectPOI(nullptr), fSetPOI(0)
+//  fchange_aCmd(nullptr), fchange_bCmd(nullptr), fchange_cCmd(nullptr), fchange_dCmd(nullptr), fchange_eCmd(nullptr), fchange_fCmd(nullptr),
+fSelectPOI(nullptr), fSetPOI(0)
 {
 	//Create a directory for your custom commands
 	fTestemDir = new G4UIdirectory("/custom/");
@@ -57,25 +58,25 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 	fRunNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 	// Change Material dummyMat
-	fDummyMat1Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat1",this);
-	fDummyMat1Cmd->SetGuidance("Select material of the box.");
-	fDummyMat1Cmd->SetParameterName("choice",false);
-	fDummyMat1Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fDummyMat1Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat1",this);
+	// fDummyMat1Cmd->SetGuidance("Select material of the box.");
+	// fDummyMat1Cmd->SetParameterName("choice",false);
+	// fDummyMat1Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-	fDummyMat2Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat2",this);
-	fDummyMat2Cmd->SetGuidance("Select material of the box.");
-	fDummyMat2Cmd->SetParameterName("choice",false);
-	fDummyMat2Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fDummyMat2Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat2",this);
+	// fDummyMat2Cmd->SetGuidance("Select material of the box.");
+	// fDummyMat2Cmd->SetParameterName("choice",false);
+	// fDummyMat2Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-	fDummyMat3Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat3",this);
-	fDummyMat3Cmd->SetGuidance("Select material of the box.");
-	fDummyMat3Cmd->SetParameterName("choice",false);
-	fDummyMat3Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fDummyMat3Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat3",this);
+	// fDummyMat3Cmd->SetGuidance("Select material of the box.");
+	// fDummyMat3Cmd->SetParameterName("choice",false);
+	// fDummyMat3Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-	fDummyMat4Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat4",this);
-	fDummyMat4Cmd->SetGuidance("Select material of the box.");
-	fDummyMat4Cmd->SetParameterName("choice",false);
-	fDummyMat4Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fDummyMat4Cmd = new G4UIcmdWithAString("/custom/geo/setDummyMat4",this);
+	// fDummyMat4Cmd->SetGuidance("Select material of the box.");
+	// fDummyMat4Cmd->SetParameterName("choice",false);
+	// fDummyMat4Cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 	fSelectPOI = new G4UIcmdWithAString("/custom/geo/setPOI", this);
 	fSelectPOI->SetGuidance("Select the object and parameter to change");
@@ -111,52 +112,52 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction * Det)
 
 	// Change parameters a,b,c,d,e,f with Macro commands
 	// Change a
-	fchange_aCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_a",this);
-	fchange_aCmd->SetGuidance("Change the value of the variable 'a'");
-	fchange_aCmd->SetParameterName("a",false);
-	fchange_aCmd->SetRange("a>0.");
-	fchange_aCmd->SetUnitCategory("Length");
-	fchange_aCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fchange_aCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_a",this);
+	// fchange_aCmd->SetGuidance("Change the value of the variable 'a'");
+	// fchange_aCmd->SetParameterName("a",false);
+	// fchange_aCmd->SetRange("a>0.");
+	// fchange_aCmd->SetUnitCategory("Length");
+	// fchange_aCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 	// Change b
-	fchange_bCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_b",this);
-	fchange_bCmd->SetGuidance("Change the value of the variable 'b'");
-	fchange_bCmd->SetParameterName("b",false);
-	fchange_bCmd->SetRange("b>0.");
-	fchange_bCmd->SetUnitCategory("Length");
-	fchange_bCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fchange_bCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_b",this);
+	// fchange_bCmd->SetGuidance("Change the value of the variable 'b'");
+	// fchange_bCmd->SetParameterName("b",false);
+	// fchange_bCmd->SetRange("b>0.");
+	// fchange_bCmd->SetUnitCategory("Length");
+	// fchange_bCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 	// Change c
-	fchange_cCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_c",this);
-	fchange_cCmd->SetGuidance("Change the value of the variable 'c'");
-	fchange_cCmd->SetParameterName("c",false);
-	fchange_cCmd->SetRange("c>0.");
-	fchange_cCmd->SetUnitCategory("Length");
-	fchange_cCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fchange_cCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_c",this);
+	// fchange_cCmd->SetGuidance("Change the value of the variable 'c'");
+	// fchange_cCmd->SetParameterName("c",false);
+	// fchange_cCmd->SetRange("c>0.");
+	// fchange_cCmd->SetUnitCategory("Length");
+	// fchange_cCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 	// Change d
-	fchange_dCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_d",this);
-	fchange_dCmd->SetGuidance("Change the value of the variable 'd'");
-	fchange_dCmd->SetParameterName("d",false);
-	fchange_dCmd->SetRange("d>0.");
-	fchange_dCmd->SetUnitCategory("Length");
-	fchange_dCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fchange_dCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_d",this);
+	// fchange_dCmd->SetGuidance("Change the value of the variable 'd'");
+	// fchange_dCmd->SetParameterName("d",false);
+	// fchange_dCmd->SetRange("d>0.");
+	// fchange_dCmd->SetUnitCategory("Length");
+	// fchange_dCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 	// Change e
-	fchange_eCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_e",this);
-	fchange_eCmd->SetGuidance("Change the value of the variable 'e'");
-	fchange_eCmd->SetParameterName("e",false);
-	fchange_eCmd->SetRange("e>0.");
-	fchange_eCmd->SetUnitCategory("Length");
-	fchange_eCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fchange_eCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_e",this);
+	// fchange_eCmd->SetGuidance("Change the value of the variable 'e'");
+	// fchange_eCmd->SetParameterName("e",false);
+	// fchange_eCmd->SetRange("e>0.");
+	// fchange_eCmd->SetUnitCategory("Length");
+	// fchange_eCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
 	// Change f
-	fchange_fCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_f",this);
-	fchange_fCmd->SetGuidance("Change the value of the variable 'f'");
-	fchange_fCmd->SetParameterName("f",false);
-	fchange_fCmd->SetRange("f>0.");
-	fchange_fCmd->SetUnitCategory("Length");
-	fchange_fCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	// fchange_fCmd = new G4UIcmdWithADoubleAndUnit("/custom/geo/change_f",this);
+	// fchange_fCmd->SetGuidance("Change the value of the variable 'f'");
+	// fchange_fCmd->SetParameterName("f",false);
+	// fchange_fCmd->SetRange("f>0.");
+	// fchange_fCmd->SetUnitCategory("Length");
+	// fchange_fCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 
@@ -170,10 +171,10 @@ DetectorMessenger::~DetectorMessenger()
 	delete fRunNameCmd;
 
 	// Change Material dummyMat
-	delete fDummyMat1Cmd;
-	delete fDummyMat2Cmd;
-	delete fDummyMat3Cmd;
-	delete fDummyMat4Cmd;
+	// delete fDummyMat1Cmd;
+	// delete fDummyMat2Cmd;
+	// delete fDummyMat3Cmd;
+	// delete fDummyMat4Cmd;
 
 	// Change if GDML-file should be loaded or saved
 	delete fTheLoadCommand;
@@ -181,12 +182,12 @@ DetectorMessenger::~DetectorMessenger()
 	delete fTheOnlyLoadCommand;
 
 	// Change to parameters a,b,c,d,e,f
-	delete fchange_aCmd;
-	delete fchange_bCmd;
-	delete fchange_cCmd;
-	delete fchange_dCmd;
-	delete fchange_eCmd;
-	delete fchange_fCmd;
+	// delete fchange_aCmd;
+	// delete fchange_bCmd;
+	// delete fchange_cCmd;
+	// delete fchange_dCmd;
+	// delete fchange_eCmd;
+	// delete fchange_fCmd;
 }
 
 void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
@@ -199,17 +200,17 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	 { fDetector->SetRunName(newValue);}
 
 	// Change Material dummyMat
-	if( command == fDummyMat1Cmd )
-	 { fDetector->SetDummyMat1(newValue);}
+	// if( command == fDummyMat1Cmd )
+	//  { fDetector->SetDummyMat1(newValue);}
 
-	if( command == fDummyMat2Cmd )
-	 { fDetector->SetDummyMat2(newValue);}
+	// if( command == fDummyMat2Cmd )
+	//  { fDetector->SetDummyMat2(newValue);}
 
-	if( command == fDummyMat3Cmd )
-	 { fDetector->SetDummyMat3(newValue);}
+	// if( command == fDummyMat3Cmd )
+	//  { fDetector->SetDummyMat3(newValue);}
 
-	if( command == fDummyMat4Cmd )
-	 { fDetector->SetDummyMat4(newValue);}
+	// if( command == fDummyMat4Cmd )
+	//  { fDetector->SetDummyMat4(newValue);}
 
 	// Change GDML load-file-name
 	if( command == fTheLoadCommand )
@@ -232,21 +233,21 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	}
 
 	// Change to parameters a,b,c,d,e
-	if( command == fchange_aCmd )
-	 { fDetector->change_a(fchange_aCmd->GetNewDoubleValue(newValue));}
+	// if( command == fchange_aCmd )
+	//  { fDetector->change_a(fchange_aCmd->GetNewDoubleValue(newValue));}
 
-	if( command == fchange_bCmd )
-	 { fDetector->change_b(fchange_bCmd->GetNewDoubleValue(newValue));}
+	// if( command == fchange_bCmd )
+	//  { fDetector->change_b(fchange_bCmd->GetNewDoubleValue(newValue));}
 
-	if( command == fchange_cCmd )
-	 { fDetector->change_c(fchange_cCmd->GetNewDoubleValue(newValue));}
+	// if( command == fchange_cCmd )
+	//  { fDetector->change_c(fchange_cCmd->GetNewDoubleValue(newValue));}
 
-	if( command == fchange_dCmd )
-	 { fDetector->change_d(fchange_dCmd->GetNewDoubleValue(newValue));}
+	// if( command == fchange_dCmd )
+	//  { fDetector->change_d(fchange_dCmd->GetNewDoubleValue(newValue));}
 
-	if( command == fchange_eCmd )
-	 { fDetector->change_e(fchange_eCmd->GetNewDoubleValue(newValue));}
+	// if( command == fchange_eCmd )
+	//  { fDetector->change_e(fchange_eCmd->GetNewDoubleValue(newValue));}
 
-	if( command == fchange_fCmd )
-	 { fDetector->change_f(fchange_fCmd->GetNewDoubleValue(newValue));}
+	// if( command == fchange_fCmd )
+	//  { fDetector->change_f(fchange_fCmd->GetNewDoubleValue(newValue));}
 }

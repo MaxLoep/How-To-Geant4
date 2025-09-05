@@ -30,10 +30,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void SetRunName (std::string);
 
     // REMOVE because we dont set materials in macro files anymore since we do setup with python now
-    void SetDummyMat1 (G4String);
-    void SetDummyMat2 (G4String);
-    void SetDummyMat3 (G4String);
-    void SetDummyMat4 (G4String);
+    // void SetDummyMat1 (G4String);
+    // void SetDummyMat2 (G4String);
+    // void SetDummyMat3 (G4String);
+    // void SetDummyMat4 (G4String);
 
     // Writing and Reading GDML
     void SetLoadGDMLFile( const G4String& File );  // for the macro command to load a GDML file
@@ -46,14 +46,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void change_poi(G4String&, G4double);
 
     // REMOVE because we dont change parameters via macro file anymore since we build geometry in python script now
-    void change_a   (G4double);
-    void change_b   (G4double);
-    void change_c   (G4double);
-    void change_d   (G4double);
-    void change_e   (G4double);
-    void change_f   (G4double);
+    // void change_a   (G4double);
+    // void change_b   (G4double);
+    // void change_c   (G4double);
+    // void change_d   (G4double);
+    // void change_e   (G4double);
+    // void change_f   (G4double);
 
-    G4Material* GetAbsorMaterial()  {return boxMaterial;};
+    // G4Material* GetAbsorMaterial()  {return boxMaterial;};
 
     void PrintParameters(); // REMOVE: function that prints parameters of ONE hardcoded object - can be deleted i guess
 
@@ -84,48 +84,48 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4Material*        fAbsorMaterial;
     G4LogicalVolume*   fLAbsor;
 
-    G4Material*        boxMaterial;
-    G4Material*        dummyMat1;
-    G4Material*        dummyMat2;
-    G4Material*        dummyMat3;
-    G4Material*        dummyMat4;
+    // G4Material*        boxMaterial;
+    // G4Material*        dummyMat1;
+    // G4Material*        dummyMat2;
+    // G4Material*        dummyMat3;
+    // G4Material*        dummyMat4;
 
 
     // NIST Material Manager
     G4NistManager* nist;
 
     // REMOVE because this is old code. Materials.cc doesnt exist anymore. Materials are defined in Geometries.hh now
-  	typedef std::function<G4Material*()> MaterialMaker;
-    // List of all Materials that get defined in Materials.cc
-    // NIST Materials
-    MaterialMaker Vacuum;
-    MaterialMaker Hydrogen;
-    MaterialMaker Lithium;
-    MaterialMaker Boron;
-    MaterialMaker Carbon;
-    MaterialMaker Aluminum;
-    MaterialMaker Silicon;
-    MaterialMaker Scandium;
-    MaterialMaker Titanium;
-    MaterialMaker Vanadium;
-    MaterialMaker Iron;
-    MaterialMaker Nickel;
-    MaterialMaker Copper;
-    MaterialMaker Cadmium;
-    MaterialMaker Tungsten;
-    MaterialMaker Gold;
+  	// typedef std::function<G4Material*()> MaterialMaker;
+    // // List of all Materials that get defined in Materials.cc
+    // // NIST Materials
+    // MaterialMaker Vacuum;
+    // MaterialMaker Hydrogen;
+    // MaterialMaker Lithium;
+    // MaterialMaker Boron;
+    // MaterialMaker Carbon;
+    // MaterialMaker Aluminum;
+    // MaterialMaker Silicon;
+    // MaterialMaker Scandium;
+    // MaterialMaker Titanium;
+    // MaterialMaker Vanadium;
+    // MaterialMaker Iron;
+    // MaterialMaker Nickel;
+    // MaterialMaker Copper;
+    // MaterialMaker Cadmium;
+    // MaterialMaker Tungsten;
+    // MaterialMaker Gold;
 
-    // NIST pre-defined Compounds
-    MaterialMaker Air;
-    MaterialMaker Concrete;
-    MaterialMaker Graphite;
-    MaterialMaker Polyethylene;
-    MaterialMaker Steel;
-    MaterialMaker Water;
+    // // NIST pre-defined Compounds
+    // MaterialMaker Air;
+    // MaterialMaker Concrete;
+    // MaterialMaker Graphite;
+    // MaterialMaker Polyethylene;
+    // MaterialMaker Steel;
+    // MaterialMaker Water;
 
-    // Self-definded Materials
-    MaterialMaker BoratedPE;
-    MaterialMaker Densimet180;
+    // // Self-definded Materials
+    // MaterialMaker BoratedPE;
+    // MaterialMaker Densimet180;
 
     DetectorMessenger* fDetectorMessenger;
 

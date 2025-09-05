@@ -218,21 +218,6 @@ void Run::EndOfRun()
 	}
 	G4cout << G4endl;
 
-	// //List of generated particles: to console (the old style)  //this prints number of excited states too! //CAN BE REMOVED? newer version below
-	// G4cout << "\n List of generated particles:" << G4endl;
-	// for ( const auto& particleData : fParticleDataMap1 )
-	// {
-	// 	G4String name = particleData.first;
-	// 	ParticleData data = particleData.second;
-	// 	G4int count = data.fCount;
-	// 	G4double meanLife = data.fTmean;
-
-	// 	G4cout << "  " << std::setw(13) << name << ": " << std::setw(7) << count;
-	// 	if (meanLife >= 0.)
-	// 		G4cout << "\thalf life = " << G4BestUnit(meanLife, "Time")   << G4endl;
-	// 	else G4cout << "\tstable" << G4endl;
-	// }
-
 	//List of generated Particles (LogP) to file
 	// create a folder for the files
 	fs::create_directory(folderName);

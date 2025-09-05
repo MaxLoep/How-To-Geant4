@@ -34,10 +34,10 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithAString*        fRunNameCmd;
 
     // REMOVE, we dont change materials via macro file anymore
-    G4UIcmdWithAString*        fDummyMat1Cmd;
-    G4UIcmdWithAString*        fDummyMat2Cmd;
-    G4UIcmdWithAString*        fDummyMat3Cmd;
-    G4UIcmdWithAString*        fDummyMat4Cmd;
+    // G4UIcmdWithAString*        fDummyMat1Cmd;
+    // G4UIcmdWithAString*        fDummyMat2Cmd;
+    // G4UIcmdWithAString*        fDummyMat3Cmd;
+    // G4UIcmdWithAString*        fDummyMat4Cmd;
 
     G4UIcmdWithAString*        fSelectPOI;
     G4UIcmdWithAString*        fTheLoadCommand;
@@ -47,12 +47,12 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* fSetPOI;
 
     // Remove, we dont change geometries via macro file anymore
-    G4UIcmdWithADoubleAndUnit* fchange_aCmd;
-    G4UIcmdWithADoubleAndUnit* fchange_bCmd;
-    G4UIcmdWithADoubleAndUnit* fchange_cCmd;
-    G4UIcmdWithADoubleAndUnit* fchange_dCmd;
-    G4UIcmdWithADoubleAndUnit* fchange_eCmd;
-    G4UIcmdWithADoubleAndUnit* fchange_fCmd;
+    // G4UIcmdWithADoubleAndUnit* fchange_aCmd;
+    // G4UIcmdWithADoubleAndUnit* fchange_bCmd;
+    // G4UIcmdWithADoubleAndUnit* fchange_cCmd;
+    // G4UIcmdWithADoubleAndUnit* fchange_dCmd;
+    // G4UIcmdWithADoubleAndUnit* fchange_eCmd;
+    // G4UIcmdWithADoubleAndUnit* fchange_fCmd;
 
     G4String current_poi;
 };

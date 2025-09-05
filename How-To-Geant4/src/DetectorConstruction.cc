@@ -87,10 +87,6 @@ DetectorConstruction::DetectorConstruction()
 	f = 0.*cm;      // position of the target; MAX 4.0cm - NEED TO CHECK!
 	#endif
 
-	// REMOVE, old code
-	// Define Materials
-	//DefineMaterials(); // see 'Materials.cc' for defined Materials
-
 	// create commands for interactive definition of the geometry via macro file
 	fDetectorMessenger = new DetectorMessenger(this);
 }
@@ -150,10 +146,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	// print for DEBUGGING
 	G4cout << lWorld->GetName() << " is the world volume" << G4endl;
 
-	// Different Geometries are constructed depending on defined pre-processor variables at top
-	//#include "DetectorGeometries.cc"	// see 'Geometries.cc' for defined Geometries
-	// #include "geometries/Test.cc"
-	//
+	// Place Geomtries in world
 	geometries::run_placements(lWorld);
 
 	//Print all defined materials to console
@@ -172,22 +165,22 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 //
 //Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
 //
-void DetectorConstruction::SetDummyMat1(G4String materialChoice)	//change "dummyMat1" via macro file command
-{
-	// search the material by its name
-	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
+// void DetectorConstruction::SetDummyMat1(G4String materialChoice)	//change "dummyMat1" via macro file command
+// {
+// 	// search the material by its name
+// 	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
 
-	if (NewMaterial) {
-		dummyMat1 = NewMaterial;
-		G4RunManager::GetRunManager()->ReinitializeGeometry();
-		G4cout << "\n The dummyMat1 is now "
-					 << dummyMat1->GetName()
-					 << G4endl;
-	} else {
-		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
-					 << materialChoice << " not found" << G4endl;
-	}
-}
+// 	if (NewMaterial) {
+// 		dummyMat1 = NewMaterial;
+// 		G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 		G4cout << "\n The dummyMat1 is now "
+// 					 << dummyMat1->GetName()
+// 					 << G4endl;
+// 	} else {
+// 		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+// 					 << materialChoice << " not found" << G4endl;
+// 	}
+// }
 
 void DetectorConstruction::change_poi(G4String& poi, G4double value) {
 	G4cout << "changing " << poi << " to " << value << G4endl;
@@ -208,110 +201,107 @@ void DetectorConstruction::change_poi(G4String& poi, G4double value) {
 }
 
 // REMOVE, we dont change geometry in macro file anymore
-void DetectorConstruction::SetDummyMat2(G4String materialChoice)	//change "dummyMat2" via macro file command
-{
-	// search the material by its name
-	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
+// void DetectorConstruction::SetDummyMat2(G4String materialChoice)	//change "dummyMat2" via macro file command
+// {
+// 	// search the material by its name
+// 	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
 
-	if (NewMaterial) {
-		dummyMat2 = NewMaterial;
-		G4RunManager::GetRunManager()->ReinitializeGeometry();
-		G4cout << "\n The dummyMat2 is now "
-					 << dummyMat2->GetName()
-					 << G4endl;
-	} else {
-		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
-					 << materialChoice << " not found" << G4endl;
-	}
-}
+// 	if (NewMaterial) {
+// 		dummyMat2 = NewMaterial;
+// 		G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 		G4cout << "\n The dummyMat2 is now "
+// 					 << dummyMat2->GetName()
+// 					 << G4endl;
+// 	} else {
+// 		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+// 					 << materialChoice << " not found" << G4endl;
+// 	}
+// }
 
-void DetectorConstruction::SetDummyMat3(G4String materialChoice)	//change "dummyMat3" via macro file command
-{
-	// search the material by its name
-	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
+// void DetectorConstruction::SetDummyMat3(G4String materialChoice)	//change "dummyMat3" via macro file command
+// {
+// 	// search the material by its name
+// 	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
 
-	if (NewMaterial) {
-		dummyMat3 = NewMaterial;
-		G4RunManager::GetRunManager()->ReinitializeGeometry();
-		G4cout << "\n The dummyMat3 is now "
-					 << dummyMat3->GetName()
-					 << G4endl;
-	} else {
-		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
-					 << materialChoice << " not found" << G4endl;
-	}
-}
+// 	if (NewMaterial) {
+// 		dummyMat3 = NewMaterial;
+// 		G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 		G4cout << "\n The dummyMat3 is now "
+// 					 << dummyMat3->GetName()
+// 					 << G4endl;
+// 	} else {
+// 		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+// 					 << materialChoice << " not found" << G4endl;
+// 	}
+// }
 
-void DetectorConstruction::SetDummyMat4(G4String materialChoice)	//change "dummyMat4" via macro file command
-{
-	// search the material by its name
-	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
+// void DetectorConstruction::SetDummyMat4(G4String materialChoice)	//change "dummyMat4" via macro file command
+// {
+// 	// search the material by its name
+// 	G4Material* NewMaterial = G4NistManager::Instance()->FindOrBuildMaterial(materialChoice);
 
-	if (NewMaterial) {
-		dummyMat4 = NewMaterial;
-		G4RunManager::GetRunManager()->ReinitializeGeometry();
-		G4cout << "\n The dummyMat is now "
-					 << dummyMat4->GetName()
-					 << G4endl;
-	} else {
-		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
-					 << materialChoice << " not found" << G4endl;
-	}
-}
+// 	if (NewMaterial) {
+// 		dummyMat4 = NewMaterial;
+// 		G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 		G4cout << "\n The dummyMat is now "
+// 					 << dummyMat4->GetName()
+// 					 << G4endl;
+// 	} else {
+// 		G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+// 					 << materialChoice << " not found" << G4endl;
+// 	}
+// }
 
 // Change Parameters via Macro file with these
 // Change a
-void DetectorConstruction::change_a(G4double value)
-{
-	a = value;
-	G4RunManager::GetRunManager()->ReinitializeGeometry();
-	G4cout  << "\n a is now " << G4BestUnit(a,"Length") << G4endl;
-}
+// void DetectorConstruction::change_a(G4double value)
+// {
+// 	a = value;
+// 	G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 	G4cout  << "\n a is now " << G4BestUnit(a,"Length") << G4endl;
+// }
 
-// Change b
-void DetectorConstruction::change_b(G4double value)
-{
-	b = value;
-	G4RunManager::GetRunManager()->ReinitializeGeometry();
-	G4cout  << "\n b is now " << G4BestUnit(b,"Length") << G4endl;
-}
+// // Change b
+// void DetectorConstruction::change_b(G4double value)
+// {
+// 	b = value;
+// 	G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 	G4cout  << "\n b is now " << G4BestUnit(b,"Length") << G4endl;
+// }
 
-// Change c
-void DetectorConstruction::change_c(G4double value) {
-	c = value;
-	G4RunManager::GetRunManager()->ReinitializeGeometry();
-	G4cout  << "\n c is now " << G4BestUnit(c,"Length") << G4endl;
-}
+// // Change c
+// void DetectorConstruction::change_c(G4double value) {
+// 	c = value;
+// 	G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 	G4cout  << "\n c is now " << G4BestUnit(c,"Length") << G4endl;
+// }
 
-// Change d
-void DetectorConstruction::change_d(G4double value) {
-	d = value;
-	G4RunManager::GetRunManager()->ReinitializeGeometry();
-	G4cout  << "\n d is now " << G4BestUnit(d,"Length") << G4endl;
-}
+// // Change d
+// void DetectorConstruction::change_d(G4double value) {
+// 	d = value;
+// 	G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 	G4cout  << "\n d is now " << G4BestUnit(d,"Length") << G4endl;
+// }
 
-// Change e
-void DetectorConstruction::change_e(G4double value) {
-	e = value;
-	G4RunManager::GetRunManager()->ReinitializeGeometry();
-	G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
-}
+// // Change e
+// void DetectorConstruction::change_e(G4double value) {
+// 	e = value;
+// 	G4RunManager::GetRunManager()->ReinitializeGeometry();
+// 	G4cout  << "\n e is now " << G4BestUnit(e,"Length") << G4endl;
+// }
 
-// Change f
-void DetectorConstruction::change_f(G4double value) {
-  f = value;
-  G4RunManager::GetRunManager()->ReinitializeGeometry();
-  G4cout  << "\n f is now " << G4BestUnit(f,"Length") << G4endl;
-}
+// // Change f
+// void DetectorConstruction::change_f(G4double value) {
+//   f = value;
+//   G4RunManager::GetRunManager()->ReinitializeGeometry();
+//   G4cout  << "\n f is now " << G4BestUnit(f,"Length") << G4endl;
+// }
 
 // Assign Detectors and Scorers to Volume
 void DetectorConstruction::ConstructSDandField() {
 	G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
 
 	// SENSITIVE DETECTORS
-	// You need also Code for this one to work in:
-	// SDX.cc to specify what to quantity to track (Energy, position, etc.)
-	// RunAction.cc to open a file and declare ntuple or histograms to save data in
 	// Make a Volume a Sensitive Detector (SD); SD are able to access Track/Step information of Particles going through e.g. :
 	// Kinetic energy, Momentum
 	G4cout << "constructing detectors " << G4endl;
@@ -327,8 +317,6 @@ void DetectorConstruction::ConstructSDandField() {
 	}
 
 	// PRIMITIVE SCORERS
-	// You need also Code for this one to work in:
-	// RunAction.cc, EventAction.cc
 	// Make a Volume a Primitive Scorer (PS); PS are able to save information on events related to inside the volume e.g. :
 	// energy deposit, track length, current, flux
 
