@@ -28,6 +28,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     void SetOutputFolder (std::string);
     void SetRunName (std::string);
+
+    // REMOVE because we dont set materials in macro files anymore since we do setup with python now
     void SetDummyMat1 (G4String);
     void SetDummyMat2 (G4String);
     void SetDummyMat3 (G4String);
@@ -43,6 +45,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     void change_poi(G4String&, G4double);
 
+    // REMOVE because we dont change parameters via macro file anymore since we build geometry in python script now
     void change_a   (G4double);
     void change_b   (G4double);
     void change_c   (G4double);
@@ -52,7 +55,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4Material* GetAbsorMaterial()  {return boxMaterial;};
 
-    void PrintParameters(); // function that prints parameters of ONE hardcoded object - can be deleted i guess
+    void PrintParameters(); // REMOVE: function that prints parameters of ONE hardcoded object - can be deleted i guess
 
   private:
 
@@ -70,7 +73,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     //world size
     G4double world_sizeXYZ;
 
-    // dummy variables that can be changed with UI-commands
+    // REMOVE: dummy variables that can be changed with UI-commands
     G4double           a;
     G4double           b;
     G4double           c;
@@ -91,7 +94,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     // NIST Material Manager
     G4NistManager* nist;
 
-
+    // REMOVE because this is old code. Materials.cc doesnt exist anymore. Materials are defined in Geometries.hh now
   	typedef std::function<G4Material*()> MaterialMaker;
     // List of all Materials that get defined in Materials.cc
     // NIST Materials

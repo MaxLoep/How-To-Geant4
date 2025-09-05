@@ -32,6 +32,8 @@ class DetectorMessenger: public G4UImessenger
 
     G4UIcmdWithAString*        fOutFoldCmd;
     G4UIcmdWithAString*        fRunNameCmd;
+
+    // REMOVE, we dont change materials via macro file anymore
     G4UIcmdWithAString*        fDummyMat1Cmd;
     G4UIcmdWithAString*        fDummyMat2Cmd;
     G4UIcmdWithAString*        fDummyMat3Cmd;
@@ -43,6 +45,8 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithABool*          fTheOnlyLoadCommand;
 
     G4UIcmdWithADoubleAndUnit* fSetPOI;
+
+    // Remove, we dont change geometries via macro file anymore
     G4UIcmdWithADoubleAndUnit* fchange_aCmd;
     G4UIcmdWithADoubleAndUnit* fchange_bCmd;
     G4UIcmdWithADoubleAndUnit* fchange_cCmd;

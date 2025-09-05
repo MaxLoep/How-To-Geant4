@@ -19,14 +19,18 @@ class EventAction : public G4UserEventAction
     virtual void BeginOfEventAction(const G4Event*);
     virtual void   EndOfEventAction(const G4Event*);
     
+    // REMOVE, old code from example B2(?) 
     // void AddEdep (G4double Edep);
     // void AddEflow(G4double Eflow);          
                 
   private:
+    // REMOVE, old code from exampl B2(?)
     // G4double fTotalEnergyDeposit;
     // G4double fTotalEnergyFlow; 
 
     RunAction* fRunAction;
+
+    // REMOVE? old code from primitive scorers
     G4double     fEdep;
     G4double  fEnergyAbs;
     G4double  fEnergyGap;

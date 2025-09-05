@@ -1,6 +1,7 @@
 /*
 WHAT DOES THIS DO?
 */
+// REMOVE, we build geometry in python script now
 // #define Sandwich
 // #define Collimator
 // #define Range
@@ -64,6 +65,8 @@ DetectorConstruction::DetectorConstruction()
 	// World Size
 	world_sizeXYZ = 20.*m;
 
+
+	// REMOVE, we built code in python script now
 	#ifndef Collimator
 	// set initial values of dummy variables
 	a = 1.*cm; 		// used for x- and y-width of Sensitive Detectors
@@ -84,6 +87,7 @@ DetectorConstruction::DetectorConstruction()
 	f = 0.*cm;      // position of the target; MAX 4.0cm - NEED TO CHECK!
 	#endif
 
+	// REMOVE, old code
 	// Define Materials
 	//DefineMaterials(); // see 'Materials.cc' for defined Materials
 
@@ -164,6 +168,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 	return fWorldPhysVol;
 }
 
+// REMOVE, we dont do parameter change in macro file anymore since we got python script
 //
 //Functions for custom GUI and macro commands - see DetectorConstruction.hh, DetectorMessenger.cc, DetectorMessenger.hh
 //
@@ -202,6 +207,7 @@ void DetectorConstruction::change_poi(G4String& poi, G4double value) {
 	G4RunManager::GetRunManager()->ReinitializeGeometry();
 }
 
+// REMOVE, we dont change geometry in macro file anymore
 void DetectorConstruction::SetDummyMat2(G4String materialChoice)	//change "dummyMat2" via macro file command
 {
 	// search the material by its name

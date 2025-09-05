@@ -1,3 +1,6 @@
+// REMOVE COMPLTE FILE since we build geometries via python interface now
+
+
 // SOLIDS, GEOMETRIES, PLACEMENT, ETC.
 // How to create solids
 // It's basically a process with 3 steps:

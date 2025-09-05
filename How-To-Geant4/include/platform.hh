@@ -1,7 +1,9 @@
 /*
 these includes need to be present in all files that use
-_getpid() so that compilation on macos works (and supposedly unix)
+_getpid() so that compilation on mac-os works (and supposedly unix)
 */
+
+// REMOVE?: do we still use getpid() anywhere? i think it's old code that used the process-ID to generate the dile name but we are using the timestamp now
 #if __unix__ || __APPLE__                              // for checking if the code shall be compiled on an UNIX system
 #include <unistd.h>                       //To use getpid() to get the process ID to use as random seed on UNIX systems
 #include <sys/types.h>                    //To use getpid() to get the process ID to use as random seed on UNIX systems

@@ -1,3 +1,5 @@
+// REMOVE since we dont do macro file command anymore
+
 /*
 This file contains examples on how to create custom GUI-commands and macro-file-commands.
 The actual functions can be found in files where they change variables, e.g. DetectorConstruction.cc

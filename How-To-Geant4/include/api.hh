@@ -12,6 +12,8 @@ namespace api {
 	typedef std::variant<ConfigStructs::Histogram, ConfigStructs::NTuple> save_data;
 
 	std::tuple<std::vector<std::string>, bool> setup_sim(std::string);
+
+	// creates a Sensitive Detector
 	void make_sd(
 		std::string name,
 		std::string particle,
@@ -19,6 +21,7 @@ namespace api {
 		std::string l_volume = ""
 	);
 
+	// creates a Primitive Scorer
 	void make_ps(
 		std::string name,
 		std::string quantity,
@@ -28,6 +31,7 @@ namespace api {
 		std::string l_volume = ""
 	);
 
+	// place a Geometry
 	void place_geometry(
 		std::string l_volume_name,
 		std::string geometry_name,
