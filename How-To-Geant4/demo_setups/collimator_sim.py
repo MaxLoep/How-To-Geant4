@@ -1,12 +1,12 @@
 from run_builder import *
 
-place("collimator", "collimator", (0., 0., 0.), material="vacuum", shield_thickness = 5. * cm, b = 5. * cm, c = 5. * cm, d = 5. * cm)
+place("collimator", "collimator", (0., 0., 0.), material="vacuum", shield_thickness = 20.*cm, b = 3.10*cm, c = 1.32*cm, d = 1.65*cm)
 
 place("source_marker", "sphere", (0., 0., -5. * cm), material="vacuum", radius = 2. * mm, alpha=0.5, red=0, green = 100)
 
 place("detector", "sphere", (0., 0., 0.), material="vacuum", radius = 10 * m, inner_radius = 9.5 * m, alpha=0.01, red=255, green = 0)
-make_sd("RBS", "detector", ["ekin", "theta", "phi"], "primary")
-make_sd("PIXE", "detector", ["ekin", "theta", "phi"], "gamma")
+make_sd("Neutron", "detector", ["ekin", "theta", "phi"], "neutron")
+make_sd("Gamma", "detector", ["ekin", "theta", "phi"], "gamma")
 make_beam_source("deuteron", 26.5, (0, 0., -5. * cm), (0, 0, 1), sigma_r = 1.7 * mm)
 
 make_ui_commands()

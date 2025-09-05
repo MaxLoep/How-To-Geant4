@@ -1,8 +1,8 @@
-place; 4; command=place; object=collimator; name=collimator; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; shield_thickness=50.0; b=50.0; c=50.0; d=50.0; 
+place; 4; command=place; object=collimator; name=collimator; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; shield_thickness=200.0; b=31.0; c=13.200000000000001; d=16.5; 
 place; 4; command=place; object=sphere; name=source_marker; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=-50.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=2.0; alpha=0.5; red=0; green=100; 
-place; 4; command=place; object=sphere; name=detector; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=10000; inner_radius=9500.0; alpha=0.01; red=255; green=0;
-make_sd; 7; command=make_sd; attach=ldetector; name=RBS; particle=primary; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3;
-make_sd; 7; command=make_sd; attach=ldetector; name=PIXE; particle=gamma; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3;
+place; 4; command=place; object=sphere; name=detector; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=10000; inner_radius=9500.0; alpha=0.01; red=255; green=0; 
+make_sd; 7; command=make_sd; attach=ldetector; name=Neutron; particle=neutron; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3; 
+make_sd; 7; command=make_sd; attach=ldetector; name=Gamma; particle=gamma; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3; 
 particle_source; 4; command=particle_source; particle=deuteron; mono_e=true; shape=beam; energy=26.5; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=-50.0; x_facing=0; y_facing=0; z_facing=1; sigma_r=1.7; atomic_number=0; atomic_mass=0; charge=0; excitation=0;
 start_gui; 2; command=start_gui; placeholder=value;
 start_gui; 2; command=start_gui; placeholder=value;

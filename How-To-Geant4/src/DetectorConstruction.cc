@@ -67,25 +67,25 @@ DetectorConstruction::DetectorConstruction()
 
 
 	// REMOVE, we built code in python script now
-	#ifndef Collimator
-	// set initial values of dummy variables
-	a = 1.*cm; 		// used for x- and y-width of Sensitive Detectors
-	b = 1.*cm; 	// unused
-	c = 1.*cm;  	// unused
-	d = 0.*degree;  // unused
-	e = 1.*cm;  	// unused
-	f = 1.*cm;      // position of the target
-	#endif
+	// #ifndef Collimator
+	// // set initial values of dummy variables
+	// a = 1.*cm; 		// used for x- and y-width of Sensitive Detectors
+	// b = 1.*cm; 	// unused
+	// c = 1.*cm;  	// unused
+	// d = 0.*degree;  // unused
+	// e = 1.*cm;  	// unused
+	// f = 1.*cm;      // position of the target
+	// #endif
 
-	#ifdef Collimator
-	// set dummy variables
-	a = 20.*cm;     //thickness of shielding
-	b = 4.*cm;      //Entrance_Diameter of the tungsten colli; MAX 6.14cm
-	c = 2.*cm;      //inner diameter (choke) of the tungsten colli; MAX 6.14cm
-	d = 4.*cm;      //Exit_Diameter of the tungsten colli; MAX 6.4cm
-	e = 0.*degree;  //rotation of the collimator
-	f = 0.*cm;      // position of the target; MAX 4.0cm - NEED TO CHECK!
-	#endif
+	// #ifdef Collimator
+	// // set dummy variables
+	// a = 20.*cm;     //thickness of shielding
+	// b = 4.*cm;      //Entrance_Diameter of the tungsten colli; MAX 6.14cm
+	// c = 2.*cm;      //inner diameter (choke) of the tungsten colli; MAX 6.14cm
+	// d = 4.*cm;      //Exit_Diameter of the tungsten colli; MAX 6.4cm
+	// e = 0.*degree;  //rotation of the collimator
+	// f = 0.*cm;      // position of the target; MAX 4.0cm - NEED TO CHECK!
+	// #endif
 
 	// create commands for interactive definition of the geometry via macro file
 	fDetectorMessenger = new DetectorMessenger(this);
