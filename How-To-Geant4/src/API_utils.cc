@@ -178,7 +178,7 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 				for (int i = 0; i < amplitudes.size(); ++i) {
 					std::string s = "/gps/hist/point ";
 					s.append(energies[i]);
-					s.append(" ");
+					s.append("MeV ");
 					s.append(amplitudes[i]);
 					pos = macro_commands.insert(pos, s);
 				}
