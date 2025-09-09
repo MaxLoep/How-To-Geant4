@@ -2,7 +2,8 @@ from os import mkdir, remove, rename, removedirs
 import sys
 import subprocess
 from types import NoneType
-from typing import Tuple, List, Dict
+from typing import Tuple, List, Dict, Union
+from typing_extensions import Callable
 
 command_list = []
 run_list = []
@@ -208,14 +209,13 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
     write_simple_ff(command_dict)
 
 
-def make_beam_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., **kwdargs):
+def make_beam_source(particle: str, energy: Union[float, Callable], position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., energy_range = [], **kwdargs):
     x, y, z = position
     rx, ry, rz = direction
+
     command_dict = {
         "command": "particle_source",
         "particle": particle,
-        "energy": energy, # TODO: make energy distribution an option
-        "mono_e": "true",
         "sigma": 0.,
         "x_pos": x,
         "y_pos": y,
@@ -230,6 +230,14 @@ def make_beam_source(particle: str, energy: float, position: Tuple[float, float,
         "charge": 0,
         "excitation": 0
     }
+    if type(energy) == float:
+        command_dict["mono_e"] = "true"
+        command_dict["energy"] = energy
+    else:
+        command_dict["mono_e"] = "false"
+        amplitudes = str(energy) if not isinstance(energy, Callable) else str(list(map(energy, energy_range)))
+        command_dict["energies"] = energy_range
+        command_dict["amplitudes"] = amplitudes
 
     for key in kwdargs:
             command_dict[key] = str(kwdargs[key])
