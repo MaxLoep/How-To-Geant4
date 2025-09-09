@@ -157,7 +157,7 @@ place("detector", "sphere", (0., 0., 0.), material="vacuum", radius = 10 * cm, i
 make_sd("RBS", "detector", ["ekin", "theta", "phi"], "primary")
 make_sd("PIXE", "detector", ["ekin", "theta", "phi"], "gamma")
 
-make_beam_source("alpha", energies, (0, 0., -5. * cm), (0, 0, 1), sigma_r = 0.4* mm, energy_distribution=amps)
+make_beam_source("neutron", energies, (0, 0., -5. * cm), (0, 0, 1), sigma_r = 0.4* mm, energy_distribution=amps)
 
 set_output_path("test_geo_output")
 set_run_name("custom_name")
