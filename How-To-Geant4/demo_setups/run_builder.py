@@ -209,7 +209,7 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
     write_simple_ff(command_dict)
 
 
-def make_beam_source(particle: str, energy: Union[float, Callable], position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., energy_range = [], **kwdargs):
+def make_beam_source(particle: str, energy: Union[float, List[float]], position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., energy_distribution = None, **kwdargs):
     x, y, z = position
     rx, ry, rz = direction
 
@@ -235,9 +235,14 @@ def make_beam_source(particle: str, energy: Union[float, Callable], position: Tu
         command_dict["energy"] = energy
     else:
         command_dict["mono_e"] = "false"
-        amplitudes = str(energy) if not isinstance(energy, Callable) else str(list(map(energy, energy_range)))
-        command_dict["energies"] = energy_range
-        command_dict["amplitudes"] = amplitudes
+        amplitudes = []
+        if isinstance(energy_distribution, Callable):
+            amplitudes = list(map(energy_distribution, energy))
+        else:
+            amplitudes = list(map(lambda x: x / sum(amplitudes), amplitudes))
+
+        command_dict["energies"] = str(list(energy))
+        command_dict["amplitudes"] = str(amplitudes)
 
     for key in kwdargs:
             command_dict[key] = str(kwdargs[key])
