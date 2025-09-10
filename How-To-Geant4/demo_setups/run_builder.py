@@ -235,11 +235,14 @@ def make_beam_source(particle: str, energy: Union[float, List[float]], position:
         command_dict["energy"] = energy
     else:
         command_dict["mono_e"] = "false"
-        amplitudes = []
+        #amplitudes = []
         if isinstance(energy_distribution, Callable):
             amplitudes = list(map(energy_distribution, energy))
         else:
-            amplitudes = list(map(lambda x: x / sum(amplitudes), amplitudes))
+            amplitudes = list(map(lambda x: x / sum(energy_distribution), energy_distribution))
+            cut = min(len(amplitudes), len(energy))
+            amplitudes = amplitudes[:cut]
+            energy = energy[:cut]
 
         command_dict["energies"] = str(list(energy))
         command_dict["amplitudes"] = str(amplitudes)

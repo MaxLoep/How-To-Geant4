@@ -2,6 +2,7 @@
 #include "ConfigStructs.hh"
 #include "config.hh"
 #include "parser.hh"
+#include <cstddef>
 #include <string>
 #include <vector>
 
@@ -170,18 +171,19 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 				pos = macro_commands.insert(pos, "/gps/ene/type Mono");
 				pos = macro_commands.insert(pos, "/gps/ene/mono " + std::to_string(numerical_args["energy"]) + " MeV");
 			} else {
-				pos = macro_commands.insert(pos, "/gps/ene/type User");
-				pos = macro_commands.insert(pos, "/gps/hist/type energy");
 
 				std::vector<std::string> amplitudes = parser::to_vec(string_args["amplitudes"]);
 				std::vector<std::string> energies = parser::to_vec(string_args["energies"]);
-				for (int i = 0; i < amplitudes.size(); ++i) {
+				for (int i = amplitudes.size() - 1; i >= 0; --i) {
 					std::string s = "/gps/hist/point ";
 					s.append(energies[i]);
-					s.append("MeV ");
+					s.append(" ");
 					s.append(amplitudes[i]);
+					//std::cout << s << std::endl;
 					pos = macro_commands.insert(pos, s);
 				}
+				pos = macro_commands.insert(pos, "/gps/hist/type energy");
+				pos = macro_commands.insert(pos, "/gps/ene/type User");
 			}
 
 		} else if (command_type == parser::cmd_type::replace_macro_file) {
