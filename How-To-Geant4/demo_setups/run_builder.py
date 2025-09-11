@@ -209,7 +209,7 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
     write_simple_ff(command_dict)
 
 
-def make_beam_source(particle: str, energy: Union[float, List[float]], position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., energy_distribution = None, **kwdargs):
+def make_beam_source(particle: str, energy: Union[float, List[float]], position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., energy_distribution = None, shape="beam", **kwdargs):
     x, y, z = position
     rx, ry, rz = direction
 
@@ -223,7 +223,7 @@ def make_beam_source(particle: str, energy: Union[float, List[float]], position:
         "x_facing": rx,
         "y_facing": ry,
         "z_facing": rz,
-        "shape": "beam",
+        "shape": shape,
         "sigma_r": sigma_r,
         "atomic_number": 0,
         "atomic_mass": 0,

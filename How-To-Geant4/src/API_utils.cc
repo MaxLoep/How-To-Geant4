@@ -150,6 +150,9 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 				pos = macro_commands.insert(pos, "/gps/pos/type Beam");
 				pos = macro_commands.insert(pos, "/gps/pos/sigma_r " + std::to_string(numerical_args["sigma_r"]) + " mm");
 				std::cout << "sigma r is: " << std::to_string(numerical_args["sigma_r"]) << std::endl;
+			} else if(string_args["shape"] == "point_iso") {
+				pos = macro_commands.insert(pos, "/gps/ang/type iso");
+				pos = macro_commands.insert(pos, "/gps/pos/type Point");
 			}
 
 			if (string_args["particle"] == "ion") {
