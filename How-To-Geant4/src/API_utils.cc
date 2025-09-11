@@ -2,7 +2,9 @@
 #include "ConfigStructs.hh"
 #include "config.hh"
 #include "parser.hh"
+#include <cstddef>
 #include <string>
+#include <vector>
 
 extern ConfigStructs::GlobalConf global_conf;
 
@@ -148,6 +150,9 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 				pos = macro_commands.insert(pos, "/gps/pos/type Beam");
 				pos = macro_commands.insert(pos, "/gps/pos/sigma_r " + std::to_string(numerical_args["sigma_r"]) + " mm");
 				std::cout << "sigma r is: " << std::to_string(numerical_args["sigma_r"]) << std::endl;
+			} else if(string_args["shape"] == "point_iso") {
+				pos = macro_commands.insert(pos, "/gps/ang/type iso");
+				pos = macro_commands.insert(pos, "/gps/pos/type Point");
 			}
 
 			if (string_args["particle"] == "ion") {
@@ -169,7 +174,19 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 				pos = macro_commands.insert(pos, "/gps/ene/type Mono");
 				pos = macro_commands.insert(pos, "/gps/ene/mono " + std::to_string(numerical_args["energy"]) + " MeV");
 			} else {
-				exit(-1); // troll the user for wanting to do this!
+
+				std::vector<std::string> amplitudes = parser::to_vec(string_args["amplitudes"]);
+				std::vector<std::string> energies = parser::to_vec(string_args["energies"]);
+				for (int i = amplitudes.size() - 1; i >= 0; --i) {
+					std::string s = "/gps/hist/point ";
+					s.append(energies[i]);
+					s.append(" ");
+					s.append(amplitudes[i]);
+					//std::cout << s << std::endl;
+					pos = macro_commands.insert(pos, s);
+				}
+				pos = macro_commands.insert(pos, "/gps/hist/type energy");
+				pos = macro_commands.insert(pos, "/gps/ene/type User");
 			}
 
 		} else if (command_type == parser::cmd_type::replace_macro_file) {

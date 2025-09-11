@@ -2,7 +2,8 @@ from os import mkdir, remove, rename, removedirs
 import sys
 import subprocess
 from types import NoneType
-from typing import Tuple, List, Dict
+from typing import Tuple, List, Dict, Union
+from typing_extensions import Callable
 
 command_list = []
 run_list = []
@@ -208,14 +209,13 @@ def make_particle_source(particle: str, energy: float, position: Tuple[float, fl
     write_simple_ff(command_dict)
 
 
-def make_beam_source(particle: str, energy: float, position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., **kwdargs):
+def make_beam_source(particle: str, energy: Union[float, List[float]], position: Tuple[float, float, float], direction: Tuple[float, float, float], sigma_r = 0., energy_distribution = None, shape="beam", **kwdargs):
     x, y, z = position
     rx, ry, rz = direction
+
     command_dict = {
         "command": "particle_source",
         "particle": particle,
-        "energy": energy, # TODO: make energy distribution an option
-        "mono_e": "true",
         "sigma": 0.,
         "x_pos": x,
         "y_pos": y,
@@ -223,13 +223,29 @@ def make_beam_source(particle: str, energy: float, position: Tuple[float, float,
         "x_facing": rx,
         "y_facing": ry,
         "z_facing": rz,
-        "shape": "beam",
+        "shape": shape,
         "sigma_r": sigma_r,
         "atomic_number": 0,
         "atomic_mass": 0,
         "charge": 0,
         "excitation": 0
     }
+    if type(energy) == float:
+        command_dict["mono_e"] = "true"
+        command_dict["energy"] = energy
+    else:
+        command_dict["mono_e"] = "false"
+        #amplitudes = []
+        if isinstance(energy_distribution, Callable):
+            amplitudes = list(map(energy_distribution, energy))
+        else:
+            amplitudes = list(map(lambda x: x / sum(energy_distribution), energy_distribution))
+            cut = min(len(amplitudes), len(energy))
+            amplitudes = amplitudes[:cut]
+            energy = energy[:cut]
+
+        command_dict["energies"] = str(list(energy))
+        command_dict["amplitudes"] = str(amplitudes)
 
     for key in kwdargs:
             command_dict[key] = str(kwdargs[key])

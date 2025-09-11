@@ -31,6 +31,7 @@ namespace parser {
 	std::vector<std::vector<std::string>> ssv_chunks(std::basic_ifstream<char>& stream);
 	using cmd_tuple = std::tuple<parser::cmd_type, std::map<std::string, string>, std::map<std::string, double>>;
 	std::vector<cmd_tuple> load_simple_file(string filename);
+	std::vector<std::string> to_vec(std::string string_list);
 }
 
 #endif

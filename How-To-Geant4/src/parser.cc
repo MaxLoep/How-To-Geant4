@@ -1,6 +1,7 @@
 #include "parser.hh"
 #include <cstdlib>
 #include <string>
+#include <vector>
 #ifdef _WIN32 || _WIN64
 	#include <process.h>
 #else
@@ -53,6 +54,13 @@ inline std::string trim(const std::string &s) {
 	auto wsback=std::find_if_not(s.rbegin(),s.rend(),[](int c){return std::isspace(c);}).base();
 	return (wsback<=wsfront ? std::string() : std::string(wsfront,wsback));
 }
+
+inline std::string trim_brackets(const std::string &s) {
+	auto wsfront=std::find_if_not(s.begin(),s.end(),[](int c){return c == '[' || c == ']';});
+	auto wsback=std::find_if_not(s.rbegin(),s.rend(),[](int c){return c == '[' || c == ']';}).base();
+	return (wsback<=wsfront ? std::string() : std::string(wsfront,wsback));
+}
+
 
 std::tuple<std::map<std::string, std::string>, std::map<std::string, double>>
 primitive_args(std::vector<parser::string> input, int str_param_cutoff) {
@@ -114,4 +122,10 @@ std::vector<cmd_tuple> parser::load_simple_file(std::string filename) {
 	}
 
 	return res;
+}
+
+
+std::vector<std::string> parser::to_vec(std::string string_list){
+	string_list = trim_brackets(string_list);
+	return split(string_list, ",");
 }
