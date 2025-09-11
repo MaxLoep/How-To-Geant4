@@ -2,9 +2,12 @@ from run_builder import *
 from numpy import pi
 import numpy as np
 
+#Amplitudes and energy bining for an
+#AmBe energy Spectrum for small sources according to ISO 8529-1-2021
+
 energies = [
-    0.0,
-    4.223E-9,
+    0,          #first value is lower bin limit taken by /gps/hist/point 
+    4.223E-9,   #upper bin limit from here
     1.334E-8,
     4.212E-8,
     1.330E-7,
@@ -77,6 +80,7 @@ energies = [
 ]
 
 amps = [
+    0,          #first amp value is ignored by /gps/hist/point
     0.000E+0,
     2.509E-7,
     8.739E-7,
@@ -149,18 +153,18 @@ amps = [
     0.000E+0
 ]
 
-custom_material("ybco", 6.4, yttrium=13.35, barium=41.23, copper=28.62, oxygen=16.81)
+# custom_material("ybco", 6.4, yttrium=13.35, barium=41.23, copper=28.62, oxygen=16.81)
 #place("target", "cube", (0., 0., 0.), material= "ybco", size_x = 10. * mm, size_y = 10. * mm, size_z = 5. * um)
 
-place("source_marker", "sphere", (0., 0., -5. * cm), material="vacuum", radius = 2. * mm, alpha=0.5, red=0, green = 100)
+place("source_marker", "sphere", (0., 0., 0. * cm), material="vacuum", radius = 2. * mm, alpha=0.5, red=0, green = 100)
 
 place("detector", "sphere", (0., 0., 0.), material="vacuum", radius = 10 * cm, inner_radius = 9.5 * cm, phi_min= -0.5 * pi, phi_max= 0.5 * pi, alpha=0.1, red=255, green = 0)
 make_sd("primary_detector", "detector", ["ekin", "theta", "phi"], "primary")
 #make_sd("PIXE", "detector", ["ekin", "theta", "phi"], "gamma")
 
-make_beam_source("neutron", energies, (0, 0., -5. * cm), (0, 0, 1), sigma_r = 0.4* mm, energy_distribution=amps, shape="point_iso")
+make_beam_source("neutron", energies, (0, 0., 0. * cm), (0, 0, 1), sigma_r = 0.4* mm, energy_distribution=amps, shape="point_iso")
 
-set_output_path("test_geo_output")
+set_output_path("AmBe_output")
 set_run_name("spectrum_validation")
-#config_run(1e7, 8)
+config_run(1e7, 8)
 start_run()
