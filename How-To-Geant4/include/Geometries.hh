@@ -199,6 +199,7 @@ namespace Materials {
 
 	// NIST Compounds of commonly used materials
 	static MaterialMaker Air			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR");};
+	static MaterialMaker Carbon_Dioxide = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_CARBON_DIOXIDE");};
 	static MaterialMaker Concrete		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_CONCRETE");};
 	static MaterialMaker Graphite		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_GRAPHITE_POROUS");};	// G4_Graphite has the molecular density of 2.2g/cm3, which can not be realized in a solid target
 	static MaterialMaker Kapton			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_KAPTON");};
@@ -361,6 +362,7 @@ namespace Materials {
 		
 		// NIST compound materials
 		{"air", Air},
+		{"CO2", Carbon_Dioxide},
 		{"concrete", Concrete},
 		{"graphite", Graphite},
 		{"kapton", Kapton},
