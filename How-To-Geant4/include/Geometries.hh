@@ -362,7 +362,7 @@ namespace Materials {
 		
 		// NIST compound materials
 		{"air", Air},
-		{"CO2", Carbon_Dioxide},
+		{"co2", Carbon_Dioxide},
 		{"concrete", Concrete},
 		{"graphite", Graphite},
 		{"kapton", Kapton},
