@@ -9,9 +9,7 @@ class G4Event;
 class DetectorConstruction;
 class PrimaryGeneratorMessenger;
 
-//
 // GENERAL PARTICLE SOURCE
-//
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:

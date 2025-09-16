@@ -35,7 +35,7 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
 	G4ParticleDefinition* particle 	= track->GetDefinition();
 	G4String name     				= particle->GetParticleName();
 	G4double meanLife 				= particle->GetPDGLifeTime() / 1.443; 	// mean life time divided by 1.443 equals half-life
-	fTimeBirth       				= track->GetGlobalTime();				// can this be used to filter for isotopes at Time = x?
+	fTimeBirth       				= track->GetGlobalTime();				// can this be used to filter for isotopes created at Time = x?
 
 	// HERE COULD BE MORE IF-STATEMENTS TO FILTER BETWEEN 1st, 2nd, 3rd, etc. GENERATION OF SECONDARIES
 	// count secondary particles: track ID > 1
