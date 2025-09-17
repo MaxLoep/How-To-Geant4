@@ -197,6 +197,7 @@ def to_dict(file: str) -> dict:
                     print("a line produced an error. from: " + file)
             else:
                 print("discarded a line in file: " + file)
+                print(f"the line was: \"{line}\"")
         return res
 
 

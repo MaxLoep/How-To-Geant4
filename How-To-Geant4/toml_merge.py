@@ -56,10 +56,14 @@ class particle_data:
 def to_dict(file: str) -> dict:
     res = {}
     with open(file, 'rb') as handle:
-        dict = tomllib.load(handle)
+        try:
+            dict = tomllib.load(handle)
+            for name in dict:
+                res[name] = particle_data(dict[name], name)
+        except Exception as e:
+            print(f"{e} ocurred in {file}:")
+            print(handle.readlines())
 
-        for name in dict:
-            res[name] = particle_data(dict[name], name)
     return res
 
 
