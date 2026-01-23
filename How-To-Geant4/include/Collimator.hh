@@ -51,8 +51,8 @@ G4LogicalVolume* collimator(std::string name, std::map<std::string, double>& par
 	G4double TargetLen = 3.1*mm;
 	double a = params.count("shield_thickness")? params["shield_thickness"] : 20.*cm;  //thickness of shielding
 	double b = params.count("b")? params["b"] : 3.10*cm;   //Entrance_Diameter of the tungsten colli;       MAX 6.14cm ; LEFTOVER INLET WE HAVE 3.10cm
-	double c = params.count("c")? params["c"] : 1.32*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm ; LEFTOVER INLET WE HAVE 1.32cm
-	double d = params.count("d")? params["d"] : 1.65*cm;   //Exit_Diameter of the tungsten colli;          MAX 6.40cm ; LEFTOVER INLET WE HAVE 1.65cm
+	double c = params.count("c")? params["c"] : 1.315*cm;   //inner diameter (choke) of the tungsten colli; MAX 6.14cm ; LEFTOVER INLET WE HAVE 1.315cm
+	double d = params.count("d")? params["d"] : 1.657*cm;   //Exit_Diameter of the tungsten colli;          MAX 6.40cm ; LEFTOVER INLET WE HAVE 1.657cm
 	double e = params.count("e")? params["e"] : 0.*deg;      //rotation of the collimator
 	double f = params.count("f")? params["f"] : 33.9*mm; // position of the target; MAX 4.0cm - NEED TO CHECK!    
 
@@ -248,7 +248,8 @@ G4UnionSolid* sWColli =                            // combine Tungsten Cylinder 
 G4LogicalVolume* lWColli =
   new G4LogicalVolume(sWColli,                            //its solid
                       // Materials::Densimet180(),           //its material
-                      Materials::Vacuum(),                // FOR LEFTOVERS: make this part vacuum
+                      // Materials::Vacuum(),                // FOR LEFTOVERS: make this part vacuum
+                      Materials::Air(),                   // FOR LEFTOVERS: make this part air
                       "logic Tungsten Collimator");       //its name
 
 new G4PVPlacement(0,                        //no rotation
@@ -269,24 +270,24 @@ lWColli->SetVisAttributes(logicTungstenInletVisAtt);
 // Tungsten Cylinder for Inlet Leftovers-Simulation. Make above cylinder vacuum for this, comment this out otherwise
 //
 G4Tubs* sW_Cyl =
-new G4Tubs("W_Cylinder",                              //name
-            0., 3.07*cm,               //inner radius, outer radius
-            30.0*cm,                   //z half length
-            0., twopi);                //min phi, max phi
+new G4Tubs("W_Cylinder",                    //name
+            0., 3.07*cm,                    //inner radius, outer radius
+            30.0*cm,                        //z half length
+            0., twopi);                     //min phi, max phi
 
 G4LogicalVolume* lW_Cyl =
-new G4LogicalVolume(sW_Cyl,                      //shape
-            Materials::Densimet180(),                               //material
-						"W_Cylinder");                              //name
+new G4LogicalVolume(sW_Cyl,                 //shape
+            Materials::Densimet180(),       //material
+						"W_Cylinder");                  //name
 
-new G4PVPlacement(0,                                //no rotation
-				G4ThreeVector(0,0,-2.5*cm),           //position              f = target position
-				lW_Cyl,                                    //logical volume
-				"W_Cylinder",                                   //name
-				lWColli,                                 //mother  volume
-				false,                                        //boolean operation?
-				0,                                            //copy number
-				true);                                        //overlaps checking?
+new G4PVPlacement(0,                        //no rotation
+				G4ThreeVector(0,0,-2.5*cm),         //position              f = target position
+				lW_Cyl,                             //logical volume
+				"W_Cylinder",                       //name
+				lWColli,                            //mother  volume
+				false,                              //boolean operation?
+				0,                                  //copy number
+				true);                              //overlaps checking?
 
 //Make (in-)visible and give it a color
 auto logicW_CylVisAtt = new G4VisAttributes(G4Color(0, 0, 1, 0.5)); //(r, g, b , transparency)
@@ -321,7 +322,8 @@ new G4UnionSolid("solid Collimator Shape",  //its name
 
 G4LogicalVolume* lColliShape =
   new G4LogicalVolume(sColliShape,          //its solid
-                      Materials::Vacuum(),             //its material
+                      // Materials::Vacuum(),           //its material
+                      Materials::Air(),             //its material
                       "Collimator Shape");  //its name
 
 new G4PVPlacement(0,                      //no rotation
