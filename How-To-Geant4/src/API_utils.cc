@@ -156,19 +156,29 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 			}
 
 			if (string_args["particle"] == "ion") {
-				pos = macro_commands.insert(pos,
-					std::format("/gps/ion {} {} {} {}",
-						(int) numerical_args["atomic_number"],
-						(int) numerical_args["atomic_mass"],
-						(int) numerical_args["charge"],
-						(int) numerical_args["excitation"]
-					)
-				);
+				// Code that is nicer but using std::format, which does not work on cluster (gcc12.2)
+				// pos = macro_commands.insert(pos,
+				// 	std::format("/gps/ion {} {} {} {}",
+				// 		(int) numerical_args["atomic_number"],
+				// 		(int) numerical_args["atomic_mass"],
+				// 		(int) numerical_args["charge"],
+				// 		(int) numerical_args["excitation"]
+				// 	)
+				// );
+				pos = macro_commands.insert(pos, "/gps/ion " + std::to_string(numerical_args["atomic_number"]) + " " 
+											+ std::to_string(numerical_args["atomic_mass"]) + " " 
+											+ std::to_string(numerical_args["charge"]) + " " 
+											+ std::to_string(numerical_args["excitation"])
+				); 
 			}
 			pos = macro_commands.insert(pos, "/gps/particle " + string_args["particle"]);
 
-			pos = macro_commands.insert(pos, std::format("/gps/position {} {} {} mm", numerical_args["x_pos"], numerical_args["y_pos"], numerical_args["z_pos"]));
-			pos = macro_commands.insert(pos, std::format("/gps/direction {} {} {}", numerical_args["x_facing"], numerical_args["y_facing"], numerical_args["z_facing"]));
+			// Code that is nicer but using std::format, which does not work on cluster (gcc12.2)
+			// pos = macro_commands.insert(pos, std::format("/gps/position {} {} {} mm", numerical_args["x_pos"], numerical_args["y_pos"], numerical_args["z_pos"]));
+			// pos = macro_commands.insert(pos, std::format("/gps/direction {} {} {}", numerical_args["x_facing"], numerical_args["y_facing"], numerical_args["z_facing"]));
+
+			pos = macro_commands.insert(pos, "/gps/position " + std::to_string(numerical_args["x_pos"]) + " " + std::to_string(numerical_args["y_pos"]) + " " + std::to_string(numerical_args["z_pos"]) + " mm");
+			pos = macro_commands.insert(pos, "/gps/direction " + std::to_string(numerical_args["x_facing"]) + " " + std::to_string(numerical_args["y_facing"]) + " " + std::to_string(numerical_args["z_facing"]));
 
 			if (string_args["mono_e"] == "true"){
 				pos = macro_commands.insert(pos, "/gps/ene/type Mono");
