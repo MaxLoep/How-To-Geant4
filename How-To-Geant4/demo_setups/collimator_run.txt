@@ -18,8 +18,7 @@ make_sd; 7; command=make_sd; attach=lDet400; name=Det400; particle=neutron; attr
 place; 4; command=place; object=sphere; name=detector; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=10000.0; inner_radius=9990.0; alpha=0.01; red=255; green=0;
 make_sd; 7; command=make_sd; attach=ldetector; name=Neutron; particle=neutron; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3;
 make_sd; 7; command=make_sd; attach=ldetector; name=Gamma; particle=gamma; attrib_0=ekin; attrib_1=theta; attrib_2=phi; attrib_count=3;
-place; 4; command=place; object=sphere; name=source_marker; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=10.0; alpha=0.5; red=0; green=100;
-particle_source; 4; command=particle_source; particle=deuteron; shape=beam; mono_e=true; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=0; x_facing=0; y_facing=0; z_facing=1; sigma_r=3.0; atomic_number=0; atomic_mass=0; charge=0; excitation=0; energy=26.5;
+particle_source; 4; command=particle_source; particle=deuteron; shape=beam; mono_e=true; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=0; x_facing=0; y_facing=0; z_facing=1; sigma_r=3.0; atomic_number=0; atomic_mass=0; charge=0; excitation=0; energy=26.0;
 prerun_macro; 2; command=prerun_macro; content=/custom/ana/setOutFolder collimator_output;
 prerun_macro; 2; command=prerun_macro; content=/custom/ana/setRunName collimator;
-no_macro_f; 1; command=no_macro_f; event_count=1000000.0; thread_count=8;
+no_macro_f; 1; command=no_macro_f; event_count=10000000.0; thread_count=8;
