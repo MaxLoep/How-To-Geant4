@@ -1,0 +1,9 @@
+place; 4; command=place; object=cube; name=Plane_0; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=-1.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; size_x=50.0; size_y=50.0; size_z=0.5; 
+place; 4; command=place; object=cube; name=target; material=aluminum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; size_x=50.0; size_y=50.0; size_z=0.002; 
+place; 4; command=place; object=cube; name=Plane_1; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=1000.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; size_x=500.0; size_y=500.0; size_z=0.5;
+make_sd; 7; command=make_sd; attach=lPlane_0; name=Plane_0; particle=primary; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3;
+make_sd; 7; command=make_sd; attach=lPlane_1; name=Plane_1; particle=primary; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3;
+place; 4; command=place; object=sphere; name=source_marker; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=-10; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=3.0; alpha=0.5; red=0; green=100;
+particle_source; 4; command=particle_source; particle=alpha; shape=beam; mono_e=true; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=-10.0; x_facing=0; y_facing=0; z_facing=1; sigma_r=3.0; atomic_number=0; atomic_mass=0; charge=0; excitation=0; energy=6.0;
+start_gui; 2; command=start_gui; placeholder=value;
+start_gui; 2; command=start_gui; placeholder=value;

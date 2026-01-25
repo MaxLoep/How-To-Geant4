@@ -34,4 +34,5 @@ set_run_name("beamstudy_A_6_MeV_3_mm_4_um")
 
 
 config_run(1.0e7, 8)
+# make_ui_commands()
 start_run()

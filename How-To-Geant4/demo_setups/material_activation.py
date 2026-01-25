@@ -14,6 +14,7 @@ place("target", "cube", (0., 0., 10. * cm), material= "air", size_x = 10. * cm/2
 place("source_marker", "sphere", (0., 0., -1*cm), material="vacuum", radius = 2. * mm, alpha=0.5, red=0, green = 100)
 make_beam_source("ion", 100., (0, 0., -1. * cm), (0, 0, 1), sigma_r = 0.0* mm, atomic_number = 7, atomic_mass = 14, charge=5)
 
+# make_ui_commands()
 set_output_path("material_activation_output")
 set_run_name("nitrogen_air_activation")
 # set_run_name("nitrogen_argon_activation")

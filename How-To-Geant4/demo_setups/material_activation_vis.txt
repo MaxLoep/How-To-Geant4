@@ -1,0 +1,5 @@
+place; 4; command=place; object=cube; name=target; material=air; pos_x=0.0; pos_y=0.0; pos_z=100.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; size_x=50.0; size_y=50.0; size_z=50.0; 
+place; 4; command=place; object=sphere; name=source_marker; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=-10; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=2.0; alpha=0.5; red=0; green=100; 
+particle_source; 4; command=particle_source; particle=ion; shape=beam; mono_e=true; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=-10.0; x_facing=0; y_facing=0; z_facing=1; sigma_r=0.0; atomic_number=7; atomic_mass=14; charge=5; excitation=0; energy=100.0;
+start_gui; 2; command=start_gui; placeholder=value;
+start_gui; 2; command=start_gui; placeholder=value;

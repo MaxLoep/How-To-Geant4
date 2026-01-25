@@ -5,5 +5,5 @@ How-To-Geant4/sim/PI-Cluster/How-To-Geant4/
 How-To-Geant4/sim/PI-Cluster/commands2.txt
 How-To-Geant4/sim/PI-Cluster/debian12.jdl
 out.txt
-
+**/__pycache__/
 

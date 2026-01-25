@@ -29,8 +29,8 @@ place("source_marker", "sphere", (0., 0., 0), material="vacuum", radius = 1. * c
 # make_beam_source("deuteron", 26.5, (0, 0., 0), (0, 0, 1), sigma_r = 0.0 * mm)
 make_beam_source("deuteron", 26.5, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
 
-make_ui_commands()
-# set_output_path("collimator_output")
-# set_run_name("collimator")
-# config_run(1e6, 8)
+# make_ui_commands()
+set_output_path("collimator_output")
+set_run_name("collimator")
+config_run(1e6, 8)
 start_run()
