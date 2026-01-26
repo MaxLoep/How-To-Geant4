@@ -49,7 +49,7 @@ class particle_data:
         if self.name != other.name:
             print("adding failure")
         res = self
-        res.pcount += other.count
+        res.pcount += other.pcount
         return res
 
 
@@ -132,9 +132,12 @@ def main():
 
     master_dict = add_abundance_info(master_dict)
 
+    master_dict_sorted = dict(sorted(master_dict.items(), key=lambda x: x[0]))
+
     with open(output_file, 'w') as out_handle:
-        out_handle.writelines([str(master_dict[pd]) for pd in master_dict])
-    #print(master_dict)
+        # out_handle.writelines([str(master_dict[pd]) for pd in master_dict])
+        out_handle.writelines([str(master_dict_sorted[pd]) for pd in master_dict_sorted])
+    # print(master_dict)
 
 
 if __name__ == "__main__":
