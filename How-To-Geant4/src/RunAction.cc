@@ -113,7 +113,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
 	G4long time 	= G4Random::getTheSeeds()[0];
 	G4long time_ns 	= G4Random::getTheSeeds()[1];
 	// set file name
-	std::string fileName = run_name + std::to_string(time) + "_" + std::to_string(time_ns) + ".root";
+	std::string fileName = run_name + "_" + std::to_string(time) + "_" + std::to_string(time_ns) + ".root";
 
 	// Create the file
 	// analysisManager->OpenFile("Folder2/" + fileName);
