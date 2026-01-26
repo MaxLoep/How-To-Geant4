@@ -53,16 +53,21 @@ GenericSD::~GenericSD() {
 		fs::create_directory(folderName);
 		fs::create_directory(folderName + "/" + ListFolder);
 
-		// REMOVE / REWORK because filname is now based on time not on process-ID
-		//Get main process ID
-		G4long pid = _getpid();
+		// name generation via process-ID does not work on cluster!
+		// G4long pid = _getpid();
 
-		// Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
-		while(std::ifstream(folderName + "/" + ListFolder + "/" + run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt")) {
-			pid++;
-		}
-		// Set final file name
-		std::string fileName = run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt";
+		// // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
+		// while(std::ifstream(folderName + "/" + ListFolder + "/" + run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt")) {
+		// 	pid++;
+		// }
+		// // Set final file name
+		// std::string fileName = run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt";
+
+		// get epoch time and system clock nanosecond value that were used as seeds in main() to create file name
+		G4long time 	= G4Random::getTheSeeds()[0];
+		G4long time_ns 	= G4Random::getTheSeeds()[1];
+		// set file name
+		std::string fileName = run_name + "_" + std::to_string(time) + "_" + std::to_string(time_ns) + "_" + this->name + ".txt";
 
 		// flush output to file
 		std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
