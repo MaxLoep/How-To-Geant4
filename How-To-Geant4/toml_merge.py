@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# ./merger.py [OPTIONS] [files to merge] z.B.: ./merger.py -o output.txt files/*
-# optionen: -o [file] : gibt output datei an --ignore-stable : ignoriert stabile Teilchen (noch nicht implementiert)
+# ./merger.py [OPTIONS] [files to merge] z.B.: ./merger.py -o output.txt files/* --ignore-stable
+# optionen: -o [file] : gibt output datei an --ignore-stable : ignoriert stabile Teilchen
 
 import tomllib
 from sys import argv
@@ -8,6 +8,7 @@ import glob
 import platform
 from typing import Tuple
 import re
+from pprint import pprint
 
 
 def some(v):
@@ -90,6 +91,52 @@ def add_abundance_info(data: dict) -> dict:
     res[primary.name] = primary
     return res
 
+def filter_stable(data: dict) -> dict:
+    primary = list(filter(lambda x: data[x].is_primary, data))
+
+    secondaries = {}
+    for particle in data:
+        if not data[particle].stable:
+            secondaries[particle] = data[particle]
+
+    if len(primary) > 1:
+        print("more then one kind of primary particle was encountered")
+        print("merging without abundance calculations!")
+        return data
+    else:
+        primary = data[primary[0]]
+
+    # pcount = primary.pcount
+    # for particle in secondaries:
+    #     secondaries[particle].abundance = secondaries[particle].pcount / pcount
+
+    res = secondaries
+    res[primary.name] = primary
+    return res
+
+def filter_excited(data: dict) -> dict:
+    primary = list(filter(lambda x: data[x].is_primary, data))
+
+    secondaries = {}
+    for particle in data:
+        if data[particle].half_life > 0:
+            secondaries[particle] = data[particle]
+
+    if len(primary) > 1:
+        print("more then one kind of primary particle was encountered")
+        print("merging without abundance calculations!")
+        return data
+    else:
+        primary = data[primary[0]]
+
+    # pcount = primary.pcount
+    # for particle in secondaries:
+    #     secondaries[particle].abundance = secondaries[particle].pcount / pcount
+
+    res = secondaries
+    res[primary.name] = primary
+    return res
+
 
 def main():
     argc = len(argv)
@@ -111,7 +158,7 @@ def main():
     if "-o" in files:
         files.remove("-o")
     if "--ignore-stable" in files:
-        files.remove("--ignore_stable")
+        files.remove("--ignore-stable")
 
     # catch the case of windows
     if platform.system() == "Windows":
@@ -125,6 +172,8 @@ def main():
             if particle in master_dict:
                 try:
                     master_dict[particle] += file_content[particle]
+                    # print(particle)
+                    # print(file_content[particle])
                 except:
                     print("skipped merge")
             else:
@@ -132,12 +181,16 @@ def main():
 
     master_dict = add_abundance_info(master_dict)
 
+    if ignore_stable == True:
+        master_dict = filter_stable(master_dict)
+        master_dict = filter_excited(master_dict)
+
     master_dict_sorted = dict(sorted(master_dict.items(), key=lambda x: x[0]))
 
     with open(output_file, 'w') as out_handle:
         # out_handle.writelines([str(master_dict[pd]) for pd in master_dict])
         out_handle.writelines([str(master_dict_sorted[pd]) for pd in master_dict_sorted])
-    # print(master_dict)
+    # pprint(master_dict_sorted)
 
 
 if __name__ == "__main__":
