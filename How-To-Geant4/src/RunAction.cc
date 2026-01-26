@@ -101,12 +101,19 @@ void RunAction::BeginOfRunAction(const G4Run*)
 	// Get analysis manager
 	auto analysisManager = G4AnalysisManager::Instance();
 
-	G4long pid = _getpid();
-	while(std::ifstream(folderName + "/" + RootFolder+ "/" + run_name + std::to_string(pid) + ".root")) {
-		pid++;
-	}
+	// name generation via process-ID does not work on cluster!
+	// G4long pid = _getpid();
+	// while(std::ifstream(folderName + "/" + RootFolder+ "/" + run_name + std::to_string(pid) + ".root")) {
+	// 	pid++;
+	// }
 	// Set final file name
-	std::string fileName = run_name + std::to_string(pid) + ".root";
+	// std::string fileName = run_name + std::to_string(pid) + ".root";
+
+	// get epoch time and system clock nanosecond value that were used as seeds in main() to create file name
+	G4long time 	= G4Random::getTheSeeds()[0];
+	G4long time_ns 	= G4Random::getTheSeeds()[1];
+	// set file name
+	std::string fileName = run_name + std::to_string(time) + "_" + std::to_string(time_ns) + ".root";
 
 	// Create the file
 	// analysisManager->OpenFile("Folder2/" + fileName);
