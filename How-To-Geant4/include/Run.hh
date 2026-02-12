@@ -4,8 +4,10 @@
 
 #include "G4Run.hh"
 #include "G4VProcess.hh"
-#include "globals.hh"
+// #include "globals.hh"
 #include <map>
+
+#include "particle_data.hh"
 
 class DetectorConstruction;
 class G4ParticleDefinition;
@@ -25,16 +27,6 @@ class Run : public G4Run
 
     virtual void Merge(const G4Run*);
     void EndOfRun();
-
-  private:
-    struct ParticleData {
-     ParticleData()
-       : fCount(0), fTmean(-1.) {}
-     ParticleData(G4int count, G4double meanLife)
-       : fCount(count), fTmean(meanLife) {}
-     G4int     fCount;
-     G4double  fTmean;
-    };
 
     // utility function
     template<typename Ostream>
