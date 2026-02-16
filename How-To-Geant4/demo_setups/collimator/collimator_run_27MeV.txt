@@ -16,7 +16,7 @@ make_sd; 7; command=make_sd; attach=lDet250; name=Det250; particle=neutron; attr
 make_sd; 7; command=make_sd; attach=lDet300; name=Det300; particle=neutron; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3;
 make_sd; 7; command=make_sd; attach=lDet350; name=Det350; particle=neutron; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3;
 make_sd; 7; command=make_sd; attach=lDet400; name=Det400; particle=neutron; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3;
-particle_source; 4; command=particle_source; particle=deuteron; shape=beam; mono_e=true; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=0; x_facing=0; y_facing=0; z_facing=1; sigma_r=3.0; atomic_number=0; atomic_mass=0; charge=0; excitation=0; energy=23.0;
+particle_source; 4; command=particle_source; particle=deuteron; shape=beam; mono_e=true; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=0; x_facing=0; y_facing=0; z_facing=1; sigma_r=3.0; atomic_number=0; atomic_mass=0; charge=0; excitation=0; energy=27.0;
 prerun_macro; 2; command=prerun_macro; content=/custom/ana/setOutFolder collimator_output;
 prerun_macro; 2; command=prerun_macro; content=/custom/ana/setRunName collimator;
 no_macro_f; 1; command=no_macro_f; event_count=100000000.0; thread_count=8;
