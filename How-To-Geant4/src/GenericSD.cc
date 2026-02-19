@@ -42,6 +42,9 @@ GenericSD::~GenericSD() {
 	// If returned to main thread (after closing all threads created by multithreading) print secondary counter
 	if (main_id == this->thread_id) {
 		auto _ = global_conf.lock();
+		for (auto [particle, count] : this->particle_map) {
+			global_conf.sd_counts[this->name][particle] += count;
+		}
 		G4cout << "PARTICLE COUNT OF " << this->name << G4endl;
 		for (auto [particle, count] : global_conf.sd_counts[this->name]) {
 			G4cout << "  " << std::setw(15) << particle << ": " << std::setw(10) << count << G4endl;
