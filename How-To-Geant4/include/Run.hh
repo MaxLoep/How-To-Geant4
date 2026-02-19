@@ -8,6 +8,7 @@
 #include <map>
 
 #include "particle_data.hh"
+#include "particle_map_writer.hh"
 
 class DetectorConstruction;
 class G4ParticleDefinition;
