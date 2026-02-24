@@ -117,8 +117,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 
 		// G4LogicalVolume* lWorld =
 		lWorld = new G4LogicalVolume(solidWorld, //its solid
-			// Materials::Vacuum(), //its material
-			Materials::Air(), //its material
+			Materials::Vacuum(), //its material
+			// Materials::Air(), //its material
 			"lWorld" //its name
 		);
 
