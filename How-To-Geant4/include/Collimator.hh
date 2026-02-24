@@ -248,8 +248,8 @@ G4UnionSolid* sWColli =                            // combine Tungsten Cylinder 
 G4LogicalVolume* lWColli =
   new G4LogicalVolume(sWColli,                            //its solid
                       // Materials::Densimet180(),           //its material
-                      Materials::Vacuum(),                // FOR LEFTOVERS: make this part vacuum
-                      // Materials::Air(),                   // FOR LEFTOVERS: make this part air
+                      // Materials::Vacuum(),                // FOR LEFTOVERS: make this part vacuum
+                      Materials::Air(),                   // FOR LEFTOVERS: make this part air
                       "logic Tungsten Collimator");       //its name
 
 new G4PVPlacement(0,                        //no rotation
