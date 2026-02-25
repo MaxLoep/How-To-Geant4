@@ -80,6 +80,7 @@ GenericSD::~GenericSD() {
 		for (auto [particle, count] : global_conf.sd_counts[this->name]) {
 			outFile << "  " << std::setw(15) << particle << ": " << std::setw(10) << count << G4endl;
 		}
+	}
 }
 
 
