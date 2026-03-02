@@ -20,6 +20,7 @@
 
 #include "G4Box.hh"                     //for cuboid
 #include "G4Sphere.hh"                  //for sphere
+#include "G4Tubs.hh"                  	//for cylinder
 #include "G4LogicalVolume.hh"           //Necessary. You need this.
 #include "G4PVPlacement.hh"             //Necessary. You need this.
 #include "G4SystemOfUnits.hh"           //for units
@@ -390,6 +391,7 @@ namespace geometries {
 	void run_placements(G4LogicalVolume* lWorld);
 	G4LogicalVolume* cube(std::string name, std::map<std::string, double>& params, Materials::MaterialMaker mat);
 	G4LogicalVolume* sphere(std::string name, std::map<std::string, double>& params, Materials::MaterialMaker mat);
+	G4LogicalVolume* cylinder(std::string name, std::map<std::string, double>& params, Materials::MaterialMaker mat);
 	void add_placer(std::string name, placer_func func);
 	void change_param(std::string name, std::string param, double value);
 }

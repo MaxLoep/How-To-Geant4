@@ -16,6 +16,7 @@ place("Det400", "cube", (0., 0., 400.*cm), material= "vacuum", size_x = 30.*cm/2
 # place("Wall4", "cube", (0., -450.*cm, 0), material= "concrete", size_x = 800.*cm/2, size_y = 1.*m/2, size_z = 800.*cm/2)
 # place("Wall5", "cube", (450.*cm, 0, 0), material= "concrete", size_x = 1.*m/2, size_y = 1000.*cm/2, size_z = 800.*cm/2)
 # place("Wall6", "cube", (-450.*cm, 0, 0), material= "concrete", size_x = 1.*m/2, size_y = 1000.*cm/2, size_z = 800.*cm/2)
+place("Foil", "cylinder", (0., 0., 135.*cm), material= "aluminum", radius = 5.00*cm, length=1.00*cm/2 )
 
 make_sd("Det130", "Det130", ["ekin", "pos_x", "pos_y"], "neutron")
 make_sd("Det130_g", "Det130", ["ekin", "pos_x", "pos_y"], "gamma")
@@ -33,12 +34,14 @@ make_sd("Det400", "Det400", ["ekin", "pos_x", "pos_y"], "neutron")
 # make_sd("Gamma", "detector", ["ekin", "theta", "phi"], "gamma")
 
 
+
 # place("source_marker", "sphere", (0., 0., 0), material="vacuum", radius = 1. * cm, alpha=0.5, red=0, green = 100)
 # make_beam_source("deuteron", 26.5, (0, 0., 0), (0, 0, 1), sigma_r = 0.0 * mm)
 make_beam_source("deuteron", 26.0, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
 
-# make_ui_commands()
+make_ui_commands()
 set_output_path("collimator_output")
 set_run_name("collimator")
-config_run(1e8, 8)
+# config_run(1e8, 8)
 start_run()
+

@@ -3,7 +3,7 @@
 static std::vector<std::tuple<std::string, std::string, std::map<std::string, double>, Materials::MaterialMaker>> record = {};
 static std::mutex record_mutex;
 
-static fmap placers = {{"cube", geometries::cube}, {"sphere", geometries::sphere}};
+static fmap placers = {{"cube", geometries::cube}, {"sphere", geometries::sphere}, {"cylinder", geometries::cylinder}};
 
 
 
@@ -75,8 +75,8 @@ G4LogicalVolume* geometries::sphere(std::string name, std::map<std::string, doub
 		params["radius"],
 		params.count("min_phi")? params["phi_min"]: 0.,
 		params.count("max_phi")? params["phi_max"]: twopi,
-		params.count("min_phi")? params["theta_min"]: 0.,
-		params.count("max_phi")? params["theta_max"]: pi
+		params.count("min_phi")? params["theta_min"]: 0.,	// shouldnt this be: params.count("min_theta")? params["theta_min"]: 0., 	?
+		params.count("max_phi")? params["theta_max"]: pi	// shouldnt this be: params.count("max_theta")? params["theta_max"]: pi  	?
 	);
 	G4LogicalVolume* lSphere = new G4LogicalVolume(sSphere, mat(), "l" + name);
 
@@ -91,6 +91,29 @@ G4LogicalVolume* geometries::sphere(std::string name, std::map<std::string, doub
 	lSphereVisAtt->SetVisibility(true);
 	lSphere->SetVisAttributes(lSphereVisAtt);
 	return lSphere;
+}
+
+G4LogicalVolume* geometries::cylinder(std::string name, std::map<std::string, double>& params, Materials::MaterialMaker mat) {
+	G4Tubs* sCylinder = new G4Tubs(name,
+		params.count("inner_radius")? params["inner_radius"]: 0.,
+		params["radius"],
+		params["length"],
+		params.count("min_phi")? params["phi_min"]: 0.,
+		params.count("max_phi")? params["phi_max"]: twopi
+	);
+	G4LogicalVolume* lCylinder = new G4LogicalVolume(sCylinder, mat(), "l" + name);
+
+	//Make (in-)visible and give it a color
+	auto color = G4Color(
+		params.count("red")? params["red"]: 0.,
+		params.count("green")? params["green"]: 1.,
+		params.count("blue")? params["blue"]: 0.,
+		params.count("alpha")? params["alpha"]: 0.8
+	);
+	auto lCylinderVisAtt = new G4VisAttributes(color); //(r, g, b , transparency)
+	lCylinderVisAtt->SetVisibility(true);
+	lCylinder->SetVisAttributes(lCylinderVisAtt);
+	return lCylinder;
 }
 
 void geometries::run_placements(G4LogicalVolume* lWorld) {
