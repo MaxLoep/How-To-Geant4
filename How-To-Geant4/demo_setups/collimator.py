@@ -16,10 +16,14 @@ place("Det400", "cube", (0., 0., 400.*cm), material= "vacuum", size_x = 30.*cm/2
 # place("Wall4", "cube", (0., -450.*cm, 0), material= "concrete", size_x = 800.*cm/2, size_y = 1.*m/2, size_z = 800.*cm/2)
 # place("Wall5", "cube", (450.*cm, 0, 0), material= "concrete", size_x = 1.*m/2, size_y = 1000.*cm/2, size_z = 800.*cm/2)
 # place("Wall6", "cube", (-450.*cm, 0, 0), material= "concrete", size_x = 1.*m/2, size_y = 1000.*cm/2, size_z = 800.*cm/2)
-place("Foil-Al", "cylinder", (0., 0., 134.*cm), material= "aluminum", radius = 5.00*cm, length=100.0*um/2 )
-place("Foil-In", "cylinder", (0., 0., 135.*cm), material= "indium", radius = 5.00*cm, length=100.0*um/2 )
-place("Foil-Cu", "cylinder", (0., 0., 136.*cm), material= "copper", radius = 5.00*cm, length=100.0*um/2 )
-place("Foil-Fe", "cylinder", (0., 0., 137.*cm), material= "iron", radius = 5.00*cm, length=100.0*um/2 )
+place("Foil-Al", "cylinder", (0., 0., 134.*cm), material= "aluminum", radius = 2.5*cm, length=100.0*um/2 )
+place("Foil-In", "cylinder", (0., 0., 135.*cm), material= "indium", radius = 2.5*cm, length=100.0*um/2 )    #Indium: 0.1 - 2 mm
+place("Foil-Cu", "cylinder", (0., 0., 136.*cm), material= "copper", radius = 2.5*cm, length=100.0*um/2 )
+place("Foil-Fe", "cylinder", (0., 0., 137.*cm), material= "iron", radius = 2.5*cm, length=100.0*um/2 )
+place("Foil-Ni", "cylinder", (0., 0., 138.*cm), material= "nickel", radius = 2.5*cm, length=100.0*um/2 )    #Nickel: 0.1 - 1 mm
+place("Foil-Ti", "cylinder", (0., 0., 139.*cm), material= "titan", radius = 2.5*cm, length=100.0*um/2 )
+place("Foil-Zn", "cylinder", (0., 0., 140.*cm), material= "zinc", radius = 2.5*cm, length=100.0*um/2 )
+place("Foil-Co", "cylinder", (0., 0., 141.*cm), material= "cobalt", radius = 2.5*cm, length=100.0*um/2 )
 
 make_sd("Det130", "Det130", ["ekin", "pos_x", "pos_y"], "neutron")
 make_sd("Det130_g", "Det130", ["ekin", "pos_x", "pos_y"], "gamma")
