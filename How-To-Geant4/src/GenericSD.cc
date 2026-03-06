@@ -41,13 +41,13 @@ GenericSD::~GenericSD() {
 
 	// If returned to main thread (after closing all threads created by multithreading) print secondary counter
 	auto _ = global_conf.lock();
-	for (auto [particle, count] : this->particle_map) {
-		global_conf.sd_counts[this->name][particle] += count;
+	for (auto [particle, particle_data] : this->particle_map) {
+		global_conf.sd_counts[this->name][particle] = global_conf.sd_counts[this->name][particle] + particle_data;
 	}
 	if (main_id == this->thread_id) {
 		G4cout << "PARTICLE COUNT OF " << this->name << G4endl;
 		for (auto [particle, count] : global_conf.sd_counts[this->name]) {
-			G4cout << "  " << std::setw(15) << particle << ": " << std::setw(10) << count << G4endl;
+			G4cout << "  " << std::setw(15) << particle << ": " << std::setw(10) << count.fCount << G4endl;
 		}
 
 		//List of generated particles to file
@@ -75,11 +75,13 @@ GenericSD::~GenericSD() {
 		// flush output to file
 		std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
 
+		pmap_writer::write_pmap_to_stream(global_conf.sd_counts[this->name], outFile);
+
 		// Iterate through the map and print the elements in file
-		outFile <<  this->name << G4endl;
-		for (auto [particle, count] : global_conf.sd_counts[this->name]) {
-			outFile << "  " << std::setw(15) << particle << ": " << std::setw(10) << count << G4endl;
-		}
+		// outFile <<  this->name << G4endl;
+		// for (auto [particle, count] : global_conf.sd_counts[this->name]) {
+			// outFile << "  " << std::setw(15) << particle << ": " << std::setw(10) << count.fCount << G4endl;
+		// }
 	}
 }
 
@@ -101,10 +103,17 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 	// const G4ParticleDefinition* testparticle = track->GetParticleDefinition();
 	// }
 
+	const G4ParticleDefinition* particle = track->GetParticleDefinition();
+	G4double life_time = particle->GetPDGLifeTime();
 	// if particle is a secondary (trackID>1) and we have not counted it yet add it to the map
 	if ( (currentTrackId > 1) && (currentTrackId != this->oldTrackId) ) {
 		//G4cout << this->name <<  " detected: " << particle_name << this->particle_map[particle_name] + 1  << "times" << G4endl;
-		this->particle_map[particle_name] = this->particle_map.count(particle_name)? this->particle_map[particle_name] + 1: 1;
+		if (this->particle_map.count(particle_name)) {
+			this->particle_map[particle_name] = this->particle_map[particle_name] + 1;
+		} else {
+			this->particle_map[particle_name] = ParticleData(1, life_time);
+			std::cout << this->particle_map[particle_name].fTmean << std::endl;
+		}
 	}
 
 	// overwrite oldTrackID with currentTrackID
@@ -112,7 +121,6 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 
 
 	// keep only outgoing particle
-	const G4ParticleDefinition* particle = track->GetParticleDefinition();
 	// const G4ParticleDefinition* particle = G4IonTable::FindIon(7,14);
 
 	// code PDG:
