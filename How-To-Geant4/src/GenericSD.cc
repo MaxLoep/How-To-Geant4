@@ -56,16 +56,6 @@ GenericSD::~GenericSD() {
 		fs::create_directory(folderName);
 		fs::create_directory(folderName + "/" + ListFolder);
 
-		// name generation via process-ID does not work on cluster!
-		// G4long pid = _getpid();
-
-		// // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
-		// while(std::ifstream(folderName + "/" + ListFolder + "/" + run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt")) {
-		// 	pid++;
-		// }
-		// // Set final file name
-		// std::string fileName = run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt";
-
 		// get epoch time and system clock nanosecond value that were used as seeds in main() to create file name
 		G4long time 	= G4Random::getTheSeeds()[0];
 		G4long time_ns 	= G4Random::getTheSeeds()[1];
@@ -76,12 +66,6 @@ GenericSD::~GenericSD() {
 		std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
 
 		pmap_writer::write_pmap_to_stream(global_conf.sd_counts[this->name], outFile);
-
-		// Iterate through the map and print the elements in file
-		// outFile <<  this->name << G4endl;
-		// for (auto [particle, count] : global_conf.sd_counts[this->name]) {
-			// outFile << "  " << std::setw(15) << particle << ": " << std::setw(10) << count.fCount << G4endl;
-		// }
 	}
 }
 
@@ -112,7 +96,6 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 			this->particle_map[particle_name] = this->particle_map[particle_name] + 1;
 		} else {
 			this->particle_map[particle_name] = ParticleData(1, life_time);
-			std::cout << this->particle_map[particle_name].fTmean << std::endl;
 		}
 	}
 
