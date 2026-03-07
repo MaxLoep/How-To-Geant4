@@ -1,3 +1,4 @@
+#include "particle_map_writer.hh"
 #include <map>
 #include <mutex>
 #include <string>
@@ -112,7 +113,7 @@ namespace ConfigStructs {
 		EOEConfig eoe_conf;
 		std::vector<SDConfig> sd_conf = std::vector<SDConfig>();
 		std::vector<PSConf> ps_conf = std::vector<PSConf>();
-		std::map<std::string, std::map<std::string, int>> sd_counts;
+		std::map<std::string, particle_map_t> sd_counts;
 		std::lock_guard<std::mutex> lock() {
 			return std::lock_guard<std::mutex>(this->m);
 		}

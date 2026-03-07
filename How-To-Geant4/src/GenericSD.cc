@@ -40,11 +40,14 @@ GenericSD::~GenericSD() {
 	this->thread_id = std::this_thread::get_id();
 
 	// If returned to main thread (after closing all threads created by multithreading) print secondary counter
+	auto _ = global_conf.lock();
+	for (auto [particle, particle_data] : this->particle_map) {
+		global_conf.sd_counts[this->name][particle] = global_conf.sd_counts[this->name][particle] + particle_data;
+	}
 	if (main_id == this->thread_id) {
-		auto _ = global_conf.lock();
 		G4cout << "PARTICLE COUNT OF " << this->name << G4endl;
 		for (auto [particle, count] : global_conf.sd_counts[this->name]) {
-			G4cout << "  " << std::setw(15) << particle << ": " << std::setw(10) << count << G4endl;
+			G4cout << "  " << std::setw(15) << particle << ": " << std::setw(10) << count.fCount << G4endl;
 		}
 
 		//List of generated particles to file
@@ -52,16 +55,6 @@ GenericSD::~GenericSD() {
 		// create a folder for the files if it does not exists
 		fs::create_directory(folderName);
 		fs::create_directory(folderName + "/" + ListFolder);
-
-		// name generation via process-ID does not work on cluster!
-		// G4long pid = _getpid();
-
-		// // Check if "pid_ListOfGeneratedParticles in SDX.txt" is already existing; if yes, check if "pid+1_ListOfGeneratedParticles in SDX.txt" exists.
-		// while(std::ifstream(folderName + "/" + ListFolder + "/" + run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt")) {
-		// 	pid++;
-		// }
-		// // Set final file name
-		// std::string fileName = run_name + "_" + std::to_string(pid) + "_" + this->name + ".txt";
 
 		// get epoch time and system clock nanosecond value that were used as seeds in main() to create file name
 		G4long time 	= G4Random::getTheSeeds()[0];
@@ -72,16 +65,7 @@ GenericSD::~GenericSD() {
 		// flush output to file
 		std::ofstream outFile(folderName + "/" + ListFolder + "/" + fileName);
 
-		// Iterate through the map and print the elements in file
-		outFile <<  this->name << G4endl;
-		for (auto [particle, count] : global_conf.sd_counts[this->name]) {
-			outFile << "  " << std::setw(15) << particle << ": " << std::setw(10) << count << G4endl;
-		}
-	} else {
-		auto _ = global_conf.lock();
-		for (auto [particle, count] : this->particle_map) {
-			global_conf.sd_counts[this->name][particle] += count;
-		}
+		pmap_writer::write_pmap_to_stream(global_conf.sd_counts[this->name], outFile);
 	}
 }
 
@@ -103,10 +87,16 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 	// const G4ParticleDefinition* testparticle = track->GetParticleDefinition();
 	// }
 
+	const G4ParticleDefinition* particle = track->GetParticleDefinition();
+	G4double life_time = particle->GetPDGLifeTime();
 	// if particle is a secondary (trackID>1) and we have not counted it yet add it to the map
 	if ( (currentTrackId > 1) && (currentTrackId != this->oldTrackId) ) {
 		//G4cout << this->name <<  " detected: " << particle_name << this->particle_map[particle_name] + 1  << "times" << G4endl;
-		this->particle_map[particle_name] = this->particle_map.count(particle_name)? this->particle_map[particle_name] + 1: 1;
+		if (this->particle_map.count(particle_name)) {
+			this->particle_map[particle_name] = this->particle_map[particle_name] + 1;
+		} else {
+			this->particle_map[particle_name] = ParticleData(1, life_time);
+		}
 	}
 
 	// overwrite oldTrackID with currentTrackID
@@ -114,7 +104,6 @@ G4bool GenericSD::ProcessHits(G4Step* step, G4TouchableHistory* /*history*/) {
 
 
 	// keep only outgoing particle
-	const G4ParticleDefinition* particle = track->GetParticleDefinition();
 	// const G4ParticleDefinition* particle = G4IonTable::FindIon(7,14);
 
 	// code PDG:
