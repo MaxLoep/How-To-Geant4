@@ -1,10 +1,9 @@
-place; 4; command=place; object=collimator; name=collimator; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; shield_thickness=200.0; b=31.0; c=13.149999999999999; d=16.57;
+place; 4; command=place; object=collimator; name=collimator; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=0.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; shield_thickness=200.0; b=31.0; c=13.149999999999999; d=16.57; 
 place; 4; command=place; object=cube; name=Det130; material=vacuum; pos_x=0.0; pos_y=0.0; pos_z=1300.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; size_x=150.0; size_y=150.0; size_z=0.5; 
-place; 4; command=place; object=cylinder; name=Foil-Al; material=aluminum; pos_x=0.0; pos_y=0.0; pos_z=1245.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=25.0; length=1.0;
-make_sd; 7; command=make_sd; attach=lFoil-Al; name=Aluminum; particle=neutron; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3;
-make_sd; 7; command=make_sd; attach=lDet130; name=Det130; particle=neutron; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3;
-particle_source; 4; command=particle_source; particle=deuteron; shape=beam; mono_e=true; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=0; x_facing=0; y_facing=0; z_facing=1; sigma_r=3.0; atomic_number=0; atomic_mass=0; charge=0; excitation=0; energy=25.0;
+place; 4; command=place; object=cylinder; name=Foil-Al; material=aluminum; pos_x=0.0; pos_y=0.0; pos_z=1245.0; rot_x=0.0; rot_y=0.0; rot_z=0.0; radius=25.0; length=1.0; 
+make_sd; 7; command=make_sd; attach=lFoil-Al; name=Aluminum; particle=neutron; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3; 
+make_sd; 7; command=make_sd; attach=lDet130; name=Det130; particle=neutron; attrib_0=ekin; attrib_1=pos_x; attrib_2=pos_y; attrib_count=3; 
+particle_source; 4; command=particle_source; particle=deuteron; shape=beam; mono_e=true; sigma=0.0; x_pos=0; y_pos=0.0; z_pos=0; x_facing=0; y_facing=0; z_facing=1; sigma_r=3.0; atomic_number=0; atomic_mass=0; charge=0; excitation=0; energy=25.0; 
 prerun_macro; 2; command=prerun_macro; content=/custom/ana/setOutFolder collimator_output;
 prerun_macro; 2; command=prerun_macro; content=/custom/ana/setRunName collimator;
 no_macro_f; 1; command=no_macro_f; event_count=100000000.0; thread_count=8;
-

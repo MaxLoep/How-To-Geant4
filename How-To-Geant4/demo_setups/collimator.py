@@ -55,4 +55,3 @@ set_output_path("collimator_output")
 set_run_name("collimator")
 config_run(1e8, 8)
 start_run()
-
