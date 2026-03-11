@@ -13,5 +13,5 @@ make_beam_source("alpha", 8., (0, 0., -5. * cm), (0, 0, 1), sigma_r = 0.4* mm)
 
 set_output_path("test_geo_output")
 set_run_name("custom_name")
-config_run(1e5, 8)
+config_run(1e3, 8)
 start_run()
