@@ -7,6 +7,7 @@ place("target", "cube", (0., 0., 0.), material= "ybco", size_x = 10. * mm, size_
 place("source_marker", "sphere", (0., 0., -5. * cm), material="vacuum", radius = 2. * mm, alpha=0.5, red=0, green = 100)
 
 place("detector", "sphere", (0., 0., 0.), material="vacuum", radius = 10 * cm, inner_radius = 9.5 * cm, phi_min= -0.5 * pi, phi_max= 0.5 * pi, alpha=0.1, red=255, green = 0)
+make_sd("Target", "target", ["ekin", "theta", "phi"], "primary")
 make_sd("RBS", "detector", ["ekin", "theta", "phi"], "primary")
 make_sd("PIXE", "detector", ["ekin", "theta", "phi"], "gamma")
 make_beam_source("alpha", 8., (0, 0., -5. * cm), (0, 0, 1), sigma_r = 0.4* mm)
