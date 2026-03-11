@@ -49,7 +49,7 @@ make_sd("Det400", "Det400", ["ekin", "pos_x", "pos_y"], "neutron")
 
 # place("source_marker", "sphere", (0., 0., 0), material="vacuum", radius = 1. * cm, alpha=0.5, red=0, green = 100)
 # make_beam_source("deuteron", 26.5, (0, 0., 0), (0, 0, 1), sigma_r = 0.0 * mm)
-make_beam_source("deuteron", 15.0, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
+make_beam_source("deuteron", 14.0, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
 # make_beam_source("deuteron", Energy, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
 # make_beam_source("neutron", 10.0, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
 
