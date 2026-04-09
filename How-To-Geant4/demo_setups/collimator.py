@@ -28,12 +28,12 @@ place("Foil-In", "cube", (0., 0., 125.0*cm), material= "indium",   size_x = 100.
 # place("Foil-Zn", "cylinder", (0., 0., 140.*cm), material= "zinc", radius = 2.5*cm, length=100.0*um/2 )
 # place("Foil-Co", "cylinder", (0., 0., 141.*cm), material= "cobalt", radius = 2.5*cm, length=100.0*um/2 )
 
-make_sd("Aluminum", "Foil-Al", ["ekin", "pos_x", "pos_y"], "neutron")
-make_sd("Vanadium", "Foil-V", ["ekin", "pos_x", "pos_y"], "neutron")
-make_sd("Iron",     "Foil-Fe", ["ekin", "pos_x", "pos_y"], "neutron")
-make_sd("Copper",   "Foil-Cu", ["ekin", "pos_x", "pos_y"], "neutron")
-make_sd("Nickel",   "Foil-Ni", ["ekin", "pos_x", "pos_y"], "neutron")
-make_sd("Indium",   "Foil-In", ["ekin", "pos_x", "pos_y"], "neutron")
+make_sd("Aluminum", "Foil-Al", ["ekin"], "neutron")
+make_sd("Vanadium", "Foil-V",  ["ekin"], "neutron")
+make_sd("Iron",     "Foil-Fe", ["ekin"], "neutron")
+make_sd("Copper",   "Foil-Cu", ["ekin"], "neutron")
+make_sd("Nickel",   "Foil-Ni", ["ekin"], "neutron")
+make_sd("Indium",   "Foil-In", ["ekin"], "neutron")
 
 make_sd("Det130", "Det130", ["ekin", "pos_x", "pos_y"], "neutron")
 # make_sd("Det130_g", "Det130", ["ekin", "pos_x", "pos_y"], "gamma")
