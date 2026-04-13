@@ -76,7 +76,7 @@ def add_abundance_info(data: dict) -> dict:
         if not data[particle].is_primary:
             secondaries[particle] = data[particle]
 
-    if len(primary) > 1:
+    if len(primary) > 1 or len(primary) <1:
         print("more then one kind of primary particle was encountered")
         print("merging without abundance calculations!")
         return data
@@ -99,7 +99,7 @@ def filter_stable(data: dict) -> dict:
         if not data[particle].stable:
             secondaries[particle] = data[particle]
 
-    if len(primary) > 1:
+    if len(primary) > 1 or len(primary) <1:
         print("more then one kind of primary particle was encountered")
         print("merging without abundance calculations!")
         return data
@@ -122,7 +122,7 @@ def filter_excited(data: dict) -> dict:
         if data[particle].half_life > 0:
             secondaries[particle] = data[particle]
 
-    if len(primary) > 1:
+    if len(primary) > 1 or len(primary) <1:
         print("more then one kind of primary particle was encountered")
         print("merging without abundance calculations!")
         return data

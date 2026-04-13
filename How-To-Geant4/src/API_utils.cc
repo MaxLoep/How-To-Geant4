@@ -149,7 +149,7 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 			else if (string_args["shape"] == "beam") {
 				pos = macro_commands.insert(pos, "/gps/pos/type Beam");
 				pos = macro_commands.insert(pos, "/gps/pos/sigma_r " + std::to_string(numerical_args["sigma_r"]) + " mm");
-				std::cout << "sigma r is: " << std::to_string(numerical_args["sigma_r"]) << std::endl;
+				std::cout << "sigma r is: " << std::to_string(numerical_args["sigma_r"]) << " mm" << std::endl;
 			} else if(string_args["shape"] == "point_iso") {
 				pos = macro_commands.insert(pos, "/gps/ang/type iso");
 				pos = macro_commands.insert(pos, "/gps/pos/type Point");
@@ -183,6 +183,7 @@ std::tuple<std::vector<std::string>, bool> api::setup_sim(std::string arg) {
 			if (string_args["mono_e"] == "true"){
 				pos = macro_commands.insert(pos, "/gps/ene/type Mono");
 				pos = macro_commands.insert(pos, "/gps/ene/mono " + std::to_string(numerical_args["energy"]) + " MeV");
+				std::cout << "energy is: " << std::to_string(numerical_args["energy"]) << " MeV" << std::endl;
 			} else {
 
 				std::vector<std::string> amplitudes = parser::to_vec(string_args["amplitudes"]);

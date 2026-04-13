@@ -3,6 +3,7 @@
 
 #include "G4VSensitiveDetector.hh"
 #include "ConfigStructs.hh"
+#include "particle_map_writer.hh"
 
 class G4Step;
 class G4HCofThisEvent;
@@ -17,7 +18,8 @@ class GenericSD : public G4VSensitiveDetector {
     virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
     virtual void   EndOfEvent(G4HCofThisEvent* hce);
 
-    std::map<std::string, int> particle_map = std::map<std::string, int>();
+    // std::map<std::string, int> particle_map = std::map<std::string, int>();
+    particle_map_t particle_map = std::map<G4String, ParticleData>();
     std::vector<ConfigStructs::DetectionInfo> log_properties;
     G4String name;
 	G4int oldTrackId;
