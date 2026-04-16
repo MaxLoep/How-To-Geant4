@@ -23,12 +23,17 @@ def main():
     # print(all_files)
     sims = get_unique_sims(all_files)
 
+    detectors_per_sim = {}
+
     for sim in sims:
         regex = re.compile(target_dir + sim + "/Lists_of_generated_Particles/.*")
         per_sim_files = filter(lambda x: regex.match(x), all_files)
 
         sds_of_sim = get_unique_SD_names(per_sim_files)
-        print(sim, sds_of_sim)
+        detectors_per_sim[sim] = sds_of_sim
+
+        #todo: check file counts
+    print(detectors_per_sim)
 
 
 if __name__ == "__main__":
