@@ -1,6 +1,7 @@
 from sys import argv
 from glob import glob
 import re
+import os
 
 
 def get_unique_SD_names(files):
@@ -32,7 +33,6 @@ def main():
         sds_of_sim = get_unique_SD_names(per_sim_files)
         detectors_per_sim[sim] = sds_of_sim
 
-        #todo: check file counts
     print(detectors_per_sim)
 
 
