@@ -177,6 +177,9 @@ def call_toml_merge(path, detector, all_files, expected_thread_count, delete):
 
 
 def main():
+    if os.system() == "Windows":
+        print("unfortunately you are using an inferior operation system for which compatability will not be provided")
+        return
     if "-h" in sys.argv:
         print("smart_merge.py [target directory] [thread count of simulation] [True or False (default) for deletion]")
         return
