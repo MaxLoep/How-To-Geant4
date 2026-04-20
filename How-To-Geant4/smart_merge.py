@@ -3,6 +3,7 @@ from glob import glob
 import re
 import tomllib
 import os
+import platform
 
 
 def some(v):
@@ -166,18 +167,19 @@ def get_unique_sims(files):
 
 def call_toml_merge(path, detector, all_files, expected_thread_count, delete):
     # regex = re.compile(path + f"/Lists_of_generated_Particles/.*_\\d_\\d_{detector}\\.txt")
-    regex = re.compile(path + f"/Lists_of_generated_Particles/.+_.+_.+_{detector}\\.txt")
+    regex = re.compile(path + f"/Lists_of_generated_Particles/.+_.+_{detector}\\.txt")
     per_sd_files = filter(lambda x: regex.match(x), all_files)
 
     sd_files = list(per_sd_files)
     print(sd_files)
     toml_merge(sd_files, f"{path}/particle_list_{detector}.txt")
 
+    print(len(sd_files))
     return len(sd_files) == expected_thread_count
 
 
 def main():
-    if os.system() == "Windows":
+    if platform.system() == "Windows":
         print("unfortunately you are using an inferior operation system for which compatability will not be provided")
         return
     if "-h" in sys.argv:
@@ -211,12 +213,13 @@ def main():
         correct_file_num = True
         for sd in detectors_per_sim[sim]:
             # TODO: check if file count is correct
-            correct_file_num &= call_toml_merge(sim_paths[sim], sd, all_files, thread_count, delete)
+            correct_file_num = correct_file_num and call_toml_merge(sim_paths[sim], sd, all_files, thread_count, delete)
 
         if correct_file_num and delete:
+            print(f"rm -r {sim_paths[sim]}/Lists_of_generated_Particles")
             os.system(f"rm -r {sim_paths[sim]}/Lists_of_generated_Particles")
         elif delete:
-            print(f">>> skipping deletion on {sim_paths[sim]} because the number of files was wrong!!")
+            print(f">>> skipping deletion on {sim_paths[sim]} on sd files because the number of files was wrong!!")
         # merge root files:
         # root_blob = uproot.concatenate(f"{sim_paths[sim]}/Root_Files/*")
         # merged_root = uproot.create(f"{sim_paths[sim]}/merged.root")
