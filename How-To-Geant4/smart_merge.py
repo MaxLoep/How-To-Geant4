@@ -179,6 +179,7 @@ def call_toml_merge(path, detector, all_files, expected_thread_count, delete):
 def main():
     if "-h" in sys.argv:
         print("smart_merge.py [target directory] [thread count of simulation] [True or False (default) for deletion]")
+        return
     target_dir = sys.argv[1]
     if not target_dir[-1] == "/":
         target_dir += "/"
