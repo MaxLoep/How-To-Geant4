@@ -1,5 +1,0 @@
-[e_minus]
-count = 394
-stable = true
-half_life = nan
-
