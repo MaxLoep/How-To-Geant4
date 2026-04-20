@@ -204,7 +204,6 @@ def main():
     print(sim_paths)
 
     for sim in detectors_per_sim:
-        print(f"---------------- running for {sim}")
         correct_file_num = True
         for sd in detectors_per_sim[sim]:
             # TODO: check if file count is correct
@@ -213,21 +212,21 @@ def main():
         if correct_file_num and delete:
             os.system(f"rm -r {sim_paths[sim]}/Lists_of_generated_Particles")
         elif delete:
-            print(f"skipping deletion on {sim_paths[sim]} because the number of files was wrong!!")
+            print(f">>> skipping deletion on {sim_paths[sim]} because the number of files was wrong!!")
         # merge root files:
         # root_blob = uproot.concatenate(f"{sim_paths[sim]}/Root_Files/*")
         # merged_root = uproot.create(f"{sim_paths[sim]}/merged.root")
         # TODO: source root maybe
-        os.system(f"hadd -f {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
+
+        res = os.system(f"hadd -f {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
+        if res:
+            print(">>> hadd not found!!")
         # print(f"hadd -f {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
-        print("------------------- deletion")
         if len(glob(f"{sim_paths[sim]}/Root_Files/*")) == thread_count and delete:
             os.system(f"rm -r {sim_paths[sim]}/Root_Files/")
         elif delete:
-            print("------------------- deletion skip")
             print(glob(f"{sim_paths[sim]}/Root_Files/*"))
-            print(f"skipping deletion on {sim_paths[sim]} for root files because the number of files was wrong!!")
-        
+            print(f">>> skipping deletion on {sim_paths[sim]} for root files because the number of files was wrong!!")
 
 
 if __name__ == "__main__":
