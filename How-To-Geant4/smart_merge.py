@@ -173,12 +173,7 @@ def call_toml_merge(path, detector, all_files, expected_thread_count, delete):
     print(sd_files)
     toml_merge(sd_files, f"{path}/particle_list_{detector}.txt")
 
-    if len(sd_files) == expected_thread_count and delete:
-        _ = [os.remove(file) for file in sd_files]
-        os.rmdir(f"{path}/Lists_of_generated_Particles")
-    elif delete:
-        print(f"skipping deletion on {path} for {detector} because the number of files was wrong!!")
-
+    return len(sd_files) == expected_thread_count
 
 
 def main():
@@ -188,7 +183,7 @@ def main():
     if not target_dir[-1] == "/":
         target_dir += "/"
     thread_count = int(sys.argv[2]) if len(sys.argv) > 2 else 1000
-    delete = bool(sys.argv[3]) if len(sys.argv) > 3 else False
+    delete = bool(sys.argv[3]) if len(sys.argv) > 3 else True
     particle_list_mask = target_dir + "*/Lists_of_generated_Particles/*"
     all_files = glob(particle_list_mask, recursive=True)
     # print(all_files)
@@ -209,16 +204,30 @@ def main():
     print(sim_paths)
 
     for sim in detectors_per_sim:
+        print(f"---------------- running for {sim}")
+        correct_file_num = True
+        for sd in detectors_per_sim[sim]:
+            # TODO: check if file count is correct
+            correct_file_num &= call_toml_merge(sim_paths[sim], sd, all_files, thread_count, delete)
+
+        if correct_file_num and delete:
+            os.system(f"rm -r {sim_paths[sim]}/Lists_of_generated_Particles")
+        elif delete:
+            print(f"skipping deletion on {sim_paths[sim]} because the number of files was wrong!!")
         # merge root files:
         # root_blob = uproot.concatenate(f"{sim_paths[sim]}/Root_Files/*")
         # merged_root = uproot.create(f"{sim_paths[sim]}/merged.root")
         # TODO: source root maybe
-        # os.system(f"hadd {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
-        print(f"hadd {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
+        os.system(f"hadd -f {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
+        # print(f"hadd -f {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
+        print("------------------- deletion")
+        if len(glob(f"{sim_paths[sim]}/Root_Files/*")) == thread_count and delete:
+            os.system(f"rm -r {sim_paths[sim]}/Root_Files/")
+        elif delete:
+            print("------------------- deletion skip")
+            print(glob(f"{sim_paths[sim]}/Root_Files/*"))
+            print(f"skipping deletion on {sim_paths[sim]} for root files because the number of files was wrong!!")
         
-        for sd in detectors_per_sim[sim]:
-            # TODO: check if file count is correct
-            call_toml_merge(sim_paths[sim], sd, all_files, thread_count, delete)
 
 
 if __name__ == "__main__":

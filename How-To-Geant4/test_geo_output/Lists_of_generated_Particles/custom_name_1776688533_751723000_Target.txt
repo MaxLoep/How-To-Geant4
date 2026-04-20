@@ -1,0 +1,5 @@
+[e_minus]
+count = 383
+stable = true
+half_life = nan
+

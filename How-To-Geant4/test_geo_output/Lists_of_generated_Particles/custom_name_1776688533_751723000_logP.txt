@@ -1,0 +1,15 @@
+[Primaries_alpha]
+count = 1000
+stable = true
+half_life = nan
+
+[e_minus]
+count = 388114
+stable = true
+half_life = nan
+
+[gamma]
+count = 3
+stable = true
+half_life = nan
+
