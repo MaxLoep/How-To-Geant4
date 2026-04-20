@@ -1,14 +1,21 @@
 from run_builder import *
 
 Energy=float(sys.argv[1]) if len(sys.argv) > 1 else 25.0
+Sigma=float(sys.argv[2]) if len(sys.argv) > 1 else 3.0
 
 place("collimator", "collimator", (0., 0., 0.), material="vacuum", shield_thickness = 20.*cm, b = 3.10*cm, c = 1.315*cm, d = 1.657*cm)
 
+place("Det129", "cube", (0., 0., 129.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
 place("Det130", "cube", (0., 0., 130.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
 place("Det150", "cube", (0., 0., 150.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
+place("Det162", "cube", (0., 0., 162.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
 place("Det170", "cube", (0., 0., 170.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
+place("Det198", "cube", (0., 0., 198.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
 place("Det200", "cube", (0., 0., 200.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
+place("Det234", "cube", (0., 0., 234.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
 place("Det250", "cube", (0., 0., 250.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
+place("Det252", "cube", (0., 0., 252.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
+place("Det288", "cube", (0., 0., 288.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
 place("Det300", "cube", (0., 0., 300.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
 # place("Det350", "cube", (0., 0., 350.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
 # place("Det400", "cube", (0., 0., 400.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
@@ -45,12 +52,18 @@ place("Det300", "cube", (0., 0., 300.*cm), material= "vacuum", size_x = 30.*cm/2
 # make_sd("Nickel",   "Foil-Ni", ["ekin"], "neutron")
 # make_sd("Indium",   "Foil-In", ["ekin"], "neutron")
 
+make_sd("Det129", "Det129", ["ekin", "pos_x", "pos_y"], "neutron")#
 make_sd("Det130", "Det130", ["ekin", "pos_x", "pos_y"], "neutron")
 # make_sd("Det130_g", "Det130", ["ekin", "pos_x", "pos_y"], "gamma")
 make_sd("Det150", "Det150", ["ekin", "pos_x", "pos_y"], "neutron")
+make_sd("Det162", "Det162", ["ekin", "pos_x", "pos_y"], "neutron")#
 make_sd("Det170", "Det170", ["ekin", "pos_x", "pos_y"], "neutron")
+make_sd("Det198", "Det198", ["ekin", "pos_x", "pos_y"], "neutron")#
 make_sd("Det200", "Det200", ["ekin", "pos_x", "pos_y"], "neutron")
+make_sd("Det234", "Det234", ["ekin", "pos_x", "pos_y"], "neutron")#
 make_sd("Det250", "Det250", ["ekin", "pos_x", "pos_y"], "neutron")
+make_sd("Det252", "Det252", ["ekin", "pos_x", "pos_y"], "neutron")#
+make_sd("Det288", "Det288", ["ekin", "pos_x", "pos_y"], "neutron")#
 make_sd("Det300", "Det300", ["ekin", "pos_x", "pos_y"], "neutron")
 # make_sd("Det350", "Det350", ["ekin", "pos_x", "pos_y"], "neutron")
 # make_sd("Det400", "Det400", ["ekin", "pos_x", "pos_y"], "neutron")
@@ -64,8 +77,8 @@ make_sd("Det300", "Det300", ["ekin", "pos_x", "pos_y"], "neutron")
 
 # place("source_marker", "sphere", (0., 0., 0), material="vacuum", radius = 1. * cm, alpha=0.5, red=0, green = 100)
 # make_beam_source("deuteron", 26.5, (0, 0., 0), (0, 0, 1), sigma_r = 0.0 * mm)
-make_beam_source("deuteron", 18.0, (0, 0., 0), (0, 0, 1), sigma_r = 6.0 * mm)
-# make_beam_source("deuteron", Energy, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
+# make_beam_source("deuteron", 18.0, (0, 0., 0), (0, 0, 1), sigma_r = 6.0 * mm)
+make_beam_source("deuteron", Energy, (0, 0., 0), (0, 0, 1), sigma_r = Sigma * mm)
 # make_beam_source("neutron", 10.0, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
 
 # make_ui_commands()
