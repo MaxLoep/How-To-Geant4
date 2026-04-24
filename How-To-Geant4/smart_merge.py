@@ -225,7 +225,7 @@ def main():
         # merged_root = uproot.create(f"{sim_paths[sim]}/merged.root")
         # TODO: source root maybe
 
-        res = os.system(f"hadd -f {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
+        res = os.system(f"hadd {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
         if res:
             print(">>> hadd not found!!")
         # print(f"hadd -f {sim_paths[sim]}/merged.root {sim_paths[sim]}/Root_Files/*")
