@@ -76,13 +76,11 @@ make_sd("Det300", "Det300", ["ekin", "pos_x", "pos_y"], "neutron")
 
 
 # place("source_marker", "sphere", (0., 0., 0), material="vacuum", radius = 1. * cm, alpha=0.5, red=0, green = 100)
-# make_beam_source("deuteron", 26.5, (0, 0., 0), (0, 0, 1), sigma_r = 0.0 * mm)
-# make_beam_source("deuteron", 18.0, (0, 0., 0), (0, 0, 1), sigma_r = 6.0 * mm)
+# make_beam_source("deuteron", 26.5, (0, 0., 0), (0, 0, 1), sigma_r = 0.0 * mm)p
 make_beam_source("deuteron", Energy, (0, 0., 0), (0, 0, 1), sigma_r = Sigma * mm)
-# make_beam_source("neutron", 10.0, (0, 0., 0), (0, 0, 1), sigma_r = 3.0 * mm)
 
-# make_ui_commands()
+make_ui_commands()
 set_output_path("collimator_output")
 set_run_name("collimator")
-config_run(1e8, 8)
+# config_run(1e8, 8)
 start_run()
