@@ -28,5 +28,5 @@ make_beam_source(Particle, Energy, (0, 0., -10.*cm), (0, 0, 1), sigma_r = 0 * mm
 # set_output_path("tny_"+Particle+"_"+str(Energy).replace(".","-")+"_MeV_"+Material)
 set_output_path("tny_simulations")
 set_run_name("tny_"+Particle+"_"+str(Energy).replace(".","-")+"_MeV_"+Material)
-config_run(1e9, 8)
+config_run(1e6, 8)
 start_run()
