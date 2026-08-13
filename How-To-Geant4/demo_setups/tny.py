@@ -25,7 +25,7 @@ make_beam_source(Particle, Energy, (0, 0., -10.*cm), (0, 0, 1), sigma_r = 0 * mm
 # make_beam_source("alpha", Energy, (0, 0., -1), (0, 0, 1), sigma_r = Sigma * mm)
 
 # make_ui_commands()
-set_output_path("tny_"+Particle+"_"+Energy+"_MeV_"+Material)
-set_run_name("tny_"+Particle+"_"+Energy+"_MeV_"+Material)
-config_run(1e5, 8)
+set_output_path("tny_"+Particle+"_"+str(Energy).replace(".","-")+"_MeV_"+Material)
+set_run_name("tny_"+Particle+"_"+str(Energy).replace(".","-")+"_MeV_"+Material)
+config_run(1e6, 8)
 start_run()
