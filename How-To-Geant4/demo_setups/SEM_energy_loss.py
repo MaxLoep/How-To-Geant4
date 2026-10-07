@@ -6,15 +6,15 @@ place("Plane_0", "cube", (0., 0., -0.1 * cm), material= "vacuum",   size_x = 10.
 #HV-Foil 1
 place("Alu_HV1",  "cube", (0., 0., 0. * cm), material= "aluminum",  size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 4.5 * um/2)
 #SEM Foil 1
-place("Carbon1",  "cube", (0., 0., 0.1 * cm), material= "carbon",   size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 400. * nm/2)
+place("Carbon1",  "cube", (0., 0., 0.1 * cm), material= "carbon",   size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 100. * nm/2)
 place("Alu_SEM1", "cube", (0., 0., 0.2 * cm), material= "aluminum", size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 4.5 * um/2)
-place("Carbon2",  "cube", (0., 0., 0.3 * cm), material= "carbon",   size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 400. * nm/2)
+place("Carbon2",  "cube", (0., 0., 0.3 * cm), material= "carbon",   size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 100. * nm/2)
 #HV-Foil 2
 place("Alu_HV2",  "cube", (0., 0., 0.4 * cm), material= "aluminum", size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 4.5 * um/2)
 #SEM Foil 2
-place("Carbon3",  "cube", (0., 0., 0.5 * cm), material= "carbon",   size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 400. * nm/2)
+place("Carbon3",  "cube", (0., 0., 0.5 * cm), material= "carbon",   size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 100. * nm/2)
 place("Alu_SEM2", "cube", (0., 0., 0.6 * cm), material= "aluminum", size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 4.5 * um/2)
-place("Carbon4",  "cube", (0., 0., 0.7 * cm), material= "carbon",   size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 400. * nm/2)
+place("Carbon4",  "cube", (0., 0., 0.7 * cm), material= "carbon",   size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 100. * nm/2)
 #HV-Foil 3
 place("Alu_HV3",  "cube", (0., 0., 0.8 * cm), material= "aluminum", size_x = 10. * cm/2, size_y = 10. * cm/2, size_z = 4.5 * um/2)
 #SEM Eloss Detection plane
@@ -44,9 +44,9 @@ make_sd("Plane_3", "Plane_3", ["ekin"], "primary") # after air + alu wrapping
 place("source_marker", "sphere", (0., 0., -1*cm), material="vacuum", radius = 3. * mm, alpha=0.5, red=0, green = 100)
 
 # particle = "proton"
-# particle = "deuteron"
-particle = "alpha"
-energy = 56.0
+particle = "deuteron"
+# particle = "alpha"
+energy = 14.0
 
 make_beam_source(particle,   energy, (0, 0., -1. * cm), (0, 0, 1), sigma_r = 3.0 * mm)
 # make_beam_source("deuteron", 28.0, (0, 0., -1. * cm), (0, 0, 1), sigma_r = 3.0 * mm)
