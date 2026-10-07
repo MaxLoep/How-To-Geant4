@@ -35,17 +35,18 @@ place("Plane_3",  "cube", (0., 0., 20. * cm), material= "vacuum", size_x = 20. *
 # make_sd("RBS", "detector", ["ekin", "theta", "phi"], "primary")
 # make_sd("PIXE", "detector", ["ekin", "theta", "phi"], "gamma")
 
-make_sd("Plane_0", "Plane_0", ["ekin", "pos_x", "pos_y"], "primary") # Primary beam
-make_sd("Plane_1", "Plane_1", ["ekin", "pos_x", "pos_y"], "primary") # after SEM
-make_sd("Plane_2", "Plane_2", ["ekin", "pos_x", "pos_y"], "primary") # after Lenard Window
-make_sd("Plane_3", "Plane_3", ["ekin", "pos_x", "pos_y"], "primary") # after air + alu wrapping
+make_sd("Plane_0", "Plane_0", ["ekin"], "primary") # Primary beam
+make_sd("Plane_1", "Plane_1", ["ekin"], "primary") # after SEM
+make_sd("Plane_2", "Plane_2", ["ekin"], "primary") # after Lenard Window
+make_sd("Plane_3", "Plane_3", ["ekin"], "primary") # after air + alu wrapping
+# make_sd("Plane_3", "Plane_3", ["ekin", "pos_x", "pos_y"], "primary") # after air + alu wrapping
 
 place("source_marker", "sphere", (0., 0., -1*cm), material="vacuum", radius = 3. * mm, alpha=0.5, red=0, green = 100)
 
-particle = "proton"
+# particle = "proton"
 # particle = "deuteron"
-# particle = "alpha"
-energy = 14.0
+particle = "alpha"
+energy = 56.0
 
 make_beam_source(particle,   energy, (0, 0., -1. * cm), (0, 0, 1), sigma_r = 3.0 * mm)
 # make_beam_source("deuteron", 28.0, (0, 0., -1. * cm), (0, 0, 1), sigma_r = 3.0 * mm)
@@ -54,6 +55,6 @@ set_output_path("SEM_Energy_Loss")
 set_run_name("SEM_Eloss_"+ particle +"_" + str(int(energy)) + "_MeV" )
 
 
-config_run(1.0e3, 8)
+config_run(1.0e7, 8)
 # make_ui_commands()
 start_run()
