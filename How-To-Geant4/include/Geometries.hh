@@ -250,7 +250,6 @@ namespace Materials {
 				});
 
 
-	
 	// Epoxidharz (Typischerweise bromiert für FR4 "Flame Retardant")
     // G4Material* Epoxy = new G4Material("Epoxy_Resin", 1.2 * g/cm3, 4);
     // Epoxy->AddElement(elC,  18);
@@ -258,11 +257,21 @@ namespace Materials {
     // Epoxy->AddElement(elO,   3);
     // Epoxy->AddElement(elBr,  4); // Bromanteil für Flammschutz
 
+	//Define Epoxy - mass fractions calculated by hand for now
+	static CustomMat Epoxy = CustomMat("Epoxy",	//name
+			1.2*g/cm3,					//density
+			{// components
+			{Hydrogen,	 3.98*perCent},
+			{Carbon, 	35.56*perCent},
+			{Oxygen,	 7.89*perCent},
+			{Bromine,	52.57*perCent}
+			});
+
 	//Define boratedFR4 - the stuff PCBs are made off
 	static CustomMat BoratedFR4 = CustomMat("BoratedFR4",	//name
 			1.95*g/cm3,					//density
 			{// components
-			{Hydrogen,				40.0*perCent},	// HERE SHOULD BE EPOXY
+			{Epoxy,				40.0*perCent},
 			{Silicon_Dioxide, 	55.0*perCent},
 			{Boron_Oxide,	  	 5.0*perCent}
 			});
