@@ -14,7 +14,9 @@ place("Det198", "cube", (0., 0., 198.*cm), material= "vacuum", size_x = 30.*cm/2
 place("Det200", "cube", (0., 0., 200.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
 place("Det234", "cube", (0., 0., 234.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
 place("Det250", "cube", (0., 0., 250.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
-place("Det252", "cube", (0., 0., 252.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
+# place("Det252", "cube", (0., 0., 252.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
+place("Det253", "cube", (0., 0., 253.5*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)# for Jannes
+place("Det269", "cube", (0., 0., 269.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)# for Jannes
 place("Det288", "cube", (0., 0., 288.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)#
 place("Det300", "cube", (0., 0., 300.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
 # place("Det350", "cube", (0., 0., 350.*cm), material= "vacuum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.*mm/2)
@@ -25,6 +27,16 @@ place("Det300", "cube", (0., 0., 300.*cm), material= "vacuum", size_x = 30.*cm/2
 # place("Wall4", "cube", (0., -450.*cm, 0), material= "concrete", size_x = 800.*cm/2, size_y = 1.*m/2, size_z = 800.*cm/2)
 # place("Wall5", "cube", (450.*cm, 0, 0), material= "concrete", size_x = 1.*m/2, size_y = 1000.*cm/2, size_z = 800.*cm/2)
 # place("Wall6", "cube", (-450.*cm, 0, 0), material= "concrete", size_x = 1.*m/2, size_y = 1000.*cm/2, size_z = 800.*cm/2)
+
+place("Alu1", "cube", (0., 0., 252.0*cm), material= "aluminum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 2.2*mm/2, blue=100, green = 100) # for Jannes
+place("PCB1", "cube", (0., 0., 254.0*cm), material= "boratedFR4", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.6*mm/2, blue=0, green = 100) # for Jannes
+place("PCB2", "cube", (0., 0., 256.0*cm), material= "boratedFR4", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.6*mm/2, blue=0, green = 100) # for Jannes
+place("PCB3", "cube", (0., 0., 258.0*cm), material= "boratedFR4", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.6*mm/2, blue=0, green = 100) # for Jannes
+place("PCB4", "cube", (0., 0., 260.0*cm), material= "boratedFR4", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.6*mm/2, blue=0, green = 100) # for Jannes
+place("PCB5", "cube", (0., 0., 262.0*cm), material= "boratedFR4", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.6*mm/2, blue=0, green = 100) # for Jannes
+place("PCB6", "cube", (0., 0., 264.0*cm), material= "boratedFR4", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 1.6*mm/2, blue=0, green = 100) # for Jannes
+place("Alu2", "cube", (0., 0., 266.0*cm), material= "aluminum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 2.2*mm/2, blue=100, green = 100) # for Jannes
+place("Alu2", "cube", (0., 0., 267.0*cm), material= "aluminum", size_x = 30.*cm/2, size_y = 30.*cm/2, size_z = 2.2*mm/2, blue=100, green = 100) # for Jannes
 
 # place("Foil-V",  "cube", (0., 0., 124.5*cm), material= "vanadium", size_x = 100.*mm/2, size_y = 100.*mm/2, size_z = 300.*um/2 )
 # place("Foil-Al", "cube", (0., 0., 124.6*cm), material= "aluminum", size_x = 100.*mm/2, size_y = 100.*mm/2, size_z = 700.*um/2 )
@@ -62,7 +74,9 @@ make_sd("Det198", "Det198", ["ekin", "pos_x", "pos_y"], "neutron")#
 make_sd("Det200", "Det200", ["ekin", "pos_x", "pos_y"], "neutron")
 make_sd("Det234", "Det234", ["ekin", "pos_x", "pos_y"], "neutron")#
 make_sd("Det250", "Det250", ["ekin", "pos_x", "pos_y"], "neutron")
-make_sd("Det252", "Det252", ["ekin", "pos_x", "pos_y"], "neutron")#
+# make_sd("Det252", "Det252", ["ekin", "pos_x", "pos_y"], "neutron")#
+make_sd("Det253", "Det253", ["ekin", "pos_x", "pos_y"], "neutron")# for Jannes
+make_sd("Det269", "Det269", ["ekin", "pos_x", "pos_y"], "neutron")# for Jannes
 make_sd("Det288", "Det288", ["ekin", "pos_x", "pos_y"], "neutron")#
 make_sd("Det300", "Det300", ["ekin", "pos_x", "pos_y"], "neutron")
 # make_sd("Det350", "Det350", ["ekin", "pos_x", "pos_y"], "neutron")
