@@ -10,12 +10,10 @@
 #include "G4LogicalVolumeStore.hh"
 
 #include "G4NistManager.hh"             //for getting material definitions from the NIST database
-
 #include "G4GeometryManager.hh"
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
-#include "G4NistManager.hh"             //for getting material definitions from the NIST database
 #include "G4Material.hh"
 
 #include "G4Box.hh"                     //for cuboid
@@ -200,12 +198,14 @@ namespace Materials {
 
 	// NIST Compounds of commonly used materials
 	static MaterialMaker Air			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR");};
+	static MaterialMaker Boron_Oxide    = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_BORON_OXIDE");};		// It is actually Diborontrioxid B2O3 with a density of 1.812 g/cm3
 	static MaterialMaker Carbon_Dioxide = [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_CARBON_DIOXIDE");};
 	static MaterialMaker Concrete		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_CONCRETE");};
 	static MaterialMaker Graphite		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_GRAPHITE_POROUS");};	// G4_Graphite has the molecular density of 2.2g/cm3, which can not be realized in a solid target
 	static MaterialMaker Kapton			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_KAPTON");};
 	static MaterialMaker Plexiglass		= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_PLEXIGLASS");};		// also known as acrylic glass or PMMA
 	static MaterialMaker Polyethylene	= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_POLYETHYLENE");};
+	static MaterialMaker Silicon_Dioxide= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_SILICON_DIOXIDE");};	//(Quartz-)Glass
 	static MaterialMaker Steel			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_STAINLESS-STEEL");};
 	static MaterialMaker Viton			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_VITON");};
 	static MaterialMaker Water			= [](){return G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");};
@@ -235,20 +235,38 @@ namespace Materials {
 	static CustomMat BoratedPE = CustomMat("BoratedPE",	// name
 				1.0*g/cm3,				//density
 				{// components
-				{Hydrogen, 14.*perCent},
-				{Carbon, 81.*perCent},
-				{Boron, 5.*perCent}
+				{Hydrogen,	14.0*perCent},
+				{Carbon, 	81.0*perCent},
+				{Boron, 	 5.0*perCent}
 				});
 
 	//Define Densimet180 (Manufacturer: Plansee)
 	static CustomMat Densimet180 = CustomMat("Densimet180",	//name
 				18.0*g/cm3,					//density
 				{// components
-				{Tungsten, 95.*perCent},
-				{Iron, 1.6*perCent},
-				{Nickel, 3.4*perCent}
+				{Tungsten,	95.0*perCent},
+				{Iron, 		 1.6*perCent},
+				{Nickel, 	 3.4*perCent}
 				});
 
+
+	
+	// Epoxidharz (Typischerweise bromiert für FR4 "Flame Retardant")
+    // G4Material* Epoxy = new G4Material("Epoxy_Resin", 1.2 * g/cm3, 4);
+    // Epoxy->AddElement(elC,  18);
+    // Epoxy->AddElement(elH,  24);
+    // Epoxy->AddElement(elO,   3);
+    // Epoxy->AddElement(elBr,  4); // Bromanteil für Flammschutz
+
+	//Define boratedFR4 - the stuff PCBs are made off
+	static CustomMat BoratedFR4 = CustomMat("BoratedFR4",	//name
+			1.95*g/cm3,					//density
+			{// components
+			{Hydrogen,				40.0*perCent},	// HERE SHOULD BE EPOXY
+			{Silicon_Dioxide, 	55.0*perCent},
+			{Boron_Oxide,	  	 5.0*perCent}
+			});
+	
 
 	// Initialize dummyMat as Vacuum
 	static auto dummyMat1	= G4NistManager::Instance()->FindOrBuildMaterial("G4_Galactic");
@@ -363,19 +381,24 @@ namespace Materials {
 		
 		// NIST compound materials
 		{"air", Air},
+		{"b2o3", Boron_Oxide},
 		{"co2", Carbon_Dioxide},
 		{"concrete", Concrete},
 		{"graphite", Graphite},
 		{"kapton", Kapton},
 		{"plexiglass", Plexiglass},
 		{"polyethylene", Polyethylene},
+		{"sio2", Silicon_Dioxide},
 		{"steel", Steel},
 		{"viton", Viton},
 		{"water", Water},
 
 		// self-defined materials
 		{"boratedPE", BoratedPE},
-		{"densimet180", Densimet180}
+		{"densimet180", Densimet180},
+		// {"epoxidharz", Epoxidharz},
+		// {"glasfaser", Glasfaser}
+		{"boratedFR4", BoratedFR4}
 
 	};
 
@@ -398,3 +421,5 @@ namespace geometries {
 
 
 #endif
+
+
