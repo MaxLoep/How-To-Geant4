@@ -267,13 +267,21 @@ namespace Materials {
 			{Bromine,	52.57*perCent}
 			});
 
+	//Define Boron_Trioxide because G4_Boron_Oxide from Nist database has a weird density
+	static CustomMat Boron_Trioxide = CustomMat("Boron_Trioxide",	//name
+		2.46*g/cm3,					//density
+		{// components
+		{Oxygen, 69.0*perCent},
+		{Boron,	 31.0*perCent}
+		});
+
 	//Define boratedFR4 - the stuff PCBs are made off
 	static CustomMat BoratedFR4 = CustomMat("BoratedFR4",	//name
 			1.95*g/cm3,					//density
 			{// components
 			{Epoxy,				40.0*perCent},
 			{Silicon_Dioxide, 	55.0*perCent},
-			{Boron_Oxide,	  	 5.0*perCent}
+			{Boron_Trioxide,	 5.0*perCent}
 			});
 	
 
@@ -407,6 +415,7 @@ namespace Materials {
 		{"densimet180", Densimet180},
 		// {"epoxidharz", Epoxidharz},
 		// {"glasfaser", Glasfaser}
+		{"boron_trioxid", Boron_Trioxide},
 		{"boratedFR4", BoratedFR4}
 
 	};
