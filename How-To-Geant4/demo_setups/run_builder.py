@@ -163,7 +163,7 @@ def custom_molecule(name: str, density: float, **components):
         count = components[element]
         elemental_mass = ptoe[element]["mass"]
         mass_contrib = count * elemental_mass
-        total_mass += elemental_mass
+        total_mass += mass_contrib
         material_descriptor[element] = mass_contrib
 
     for element in material_descriptor.keys():
