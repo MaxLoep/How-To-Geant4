@@ -1,6 +1,7 @@
 from os import mkdir, remove, rename, removedirs
 import sys
 import subprocess
+import json
 from types import NoneType
 from typing import Tuple, List, Dict, Union
 from typing_extensions import Callable
@@ -150,20 +151,40 @@ def custom_material(name: str, density: float, normalize = True, **components):
 def custom_molecule(name: str, density: float, **components):
     # adds a new, usable material. components should be element=int,
     # according to the molecular formular
-    command_dict = {
-        "command": "make_custom_molecule",
-        "name": name,
-        "density": density
-    }
 
-    norm = 0.
-    for key in components:
-        norm += components[key]
+    file = open("ptoe.json", "r")
+    ptoe = json.load(file)
+    file.close()
 
-    for key in components:
-        command_dict[key] = components[key] / norm
+    material_descriptor = {}
+    total_mass = 0
+    print(components)
+    for element in components:
+        count = components[element]
+        elemental_mass = ptoe[element]["mass"]
+        mass_contrib = count * elemental_mass
+        total_mass += elemental_mass
+        material_descriptor[element] = mass_contrib
 
-    write_simple_ff(command_dict)
+    for element in material_descriptor.keys():
+        material_descriptor[element] *= 1 / total_mass
+
+    custom_material(name, density, **material_descriptor)
+
+    # command_dict = {
+    #     "command": "make_custom_molecule",
+    #     "name": name,
+    #     "density": density
+    # }
+
+    # norm = 0.
+    # for key in components:
+    #     norm += components[key]
+
+    # for key in components:
+    #     command_dict[key] = components[key] / norm
+
+    # write_simple_ff(command_dict)
 
 
 def config_run(event_count: int, thread_count = 1):

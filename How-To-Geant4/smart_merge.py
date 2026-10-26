@@ -194,6 +194,9 @@ def main():
     all_files = glob(particle_list_mask, recursive=True)
     # print(all_files)
     sims = get_unique_sims(all_files)
+    if target_dir + "Lists_of_generated_Particles" in glob(target_dir + "*"):
+        print("detected direct call on single sim")
+        sims = ["."]
 
     detectors_per_sim = {}
     sim_paths = {}
